@@ -4,7 +4,7 @@ import ProfilePortrait from '../../components/profile/ProfilePortrait';
 import Bio from '../../components/profile/Bio';
 import Row from '../../components/profile/Row';
 import ProfileBottomContainer from './ProfileBottomContainer';
-import Badge from '../../components/Badge';
+import Badge from '../../components/common/Badge';
 
 const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 
