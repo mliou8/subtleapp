@@ -1,6 +1,4 @@
-// Load the module
- 
-import Video from 'react-native-video';
+import { Video } from 'expo';
 import React from 'react';
 import {
   Image,
@@ -20,11 +18,15 @@ export default class MatchScreen extends React.Component {
   render() {
     return (
       <View>
-       <Video source={{uri:"https://ak7.picdn.net/shutterstock/videos/1008125017/preview/stock-footage-a-cartoon-man-in-the-office-wants-to-eat-orders-the-food-on-web-site-the-cook-prepares-food-the.webm"}}  
-              ref={(ref) => {
-                this.player = ref
-              }}                                     
-              style={styles.backgroundVideo} />
+       <Video source={{uri: this.props.videoSrc}}                            
+              rate={1.0}
+              volume={1.0}
+              muted={false}
+              resizeMode="cover"
+              shouldPlay
+              isLooping
+              style={{ width: 300, height: 300 }}
+        />
       </View>
     )
   }

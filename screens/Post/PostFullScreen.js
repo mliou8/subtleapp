@@ -11,7 +11,7 @@ export default class PostFullScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          
+        <Video></Video>
       </View>
     );
   }
