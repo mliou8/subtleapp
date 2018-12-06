@@ -1,15 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import ProfilePortrait from '../../components/profile/ProfilePortrait';
-import Bio from '../../components/profile/Bio';
-import Row from '../../components/profile/Row';
-import RecentPostScreen from './RecentPostScreen';
-import AchievementScreen from './AchievementScreen';
-import Badge from '../../components/common/Badge';
 
-const profileImgSrc = 'https://loremflickr.com/225/225/dog';
-
-export default class ProfileBottomScreen extends React.Component {
+export default class SubmitHeader extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
