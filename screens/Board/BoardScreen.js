@@ -24,6 +24,7 @@ export default class BoardScreen extends React.Component {
     this.state = {
       showChallenge: false,
       filterType: 'popular',
+      loggedIn: "false",
     }  
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
@@ -46,26 +47,25 @@ export default class BoardScreen extends React.Component {
   }
   
   render() {
-    return (
-      <View style={styles.container}>
-      <BoardHeader setFilter={this.filterContent} />
-      <ScrollView
-        contentContainerStyle={styles.postContainer}>
-        <TouchableOpacity
-          onPress={()=> this.navigateToFullPost(post)}>
-            <Post 
-              imageSrc={'https://loremflickr.com/176/230/cat'}
-              /> 
-          </TouchableOpacity>
-        <Post
-          imageSrc={'https://loremflickr.com/176/230/cat'}
-          />
-        <Post
-          imageSrc={'https://loremflickr.com/176/230/cat'}
-          />
-        <Post
-          imageSrc={'https://loremflickr.com/176/230/cat'}
-          />
+    if (this.state.loggedIn) {
+      return (
+        <LandingPage></LandingPage>
+      )
+    } else {      
+      return (
+        <View style={styles.container}>
+        <BoardHeader setFilter={this.filterContent} />
+        <ScrollView
+          contentContainerStyle={styles.postContainer}>
+          <TouchableOpacity
+            onPress={()=> this.navigateToFullPost(post)}>
+              <Post 
+                imageSrc={'https://loremflickr.com/176/230/cat'}
+                /> 
+            </TouchableOpacity>
+          <Post
+            imageSrc={'https://loremflickr.com/176/230/cat'}
+            />
           <Post
             imageSrc={'https://loremflickr.com/176/230/cat'}
             />
@@ -78,9 +78,16 @@ export default class BoardScreen extends React.Component {
             <Post
               imageSrc={'https://loremflickr.com/176/230/cat'}
               />
-          </ScrollView>
-      </View>
-    );
+              <Post
+                imageSrc={'https://loremflickr.com/176/230/cat'}
+                />
+              <Post
+                imageSrc={'https://loremflickr.com/176/230/cat'}
+                />
+            </ScrollView>
+        </View>
+      );
+    }
   }
 }
 

@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 
-export default class MatchScreen extends React.Component {
+export default class VideoExtension extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -20,12 +20,10 @@ export default class MatchScreen extends React.Component {
       <View>
        <Video source={{uri: this.props.videoSrc}}                            
               rate={1.0}
-              volume={1.0}
-              muted={false}
+              muted={true}
               resizeMode="cover"
               shouldPlay
-              isLooping
-              style={{ width: 300, height: 300 }}
+              isLooping={this.props.loop || false}
         />
       </View>
     )
