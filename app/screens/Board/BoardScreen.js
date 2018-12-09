@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Post from '../../components/board/Post';
-import BoardHeader from '../../components/board/BoardHeader';
-import LandingPage from '../Login/LandingPage';
+import Post from 'app/components/board/Post';
+import BoardHeader from 'app/components/board/BoardHeader';
+import LandingPage from 'app/screens/Login/LandingPage';
 const post = {};
 
 export default class BoardScreen extends React.Component {

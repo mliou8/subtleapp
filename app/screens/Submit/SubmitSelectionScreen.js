@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import TabBarIcon from '../../components/common/TabBarIcon';
+import TabBarIcon from 'app/components/common/TabBarIcon';
 import SubmitDating from './SubmitDating';
 import SubmitContent from './SubmitContent';
 

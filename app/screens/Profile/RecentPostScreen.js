@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import Post from '../../components/board/Post'
+import Post from 'app/components/board/Post'
 
 export default class RecentPostsScreen extends React.Component {
   constructor(props) {

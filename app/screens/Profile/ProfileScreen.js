@@ -1,10 +1,13 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import ProfilePortrait from '../../components/profile/ProfilePortrait';
-import Bio from '../../components/profile/Bio';
-import Row from '../../components/profile/Row';
+import ProfilePortrait from 'app/components/profile/ProfilePortrait';
+import Bio from 'app/components/profile/Bio';
+import Row from 'app/components/profile/Row';
 import ProfileBottomContainer from './ProfileBottomContainer';
-import Badge from '../../components/common/Badge';
+import Badge from 'app/components/common/Badge';
+
+import { connect } from 'react-redux';
+import { listRepos } from 'app/reducers/reducer';
 
 const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 
@@ -131,3 +134,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+const mapStateToProps = state => {
+  let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
+  return {
+    repos: storedRepositories
+  };
+};
+
+const mapDispatchToProps = {
+  listRepos
+};
+

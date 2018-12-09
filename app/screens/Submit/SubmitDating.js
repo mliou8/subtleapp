@@ -10,7 +10,7 @@ import {
   View,
   Button,
 } from 'react-native';
-import TabBarIcon from '../../components/common/TabBarIcon';
+import TabBarIcon from 'app/components/common/TabBarIcon';
 
 export default class SubmitDating extends React.Component {
   constructor(props) {

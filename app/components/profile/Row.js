@@ -2,7 +2,6 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 export default class Row extends React.Component {
-  // displays main profile photo (first position)
   render() {
     return (
       <View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import Video from '../../components/common/media/Video';
-import VideoUrl from '../../assets/videos/video.mp4';
+import Video from 'app/components/common/media/Video';
+import VideoUrl from 'assets/videos/video.mp4';
 
 
 export default class LandingPage extends React.Component {

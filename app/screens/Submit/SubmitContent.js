@@ -11,7 +11,7 @@ import {
 import { ImagePicker } from 'expo';
 import { Camera, Permissions } from 'expo';
 
-import TabBarIcon from '../../components/common/TabBarIcon';
+import TabBarIcon from 'app/components/common/TabBarIcon';
 
 export default class SubmitContent extends React.Component {
   constructor(props) {

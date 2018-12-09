@@ -1,11 +1,11 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import ProfilePortrait from '../../components/profile/ProfilePortrait';
-import Bio from '../../components/profile/Bio';
-import Row from '../../components/profile/Row';
+import ProfilePortrait from 'app/components/profile/ProfilePortrait';
+import Bio from 'app/components/profile/Bio';
+import Row from 'app/components/profile/Row';
 import RecentPostScreen from './RecentPostScreen';
 import AchievementScreen from './AchievementScreen';
-import Badge from '../../components/common/Badge';
+import Badge from 'app/components/common/Badge';
 
 const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 

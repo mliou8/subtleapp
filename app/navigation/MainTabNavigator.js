@@ -2,11 +2,11 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import TabBarIcon from '../components/common/TabBarIcon';
-import BoardScreen from '../screens/Board/BoardScreen';
-import ProfileScreen from '../screens/Profile/ProfileScreen';
-import PostFullScreen from '../screens/Post/PostFullScreen';
-import SubmitSelectionScreen from '../screens/Submit/SubmitSelectionScreen';
+import TabBarIcon from 'app/components/common/TabBarIcon';
+import BoardScreen from 'app/screens/Board/BoardScreen';
+import ProfileScreen from 'app/screens/Profile/ProfileScreen';
+import PostFullScreen from 'app/screens/Post/PostFullScreen';
+import SubmitSelectionScreen from 'app/screens/Submit/SubmitSelectionScreen';
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,

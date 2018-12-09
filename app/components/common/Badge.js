@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import socialImages from '../../assets/images/social/exports.js';
+import socialImages from 'assets/images/social/exports.js';
 
 export default class Badge extends React.Component {
   constructor(props) {

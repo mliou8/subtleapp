@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-import MessageRow from '../components/messages/MessageRow';
+import MessageRow from 'app/components/messages/MessageRow';
 
 const messages = [
   {
