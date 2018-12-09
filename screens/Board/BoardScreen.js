@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Post from '../../components/board/Post';
 import BoardHeader from '../../components/board/BoardHeader';
+import LandingPage from '../Login/LandingPage';
 const post = {};
 
 export default class BoardScreen extends React.Component {
@@ -24,14 +25,19 @@ export default class BoardScreen extends React.Component {
     this.state = {
       showChallenge: false,
       filterType: 'popular',
-      loggedIn: "false",
+      loggedIn: false,
     }  
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
+    this._login = this._login.bind(this);
   }
   componentDidMount() {
     this.props.navigation.setParams({ showChallenge: this._showChallenge });
+  }
+  
+  _login() {
+    this.setState({loggedIn: true})
   }
   
   _showChallenge = () => {
@@ -47,9 +53,9 @@ export default class BoardScreen extends React.Component {
   }
   
   render() {
-    if (this.state.loggedIn) {
+    if (!this.state.loggedIn) {
       return (
-        <LandingPage></LandingPage>
+        <LandingPage login={this._login}></LandingPage>
       )
     } else {      
       return (

@@ -130,10 +130,4 @@ const styles = StyleSheet.create({
     alignContent: 'flex-start',
     flex: 1,
   },
-  profileHeader: {
-    display: 'flex',
-    alignItems: 'flex-end',
-    flex: 2,
-  },
-
 });

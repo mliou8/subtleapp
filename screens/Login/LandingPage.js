@@ -14,11 +14,15 @@ export default class LandingPage extends React.Component {
       <View style={styles.container}>
         <Text>This is the log in page</Text>
         <Video 
-          videoSrc={videoUrl}
+          videoSrc={VideoUrl}
           isLooping={true}
         />
       <Button
-        title={'Log into Facebook'} />
+        title={'Log into Facebook'} 
+        onPress={this.props.login}/>
+      <Button
+        title={"Just take me in"} 
+        onPress={this.props.login}/>
       </View>
     );
   }

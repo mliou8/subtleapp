@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 
-export default class VideoExtension extends React.Component {
+export default class VideoPlayer extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -18,7 +18,7 @@ export default class VideoExtension extends React.Component {
   render() {
     return (
       <View>
-       <Video source={{uri: this.props.videoSrc}}                            
+       <Video source={{uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'}}                            
               rate={1.0}
               muted={true}
               resizeMode="cover"
