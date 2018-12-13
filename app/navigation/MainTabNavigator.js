@@ -35,7 +35,9 @@ HomeStack.navigationOptions = {
 };
 
 const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen
+  Profile: ProfileScreen,
+  Messages: MessageScreen,
+  Conversation: Conversation
 });
 
 ProfileStack.navigationOptions = {

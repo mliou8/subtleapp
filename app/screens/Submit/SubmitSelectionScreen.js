@@ -14,21 +14,6 @@ import SubmitDating from "./SubmitDating";
 import SubmitContent from "./SubmitContent";
 
 export default class SubmitScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerRight: (
-        <TouchableOpacity>
-          <Icon.Entypo
-            name={"mail-with-circle"}
-            size={30}
-            style={{ marginRight: 3 }}
-            onPress={() => navigation.navigate("Messages")}
-            title="messages"
-          />
-        </TouchableOpacity>
-      )
-    };
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -55,15 +40,7 @@ export default class SubmitScreen extends React.Component {
             <Icon.MaterialIcons name={"add-a-photo"} size={55} />
             <Text>Post Content</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => {
-              this.setState({ display: "SubmitContent" });
-            }}
-          >
-            <TabBarIcon name={"ios-calendar"} size={55} />
-            <Text>Post Content</Text>
-          </TouchableOpacity> */}
+
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={() => {
@@ -73,15 +50,6 @@ export default class SubmitScreen extends React.Component {
             <Icon.MaterialCommunityIcons name={"account-heart"} size={55} />
             <Text>Hot Stunna</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => {
-              this.setState({ display: "Dating" });
-            }}
-          >
-            <TabBarIcon name={"ios-calendar"} size={55} />
-            <Text>Hot Stunna</Text>
-          </TouchableOpacity> */}
         </View>
       );
     } else if (display === "SubmitContent") {
