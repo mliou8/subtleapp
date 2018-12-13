@@ -14,6 +14,7 @@ import Bio from "app/components/profile/Bio";
 import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
+
 import { Icon } from "expo";
 import { connect } from "react-redux";
 import { listRepos } from "app/reducers/reducer";
@@ -30,6 +31,7 @@ export default class ProfileScreen extends React.Component {
           title="Edit"
           color="#000000"
         />
+
       ),
       headerRight: (
         <TouchableOpacity>
@@ -41,6 +43,7 @@ export default class ProfileScreen extends React.Component {
             title="messages"
           />
         </TouchableOpacity>
+
       )
     };
   };
