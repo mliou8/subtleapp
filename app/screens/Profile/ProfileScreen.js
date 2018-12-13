@@ -15,8 +15,8 @@ import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 
+import { Icon } from "expo";
 import { connect } from "react-redux";
-
 import { listRepos } from "app/reducers/reducer";
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
@@ -31,6 +31,19 @@ export default class ProfileScreen extends React.Component {
           title="Edit"
           color="#000000"
         />
+
+      ),
+      headerRight: (
+        <TouchableOpacity>
+          <Icon.Entypo
+            name={"mail-with-circle"}
+            size={30}
+            style={{ marginRight: 3 }}
+            onPress={() => navigation.navigate("Messages")}
+            title="messages"
+          />
+        </TouchableOpacity>
+
       )
     };
   };
