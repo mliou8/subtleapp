@@ -6,7 +6,8 @@ import {
   View,
   Button,
   SafeAreaView,
-  Image
+  Image,
+  TouchableOpacity
 } from "react-native";
 import ProfilePortrait from "app/components/profile/ProfilePortrait";
 import Bio from "app/components/profile/Bio";
@@ -14,7 +15,7 @@ import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
-
+import { Icon } from "expo";
 import { connect } from "react-redux";
 import { listRepos } from "app/reducers/reducer";
 
@@ -30,6 +31,17 @@ export default class ProfileScreen extends React.Component {
           title="Edit"
           color="#000000"
         />
+      ),
+      headerRight: (
+        <TouchableOpacity>
+          <Icon.Entypo
+            name={"mail-with-circle"}
+            size={30}
+            style={{ marginRight: 3 }}
+            onPress={() => navigation.navigate("Messages")}
+            title="messages"
+          />
+        </TouchableOpacity>
       )
     };
   };
