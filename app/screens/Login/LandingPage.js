@@ -2,7 +2,7 @@ import React from "react";
 import Video from "app/components/common/media/Video";
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image, } from 'react-native';
 import VideoUrl from 'assets/videos/video.mp4';
-import {signUpUser} from 'actions/login';
+import { facebookLogin } from 'actions/login';
 
 
 export default class LandingPage extends React.Component {
@@ -21,7 +21,7 @@ export default class LandingPage extends React.Component {
         />
       <Button
         title={'Log into Facebook'} 
-        onPress={() => signUpUser()}/>
+        onPress={() => facebookLogin()}/>
       <Button
         title={"Just take me in"} 
         onPress={this.props.login}/>

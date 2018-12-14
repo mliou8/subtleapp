@@ -1,61 +1,31 @@
-import firebase from 'db/firebase';
+import firebase from 'db/firebase'
 
-function configureProvider () {
-  const provider = new firebase.auth.FacebookAuthProvider();
-  provider.addScope('email');
-  provider.addScope('user_friends');
-  firebase.auth().useDeviceLanguage();
-  provider.setCustomParameters({
-    'display': 'popup'
+export async function emailLogin (email, password) {
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+    const userId = firebase.auth().currentUser.uid;
+    return userId + '';
+};
+
+export async function facebookLogin () {
+  const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(config.fbAppID, {
+    permissions: ['public_profile', 'email', 'user_friends'],
   });
-  return provider;
-}
 
+  if (type === 'success') {
+    const credential = firebase.auth.FacebookAuthProvider.credential(token);
+    try {
+      await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    } catch (error) {
+      console.log('cannot login ', error);
+    }
+  } else {
+    Alert.alert('Hey sorry');
+  }
+};
 
-export function signUpUser(credentials) { 
-  const provider = configureProvider();
-  return firebase.auth().signInWithRedirect(provider).then(function(result) {
-        const token = result.credential.accessToken;
-        const user = result.user;
-      }).catch(function(error) {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
-      // ...
-    });
-}
-
-export function authUser() {
+function authUser() {
   console.log("Authenticating the User")
   return {
     type: AUTH_USER
   }
 }
-// export function signInUser(credentials) {
-//   return function(dispatch) {
-//     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
-//       .then(response => {
-//         dispatch(authUser());
-//         dispatch(fetchUserData());
-//       })
-//       .then(response => {
-//         browserHistory.push('/matchpage');
-//       })
-//       .catch(error => {
-//         dispatch(authError(error));
-//       });
-//   }
-// }
-
-// export function signOutUser() {
-//   Firebase.auth().signOut();
-//   browserHistory.push('/');
-// 
-//   return {
-//     type: SIGN_OUT_USER
-//   }
-// }
