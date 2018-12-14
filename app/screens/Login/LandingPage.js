@@ -2,35 +2,13 @@ import React from "react";
 import Video from "app/components/common/media/Video";
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image, } from 'react-native';
 import VideoUrl from 'assets/videos/video.mp4';
-const expoAppID = '1789703297808706';
+import {signUpUser} from 'actions/login';
+
 
 export default class LandingPage extends React.Component {
   constructor(props) {
     super(props)
-    this.logIn = this.logIn.bind(this);
   }
-  
-    async logIn() {
-      try {
-        const {
-          type,
-          token,
-          expires,
-          permissions,
-          declinedPermissions,
-        } = await Expo.Facebook.logInWithReadPermissionsAsync(expoAppID, {
-          permissions: ['public_profile', 'email'],
-      });
-      
-    if (type === 'success') {
-      alert("Success")
-    } else {
-      // type === 'cancel'
-    }
-  } catch ({ message }) {
-    console.log(`Facebook Login Error: ${message}`);
-  }
-}
 
   render() {
     return (
@@ -43,7 +21,7 @@ export default class LandingPage extends React.Component {
         />
       <Button
         title={'Log into Facebook'} 
-        onPress={() => this.logIn()}/>
+        onPress={() => signUpUser()}/>
       <Button
         title={"Just take me in"} 
         onPress={this.props.login}/>
