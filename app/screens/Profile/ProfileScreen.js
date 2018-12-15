@@ -142,9 +142,28 @@ export default class ProfileScreen extends React.Component {
           {/* {this.userId === this.props. userId?():()} <View style={{ flex: 1, flexDirection: "row" }}>
             <Followers />
           </View> */}
-
+          {/* <View>
+            <Text style={{ fontSize: 24, alignSelf: "center" }}>
+              {" "}
+              Michael Liou
+            </Text>
+          </View> */}
+          {/* <View> */}
+          {/* <Container> */}
+          {/* <Header>
+            <Text style={{ fontSize: 24, alignSelf: "center" }}>
+              {" "}
+              Michael Liou
+            </Text> */}
+          {/* </Header> */}
           <Content>
-            <Card style={{ height: "45 %" }}>
+            <Card style={{ height: "45 %" }} transparent>
+              {/* <Header> */}
+              <Text style={{ fontSize: 24, alignSelf: "center" }}>
+                {" "}
+                Michael Liou
+              </Text>
+              {/* </Header> */}
               <CardItem>
                 <Left>
                   {/* <Image
@@ -157,14 +176,16 @@ export default class ProfileScreen extends React.Component {
                     imageSrc={profileImgSrc}
                   />
                   <Body>
-                    <Text style={{ fontSize: 24 }}>@heyitsmmike</Text>
-                    <Text style={{ fontSize: 15, marginTop: 15 }}>
-                      Michael Liou
-                    </Text>
+                    {/* <Text style={{ fontSize: 20 }}> Michael Liou</Text> */}
+                    {/* <Text style={{ fontSize: 15, marginTop: 15 }}>
+                      @heyitsmmike
+                    </Text> */}
                     <Text note>Following: 400</Text>
                     <Text note>Followers: 500</Text>
+                  </Body>
+                  <Right>
                     {this.renderSocialBadges()}
-                    <Button
+                    {/* <Button
                       small
                       light
                       style={{
@@ -177,15 +198,17 @@ export default class ProfileScreen extends React.Component {
                       }}
                     >
                       <Icon type="FontAwesome" name="plus-circle" />
-                    </Button>
-                  </Body>
+                    </Button> */}
+                  </Right>
                 </Left>
               </CardItem>
               <CardItem cardBody />
             </Card>
           </Content>
+          {/* </Container> */}
+          {/* </View> */}
 
-          <View style={styles.divider} />
+          {/* <View style={styles.divider} /> */}
 
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>
