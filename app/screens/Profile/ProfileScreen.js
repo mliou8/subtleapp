@@ -2,12 +2,13 @@ import React from "react";
 import {
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   View,
-  Button,
+  // Button,
   SafeAreaView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Picker
 } from "react-native";
 import ProfilePortrait from "app/components/profile/ProfilePortrait";
 import Bio from "app/components/profile/Bio";
@@ -15,9 +16,24 @@ import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
-import { Icon } from "expo";
+// import { Icon } from "expo";
 import { connect } from "react-redux";
 import { listRepos } from "app/reducers/reducer";
+
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right
+} from "native-base";
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
@@ -33,15 +49,22 @@ export default class ProfileScreen extends React.Component {
         />
       ),
       headerRight: (
-        <TouchableOpacity>
-          <Icon.Entypo
-            name={"mail-with-circle"}
-            size={30}
-            style={{ marginRight: 3 }}
-            onPress={() => navigation.navigate("Messages")}
-            title="messages"
+        //   <TouchableOpacity>
+        //     <Icon.Entypo
+        //       name={"mail-with-circle"}
+        //       size={30}
+        //       style={{ marginRight: 3 }}
+        //       onPress={() => navigation.navigate("Messages")}
+        //       title="messages"
+        //     />
+        //   </TouchableOpacity>
+        <Button transparent onPress={() => navigation.navigate("Messages")}>
+          <Icon
+            type="Entypo"
+            name="mail-with-circle"
+            style={{ color: "black", fontSize: 30 }}
           />
-        </TouchableOpacity>
+        </Button>
       )
     };
   };
@@ -67,6 +90,7 @@ export default class ProfileScreen extends React.Component {
     };
     this._editProfile = this._editProfile.bind(this);
     this._saveProfile = this._saveProfile.bind(this);
+    this._renderSocialMenu = this._renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
   componentDidMount() {
@@ -80,6 +104,23 @@ export default class ProfileScreen extends React.Component {
 
   _saveProfile = () => {
     this.setState({ edit: !this.state.edit });
+  };
+
+  _renderSocialMenu = () => {
+    return (
+      <View>
+        <Picker
+          selectedValue={"hayy"}
+          style={{ height: 50, width: 50 }}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ social: itemValue })
+          }
+        >
+          <Picker.Item label="Facebook" value="facebook" />
+          <Picker.Item label="Youtube" value="youtube" />
+        </Picker>
+      </View>
+    );
   };
 
   renderSocialBadges = () => {
@@ -97,34 +138,61 @@ export default class ProfileScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.profileCard}>
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <ProfilePortrait style={styles.profile} imageSrc={profileImgSrc} />
-            <View
-              style={{
-                flex: 1,
-                marginLeft: 35,
-                marginTop: 15,
-                flexDirection: "column"
-              }}
-            >
-              <Text style={{ fontSize: 24 }}>@heyitsmmike</Text>
-              <Text style={{ fontSize: 15, marginTop: 15 }}>Michael Liou</Text>
-              <View>
-                <Followers />
-              </View>
-            </View>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            {this.renderSocialBadges()}
-          </View>
+        <View>
+          {/* {this.userId === this.props. userId?():()} <View style={{ flex: 1, flexDirection: "row" }}>
+            <Followers />
+          </View> */}
+
+          <Content>
+            <Card style={{ height: "45 %" }}>
+              <CardItem>
+                <Left>
+                  {/* <Image
+                    source={{ uri: profileImgSrc }}
+                    // style={{ height: 200, width: null, flex: 1 }}
+                    style={styles.profile}
+                  /> */}
+                  <ProfilePortrait
+                    style={styles.profile}
+                    imageSrc={profileImgSrc}
+                  />
+                  <Body>
+                    <Text style={{ fontSize: 24 }}>@heyitsmmike</Text>
+                    <Text style={{ fontSize: 15, marginTop: 15 }}>
+                      Michael Liou
+                    </Text>
+                    <Text note>Following: 400</Text>
+                    <Text note>Followers: 500</Text>
+                    {this.renderSocialBadges()}
+                    <Button
+                      small
+                      light
+                      style={{
+                        marginTop: 2
+                      }}
+                      onPress={() => {
+                        console.log(
+                          "add a functionality for drop down list/pciker/redirect to a form to add"
+                        );
+                      }}
+                    >
+                      <Icon type="FontAwesome" name="plus-circle" />
+                    </Button>
+                  </Body>
+                </Left>
+              </CardItem>
+              <CardItem cardBody />
+            </Card>
+          </Content>
+
           <View style={styles.divider} />
+
+          <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
+            <Text>Im just here to make some money and get some notoriety</Text>
+          </View>
+          <ProfileBottomContainer />
+          <View style={{ height: 40, width: "100%" }} />
         </View>
-        <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-          <Text>Im just here to make some money and get some notoriety</Text>
-        </View>
-        <ProfileBottomContainer />
-        <View style={{ height: 40, width: "100%" }} />
       </ScrollView>
     );
   }
@@ -178,3 +246,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   listRepos
 };
+
+{
+  /* <Picker
+                selectedValue={"hayy"}
+                style={{ height: 50, width: 50 }}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({ social: itemValue })
+                }
+              >
+                <Picker.Item label="Facebook" value="facebook" />
+                <Picker.Item label="Youtube" value="youtube" />
+              </Picker> */
+}

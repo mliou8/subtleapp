@@ -24,10 +24,10 @@ export default class VideoPlayer extends React.Component {
           }}
           rate={1.0}
           muted={true}
-          resizeMode="cover"
+          resizeMode={"cover"}
           shouldPlay
           isLooping={this.props.loop || false}
-          style={{ width: 300, height: 300 }}
+          style={{ width: 300, height: 300, alignContent: "center" }}
         />
       </View>
     );

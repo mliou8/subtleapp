@@ -24,6 +24,7 @@ export default class LandingPage extends React.Component {
         <Video
           videoSrc={VideoUrl}
           isLooping={true}
+          style={{ alignContent: "center" }}
           // style={{ width: "80%", height: "80%" }}
         />
 
@@ -36,6 +37,7 @@ export default class LandingPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    alignContent: "center"
   }
 });

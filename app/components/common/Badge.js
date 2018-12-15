@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import socialImages from "assets/images/social/exports.js";
 import { WebBrowser } from "expo";
+// import { Icon } from "expo";
+
+import { Button, Icon } from "native-base";
 
 export default class Badge extends React.Component {
   constructor(props) {
@@ -27,49 +30,52 @@ export default class Badge extends React.Component {
         return "";
     }
   };
-  badgeTypePicker = type => {
+  badgeTypePicker = (type, sourceName) => {
     switch (type) {
       case "youtube":
         return (
-          <TouchableOpacity
+          <Button
+            small
+            iconLeft
+            light
+            style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
             onPress={() => {
-              this._handleBadgePress("youtube", badge.sourceName);
+              this._handleBadgePress("youtube", sourceName);
             }}
           >
-            <Image
-              style={styles.badge}
-              source={socialImages.youtube}
-              alt="badge"
-            />
-          </TouchableOpacity>
+            <Icon type="FontAwesome" name="youtube" />
+            <Text> {sourceName} </Text>
+          </Button>
         );
       case "instagram":
         return (
-          <TouchableOpacity
+          <Button
+            small
+            iconLeft
+            light
+            style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
             onPress={() => {
-              this._handleBadgePress("instagram", badge.sourceName);
+              this._handleBadgePress("instagram", sourceName);
             }}
           >
-            <Image
-              style={styles.badge}
-              source={socialImages.instagram}
-              alt="badge"
-            />
-          </TouchableOpacity>
+            <Icon type="FontAwesome" name="instagram" />
+            <Text> {sourceName} </Text>
+          </Button>
         );
       case "twitch":
         return (
-          <TouchableOpacity
+          <Button
+            small
+            iconLeft
+            light
+            style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
             onPress={() => {
-              this._handleBadgePress(badge.badgeType, badge.sourceName);
+              this._handleBadgePress("twitch", sourceName);
             }}
           >
-            <Image
-              style={styles.badge}
-              source={socialImages.twitch}
-              alt="badge"
-            />
-          </TouchableOpacity>
+            <Icon type="FontAwesome" name="twitch" />
+            <Text> {sourceName} </Text>
+          </Button>
         );
       default:
         return "";
@@ -79,16 +85,7 @@ export default class Badge extends React.Component {
   render() {
     const badgeType = this.props.badgeType;
     return (
-      <View style={styles.badgeContainer}>
-        {this.badgeTypePicker(badgeType)}
-        <TouchableOpacity
-          onPress={() => {
-            this._handleBadgePress(badgeType, this.props.sourceName);
-          }}
-        >
-          <Text style={styles.badgeText}>{this.props.sourceName}</Text>
-        </TouchableOpacity>
-      </View>
+      <View>{this.badgeTypePicker(badgeType, this.props.sourceName)}</View>
     );
   }
 }
@@ -98,12 +95,14 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     flexDirection: "row",
-    borderRadius: 8,
+    borderRadius: 6,
     backgroundColor: "#F0F0F0",
     marginRight: 4,
     paddingRight: 5,
     alignContent: "center",
-    justifyContent: "flex-start"
+    height: "10%",
+    width: "28%"
+    // justifyContent: "flex-start"
   },
   badgeText: {
     display: "flex",
