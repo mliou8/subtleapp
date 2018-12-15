@@ -23,14 +23,11 @@ const HomeStack = createStackNavigator({
 HomeStack.navigationOptions = {
   tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-information-circle${focused ? "" : "-outline"}`
-          : "md-information-circle"
-      }
-    />
+    <TabBarIcon focused={focused} name={"ios-keypad"} />
+    //   other options: md-list-box
+    //   //ios-images
+    //   //ios-paper
+    //   //md-apps
   )
 };
 
@@ -43,14 +40,10 @@ const ProfileStack = createStackNavigator({
 ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-checkbox${focused ? "" : "-outline"}`
-          : "md-link"
-      }
-    />
+    <TabBarIcon focused={focused} name={"md-person"} />
+    //   //md-options
+    //   //md-contact
+    // />
   )
 };
 

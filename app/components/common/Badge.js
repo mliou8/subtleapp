@@ -49,12 +49,26 @@ export default class Badge extends React.Component {
         small
         iconLeft
         light
-        style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+        style={{
+          marginTop: 2,
+          paddingLeft: 0,
+          paddingRight: 3,
+          paddingBottom: 3
+        }}
         onPress={() => {
           this._handleBadgePress(type, sourceName);
         }}
       >
-        <Icon type="FontAwesome" name={type} />
+        <Icon
+          type="FontAwesome"
+          name={type}
+          style={{
+            // marginTop: 2,
+            marginLeft: 3,
+            paddingLeft: 3,
+            paddingBottom: 3
+          }}
+        />
         <Text> {sourceName} </Text>
       </Button>
     );
