@@ -3,10 +3,8 @@ import Video from "app/components/common/media/Video";
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image, } from 'react-native';
 import VideoUrl from 'assets/videos/video.mp4';
 import FacebookLoginButton from 'components/login/FacebookLoginButton';
-import { testFB, facebookLogin } from 'actions/login';
 
-
-export default class LandingPage extends React.Component {
+export default class EmailSignup extends React.Component {
   constructor(props) {
     super(props)
     this.signInFacebook = this.signInFacebook.bind(this)
@@ -17,7 +15,6 @@ export default class LandingPage extends React.Component {
   }
   
   render() {
-    const str = "some string"
     return (
       <View style={styles.container}>
         <Text>This is the log in page</Text>
@@ -28,12 +25,9 @@ export default class LandingPage extends React.Component {
         />
       <FacebookLoginButton
         onPress={() => facebookLogin()}/>
-        <Button 
-          title={"TestDB"}
-          onPress={() => testFB(str)} />
       <Button 
-        title={"Sign up with email"}
-        onPress={() => this.props.navigation.navigate("EmailSignup")} />
+        title={"Title Props "}
+        onPress={() => testFB(str)}/>
       <Button
         title={"Just take me in"} 
         onPress={this.props.login}/>

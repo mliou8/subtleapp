@@ -5,7 +5,10 @@
     "slug": "subtleapp",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -21,10 +24,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": true
     },
     "facebookScheme": "fb1789703297808706",
     "facebookAppId": "1789703297808706",
-    "facebookDisplayName": "Subtle Asian App",
+    "facebookDisplayName": "Subtle Asian App"
   }
 }

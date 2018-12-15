@@ -12,6 +12,8 @@ import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
+import LandingPage from "app/screens/Login/LandingPage";
+import EmailSignup from "app/screens/Login/EmailSignup";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -65,8 +67,15 @@ SubmitStack.navigationOptions = {
   )
 };
 
+const LoginStack = createStackNavigator({
+  LandingPage: LandingPage,
+  EmailSignup: EmailSignup
+});
+
+
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
-  ProfileStack
+  ProfileStack,
+  LoginStack,
 });
