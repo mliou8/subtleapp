@@ -40,7 +40,7 @@ const profileImgSrc = "https://loremflickr.com/225/225/dog";
 export default class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Profile",
+      title: "Michael Liou",
       headerLeft: (
         <Button
           onPress={() => navigation.getParam("edit")}
@@ -98,21 +98,7 @@ export default class ProfileScreen extends React.Component {
   };
 
   renderSocialMenu = () => {
-    return (
-      <AddSocialNetworkTag />
-      // <View>
-      //   <Picker
-      //     selectedValue={"hayy"}
-      //     style={{ height: 50, width: 50 }}
-      //     onValueChange={(itemValue, itemIndex) =>
-      //       this.setState({ social: itemValue })
-      //     }
-      //   >
-      //     <Picker.Item label="Facebook" value="facebook" />
-      //     <Picker.Item label="Youtube" value="youtube" />
-      //   </Picker>
-      // </View>
-    );
+    return <AddSocialNetworkTag />;
   };
 
   renderSocialBadges = () => {
@@ -138,11 +124,11 @@ export default class ProfileScreen extends React.Component {
 
           <Content>
             <Card style={{ height: "45 %" }} transparent>
-              <Text style={{ fontSize: 24, alignSelf: "center" }}>
+              {/* <Text style={{ fontSize: 24, alignSelf: "center" }}>
                 {" "}
                 Michael Liou
-              </Text>
-
+              </Text> */}
+              {/* <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text> */}
               <CardItem>
                 <Left>
                   <ProfilePortrait
@@ -190,9 +176,9 @@ export default class ProfileScreen extends React.Component {
             </Card>
           </Content>
 
-          <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
+          {/* <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>
-          </View>
+          </View> */}
           <ProfileBottomContainer />
           <View style={{ height: 40, width: "100%" }} />
         </View>
