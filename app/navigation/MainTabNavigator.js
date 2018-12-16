@@ -6,14 +6,12 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "app/components/common/TabBarIcon";
-import BoardScreen from "app/screens/Board/BoardScreen";
 import ProfileScreen from "app/screens/Profile/ProfileScreen";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
-import LandingPage from "app/screens/Login/LandingPage";
-import EmailSignup from "app/screens/Login/EmailSignup";
+import BoardScreen from "app/screens/Board/BoardScreen";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,

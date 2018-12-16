@@ -65,9 +65,6 @@ export default class BoardScreen extends React.Component {
   };
 
   render() {
-    if (!this.state.loggedIn) {
-      return <LandingPage login={this._login} />;
-    } else {
       return (
         <View style={styles.container}>
           <BoardHeader setFilter={this.filterContent} />
@@ -85,7 +82,6 @@ export default class BoardScreen extends React.Component {
           </ScrollView>
         </View>
       );
-    }
   }
 }
 

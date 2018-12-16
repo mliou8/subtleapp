@@ -33,45 +33,6 @@ export async function facebookLogin (dispatch) {
   }
 };
 
-export async function facebookAuth (dispatch) {
-   let redirectUrl = AuthSession.getRedirectUrl();
-   let result = await AuthSession.startAsync({
-     authUrl:
-       `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
-       `&client_id=${config.fbAppID}` +
-       `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-   });
-   return result; 
- };
- 
-export async function facebookSignup (dispatch) {
-  const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(config.fbAppID, {
-    permissions: ['public_profile', 'email'],
-  });
-
-  if (type === 'success') {
-    const credential = firebase.auth.FacebookAuthProvider.credential(token);
-    accessToken = token;
-    try {
-        let user = await firebase.auth().signInWithCredential(credential);
-        var displayName = firstname + ' ' + lastname;
-        // write user properties to firebase
-        firebase.database().ref(`/users/${user.uid}/userDetails`).set({
-          email: email,
-          phone: phone,
-          firstname: firstname,
-          lastname: lastname,
-          displayName: displayName,
-          fbEmail: user.email,
-          fbDisplayName: user.displayName,
-          fbPhotoURL: user.photoURL
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-}
-
 export async function emailLogin (email, password) {
     await firebase.auth().signInWithEmailAndPassword(email, password);
     const userId = firebase.auth().currentUser.uid;
