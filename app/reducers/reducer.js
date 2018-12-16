@@ -1,50 +1,20 @@
-// import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR } from 'actions/login/index.js';
-// 
-// const initialState = {
-//   authenticated: false,
-//   error: null
-// };
-// 
-// case ‘SIGN_IN_FACEBOOK_FULFILLED’:
-//   if (action.payload.type !== ‘error’)
-//     return Object.assign({}, authentication, {
-//       signedIn: true,
-//       type: ‘facebook’,
-//        credentials: action.payload.credentials,
-//       userInfo: {
-//         id: action.payload.credentials.id,
-//         name: action.payload.credentials.name,
-//         email: action.payload.credentials.email,
-//         accessToken: action.payload.credentials.accessToken,
-//         birthday: action.payload.credentials.birthday
-//       }
-//     });
-//   else
-//     return authentication;
+import { types } from 'actions/login/index';
+const { FACEBOOK_LOGIN_SUCCESS, FACEBOOK_LOGIN_FAIL } = types;
 
-// export default function auth(state = initialState, action) {
-//   switch (action.type) {
-//     case AUTH_USER:
-//       return {
-//         ...state,
-//         authenticated: true,
-//         error: null
-//       };
-// 
-//     case SIGN_OUT_USER:
-//       return {
-//         ...state,
-//         authenticated: false,
-//         error: null
-//       };
-// 
-//     case AUTH_ERROR:
-//       return {
-//         ...state,
-//         error: action.payload.message
-//       };
-// 
-//     default:
-//       return state;
-//   }
-// }
+export default function(state = {}, action) {
+  switch (action.type) {
+    case FACEBOOK_LOGIN_SUCCESS:
+      return { 
+        ...state,
+        token: action.payload 
+      };
+    case FACEBOOK_LOGIN_FAIL:
+      return { 
+        ...state,
+        token: null 
+      };
+    default:
+      return state;
+  }
+}
+

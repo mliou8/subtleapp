@@ -1,11 +1,16 @@
 import firebase from 'firebase';
 import config from '../../../config.js';
 import { Alert } from 'react-native'
+import { AuthSession } from 'expo';
+
 
 firebase.initializeApp(config.firebaseConfig);
 
-const FACEBOOK_LOGIN_SUCCESS = 'facebook_login_success';
-const FACEBOOK_LOGIN_FAIL = 'facebook_login_fail';
+export const types = {
+  FACEBOOK_LOGIN_SUCCESS : 'facebook_login_success',
+  FACEBOOK_LOGIN_FAIL : 'facebook_login_fail',
+  AUTH_SUCCESS: 'authenticated',
+}
 
 // Listen for authentication state to change.
 firebase.auth().onAuthStateChanged((user) => {
@@ -16,34 +21,56 @@ firebase.auth().onAuthStateChanged((user) => {
 
 export async function facebookLogin (dispatch) {
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(config.fbAppID, {
-    permissions: ['public_profile', 'email', 'user_friends'],
+    permissions: ['public_profile', 'email'],
+  });
+
+  if (type === 'success') {
+    const credential = firebase.auth.FacebookAuthProvider.credential(token);
+    await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: token });
+  } else {
+    dispatch({ type: FACEBOOK_LOGIN_FAIL });
+  }
+};
+
+export async function facebookAuth (dispatch) {
+   let redirectUrl = AuthSession.getRedirectUrl();
+   let result = await AuthSession.startAsync({
+     authUrl:
+       `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
+       `&client_id=${config.fbAppID}` +
+       `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
+   });
+   return result; 
+ };
+ 
+export async function facebookSignup (dispatch) {
+  const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(config.fbAppID, {
+    permissions: ['public_profile', 'email'],
   });
 
   if (type === 'success') {
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
     accessToken = token;
-    return fetch(`https://graph.facebook.com/me?fields=id,name,email,birthday&access_token=${token}`)
-    .then((response) => {
-      try {
-        firebase.database().ref(`/users/${response.uid}/userDetails`).set({
-          email: response.email,
-          phone: response.phone,
-          firstname: response.firstname,
-          lastname: response.lastname,
-          displayName: response.displayName,
-          fbEmail: response.email,
-          fbDisplayName: response.displayName,
-          fbPhotoURL: response.photoURL
+    try {
+        let user = await firebase.auth().signInWithCredential(credential);
+        var displayName = firstname + ' ' + lastname;
+        // write user properties to firebase
+        firebase.database().ref(`/users/${user.uid}/userDetails`).set({
+          email: email,
+          phone: phone,
+          firstname: firstname,
+          lastname: lastname,
+          displayName: displayName,
+          fbEmail: user.email,
+          fbDisplayName: user.displayName,
+          fbPhotoURL: user.photoURL
         });
-      } catch (e) {
-        console.log("error ", e)
+      } catch (error) {
+        console.log(error);
       }
-    })  
-  } else {
-      //return (dispatch({ type: FACEBOOK_LOGIN_FAIL }));
-      //console.log (try again)
     }
-};
+}
 
 export async function emailLogin (email, password) {
     await firebase.auth().signInWithEmailAndPassword(email, password);

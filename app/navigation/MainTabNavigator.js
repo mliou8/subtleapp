@@ -19,7 +19,7 @@ const HomeStack = createStackNavigator({
   Home: BoardScreen,
   Post: PostFullScreen,
   Messages: MessageScreen,
-  Conversation: Conversation
+  Conversation: Conversation,
 });
 
 HomeStack.navigationOptions = {
@@ -67,15 +67,9 @@ SubmitStack.navigationOptions = {
   )
 };
 
-const LoginStack = createStackNavigator({
-  LandingPage: LandingPage,
-  EmailSignup: EmailSignup
-});
-
 
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
   ProfileStack,
-  LoginStack,
 });
