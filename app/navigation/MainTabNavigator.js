@@ -6,18 +6,18 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "app/components/common/TabBarIcon";
-import BoardScreen from "app/screens/Board/BoardScreen";
 import ProfileScreen from "app/screens/Profile/ProfileScreen";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
+import BoardScreen from "app/screens/Board/BoardScreen";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
   Post: PostFullScreen,
   Messages: MessageScreen,
-  Conversation: Conversation
+  Conversation: Conversation,
 });
 
 HomeStack.navigationOptions = {
@@ -65,8 +65,9 @@ SubmitStack.navigationOptions = {
   )
 };
 
+
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
-  ProfileStack
+  ProfileStack,
 });
