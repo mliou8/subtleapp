@@ -17,7 +17,7 @@ export default class VideoPlayer extends React.Component {
 
   render() {
     return (
-      <View>
+      <View style={this.props.videoStyle || styles.defaultStyle}>
         <Video
           source={{
             uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
@@ -27,7 +27,11 @@ export default class VideoPlayer extends React.Component {
           resizeMode={"cover"}
           shouldPlay
           isLooping={this.props.loop || false}
+<<<<<<< HEAD
           style={{ width: 300, height: 300, alignContent: "center" }}
+=======
+          style={this.props.videoStyle || styles.defaultStyle}
+>>>>>>> master
         />
       </View>
     );
@@ -35,11 +39,11 @@ export default class VideoPlayer extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  backgroundVideo: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
+  container: {
+    flex: 1
+  },
+  defaultStyle: {
+    width: 300,
+    height: 300,
   }
-});
+})

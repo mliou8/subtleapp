@@ -1,20 +1,20 @@
-export const GET_REPOS = 'my-awesome-app/repos/LOAD';
-export const GET_REPOS_SUCCESS = 'my-awesome-app/repos/LOAD_SUCCESS';
-export const GET_REPOS_FAIL = 'my-awesome-app/repos/LOAD_FAIL';
+import { types } from 'actions/login/index';
+const { FACEBOOK_LOGIN_SUCCESS, FACEBOOK_LOGIN_FAIL } = types;
 
-export default function reducer(state = { repos: [] }, action) {
+export default function(state = {}, action) {
   switch (action.type) {
-    case GET_REPOS:
-      return { ...state, loading: true };
-    case GET_REPOS_SUCCESS:
-      return { ...state, loading: false, repos: action.payload.data };
-    case GET_REPOS_FAIL:
-      return {
+    case FACEBOOK_LOGIN_SUCCESS:
+      return { 
         ...state,
-        loading: false,
-        error: 'Error while fetching repositories'
+        token: action.payload 
+      };
+    case FACEBOOK_LOGIN_FAIL:
+      return { 
+        ...state,
+        token: null 
       };
     default:
       return state;
   }
 }
+
