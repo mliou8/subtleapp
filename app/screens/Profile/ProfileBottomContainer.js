@@ -2,7 +2,7 @@ import React from "react";
 import {
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   View,
   Button,
   SafeAreaView,
@@ -14,6 +14,16 @@ import Row from "app/components/profile/Row";
 import RecentPostScreen from "./RecentPostScreen";
 import AchievementScreen from "./AchievementScreen";
 import Badge from "app/components/common/Badge";
+
+import {
+  Container,
+  Header,
+  Tab,
+  Tabs,
+  TabHeading,
+  Icon,
+  Text
+} from "native-base";
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
@@ -29,6 +39,58 @@ export default class ProfileBottomScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerBar}>
+          {/* <Tabs>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
+                  <Icon
+                    name="dashboard"
+                    type="MaterialIcons"
+                    style={{ fontSize: 25 }}
+                  />
+                  <Text style={{ fontSize: 15 }}>Recent Posts</Text>
+                </TabHeading>
+              }
+              onPress={() => {
+                this.setState({ view: "Recent" });
+              }}
+            >
+              <RecentPostScreen />
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
+                  <Icon
+                    name="book"
+                    type="MaterialIcons"
+                    style={{ fontSize: 20 }}
+                  />
+                  <Text style={{ fontSize: 15 }}>Bookmarked</Text>
+                </TabHeading>
+              }
+              onPress={() => {
+                this.setState({ view: "Achievements" });
+              }}
+            >
+              <AchievementScreen />
+            </Tab> */}
+          {/* <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
+                  <Icon name="ios-ribbon" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 15 }}>Achievements</Text>
+                </TabHeading>
+              }
+              onPress={() => {
+                this.setState({ view: "Achievements" });
+              }}
+            >
+              <AchievementScreen />
+            </Tab> */}
+          {/* </Tabs>
+        </View>
+      </View> */}
+          {/* //previous version--taht i still like better */}
           <Button
             title="Posts"
             style={styles.navButton}

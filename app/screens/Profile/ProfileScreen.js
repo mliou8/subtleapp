@@ -2,9 +2,7 @@ import React from "react";
 import {
   ScrollView,
   StyleSheet,
-  // Text,
   View,
-  // Button,
   SafeAreaView,
   Image,
   TouchableOpacity,
@@ -16,7 +14,8 @@ import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
-// import { Icon } from "expo";
+import AddSocialNetworkTag from "./AddSocialNetwork";
+
 import { connect } from "react-redux";
 import { listRepos } from "app/reducers/reducer";
 
@@ -32,7 +31,8 @@ import {
   Icon,
   Left,
   Body,
-  Right
+  Right,
+  Spinner
 } from "native-base";
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
@@ -49,15 +49,6 @@ export default class ProfileScreen extends React.Component {
         />
       ),
       headerRight: (
-        //   <TouchableOpacity>
-        //     <Icon.Entypo
-        //       name={"mail-with-circle"}
-        //       size={30}
-        //       style={{ marginRight: 3 }}
-        //       onPress={() => navigation.navigate("Messages")}
-        //       title="messages"
-        //     />
-        //   </TouchableOpacity>
         <Button transparent onPress={() => navigation.navigate("Messages")}>
           <Icon
             type="Entypo"
@@ -90,7 +81,7 @@ export default class ProfileScreen extends React.Component {
     };
     this._editProfile = this._editProfile.bind(this);
     this._saveProfile = this._saveProfile.bind(this);
-    this._renderSocialMenu = this._renderSocialMenu.bind(this);
+    this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
   componentDidMount() {
@@ -106,20 +97,21 @@ export default class ProfileScreen extends React.Component {
     this.setState({ edit: !this.state.edit });
   };
 
-  _renderSocialMenu = () => {
+  renderSocialMenu = () => {
     return (
-      <View>
-        <Picker
-          selectedValue={"hayy"}
-          style={{ height: 50, width: 50 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ social: itemValue })
-          }
-        >
-          <Picker.Item label="Facebook" value="facebook" />
-          <Picker.Item label="Youtube" value="youtube" />
-        </Picker>
-      </View>
+      <AddSocialNetworkTag />
+      // <View>
+      //   <Picker
+      //     selectedValue={"hayy"}
+      //     style={{ height: 50, width: 50 }}
+      //     onValueChange={(itemValue, itemIndex) =>
+      //       this.setState({ social: itemValue })
+      //     }
+      //   >
+      //     <Picker.Item label="Facebook" value="facebook" />
+      //     <Picker.Item label="Youtube" value="youtube" />
+      //   </Picker>
+      // </View>
     );
   };
 
@@ -140,75 +132,63 @@ export default class ProfileScreen extends React.Component {
       <ScrollView style={styles.container}>
         <View>
           {/* {this.userId === this.props. userId?():()} <View style={{ flex: 1, flexDirection: "row" }}>
+          <View>
             <Followers />
           </View> */}
-          {/* <View>
-            <Text style={{ fontSize: 24, alignSelf: "center" }}>
-              {" "}
-              Michael Liou
-            </Text>
-          </View> */}
-          {/* <View> */}
-          {/* <Container> */}
-          {/* <Header>
-            <Text style={{ fontSize: 24, alignSelf: "center" }}>
-              {" "}
-              Michael Liou
-            </Text> */}
-          {/* </Header> */}
+
           <Content>
             <Card style={{ height: "45 %" }} transparent>
-              {/* <Header> */}
               <Text style={{ fontSize: 24, alignSelf: "center" }}>
                 {" "}
                 Michael Liou
               </Text>
-              {/* </Header> */}
+
               <CardItem>
                 <Left>
-                  {/* <Image
-                    source={{ uri: profileImgSrc }}
-                    // style={{ height: 200, width: null, flex: 1 }}
-                    style={styles.profile}
-                  /> */}
                   <ProfilePortrait
                     style={styles.profile}
                     imageSrc={profileImgSrc}
                   />
                   <Body>
-                    {/* <Text style={{ fontSize: 20 }}> Michael Liou</Text> */}
                     {/* <Text style={{ fontSize: 15, marginTop: 15 }}>
                       @heyitsmmike
                     </Text> */}
-                    <Text note>Following: 400</Text>
-                    <Text note>Followers: 500</Text>
+
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate("FollowersList")
+                      }
+                    >
+                      <Text>Following: 400 </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate("FollowersList")
+                      }
+                    >
+                      <Text>Followers: 500 </Text>
+                    </TouchableOpacity>
                   </Body>
                   <Right>
                     {this.renderSocialBadges()}
-                    {/* <Button
+                    <Button
                       small
                       light
                       style={{
                         marginTop: 2
                       }}
-                      onPress={() => {
-                        console.log(
-                          "add a functionality for drop down list/pciker/redirect to a form to add"
-                        );
-                      }}
+                      onPress={() =>
+                        this.props.navigation.navigate("AddSocialNetwork")
+                      }
                     >
                       <Icon type="FontAwesome" name="plus-circle" />
-                    </Button> */}
+                    </Button>
                   </Right>
                 </Left>
               </CardItem>
               <CardItem cardBody />
             </Card>
           </Content>
-          {/* </Container> */}
-          {/* </View> */}
-
-          {/* <View style={styles.divider} /> */}
 
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>
@@ -269,16 +249,3 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   listRepos
 };
-
-{
-  /* <Picker
-                selectedValue={"hayy"}
-                style={{ height: 50, width: 50 }}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setState({ social: itemValue })
-                }
-              >
-                <Picker.Item label="Facebook" value="facebook" />
-                <Picker.Item label="Youtube" value="youtube" />
-              </Picker> */
-}

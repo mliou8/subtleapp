@@ -8,10 +8,12 @@ import {
 import TabBarIcon from "app/components/common/TabBarIcon";
 import BoardScreen from "app/screens/Board/BoardScreen";
 import ProfileScreen from "app/screens/Profile/ProfileScreen";
+import FollowersListScreen from "app/screens/Profile/FollowersList";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
+import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -24,26 +26,21 @@ HomeStack.navigationOptions = {
   tabBarLabel: "Home",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={"ios-keypad"} />
-    //   other options: md-list-box
-    //   //ios-images
-    //   //ios-paper
-    //   //md-apps
   )
 };
 
 const ProfileStack = createStackNavigator({
   Profile: ProfileScreen,
   Messages: MessageScreen,
-  Conversation: Conversation
+  Conversation: Conversation,
+  FollowersList: FollowersListScreen,
+  AddSocialNetwork: AddSocialNetworkTag
 });
 
 ProfileStack.navigationOptions = {
   tabBarLabel: "Profile",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={"md-person"} />
-    //   //md-options
-    //   //md-contact
-    // />
   )
 };
 

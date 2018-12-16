@@ -4,14 +4,29 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   TouchableOpacity,
   View
 } from "react-native";
-import { Icon } from "expo";
+// import { Icon } from "expo";
 import Post from "app/components/board/Post";
 import BoardHeader from "app/components/board/BoardHeader";
 import LandingPage from "app/screens/Login/LandingPage";
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Spinner
+} from "native-base";
 
 const post = {};
 
@@ -20,14 +35,13 @@ export default class BoardScreen extends React.Component {
     return {
       title: "Subtle Asian App",
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate("Messages")}>
-          <Icon.Entypo
-            name={"mail-with-circle"}
-            size={30}
-            style={{ marginRight: 3 }}
-            title="messages"
+        <Button transparent onPress={() => navigation.navigate("Messages")}>
+          <Icon
+            type="Entypo"
+            name="mail-with-circle"
+            style={{ color: "black", fontSize: 30 }}
           />
-        </TouchableOpacity>
+        </Button>
       )
     };
   };
