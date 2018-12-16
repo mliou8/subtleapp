@@ -27,11 +27,7 @@ export default class VideoPlayer extends React.Component {
           resizeMode={"cover"}
           shouldPlay
           isLooping={this.props.loop || false}
-<<<<<<< HEAD
-          style={{ width: 300, height: 300, alignContent: "center" }}
-=======
           style={this.props.videoStyle || styles.defaultStyle}
->>>>>>> master
         />
       </View>
     );
@@ -44,6 +40,6 @@ const styles = StyleSheet.create({
   },
   defaultStyle: {
     width: 300,
-    height: 300,
+    height: 300
   }
-})
+});
