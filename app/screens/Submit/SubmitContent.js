@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Keyboard, View, TouchableWithoutFeedback, TouchableOpacity, Button } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { ImagePicker, Permissions } from 'expo';
 
-import { Avatar } from '../../components/image';
+import { Avatar, Image } from '../../components/image';
 import { Input } from '../../components/form';
 import { Text } from '../../components/text';
 import styles from './SubmitContent.styles';
@@ -17,6 +18,7 @@ export default class SubmitContent extends Component {
     state = {
         height: 40,
         modalVisible: false,
+        upload: '',
     };
 
     updateSize = height => {
@@ -30,7 +32,17 @@ export default class SubmitContent extends Component {
         this.setState({ modalVisible: visible });
     };
 
-    pickImage = () => {};
+    pickImageFromCameraRoll = async () => {
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync();
+            if (!result.cancelled) {
+                this.setState({ upload: result.uri, modalVisible: false });
+            }
+        } catch (e) {
+            console.error('Could not get image from camera roll');
+        }
+    };
 
     render() {
         return (
@@ -47,7 +59,10 @@ export default class SubmitContent extends Component {
                                 <Icon size={30} name="camera" style={styles.modalIcon} />
                                 <Text>Take photo</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => null} style={styles.modalButton}>
+                            <TouchableOpacity
+                                onPress={this.pickImageFromCameraRoll}
+                                style={styles.modalButton}
+                            >
                                 <Icon size={30} name="image" style={styles.modalIcon} />
                                 <Text>Choose photo from gallery</Text>
                             </TouchableOpacity>
@@ -74,6 +89,11 @@ export default class SubmitContent extends Component {
                             <Icon name="camera" size={20} style={styles.icon} />
                             <Text style={styles.add}>Add photo</Text>
                         </TouchableOpacity>
+                        <View style={styles.images}>
+                            {this.state.upload ? (
+                                <Image style={styles.upload} source={{ uri: this.state.upload }} />
+                            ) : null}
+                        </View>
                     </View>
                 </View>
             </TouchableWithoutFeedback>

@@ -57,4 +57,12 @@ export default (styles = StyleSheet.create({
     modalIcon: {
         marginRight: 10,
     },
+    images: {
+        marginTop: 10,
+        alignItems: 'flex-end',
+    },
+    upload: {
+        width: 280,
+        height: 210,
+    },
 }));
