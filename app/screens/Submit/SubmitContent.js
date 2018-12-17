@@ -15,12 +15,6 @@ export default class SubmitContent extends Component {
         height: 40,
     };
 
-    input;
-
-    componentDidMount() {
-        this.input.focus();
-    }
-
     updateSize = height => {
         let newHeight = height < 40 ? 40 : height;
         this.setState({
@@ -40,12 +34,10 @@ export default class SubmitContent extends Component {
                         <Input
                             multiline
                             placeholder="What's up?"
-                            inputRef={cmp => (this.input = cmp)}
                             style={[styles.input, { height: this.state.height }]}
                             onContentSizeChange={e =>
                                 this.updateSize(e.nativeEvent.contentSize.height)
                             }
-                            onBlur={Keyboard.dismiss}
                             maxLength={200}
                         />
                     </View>
