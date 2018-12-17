@@ -38,8 +38,8 @@ export default class SubmitContent extends Component {
                 <View style={styles.container}>
                     <Modal
                         avoidKeyboard
-                        onBackdropPress={() => this.setState({ modalVisible: false })}
-                        onBackButtonPress={() => this.setState({ modalVisible: false })}
+                        onBackdropPress={() => this.toggleModal(false)}
+                        onBackButtonPress={() => this.toggleModal(false)}
                         isVisible={this.state.modalVisible}
                     >
                         <View style={styles.modalContainer}>
@@ -68,7 +68,7 @@ export default class SubmitContent extends Component {
                             maxLength={200}
                         />
                         <TouchableOpacity
-                            onPress={() => this.setState({ modalVisible: true })}
+                            onPress={() => this.toggleModal(true)}
                             style={styles.touchable}
                         >
                             <Icon name="camera" size={20} style={styles.icon} />
