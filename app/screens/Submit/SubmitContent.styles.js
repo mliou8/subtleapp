@@ -33,10 +33,28 @@ export default (styles = StyleSheet.create({
     },
     icon: {
         opacity: 0.6,
-        paddingLeft: 10
+        paddingLeft: 10,
     },
     add: {
         marginHorizontal: 10,
         opacity: 0.6,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
+        maxHeight: height * 0.2,
+        backgroundColor: '#fafafa',
+        borderRadius: 2,
+        padding: 15,
+    },
+    modalButton: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
+    modalIcon: {
+        marginRight: 10,
     },
 }));
