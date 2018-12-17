@@ -3,47 +3,37 @@ import { Image, StyleSheet, View } from 'react-native';
 import { ImagePicker } from 'expo';
 import { Camera, Permissions } from 'expo';
 
+import { Avatar } from '../../components/image';
+import { Input } from '../../components/form';
+import { Text } from '../../components/text';
+import styles from './SubmitContent.styles';
+
 export default class SubmitContent extends Component {
     static navigationOptions = {
-        headerTitle: 'Create post'
-    }
-
-    state = {
-
+        headerTitle: 'Create post',
     };
+
+    input;
 
     componentDidMount() {
+        this.input.focus();
     }
-
-    _pickImage = async () => {
-        const { rollstatus } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        this.setState({ hasCameraRollPermission: rollstatus === 'granted' });
-        if (this.state.hasCameraRollPermission) {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                allowsEditing: true,
-                aspect: [4, 3],
-            });
-            if (!result.cancelled) {
-                this.setState({ image: result.uri });
-            }
-        }
-    };
 
     render() {
         return (
             <View style={styles.container}>
-
+                <View style={styles.profile}>
+                    <Avatar size={65} styles={styles.avatar} src="http://i.pravatar.cc/100" />
+                    <Text style={styles.name}>David Martin</Text>
+                </View>
+                <View style={styles.form}>
+                    <Input
+                        placeholder="What's up?"
+                        inputRef={cmp => (this.input = cmp)}
+                        style={styles.input}
+                    />
+                </View>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'column',
-        alignContent: 'space-between',
-        justifyContent: 'center',
-    },
-});
