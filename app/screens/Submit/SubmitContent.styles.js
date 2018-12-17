@@ -18,8 +18,12 @@ export default (styles = StyleSheet.create({
         fontSize: 22,
         marginHorizontal: 15,
     },
-    form: {},
+    form: {
+        marginTop: 10
+    },
     input: {
+        fontSize: 24,
         borderColor: 'transparent',
+        marginHorizontal: 20,
     },
 }));
