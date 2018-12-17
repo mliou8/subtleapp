@@ -11,6 +11,8 @@ import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
 import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
+import SubmitContentScreen from "app/screens/Submit/SubmitContent";
+import SubmitDatingScreen from "app/screens/Submit/SubmitDating";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
 import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
@@ -53,7 +55,9 @@ ProfileStack.navigationOptions = {
 };
 
 const SubmitStack = createStackNavigator({
-  Submit: SubmitSelectionScreen
+  SubmitSelection: SubmitSelectionScreen,
+  SubmitContent: SubmitContentScreen,
+  SubmitDating: SubmitDatingScreen
 });
 
 SubmitStack.navigationOptions = {
