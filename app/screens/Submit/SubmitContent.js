@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Keyboard, View, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, View, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Avatar } from '../../components/image';
 import { Input } from '../../components/form';
@@ -22,6 +23,10 @@ export default class SubmitContent extends Component {
         });
     };
 
+    pickImage = () => {
+        
+    }
+
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -40,6 +45,10 @@ export default class SubmitContent extends Component {
                             }
                             maxLength={200}
                         />
+                        <TouchableOpacity onPress={this.pickImage} style={styles.touchable}>
+                            <Icon name="camera" size={20} style={styles.icon} />
+                            <Text style={styles.add}>Add photo</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableWithoutFeedback>

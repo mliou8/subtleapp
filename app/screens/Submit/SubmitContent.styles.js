@@ -19,11 +19,24 @@ export default (styles = StyleSheet.create({
         marginHorizontal: 15,
     },
     form: {
-        marginTop: 10
+        marginHorizontal: 20,
     },
     input: {
         fontSize: 24,
+        marginTop: 10,
+        marginBottom: 20,
         borderColor: 'transparent',
-        marginHorizontal: 20,
+    },
+    touchable: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    icon: {
+        opacity: 0.6,
+        paddingLeft: 10
+    },
+    add: {
+        marginHorizontal: 10,
+        opacity: 0.6,
     },
 }));
