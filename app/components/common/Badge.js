@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import socialImages from "assets/images/social/exports.js";
 import { WebBrowser } from "expo";
-// import { Icon } from "expo";
 
 import { Button, Icon } from "native-base";
 
@@ -24,25 +23,6 @@ export default class Badge extends React.Component {
     }
   };
 
-  // _handleBadgePress = (badgeType, sourceName) => {
-  //   switch (badgeType) {
-  //     case "instagram":
-  //       return WebBrowser.openBrowserAsync(
-  //         `https://www.instagram.com/${sourceName}/`
-  //       );
-  //     case "youtube":
-  //       return WebBrowser.openBrowserAsync(
-  //         `https://www.youtube.com/${sourceName}/`
-  //       );
-  //     case "twitch":
-  //       return WebBrowser.openBrowserAsync(
-  //         `https://www.twitch.tv/${sourceName}/`
-  //       );
-  //     default:
-  //       return "";
-  //   }
-  // };
-
   badgeTypePicker = (type, sourceName) => {
     return (
       <Button
@@ -63,7 +43,6 @@ export default class Badge extends React.Component {
           type="FontAwesome"
           name={type}
           style={{
-            // marginTop: 2,
             marginLeft: 3,
             paddingLeft: 3,
             paddingBottom: 3
@@ -73,57 +52,6 @@ export default class Badge extends React.Component {
       </Button>
     );
   };
-  // badgeTypePicker = (type, sourceName) => {
-  //   switch (type) {
-  //     case "youtube":
-  //       return (
-  //         <Button
-  //           small
-  //           iconLeft
-  //           light
-  //           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
-  //           onPress={() => {
-  //             this._handleBadgePress("youtube", sourceName);
-  //           }}
-  //         >
-  //           <Icon type="FontAwesome" name="youtube" />
-  //           <Text> {sourceName} </Text>
-  //         </Button>
-  //       );
-  //     case "instagram":
-  //       return (
-  //         <Button
-  //           small
-  //           iconLeft
-  //           light
-  //           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
-  //           onPress={() => {
-  //             this._handleBadgePress("instagram", sourceName);
-  //           }}
-  //         >
-  //           <Icon type="FontAwesome" name="instagram" />
-  //           <Text> {sourceName} </Text>
-  //         </Button>
-  //       );
-  //     case "twitch":
-  //       return (
-  //         <Button
-  //           small
-  //           iconLeft
-  //           light
-  //           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
-  //           onPress={() => {
-  //             this._handleBadgePress("twitch", sourceName);
-  //           }}
-  //         >
-  //           <Icon type="FontAwesome" name="twitch" />
-  //           <Text> {sourceName} </Text>
-  //         </Button>
-  //       );
-  //     default:
-  //       return "";
-  //   }
-  // };
 
   render() {
     const badgeType = this.props.badgeType;
@@ -145,7 +73,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     height: "10%",
     width: "28%"
-    // justifyContent: "flex-start"
   },
   badgeText: {
     display: "flex",
@@ -161,3 +88,55 @@ const styles = StyleSheet.create({
     height: 25
   }
 });
+
+// badgeTypePicker = (type, sourceName) => {
+//   switch (type) {
+//     case "youtube":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("youtube", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="youtube" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     case "instagram":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("instagram", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="instagram" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     case "twitch":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("twitch", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="twitch" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     default:
+//       return "";
+//   }
+// };

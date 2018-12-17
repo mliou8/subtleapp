@@ -64,6 +64,7 @@ export default class ProfileScreen extends React.Component {
     super(props);
     this.state = {
       edit: false,
+      displayAdd: false,
       badges: [
         {
           badgeType: "youtube",
@@ -83,6 +84,7 @@ export default class ProfileScreen extends React.Component {
     this._saveProfile = this._saveProfile.bind(this);
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
+    this.addSocialBadge = this.addSocialBadge.bind(this);
   }
   componentDidMount() {
     this.props.navigation.setParams({ edit: this._editProfile });
@@ -113,22 +115,20 @@ export default class ProfileScreen extends React.Component {
     });
   };
 
+  addSocialBadge = () => {
+    this.setState({ displayAdd: !this.state.displayAdd });
+  };
   render() {
     return (
       <ScrollView style={styles.container}>
         <View>
-          {/* {this.userId === this.props. userId?():()} <View style={{ flex: 1, flexDirection: "row" }}>
+          {/* {this.userId !== this.props. userId?(<View style={{ flex: 1, flexDirection: "row" }}>
           <View>
             <Followers />
-          </View> */}
+          </View> :(null)}*/}
 
           <Content>
             <Card style={{ height: "45 %" }} transparent>
-              {/* <Text style={{ fontSize: 24, alignSelf: "center" }}>
-                {" "}
-                Michael Liou
-              </Text> */}
-              {/* <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text> */}
               <CardItem>
                 <Left>
                   <ProfilePortrait
@@ -158,23 +158,28 @@ export default class ProfileScreen extends React.Component {
                   <Right>
                     {this.renderSocialBadges()}
                     <Button
-                      small
-                      light
+                      transparent
                       style={{
-                        marginTop: 2
+                        marginTop: 2,
+                        marginBottom: 2
                       }}
-                      onPress={() =>
-                        this.props.navigation.navigate("AddSocialNetwork")
-                      }
+                      onPress={() => {
+                        this.addSocialBadge();
+                      }}
                     >
-                      <Icon type="FontAwesome" name="plus-circle" />
+                      <Icon
+                        type="FontAwesome"
+                        name="plus-circle"
+                        style={{ fontSize: 20 }}
+                      />
                     </Button>
                   </Right>
                 </Left>
               </CardItem>
-              <CardItem cardBody />
             </Card>
           </Content>
+
+          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
 
           {/* <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>

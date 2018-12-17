@@ -48,7 +48,7 @@ export default class AddSocialNetworkTag extends Component {
         <View>
           <Card style={{ display: "flex", flexDirection: "row" }}>
             <Form>
-              <Item picker style={{ width: "40%" }}>
+              <Item picker style={{ width: "45%" }}>
                 <Picker
                   selectedValue={this.state.selectedNetwork}
                   itemStyle={{ height: 80, width: 100 }}
@@ -68,24 +68,26 @@ export default class AddSocialNetworkTag extends Component {
                 </Picker>
               </Item>
             </Form>
-            <Form style={{ width: "40%" }}>
+            <Form style={{ width: "50%" }}>
               <Item floatingLabel>
                 <Label>Username:</Label>
                 <Input />
               </Item>
             </Form>
             <Button
-              small
-              // light
               transparent
               style={{
-                marginTop: 2,
-                justifyContent: "flex-end",
-                width: "15%"
+                marginTop: 2
               }}
-              onPress={() => console.log("pressed")}
+              onPress={() =>
+                console.log("onSubmit function will be fired--after I write it")
+              }
             >
-              <Icon type="FontAwesome" name="plus-circle" />
+              <Icon
+                type="FontAwesome"
+                name="plus-circle"
+                style={{ fontSize: 30 }}
+              />
             </Button>
           </Card>
         </View>
