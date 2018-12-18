@@ -23,7 +23,7 @@ export default class VideoPlayer extends React.Component {
             uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
           }}
           rate={1.0}
-          muted={true}
+          isMuted={this.props.muted || true}
           resizeMode="cover"
           shouldPlay
           isLooping={this.props.loop || false}

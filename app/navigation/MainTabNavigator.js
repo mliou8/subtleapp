@@ -11,7 +11,7 @@ import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
-import BoardScreen from "app/screens/Board/BoardScreen";
+import BoardScreen from "app/containers/Board/BoardContainer";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
