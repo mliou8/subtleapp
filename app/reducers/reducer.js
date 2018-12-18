@@ -1,18 +1,31 @@
 import { types } from 'actions/login/index';
-const { FACEBOOK_LOGIN_SUCCESS, FACEBOOK_LOGIN_FAIL } = types;
+const { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL } = types;
 
-export default function(state = {}, action) {
+const initialState = {
+  authenticated: false,
+  facebookUser: {},
+  errorMsg: '',
+}
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
       return { 
         ...state,
-        token: action.payload 
+        facebookUser: action.facebookUser,
+        authenticated: true,
       };
-    case FACEBOOK_LOGIN_FAIL:
+    case AUTH_SUCCESS:
       return { 
         ...state,
-        token: null 
+        authenticated: true,
       };
+    case AUTH_FAIL:
+      return { 
+        ...state,
+        authenticated: false,
+        errorMsg: action.errorMsg,
+      };  
     default:
       return state;
   }

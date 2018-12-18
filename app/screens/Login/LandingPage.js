@@ -2,8 +2,6 @@ import React from "react";
 import Video from "app/components/common/media/Video";
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image, } from 'react-native';
 import VideoUrl from 'assets/videos/video.mp4';
-import FacebookLoginButton from 'components/login/FacebookLoginButton';
-import { testFB, facebookSignup, facebookAuth, facebookLogin } from 'actions/login';
 import { Entypo } from '@expo/vector-icons';
 
 export default class LandingPage extends React.Component {
@@ -12,24 +10,27 @@ export default class LandingPage extends React.Component {
   }
   
   render() {
-    const str = "some string"
     return (
       <View style={styles.container}>
         <Video
           videoSrc={VideoUrl}
           loop={true}
           videoStyle={styles.backgroundVideo}
+          muted={true}
         /> 
       <Entypo 
         name="facebook-with-circle" 
         size={64} 
         color="black"
-        onPress={() => facebookLogin()}
+        onPress={() => this.props.facebookLogin()}
         style={styles.fbIcon}>
       </Entypo>
       <Button
         title={"Just take me in with no sign in"} 
-        onPress={() => this.props.navigation.navigate("MainScreen")}/>
+        onPress={() => {
+          this.props.testLogin()
+          this.props.navigation.navigate("MainScreen")
+        }}/>
       </View>
     );
   }

@@ -6,9 +6,10 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import logger from 'redux-logger'
 import login from 'reducers/reducer'
+import thunkMiddleware from 'redux-thunk'
 
 const reducer = combineReducers({ login })
-const store = createStore(reducer, applyMiddleware(logger))
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger))
 
 export default class App extends React.Component {
   state = {
