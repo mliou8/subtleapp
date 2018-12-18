@@ -16,6 +16,7 @@ import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 import BoardScreen from "app/screens/Board/BoardScreen";
 import FullPost from "app/components/board/FullPost";
 import MosaicScreen from "app/screens/Board/MosaicView";
+// import BoardScreen from "app/containers/Board/BoardContainer";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
