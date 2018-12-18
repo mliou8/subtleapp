@@ -126,7 +126,6 @@ export default class ProfileScreen extends React.Component {
           <View>
             <Followers />
           </View> :(null)}*/}
-
           <Content>
             <Card style={{ height: "45 %" }} transparent>
               <CardItem>
@@ -178,12 +177,11 @@ export default class ProfileScreen extends React.Component {
               </CardItem>
             </Card>
           </Content>
-
-          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
-
-          {/* <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
+          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>e
+          <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>
-          </View> */}
+            <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text>
+          </View>
           <ProfileBottomContainer />
           <View style={{ height: 40, width: "100%" }} />
         </View>

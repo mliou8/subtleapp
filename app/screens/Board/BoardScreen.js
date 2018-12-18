@@ -25,10 +25,40 @@ import {
   Left,
   Body,
   Right,
-  Spinner
+  Spinner,
+  Badge
 } from "native-base";
 
 const post = {};
+const catArr = [
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat"
+];
 
 export default class BoardScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -79,23 +109,29 @@ export default class BoardScreen extends React.Component {
   };
 
   render() {
-      return (
-        <View style={styles.container}>
-          <BoardHeader setFilter={this.filterContent} />
-          <ScrollView contentContainerStyle={styles.postContainer}>
-            <TouchableOpacity onPress={() => this.navigateToFullPost(post)}>
-              <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            </TouchableOpacity>
+    return (
+      <View style={styles.container}>
+        <BoardHeader setFilter={this.filterContent} />
+        {/* <ScrollView contentContainerStyle={styles.postContainer}> */}
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Mosaic", { cats: catArr })
+            }
+          >
+            {/* //onPress={() => this.navigateToFullPost(post)}> */}
             <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          </ScrollView>
-        </View>
-      );
+          </TouchableOpacity>
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+        </ScrollView>
+      </View>
+    );
   }
 }
 
@@ -103,8 +139,11 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
   },
+
   postContainer: {
     display: "flex",
     flex: 1,

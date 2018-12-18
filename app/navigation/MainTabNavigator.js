@@ -14,12 +14,16 @@ import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
 import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 import BoardScreen from "app/screens/Board/BoardScreen";
+import FullPost from "app/components/board/FullPost";
+import MosaicScreen from "app/screens/Board/MosaicView";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
   Post: PostFullScreen,
   Messages: MessageScreen,
   Conversation: Conversation,
+  FullPost: FullPost,
+  Mosaic: MosaicScreen
 });
 
 HomeStack.navigationOptions = {
@@ -55,9 +59,8 @@ SubmitStack.navigationOptions = {
   )
 };
 
-
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
-  ProfileStack,
+  ProfileStack
 });

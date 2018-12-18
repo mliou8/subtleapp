@@ -93,23 +93,6 @@ export default class ProfileBottomScreen extends React.Component {
             >
               <AchievementScreen />
             </Tab> */}
-            <Tab
-              heading={
-                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
-                  <Icon
-                    name="id-card"
-                    type="FontAwesome"
-                    style={{ fontSize: 20 }}
-                  />
-                  <Text style={{ fontSize: 15 }}>Bio</Text>
-                </TabHeading>
-              }
-              onPress={() => {
-                this.setState({ view: "Achievements" });
-              }}
-            >
-              <AchievementScreen />
-            </Tab>
           </Tabs>
         </View>
       </View>
