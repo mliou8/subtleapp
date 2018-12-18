@@ -1,5 +1,4 @@
-import { types } from 'actions/login/index';
-const { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL } = types;
+import { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL } from 'actions/login/index';
 
 const initialState = {
   authenticated: false,

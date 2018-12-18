@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
-import { facebookLogin } from 'actions/login/index';
 import BoardScreen from 'screens/Board/BoardScreen';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    authenticated: state.authenticated
+    authenticated: state.login.authenticated
   }
 }
 

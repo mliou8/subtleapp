@@ -44,15 +44,11 @@ export default class BoardScreen extends React.Component {
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
-    this._login = this._login.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
   }
+  
   componentDidMount() {
     this.props.navigation.setParams({ showChallenge: this._showChallenge });
-  }
-
-  _login() {
-    this.setState({ loggedIn: true });
   }
 
   _showChallenge = () => {
