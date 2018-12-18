@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Alert,
+  Alert
 } from "react-native";
 
 import Post from "app/components/board/Post";
@@ -76,7 +76,7 @@ export default class BoardScreen extends React.Component {
       )
     };
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -84,13 +84,13 @@ export default class BoardScreen extends React.Component {
       filterType: "popular",
       loggedIn: false
     };
-    
+
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
   }
-  
+
   componentDidMount() {
     this.props.navigation.setParams({ showChallenge: this._showChallenge });
   }
@@ -106,8 +106,8 @@ export default class BoardScreen extends React.Component {
   filterContent = filter => {
     this.setState({ filterType: filter });
   };
-  
-  showLoggedIn () {
+
+  showLoggedIn() {
     if (this.props.authenticated) {
       Alert.alert("You are logged in");
     } else {
@@ -116,7 +116,6 @@ export default class BoardScreen extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
     return (
       <View style={styles.container}>
         <BoardHeader setFilter={this.filterContent} />
@@ -141,26 +140,6 @@ export default class BoardScreen extends React.Component {
         </ScrollView>
       </View>
     );
-=======
-      return (
-        <View style={styles.container}>
-          <BoardHeader setFilter={this.filterContent} />
-          { this.showLoggedIn() }
-          <ScrollView contentContainerStyle={styles.postContainer}>
-            <TouchableOpacity onPress={() => this.navigateToFullPost(post)}>
-              <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            </TouchableOpacity>
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          </ScrollView>
-        </View>
-      );
->>>>>>> master
   }
 }
 
