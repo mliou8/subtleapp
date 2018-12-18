@@ -18,97 +18,62 @@ import {
 export default class FullPost extends React.Component {
   render() {
     return (
-      // <Image
-      //   style={styles.post}
-      //   source={{ uri: this.props.imageSrc }}
-      //   alt="Post"
-      // />
-      //   <Card style={styles.post}>
-      //     <CardItem>
-      //       <Left>
-      //         <Thumbnail
-      //           source={{ uri: "https://loremflickr.com/176/230/cat" }}
-      //           small
-      //           // style={{ height: 60, width: 60, borderRadius: 47 }}
-      //         />
-      //         <Body>
-      //           <Text note>post author</Text>
-      //         </Body>
-      //       </Left>
-      //     </CardItem>
-      //     <CardItem cardBody style={{ justifyContent: "center" }}>
-      //       <Image
-      //         source={{ uri: this.props.imageSrc }}
-      //         style={{
-      //           display: "flex",
-      //           height: 120,
-      //           width: 160,
-      //           alignContent: "center"
-      //         }}
-      //       />
-      //     </CardItem>
-      //     <CardItem>
-      //       <Left>
-      //         <Button small transparent>
-      //           <Icon small active name="thumbs-up" />
-      //           <Text>12 </Text>
-      //         </Button>
-      //       </Left>
-      //       <Body>
-      //         <Button small transparent>
-      //           <Icon small active name="chatbubbles" />
-      //           <Text>4 </Text>
-      //         </Button>
-      //       </Body>
-      //       {/* <Right>
-      //         <Text>11h ago</Text>
-      //       </Right> */}
-      //     </CardItem>
-      //   </Card>
-      <Container>
-        <Header />
-        <Content>
-          <Card style={{ flex: 0 }}>
-            <CardItem>
-              <Left>
-                <Thumbnail
-                  source={{ uri: "https://loremflickr.com/176/230/cat" }}
-                />
-                <Body>
-                  <Text>NativeBase</Text>
-                  <Text note>April 15, 2016</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Image
-                  source={{ uri: this.props.imageSrc }}
-                  style={{ height: 200, width: 200, flex: 1 }}
-                />
-                <Text>//Your text here</Text>
-              </Body>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Button small transparent>
-                  <Icon small active name="thumbs-up" />
-                  <Text>12 </Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button small transparent>
-                  <Icon small active name="chatbubbles" />
-                  <Text>4 </Text>
-                </Button>
-              </Body>
-              <Right>
-                <Text>11h ago</Text>
-              </Right>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+      <View>
+        <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
+          <CardItem cardBody style={{ justifyContent: "center" }}>
+            <Image
+              source={{ uri: this.props.imageSrc }}
+              style={{
+                width: 176,
+                height: 230,
+                resizeMode: "contain"
+              }}
+            />
+          </CardItem>
+          <CardItem
+            style={{
+              display: "flex",
+              height: 100,
+              width: null,
+              flex: 1,
+              alignContent: "center"
+            }}
+          >
+            <Body
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "wrap"
+              }}
+            >
+              <Text style={{ fontSize: 15 }}>
+                some quote about the text above [...(clickable)]
+              </Text>
+              <Text style={{ fontSize: 20, color: "coral" }}>@postAuthor</Text>
+            </Body>
+            <Right>
+              <Button small transparent>
+                <Icon
+                  style={{ fontSize: 25, color: "coral" }}
+                  active
+                  name="chatbubbles"
+                >
+                  <Text style={{ fontSize: 10 }}> 4 </Text>
+                </Icon>
+              </Button>
+              <Button small transparent>
+                <Icon
+                  style={{ fontSize: 25, color: "magenta" }}
+                  active
+                  name="thumbs-up"
+                >
+                  <Text style={{ fontSize: 10 }}> 12 </Text>
+                </Icon>
+              </Button>
+            </Right>
+          </CardItem>
+        </Card>
+      </View>
     );
   }
 }

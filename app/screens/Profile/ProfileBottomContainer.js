@@ -79,20 +79,6 @@ export default class ProfileBottomScreen extends React.Component {
             >
               <AchievementScreen />
             </Tab>
-
-            {/* <Tab
-              heading={
-                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
-                  <Icon name="ios-ribbon" style={{ fontSize: 20 }} />
-                  <Text style={{ fontSize: 15 }}>Achievements</Text>
-                </TabHeading>
-              }
-              onPress={() => {
-                this.setState({ view: "Achievements" });
-              }}
-            >
-              <AchievementScreen />
-            </Tab> */}
           </Tabs>
         </View>
       </View>
@@ -127,28 +113,3 @@ const styles = StyleSheet.create({
     width: "100%"
   }
 });
-
-/* //previous version--taht i still like better */
-/* <Button
-            title="Posts"
-            style={styles.navButton}
-            onPress={() => {
-              this.setState({ view: "Recent" });
-            }}
-          />
-          <Button
-            title="Bookmarked"
-            style={styles.navButton}
-            onPress={() => {
-              this.setState({ view: "Achievements" });
-            }}
-          />
-        </View>
-        <View>
-          {this.state.view === "Achievements" ? (
-            <AchievementScreen />
-          ) : (
-            <RecentPostScreen />
-          )}
-        </View>
-      </View>*/

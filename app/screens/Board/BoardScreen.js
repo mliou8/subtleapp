@@ -4,12 +4,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  // Text,
   TouchableOpacity,
   View
 } from "react-native";
-// import { Icon } from "expo";
+
 import Post from "app/components/board/Post";
+import FullPost from "app/components/board/FullPost";
 import BoardHeader from "app/components/board/BoardHeader";
 import LandingPage from "app/screens/Login/LandingPage";
 import {
@@ -112,7 +112,8 @@ export default class BoardScreen extends React.Component {
     return (
       <View style={styles.container}>
         <BoardHeader setFilter={this.filterContent} />
-        {/* <ScrollView contentContainerStyle={styles.postContainer}> */}
+        {/* for grid view - or two column view
+        <ScrollView contentContainerStyle={styles.postContainer}> */}
         <ScrollView>
           <TouchableOpacity
             onPress={() =>
@@ -120,15 +121,15 @@ export default class BoardScreen extends React.Component {
             }
           >
             {/* //onPress={() => this.navigateToFullPost(post)}> */}
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+            <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
           </TouchableOpacity>
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
         </ScrollView>
       </View>
     );

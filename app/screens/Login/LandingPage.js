@@ -82,13 +82,7 @@ export default class LandingPage extends React.Component {
           />
           <Text>Login </Text>
         </Button>
-        {/* <Entypo
-          name="facebook-with-circle"
-          size={64}
-          color="black"
-          onPress={() => facebookLogin()}
-          style={styles.fbIcon}
-        /> */}
+
         <Button
           large
           rounded

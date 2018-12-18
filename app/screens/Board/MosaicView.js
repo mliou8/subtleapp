@@ -33,34 +33,12 @@ import {
   Fab
 } from "native-base";
 
-// const catArr = [
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat",
-//   "https://loremflickr.com/176/230/cat"
-// ];
 export default class MosaicScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   render() {
-    // const catArr = [
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat",
-    //   "https://loremflickr.com/176/230/cat"
-    // ];
     const kittens = this.props.navigation.state.params.cats;
 
     return (
@@ -71,11 +49,7 @@ export default class MosaicScreen extends React.Component {
           >
             {kittens ? (
               kittens.map((catURI, idx) => (
-                // <Card transparent fullWidth style={{ padding: 10 }}>
-                //   <CardItem cardBody style={{ justifyContent: "center" }}>
                 <Image source={{ uri: catURI }} style={styles.post} key={idx} />
-                //   </CardItem>
-                // </Card>
               ))
             ) : (
               <Text> where are all the cats?</Text>
@@ -100,10 +74,3 @@ const styles = StyleSheet.create({
     // flexWrap: "wrap"
   }
 });
-
-// <Image
-//   style={styles.post}
-//   source={{ uri: this.props.imageSrc }}
-//   alt="Post"
-// />
-// <Card style={styles.post} transparent>

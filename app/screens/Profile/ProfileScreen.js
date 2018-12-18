@@ -135,10 +135,6 @@ export default class ProfileScreen extends React.Component {
                     imageSrc={profileImgSrc}
                   />
                   <Body>
-                    {/* <Text style={{ fontSize: 15, marginTop: 15 }}>
-                      @heyitsmmike
-                    </Text> */}
-
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate("FollowersList")
@@ -177,7 +173,7 @@ export default class ProfileScreen extends React.Component {
               </CardItem>
             </Card>
           </Content>
-          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>e
+          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
             <Text>Im just here to make some money and get some notoriety</Text>
             <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text>
@@ -228,13 +224,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = state => {
-  let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-  return {
-    repos: storedRepositories
-  };
-};
+// const mapStateToProps = state => {
+//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
+//   return {
+//     repos: storedRepositories
+//   };
+// };
 
-const mapDispatchToProps = {
-  listRepos
-};
+// const mapDispatchToProps = {
+//   listRepos
+// };

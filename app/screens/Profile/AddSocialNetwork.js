@@ -95,14 +95,3 @@ export default class AddSocialNetworkTag extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-  return {
-    repos: storedRepositories
-  };
-};
-
-const mapDispatchToProps = {
-  listRepos
-};
