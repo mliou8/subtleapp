@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   },
   defaultStyle: {
     width: 300,
-    height: 300,
+    height: 300
   }
-})
+});

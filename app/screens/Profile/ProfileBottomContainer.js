@@ -1,46 +1,85 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
-import ProfilePortrait from 'app/components/profile/ProfilePortrait';
-import Bio from 'app/components/profile/Bio';
-import Row from 'app/components/profile/Row';
-import RecentPostScreen from './RecentPostScreen';
-import AchievementScreen from './AchievementScreen';
-import Badge from 'app/components/common/Badge';
+import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Button,
+  SafeAreaView,
+  Image
+} from "react-native";
+import ProfilePortrait from "app/components/profile/ProfilePortrait";
+import Bio from "app/components/profile/Bio";
+import Row from "app/components/profile/Row";
+import RecentPostScreen from "./RecentPostScreen";
+import AchievementScreen from "./AchievementScreen";
+import Badge from "app/components/common/Badge";
 
-const profileImgSrc = 'https://loremflickr.com/225/225/dog';
+import {
+  Container,
+  Header,
+  Tab,
+  Tabs,
+  TabHeading,
+  Icon,
+  Text,
+  ScrollableTab,
+  Content
+} from "native-base";
+
+const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
 export default class ProfileBottomScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      view: 'Recent'
-    }
+      view: "Recent"
+    };
   }
-  
+
+  //important note!--scrollable tab bar will only work with plain text heading only. No icosn
+  // <Tabs renderTabBar={() => <ScrollableTab />}>
+  // <Tab heading="recentPosts" style={{ backgroundColor: "#FFFFFF" }}>
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.headerBar}>
-        <Button
-            title="Recent Posts"
-            style={styles.navButton}
-            onPress={() => {
-              this.setState({view: 'Recent'})
-            }}
-          />
-        <Button
-            title="Achievements"
-            style={styles.navButton}
-            onPress={() => {
-              this.setState({view: 'Achievements'})
-            }}
-          />
-        </View>
-        <View>
-          {
-            this.state.view === 'Achievements' ?
-            <AchievementScreen/> : <RecentPostScreen/>
-          }
+          <Tabs>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
+                  <Icon
+                    name="dashboard"
+                    type="MaterialIcons"
+                    style={{ fontSize: 25 }}
+                  />
+                  <Text style={{ fontSize: 15 }}>Recent Posts</Text>
+                </TabHeading>
+              }
+              onPress={() => {
+                this.setState({ view: "Recent" });
+              }}
+            >
+              <RecentPostScreen />
+            </Tab>
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: "#FFFFFF" }}>
+                  <Icon
+                    name="book"
+                    type="MaterialIcons"
+                    style={{ fontSize: 20 }}
+                  />
+                  <Text style={{ fontSize: 15 }}>Bookmarked</Text>
+                </TabHeading>
+              }
+              onPress={() => {
+                this.setState({ view: "Achievements" });
+              }}
+            >
+              <AchievementScreen />
+            </Tab>
+          </Tabs>
         </View>
       </View>
     );
@@ -50,27 +89,27 @@ export default class ProfileBottomScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: "column"
   },
   navButton: {
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRadius: 8,
     borderWidth: 2,
-    width: 45,
+    width: 45
   },
   headerBar: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 20,
-    justifyContent: 'space-evenly',
+    justifyContent: "space-evenly"
   },
   divider: {
-    borderBottomColor: 'black',
+    borderBottomColor: "black",
     borderBottomWidth: StyleSheet.hairlineWidth,
     paddingLeft: 10,
     marginTop: 7,
     marginBottom: 7,
-    justifyContent: 'flex-end',
-    width: '100%',
-  },
+    justifyContent: "flex-end",
+    width: "100%"
+  }
 });

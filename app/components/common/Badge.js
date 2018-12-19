@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import socialImages from "assets/images/social/exports.js";
 import { WebBrowser } from "expo";
 
+import { Button, Icon } from "native-base";
+
 export default class Badge extends React.Component {
   constructor(props) {
     super(props);
@@ -10,85 +12,51 @@ export default class Badge extends React.Component {
     this._handleBadgePress = this._handleBadgePress.bind(this);
   }
   _handleBadgePress = (badgeType, sourceName) => {
-    switch (badgeType) {
-      case "instagram":
-        return WebBrowser.openBrowserAsync(
-          `https://www.instagram.com/${sourceName}/`
-        );
-      case "youtube":
-        return WebBrowser.openBrowserAsync(
-          `https://www.youtube.com/${sourceName}/`
-        );
-      case "twitch":
-        return WebBrowser.openBrowserAsync(
-          `https://www.twitch.tv/${sourceName}/`
-        );
-      default:
-        return "";
+    if (badgeType === "twitch") {
+      return WebBrowser.openBrowserAsync(
+        `https://www.twitch.tv/${sourceName}/`
+      );
+    } else {
+      return WebBrowser.openBrowserAsync(
+        `https://www.${badgeType}.com/${sourceName}/`
+      );
     }
   };
-  badgeTypePicker = type => {
-    switch (type) {
-      case "youtube":
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              this._handleBadgePress("youtube", badge.sourceName);
-            }}
-          >
-            <Image
-              style={styles.badge}
-              source={socialImages.youtube}
-              alt="badge"
-            />
-          </TouchableOpacity>
-        );
-      case "instagram":
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              this._handleBadgePress("instagram", badge.sourceName);
-            }}
-          >
-            <Image
-              style={styles.badge}
-              source={socialImages.instagram}
-              alt="badge"
-            />
-          </TouchableOpacity>
-        );
-      case "twitch":
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              this._handleBadgePress(badge.badgeType, badge.sourceName);
-            }}
-          >
-            <Image
-              style={styles.badge}
-              source={socialImages.twitch}
-              alt="badge"
-            />
-          </TouchableOpacity>
-        );
-      default:
-        return "";
-    }
+
+  badgeTypePicker = (type, sourceName) => {
+    return (
+      <Button
+        small
+        iconLeft
+        light
+        style={{
+          marginTop: 2,
+          paddingLeft: 0,
+          paddingRight: 3,
+          paddingBottom: 3
+        }}
+        onPress={() => {
+          this._handleBadgePress(type, sourceName);
+        }}
+      >
+        <Icon
+          type="FontAwesome"
+          name={type}
+          style={{
+            marginLeft: 3,
+            paddingLeft: 3,
+            paddingBottom: 3
+          }}
+        />
+        <Text> {sourceName} </Text>
+      </Button>
+    );
   };
 
   render() {
     const badgeType = this.props.badgeType;
     return (
-      <View style={styles.badgeContainer}>
-        {this.badgeTypePicker(badgeType)}
-        <TouchableOpacity
-          onPress={() => {
-            this._handleBadgePress(badgeType, this.props.sourceName);
-          }}
-        >
-          <Text style={styles.badgeText}>{this.props.sourceName}</Text>
-        </TouchableOpacity>
-      </View>
+      <View>{this.badgeTypePicker(badgeType, this.props.sourceName)}</View>
     );
   }
 }
@@ -98,12 +66,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flex: 1,
     flexDirection: "row",
-    borderRadius: 8,
+    borderRadius: 6,
     backgroundColor: "#F0F0F0",
     marginRight: 4,
     paddingRight: 5,
     alignContent: "center",
-    justifyContent: "flex-start"
+    height: "10%",
+    width: "28%"
   },
   badgeText: {
     display: "flex",
@@ -119,3 +88,55 @@ const styles = StyleSheet.create({
     height: 25
   }
 });
+
+// badgeTypePicker = (type, sourceName) => {
+//   switch (type) {
+//     case "youtube":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("youtube", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="youtube" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     case "instagram":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("instagram", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="instagram" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     case "twitch":
+//       return (
+//         <Button
+//           small
+//           iconLeft
+//           light
+//           style={{ marginTop: 2, paddingRight: 3, paddingBottom: 3 }}
+//           onPress={() => {
+//             this._handleBadgePress("twitch", sourceName);
+//           }}
+//         >
+//           <Icon type="FontAwesome" name="twitch" />
+//           <Text> {sourceName} </Text>
+//         </Button>
+//       );
+//     default:
+//       return "";
+//   }
+// };

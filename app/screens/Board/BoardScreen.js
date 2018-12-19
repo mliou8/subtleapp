@@ -4,35 +4,79 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
-  Alert,
+  Alert
 } from "react-native";
-import { Icon } from "expo";
+
 import Post from "app/components/board/Post";
+import FullPost from "app/components/board/FullPost";
 import BoardHeader from "app/components/board/BoardHeader";
 import LandingPage from "app/screens/Login/LandingPage";
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Spinner,
+  Badge
+} from "native-base";
 
 const post = {};
+const catArr = [
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat",
+  "https://loremflickr.com/176/230/cat"
+];
 
 export default class BoardScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Subtle Asian App",
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate("Messages")}>
-          <Icon.Entypo
-            name={"mail-with-circle"}
-            size={30}
-            style={{ marginRight: 3 }}
-            title="messages"
+        <Button transparent onPress={() => navigation.navigate("Messages")}>
+          <Icon
+            type="Entypo"
+            name="mail-with-circle"
+            style={{ color: "black", fontSize: 30 }}
           />
-        </TouchableOpacity>
+        </Button>
       )
     };
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -40,13 +84,13 @@ export default class BoardScreen extends React.Component {
       filterType: "popular",
       loggedIn: false
     };
-    
+
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
   }
-  
+
   componentDidMount() {
     this.props.navigation.setParams({ showChallenge: this._showChallenge });
   }
@@ -62,8 +106,8 @@ export default class BoardScreen extends React.Component {
   filterContent = filter => {
     this.setState({ filterType: filter });
   };
-  
-  showLoggedIn () {
+
+  showLoggedIn() {
     if (this.props.authenticated) {
       Alert.alert("You are logged in");
     } else {
@@ -72,24 +116,30 @@ export default class BoardScreen extends React.Component {
   }
 
   render() {
-      return (
-        <View style={styles.container}>
-          <BoardHeader setFilter={this.filterContent} />
-          { this.showLoggedIn() }
-          <ScrollView contentContainerStyle={styles.postContainer}>
-            <TouchableOpacity onPress={() => this.navigateToFullPost(post)}>
-              <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            </TouchableOpacity>
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-            <Post imageSrc={"https://loremflickr.com/176/230/cat"} />
-          </ScrollView>
-        </View>
-      );
+    return (
+      <View style={styles.container}>
+        <BoardHeader setFilter={this.filterContent} />
+        {/* for grid view - or two column view
+        <ScrollView contentContainerStyle={styles.postContainer}> */}
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Mosaic", { cats: catArr })
+            }
+          >
+            {/* //onPress={() => this.navigateToFullPost(post)}> */}
+            <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          </TouchableOpacity>
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+        </ScrollView>
+      </View>
+    );
   }
 }
 
@@ -97,8 +147,11 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
   },
+
   postContainer: {
     display: "flex",
     flex: 1,
