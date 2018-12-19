@@ -12,7 +12,8 @@ import {
 } from "react-native";
 import VideoUrl from "assets/videos/video.mp4";
 import { Entypo } from "@expo/vector-icons";
-import firebase from "db/firebase";
+import dbObj from "db/firebase";
+const { firebase } = dbObj;
 
 export default class LandingPage extends React.Component {
   constructor(props) {
