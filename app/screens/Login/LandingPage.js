@@ -13,6 +13,8 @@ import {
 import VideoUrl from "assets/videos/video.mp4";
 import { Entypo } from "@expo/vector-icons";
 import dbObj from "db/firebase";
+import { fetchUser } from "db/profile/index";
+
 const { firebase } = dbObj;
 
 export default class LandingPage extends React.Component {
@@ -51,6 +53,10 @@ export default class LandingPage extends React.Component {
             this.props.testLogin();
             this.props.navigation.navigate("MainScreen");
           }}
+        />
+        <Button
+          title={"Test a Db "}
+          onPress={() => { fetchUser() }}
         />
       </View>
     );

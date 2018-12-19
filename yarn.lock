@@ -625,7 +625,7 @@
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.8.0.tgz#a40b2ed03eda9c189af145acdff408e562976345"
 
-"@firebase/firestore@0.9.0":
+"@firebase/firestore@0.9.0", "@firebase/firestore@^0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.9.0.tgz#37a6698b1805b07181455df562f7e98192d12546"
   dependencies:

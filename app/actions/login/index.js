@@ -1,7 +1,9 @@
 import config from "../../../config.js";
 import { Alert } from "react-native";
 import { AuthSession } from "expo";
-import firebase from "db/firebase";
+import firebaseObj from "db/firebase";
+
+const {firebase} = firebaseObj;
 
 export const FACEBOOK_LOGIN_SUCCESS = "FACEBOOK_LOGIN_SUCCESS";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
@@ -38,7 +40,7 @@ export async function facebookLogin(dispatch) {
   if (type === "success") {
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
     await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    dispatch(facebookLoginSuccess(token));
+    dispatch(facebookLoginSuccess(credential));
     dispatch(authSuccess());
   } else {
     const errorMsg = "Facebook Login Failed.";
