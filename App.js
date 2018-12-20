@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
 import { createStore, combineReducers, applyMiddleware } from 'redux'
@@ -7,6 +7,9 @@ import { Provider } from 'react-redux'
 import logger from 'redux-logger'
 import login from 'reducers/reducer'
 import thunkMiddleware from 'redux-thunk'
+import { facebookLoginSuccess, logOutSuccess } from 'actions/login/index';
+import firebase from 'db/firebase';
+import { connect } from 'react-redux';
 
 const reducer = combineReducers({ login })
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger))
@@ -15,7 +18,17 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
-
+  
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user != null) {
+        store.dispatch(facebookLoginSuccess(user));
+      } else {
+        store.dispatch(logOutSuccess());
+      }
+    });
+  }
+  
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (

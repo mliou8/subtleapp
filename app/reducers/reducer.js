@@ -1,4 +1,4 @@
-import { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL } from 'actions/login/index';
+import { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, LOGOUT_SUCCESS } from 'actions/login/index';
 
 const initialState = {
   authenticated: false,
@@ -25,6 +25,11 @@ export default function(state = initialState, action) {
         authenticated: false,
         errorMsg: action.errorMsg,
       };  
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        authenticated: false,
+      }
     default:
       return state;
   }

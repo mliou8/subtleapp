@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    testLogin: () => { dispatch(testLogin) },
-    facebookLogin: () => { dispatch(facebookLogin) },
+    testLogin: () => {dispatch(testLogin)},
+    facebookLogin: () => {dispatch(facebookLogin)},
   }
 }
 

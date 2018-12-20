@@ -12,25 +12,16 @@ import {
 } from "react-native";
 import VideoUrl from "assets/videos/video.mp4";
 import { Entypo } from "@expo/vector-icons";
-import dbObj from "db/firebase";
-import { fetchUser } from "db/profile/index";
+import firebase from "db/firebase";
+import { followUser, createUserifNoneExists } from "db/profile/index";
 
-const { firebase } = dbObj;
+const testId = "test123";
 
 export default class LandingPage extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
-        Alert.alert(`user name is ${user.displayName}`);
-        this.props.navigation.navigate("MainScreen");
-      }
-    });
-  }
-
+  
   render() {
     return (
       <View style={styles.container}>
@@ -56,25 +47,13 @@ export default class LandingPage extends React.Component {
         />
         <Button
           title={"Test a Db "}
-          onPress={() => { fetchUser() }}
+          onPress={() => { followUser(testId)}}
         />
       </View>
     );
   }
 }
 
-{
-  /* <Button
-style={{
-  marginTop: 2
-}}
-onPress={() =>
-  this.props.navigation.navigate("AddSocialNetwork")
-}
->
-<Icon type="FontAwesome" name="plus-circle" />
-</Button> */
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
