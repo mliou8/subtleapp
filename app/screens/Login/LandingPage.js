@@ -34,7 +34,7 @@ export default class LandingPage extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <Video
+        <Video
           videoSrc={VideoUrl}
           loop={true}
           videoStyle={styles.backgroundVideo}
