@@ -17,7 +17,6 @@ import Followers from "app/components/profile/Followers";
 import AddSocialNetworkTag from "./AddSocialNetwork";
 
 import { connect } from "react-redux";
-import { listRepos } from "app/reducers/reducer";
 
 import {
   Container,
@@ -223,14 +222,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-// const mapStateToProps = state => {
-//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-//   return {
-//     repos: storedRepositories
-//   };
-// };
-
-// const mapDispatchToProps = {
-//   listRepos
-// };

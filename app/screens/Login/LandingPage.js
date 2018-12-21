@@ -3,27 +3,45 @@ import Video from "app/components/common/media/Video";
 import {
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   View,
-  Button,
+  // Button,
   SafeAreaView,
   Image,
   Alert
 } from "react-native";
 import VideoUrl from "assets/videos/video.mp4";
-import { Entypo } from "@expo/vector-icons";
+// import { Entypo } from "@expo/vector-icons";
 import firebase from "db/firebase";
+import { Button, Icon, Text } from "native-base";
+import { connect } from "react-redux";
 
-export default class LandingPage extends React.Component {
+import db from "db/firestore";
+
+import { facebookLogin } from "actions/login/index";
+import { createUserProfile, fetchUser } from "actions/profile/index";
+
+class LandingPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
+      if (user !== null) {
         Alert.alert(`user name is ${user.displayName}`);
-        this.props.navigation.navigate("MainScreen");
+        console.log("this state props blah store", this.props.profile);
+        if (!this.props.profile.userRegistered) {
+          const userInfo = {};
+          userInfo.uid = user.uid;
+          userInfo.facebookUser = user.providerData[0];
+          createUserProfile(userInfo);
+          // this.props.navigation.navigate("MainScreen");
+        } else {
+          fetchUser(user.uid);
+          this.props.navigation.navigate("MainScreen");
+        }
       }
     });
   }
@@ -37,7 +55,57 @@ export default class LandingPage extends React.Component {
           videoStyle={styles.backgroundVideo}
           muted={true}
         />
-        <Entypo
+        <Button
+          rounded
+          iconLeft
+          bordered
+          light
+          color="white"
+          onPress={() => this.props.facebookLogin()}
+        >
+          <Icon
+            name="facebook-with-circle"
+            type="Entypo"
+            style={{ color: "white", fontSize: 30 }}
+            // color="white"
+          />
+          <Text> Login with facebook </Text>
+        </Button>
+        <Button
+          rounded
+          iconLeft
+          bordered
+          light
+          style={{ marginTop: 10 }}
+          // onPress={() => this.props.facebookLogin()}
+        >
+          <Icon
+            name="email"
+            type="MaterialIcons"
+            style={{ color: "white", fontSize: 30 }}
+          />
+          <Text> Login with email </Text>
+        </Button>
+        <Button
+          rounded
+          iconLeft
+          bordered
+          light
+          title={"Just take me in with no sign in"}
+          onPress={() => {
+            this.props.testLogin();
+            this.props.navigation.navigate("MainScreen");
+          }}
+          style={{ backgroundColor: "white", marginTop: 10 }}
+        >
+          <Text style={{ color: "black" }}>take me in without signing in </Text>
+        </Button>
+      </View>
+    );
+  }
+}
+{
+  /* <Entypo
           name="facebook-with-circle"
           size={64}
           color="black"
@@ -50,24 +118,36 @@ export default class LandingPage extends React.Component {
             this.props.testLogin();
             this.props.navigation.navigate("MainScreen");
           }}
-        />
-      </View>
-    );
-  }
+        /> */
 }
 
-{
-  /* <Button
-style={{
-  marginTop: 2
-}}
-onPress={() =>
-  this.props.navigation.navigate("AddSocialNetwork")
-}
->
-<Icon type="FontAwesome" name="plus-circle" />
-</Button> */
-}
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    authenticated: state.login.authenticated,
+    userRegistered: state.profile.userRegistered,
+    userProfile: state.profile.userProfile
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    facebookLogin: () => {
+      dispatch(facebookLogin());
+    },
+    createUserProfile: () => {
+      dispatch(createUserProfile());
+    },
+    fetchUser: () => {
+      dispatch(fetchUser());
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LandingPage);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

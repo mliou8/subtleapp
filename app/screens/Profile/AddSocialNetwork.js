@@ -12,7 +12,6 @@ import {
 import Badge from "app/components/common/Badge";
 
 import { connect } from "react-redux";
-import { listRepos } from "app/reducers/reducer";
 
 import {
   Card,

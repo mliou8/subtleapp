@@ -1,32 +1,36 @@
-import { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL } from 'actions/login/index';
+import {
+  FACEBOOK_LOGIN_SUCCESS,
+  AUTH_SUCCESS,
+  AUTH_FAIL,
+  LOGOUT_SUCCESS
+} from "actions/login/index";
 
 const initialState = {
   authenticated: false,
   facebookUser: {},
-  errorMsg: '',
-}
+  errorMsg: ""
+};
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case FACEBOOK_LOGIN_SUCCESS:
-      return { 
+      return {
         ...state,
         facebookUser: action.facebookUser,
-        authenticated: true,
+        authenticated: true
       };
     case AUTH_SUCCESS:
-      return { 
+      return {
         ...state,
-        authenticated: true,
+        authenticated: true
       };
     case AUTH_FAIL:
-      return { 
+      return {
         ...state,
         authenticated: false,
-        errorMsg: action.errorMsg,
-      };  
+        errorMsg: action.errorMsg
+      };
     default:
       return state;
   }
 }
-

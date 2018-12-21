@@ -13,7 +13,7 @@ import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
 
 import { connect } from "react-redux";
-import { listRepos } from "app/reducers/reducer";
+
 import {
   Container,
   Header,
@@ -130,13 +130,13 @@ export default class FollowersListScreen extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-  return {
-    repos: storedRepositories
-  };
-};
+// const mapStateToProps = state => {
+//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
+//   return {
+//     repos: storedRepositories
+//   };
+// };
 
-const mapDispatchToProps = {
-  listRepos
-};
+// const mapDispatchToProps = {
+//   listRepos
+// };
