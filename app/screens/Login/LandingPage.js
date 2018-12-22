@@ -27,21 +27,40 @@ class LandingPage extends React.Component {
     this.state = {};
   }
 
+  checkForUserInDB(userInfo) {
+    // if (!this.props.profile.userRegistered) {
+    //   Alert.alert(`registering new user ${userInfo.facebookUser.displayName}`);
+    //   createUserProfile(userInfo);
+
+    //   this.props.navigation.navigate("MainScreen");
+    // } else {
+    Alert.alert(`user in database `);
+    fetchUser(userInfo.uid);
+    this.props.navigation.navigate("MainScreen");
+    // }
+  }
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         Alert.alert(`user name is ${user.displayName}`);
-        console.log("this state props blah store", this.props.profile);
-        if (!this.props.profile.userRegistered) {
-          const userInfo = {};
-          userInfo.uid = user.uid;
-          userInfo.facebookUser = user.providerData[0];
-          createUserProfile(userInfo);
-          // this.props.navigation.navigate("MainScreen");
-        } else {
-          fetchUser(user.uid);
-          this.props.navigation.navigate("MainScreen");
-        }
+        console.log("this  props blah store", this.props.profile);
+        console.log("this  props login stuff blah store", this.props.login);
+        // fetchUser(user.uid);
+        // this.props.navigation.navigate("MainScreen");
+        // if (user !== null && !this.props.profile.userRegistered) {
+        //   Alert.alert(`user name is ${user.displayName}`);
+        //   console.log("this  props blah store", this.props.profile);
+        const userInfo = {};
+        userInfo.uid = user.uid;
+        // userInfo.facebookUser = user.providerData[0];
+        this.checkForUserInDB(userInfo);
+        //   this.state.profile.createUserProfile(userInfo);
+        //   this.props.navigation.navigate("MainScreen");
+        // } else {
+        //   this.state.profile.fetchUser(user.uid);
+        //   //this.props.navigation.navigate("MainScreen");
+        // }
       }
     });
   }
@@ -126,7 +145,9 @@ const mapStateToProps = (state, ownProps) => {
     ...state,
     authenticated: state.login.authenticated,
     userRegistered: state.profile.userRegistered,
-    userProfile: state.profile.userProfile
+    userProfile: state.profile.userProfile,
+    profile: state.profile,
+    login: state.login
   };
 };
 
@@ -135,11 +156,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     facebookLogin: () => {
       dispatch(facebookLogin());
     },
-    createUserProfile: () => {
-      dispatch(createUserProfile());
+    createUserProfile: userInfo => {
+      dispatch(createUserProfile(userInfo));
     },
-    fetchUser: () => {
-      dispatch(fetchUser());
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
     }
   };
 };

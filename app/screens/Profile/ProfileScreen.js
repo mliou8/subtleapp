@@ -88,6 +88,7 @@ export default class ProfileScreen extends React.Component {
   componentDidMount() {
     this.props.navigation.setParams({ edit: this._editProfile });
     this.props.navigation.setParams({ save: this._saveProfile });
+    console.log("-------tgis props in profile", this.props);
   }
 
   _editProfile = () => {

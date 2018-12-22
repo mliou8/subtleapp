@@ -5,17 +5,17 @@ import moment from "moment";
 import firebase from "db/firebase";
 import db from "db/firestore";
 
-export const USER_PROFILE_CREATED = "USER_PROFILE_CREATED";
+// export const USER_PROFILE_CREATED = "USER_PROFILE_CREATED";
 export const CREATE_PROFILE_ERROR = "CREATE_PROFILE_ERROR";
 export const PROFILE_FETCHED = "PROFILE_FETCHED";
 export const PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND";
 
-export const userProfileCreated = userProfile => {
-  return {
-    type: USER_PROFILE_CREATED,
-    userProfile
-  };
-};
+// export const userProfileCreated = userProfile => {
+//   return {
+//     type: USER_PROFILE_CREATED,
+//     userProfile
+//   };
+// };
 
 export const createProfileError = errorMsg => {
   return {
@@ -38,47 +38,48 @@ export const profileNotFound = errorMsg => {
   };
 };
 
-export const createUserProfile = facebookUser => {
-  const currTime = Date.now();
-  const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
-  const { displayName, email, photoURL } = facebookUser.facebookUser;
-  const facebookProfile = facebookUser.facebookUser;
+// export const createUserProfile = facebookUser => {
+//   const currTime = Date.now();
+//   const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
+//   const { displayName, email, photoURL } = facebookUser.facebookUser;
+//   const facebookProfile = facebookUser.facebookUser;
 
-  const profile = {
-    facebookProfile,
-    displayName,
-    email,
-    photoURL,
-    uid: facebookUser.uid
-  };
-  profile.lastLoginAt = currentTime;
-  profile.followers = [];
-  profile.following = [];
-  profile.mediaTags = [];
-  //   profile.displayName = facebookUser.facefacebookUser.displayName;
-  //   profile.facebookProfile = facebookUser.facebookUser;
-  //   profile.email = facebookUser.facefacebookUser.email;
-  //   profile.photoURL = facebookUser.facefacebookUser.photoURL;
-  //   profile.uid = facebookUser.uid;
-  console.log(" this create user if none stuff , facebookuser", facebookUser);
+//   const profile = {
+//     facebookProfile,
+//     displayName,
+//     email,
+//     photoURL,
+//     uid: facebookUser.uid
+//   };
+//   profile.lastLoginAt = currentTime;
+//   profile.followers = [];
+//   profile.following = [];
+//   profile.mediaTags = [];
+//   //   profile.displayName = facebookUser.facefacebookUser.displayName;
+//   //   profile.facebookProfile = facebookUser.facebookUser;
+//   //   profile.email = facebookUser.facefacebookUser.email;
+//   //   profile.photoURL = facebookUser.facefacebookUser.photoURL;
+//   //   profile.uid = facebookUser.uid;
+//   console.log(" this create user if none stuff , facebookuser", facebookUser);
 
-  db.collection("users")
-    .doc(profile.uid)
-    .set({
-      profile
-    })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-      dispatch(userProfileCreated(profile));
-    })
-    .catch(function(error) {
-      console.error("Error adding document: ", error);
-      dispatch(createProfileError(error));
-    });
-};
+//   db.collection("users")
+//     .doc(profile.uid)
+//     .set({
+//       profile
+//     })
+//     .then(function(docRef) {
+//       console.log("Document written with ID: ", docRef.id);
+//       userProfileCreated(profile);
+//     })
+//     .catch(function(error) {
+//       console.error("Error adding document: ", error);
+//       //erorr here
+//       createProfileError(error);
+//     });
+// };
 
 export const fetchUser = userID => {
-  var docRef = db.collection("users").doc(userID);
+  var docRef = db.collection("users").doc(`${userID}`);
 
   docRef
     .get()
@@ -86,18 +87,15 @@ export const fetchUser = userID => {
       if (doc.exists) {
         console.log("Document data:", doc.data());
         const profile = doc.data();
-        dispatch(profileFetched(profile));
-        //dispatch profile found with data
+        profileFetched(profile);
       } else {
-        console.log("No such document!");
         const msg = "No such user with that uid";
-        dispatch(profileNotFound(msg));
+        profileNotFound(msg);
       }
     })
     .catch(function(error) {
-      console.log("Error getting document:", error);
       const msg2 = "Error Retrieving User Document";
-      dispatch(profileNotFound(msg2));
+      profileNotFound(msg2);
     });
 };
 

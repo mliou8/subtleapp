@@ -1,12 +1,15 @@
 import config from "../../../config.js";
 import { Alert } from "react-native";
 import { AuthSession } from "expo";
+import moment from "moment";
 import firebase from "db/firebase";
+import db from "db/firestore";
 
 export const FACEBOOK_LOGIN_SUCCESS = "FACEBOOK_LOGIN_SUCCESS";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_FAIL = "AUTH_FAIL";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const USER_PROFILE_CREATED = "USER_PROFILE_CREATED";
 
 function facebookLoginSuccess(facebookUser) {
   return {
@@ -14,6 +17,13 @@ function facebookLoginSuccess(facebookUser) {
     facebookUser
   };
 }
+
+export const userProfileCreated = userProfile => {
+  return {
+    type: USER_PROFILE_CREATED,
+    userProfile
+  };
+};
 
 function authSuccess() {
   return {
@@ -33,7 +43,7 @@ export const logOutSuccess = () => {
   };
 };
 
-export async function facebookLogin(dispatch) {
+export async function facebookLogin() {
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
     config.fbAppID,
     {
@@ -42,17 +52,57 @@ export async function facebookLogin(dispatch) {
   );
   if (type === "success") {
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
-    await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    dispatch(facebookLoginSuccess(token));
-    dispatch(authSuccess());
+    const fbData = await firebase
+      .auth()
+      .signInAndRetrieveDataWithCredential(credential);
+    facebookLoginSuccess(token);
+    // console.log("fb data structure is ----", fbData);
+    addUserProfile();
+    // createUserProfile(fbData.facebookUser = user.providerData[0]);
+    authSuccess();
   } else {
     const errorMsg = "Facebook Login Failed.";
-    dispatch(authFail(errorMsg));
+    authFail(errorMsg);
   }
 }
 
-export async function testLogin(dispatch) {
-  dispatch(authSuccess());
+export async function addUserProfile() {
+  var user = firebase.auth().currentUser;
+  // firebase.auth().onAuthStateChanged(user => {
+  // if (user !== null) {
+  // console.log("current user is ", user);
+  const currTime = Date.now();
+  const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
+  const profile = {};
+  profile.uid = user.uid;
+  profile.facebookUser = user.providerData[0];
+  profile.displayName = user.providerData[0].displayName;
+  profile.email = user.providerData[0].email;
+  profile.photoURL = user.providerData[0].photoURL;
+  profile.lastLoginAt = currentTime;
+  profile.followers = [];
+  profile.following = [];
+  profile.mediaTags = [];
+  createUserProfile(profile);
+  console.log(" this create user if none stuff , facebookuser", facebookUser);
+  // }
+}
+
+export async function createUserProfile(facebookInfo) {
+  db.collection("users")
+    .doc(`${facebookInfo.uid}`)
+    .set({
+      facebookInfo
+    })
+    .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+      userProfileCreated(facebookInfo);
+    })
+    .catch(function(error) {
+      console.error("Error adding document: ", error);
+      //erorr here
+      createProfileError(error);
+    });
 }
 
 export async function emailLogin(email, password) {

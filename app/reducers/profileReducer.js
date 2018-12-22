@@ -6,23 +6,23 @@ import {
 } from "actions/profile/index";
 
 const initialState = {
-  userRegistered: false,
+  // userRegistered: false,
   userProfile: {},
   errorMsg: ""
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case USER_PROFILE_CREATED:
-      return {
-        ...state,
-        userProfile: action.facebookUser,
-        userRegistered: true
-      };
+    // case USER_PROFILE_CREATED:
+    //   return {
+    //     ...state,
+    //     userProfile: action.userProfile,
+    //     userRegistered: true
+    //   };
     case PROFILE_FETCHED:
       return {
         ...state,
-        userProfile: action.facebookUser,
+        userProfile: action.userProfile,
         userRegistered: true
       };
     case CREATE_PROFILE_ERROR:
