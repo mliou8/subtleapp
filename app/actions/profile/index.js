@@ -5,8 +5,6 @@ import moment from "moment";
 import firebase from "db/firebase";
 import db from "db/firestore";
 
-// export const USER_PROFILE_CREATED = "USER_PROFILE_CREATED";
-export const CREATE_PROFILE_ERROR = "CREATE_PROFILE_ERROR";
 export const PROFILE_FETCHED = "PROFILE_FETCHED";
 export const PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND";
 
@@ -17,12 +15,12 @@ export const PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND";
 //   };
 // };
 
-export const createProfileError = errorMsg => {
-  return {
-    type: CREATE_PROFILE_ERROR,
-    errorMsg
-  };
-};
+// export const createProfileError = errorMsg => {
+//   return {
+//     type: CREATE_PROFILE_ERROR,
+//     errorMsg
+//   };
+// };
 
 export const profileFetched = userProfile => {
   return {
@@ -37,48 +35,48 @@ export const profileNotFound = errorMsg => {
     errorMsg
   };
 };
-export function addUserProfile() {
-  return async dispatch => {
-    //var user = firebase.auth().currentUser;
-    firebase.auth().onAuthStateChanged(user => {
-      // if (user !== null) {
-      // console.log("current user is ", user);
-      const currTime = Date.now();
-      const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
-      const profile = {};
-      profile.uid = user.uid;
-      profile.facebookUser = user.providerData[0];
-      profile.displayName = user.providerData[0].displayName;
-      profile.email = user.providerData[0].email;
-      profile.photoURL = user.providerData[0].photoURL;
-      profile.lastLoginAt = currentTime;
-      profile.followers = [];
-      profile.following = [];
-      profile.mediaTags = [];
-      return createUserProfile(profile);
-      // }
-    });
-  };
-}
+// export function addUserProfile() {
+//   return async dispatch => {
+//     //var user = firebase.auth().currentUser;
+//     firebase.auth().onAuthStateChanged(user => {
+//       // if (user !== null) {
+//       // console.log("current user is ", user);
+//       const currTime = Date.now();
+//       const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
+//       const profile = {};
+//       profile.uid = user.uid;
+//       profile.facebookUser = user.providerData[0];
+//       profile.displayName = user.providerData[0].displayName;
+//       profile.email = user.providerData[0].email;
+//       profile.photoURL = user.providerData[0].photoURL;
+//       profile.lastLoginAt = currentTime;
+//       profile.followers = [];
+//       profile.following = [];
+//       profile.mediaTags = [];
+//       return createUserProfile(profile);
+//       // }
+//     });
+//   };
+// }
 
-export function createUserProfile(facebookInfo) {
-  return async dispatch => {
-    db.collection("users")
-      .doc(`${facebookInfo.uid}`)
-      .set({
-        facebookInfo
-      })
-      .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        dispatch(userProfileCreated(facebookInfo));
-      })
-      .catch(function(error) {
-        console.error("Error adding document: ", error);
-        //erorr here
-        dispatch(createProfileError(error));
-      });
-  };
-}
+// export function createUserProfile(facebookInfo) {
+//   return async dispatch => {
+//     db.collection("users")
+//       .doc(`${facebookInfo.uid}`)
+//       .set({
+//         facebookInfo
+//       })
+//       .then(function(docRef) {
+//         console.log("Document written with ID: ", docRef.id);
+//         dispatch(userProfileCreated(facebookInfo));
+//       })
+//       .catch(function(error) {
+//         console.error("Error adding document: ", error);
+//         //erorr here
+//         dispatch(createProfileError(error));
+//       });
+//   };
+// }
 
 export const fetchUser = userID => {
   return async dispatch => {
@@ -93,8 +91,8 @@ export const fetchUser = userID => {
           dispatch(profileFetched(profile));
         } else {
           const msg = "No such user with that uid";
-          return addUserProfile();
-          //.then(dispatch(profileNotFound(msg)));
+
+          dispatch(profileNotFound(msg));
         }
       })
       .catch(function(error) {

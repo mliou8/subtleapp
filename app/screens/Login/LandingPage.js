@@ -27,43 +27,16 @@ class LandingPage extends React.Component {
     this.state = {};
   }
 
-  checkForUserInDB(userInfo) {
-    // if (!this.props.profile.userRegistered) {
-    //   Alert.alert(`registering new user ${userInfo.facebookUser.displayName}`);
-    //   createUserProfile(userInfo);
-
-    //   this.props.navigation.navigate("MainScreen");
-    // } else {
-    Alert.alert(`user in database `);
-    fetchUser(userInfo.uid);
-    this.props.navigation.navigate("MainScreen");
-    // }
-  }
-
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         Alert.alert(`user name is ${user.displayName}`);
         console.log("this  props blah store", this.props.profile);
         console.log("this  props login stuff blah store", this.props.login);
-        // console.log("this current user auth is ", user);
 
-        // fetchUser(user.uid);
-        // this.props.navigation.navigate("MainScreen");
-        // if (user !== null && !this.props.profile.userRegistered) {
-        //   Alert.alert(`user name is ${user.displayName}`);
-        //   console.log("this  props blah store", this.props.profile);
-
-        // this.props.fetchUser(user.uid);
+        this.props.fetchUser(user.uid);
+        // const userInfo= await this.props.fetchUser(user.uid);
         this.props.navigation.navigate("MainScreen");
-        // userInfo.facebookUser = user.providerData[0];
-        // this.checkForUserInDB(user);
-        //   this.state.profile.createUserProfile(userInfo);
-        //   this.props.navigation.navigate("MainScreen");
-        // } else {
-        //   this.state.profile.fetchUser(user.uid);
-        //this.props.navigation.navigate("MainScreen");
-        // }
       }
     });
   }

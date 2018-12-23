@@ -10,6 +10,7 @@ export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_FAIL = "AUTH_FAIL";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const USER_PROFILE_CREATED = "USER_PROFILE_CREATED";
+export const CREATE_PROFILE_ERROR = "CREATE_PROFILE_ERROR";
 
 function facebookLoginSuccess(facebookUser) {
   return {
@@ -22,6 +23,12 @@ export const userProfileCreated = userProfile => {
   return {
     type: USER_PROFILE_CREATED,
     userProfile
+  };
+};
+export const createProfileError = errorMsg => {
+  return {
+    type: CREATE_PROFILE_ERROR,
+    errorMsg
   };
 };
 
@@ -58,11 +65,10 @@ export function facebookLogin() {
         .signInAndRetrieveDataWithCredential(credential)
         .catch(function(error) {
           console.error(error);
+          dispatch(authFail(error));
         });
 
-      // .then(addUserProfile());
       firebase.auth().onAuthStateChanged(function(user) {
-        // if (user) {
         if (user !== null) {
           console.log("current user is ", user);
           const currTime = Date.now();
@@ -71,7 +77,8 @@ export function facebookLogin() {
           );
           const profile = {};
           profile.uid = user.uid;
-          // profile.facebookUser = user.providerData[0];
+          profile.provider = user.providerData[0].providerId;
+          profile.providerID = user.providerData[0].uid;
           profile.displayName = user.providerData[0].displayName;
           profile.email = user.providerData[0].email;
           profile.photoURL = user.providerData[0].photoURL;
@@ -79,107 +86,29 @@ export function facebookLogin() {
           profile.followers = [];
           profile.following = [];
           profile.mediaTags = [];
-          // const profile = {
-          //   uid: user.uid,
-          //   facebookUser: user.providerData[0],
-          //   displayName: user.providerData[0].displayName,
-          //   email: user.providerData[0].email,
-          //   photoURL: user.providerData[0].photoURL,
-          //   lastLoginAt: currentTime,
-          //   followers: [],
-          //   following: [],
-          //   mediaTags: []
-          // };
+
           db.collection("users")
             .doc(user.uid)
             .set({
               profile
             })
             .then(function(docRef) {
-              console.log("Document written with ID: ");
+              console.log("Document written with ID:");
               dispatch(userProfileCreated(profile));
             })
             .catch(function(error) {
               console.error("Error adding document: ", error);
-              //erorr here
+
               dispatch(createProfileError(error));
             });
         }
       });
-      // firebase
-      // .database()
-      // .ref('users/' + uid)
-      // .set({
-      //   displayName,
-      //   email,
-      // });
-      // return createUserProfile(profile);
 
-      // firebase.auth().onAuthStateChanged(function(user) {
-      // if (user) {
-      //   const uid = user.uid;
-      //   firebase
-      //     .database()
-      //     .ref('users/' + uid)
-      //     .set({
-      //       displayName,
-      //       email,
-      //     });
       dispatch(facebookLoginSuccess(token));
       dispatch(authSuccess());
-      // console.log("fb data structure is ----", fbData);
-      // return addUserProfile();
-      // createUserProfile(fbData.facebookUser = user.providerData[0]);
-      // } else {
-      //   const errorMsg = "Facebook Login Failed.";
-      //   dispatch(authFail(errorMsg));
-      // }
     }
   };
 }
-
-// export function addUserProfile() {
-//   return async dispatch => {
-//     //var user = firebase.auth().currentUser;
-//     firebase.auth().onAuthStateChanged(user => {
-//       if (user !== null) {
-//         // console.log("current user is ", user);
-//         const currTime = Date.now();
-//         const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
-//         const profile = {};
-//         profile.uid = user.uid;
-//         profile.facebookUser = user.providerData[0];
-//         profile.displayName = user.providerData[0].displayName;
-//         profile.email = user.providerData[0].email;
-//         profile.photoURL = user.providerData[0].photoURL;
-//         profile.lastLoginAt = currentTime;
-//         profile.followers = [];
-//         profile.following = [];
-//         profile.mediaTags = [];
-//         return createUserProfile(profile);
-//       }
-//     });
-//   };
-// }
-
-// export function createUserProfile(facebookInfo) {
-//   return async dispatch => {
-//     db.collection("users")
-//       .doc(`${facebookInfo.uid}`)
-//       .set({
-//         facebookInfo
-//       })
-//       .then(function(docRef) {
-//         console.log("Document written with ID: ", docRef.id);
-//         dispatch(userProfileCreated(facebookInfo));
-//       })
-//       .catch(function(error) {
-//         console.error("Error adding document: ", error);
-//         //erorr here
-//         dispatch(createProfileError(error));
-//       });
-//   };
-// }
 
 export async function emailLogin(email, password) {
   await firebase.auth().signInWithEmailAndPassword(email, password);

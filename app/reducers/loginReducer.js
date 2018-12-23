@@ -3,12 +3,14 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL,
   LOGOUT_SUCCESS,
-  USER_PROFILE_CREATED
+  USER_PROFILE_CREATED,
+  CREATE_PROFILE_ERROR
 } from "actions/login/index";
 
 const initialState = {
   authenticated: false,
   facebookUser: {},
+  userProfile: {},
   errorMsg: "",
   userRegistered: false
 };
@@ -35,7 +37,14 @@ export default function(state = initialState, action) {
     case USER_PROFILE_CREATED:
       return {
         ...state,
-        userRegistered: true
+        userRegistered: true,
+        userProfile: action.userProfile
+      };
+    case CREATE_PROFILE_ERROR:
+      return {
+        ...state,
+        userRegistered: false,
+        errorMsg: action.errorMsg
       };
     default:
       return state;

@@ -108,7 +108,7 @@ export default class BoardScreen extends React.Component {
   };
 
   showLoggedIn() {
-    if (this.props.authenticated) {
+    if (this.props.profile.userProfile) {
       Alert.alert("You are logged in");
     } else {
       Alert.alert("You are not logged in");

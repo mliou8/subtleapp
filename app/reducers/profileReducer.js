@@ -13,12 +13,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    // case USER_PROFILE_CREATED:
-    //   return {
-    //     ...state,
-    //     userProfile: action.userProfile,
-    //     userRegistered: true
-    //   };
     case PROFILE_FETCHED:
       return {
         ...state,

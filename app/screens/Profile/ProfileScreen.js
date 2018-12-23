@@ -36,10 +36,10 @@ import {
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
-export default class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Michael Liou",
+      title: "user Profile",
       headerLeft: (
         <Button
           onPress={() => navigation.getParam("edit")}
@@ -132,7 +132,8 @@ export default class ProfileScreen extends React.Component {
                 <Left>
                   <ProfilePortrait
                     style={styles.profile}
-                    imageSrc={profileImgSrc}
+                    // imageSrc={this.props.profile.userProfile.profile.photoURL}
+                    imageSrc="https://graph.facebook.com/10109991608014475/picture"
                   />
                   <Body>
                     <TouchableOpacity
@@ -140,14 +141,26 @@ export default class ProfileScreen extends React.Component {
                         this.props.navigation.navigate("FollowersList")
                       }
                     >
-                      <Text>Following: 400 </Text>
+                      <Text>
+                        Following:{" "}
+                        {
+                          this.props.profile.userProfile.profile.following
+                            .length
+                        }
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate("FollowersList")
                       }
                     >
-                      <Text>Followers: 500 </Text>
+                      <Text>
+                        Followers:
+                        {
+                          this.props.profile.userProfile.profile.followers
+                            .length
+                        }
+                      </Text>
                     </TouchableOpacity>
                   </Body>
                   <Right>
@@ -175,8 +188,7 @@ export default class ProfileScreen extends React.Component {
           </Content>
           <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-            <Text>Im just here to make some money and get some notoriety</Text>
-            <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text>
+            <Text>{this.props.profile.userProfile.profile.displayName}</Text>
           </View>
           <ProfileBottomContainer />
           <View style={{ height: 40, width: "100%" }} />
@@ -223,3 +235,32 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    authenticated: state.login.authenticated,
+    userRegistered: state.profile.userRegistered,
+    userProfile: state.profile.userProfile,
+    profile: state.profile,
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    facebookLogin: () => {
+      dispatch(facebookLogin());
+    },
+    createUserProfile: userInfo => {
+      dispatch(createUserProfile(userInfo));
+    },
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileScreen);
