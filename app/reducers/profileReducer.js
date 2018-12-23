@@ -6,7 +6,6 @@ import {
 } from "actions/profile/index";
 
 const initialState = {
-  // userRegistered: false,
   userProfile: {},
   errorMsg: ""
 };

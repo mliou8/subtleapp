@@ -8,20 +8,6 @@ import db from "db/firestore";
 export const PROFILE_FETCHED = "PROFILE_FETCHED";
 export const PROFILE_NOT_FOUND = "PROFILE_NOT_FOUND";
 
-// export const userProfileCreated = userProfile => {
-//   return {
-//     type: USER_PROFILE_CREATED,
-//     userProfile
-//   };
-// };
-
-// export const createProfileError = errorMsg => {
-//   return {
-//     type: CREATE_PROFILE_ERROR,
-//     errorMsg
-//   };
-// };
-
 export const profileFetched = userProfile => {
   return {
     type: PROFILE_FETCHED,
@@ -35,48 +21,6 @@ export const profileNotFound = errorMsg => {
     errorMsg
   };
 };
-// export function addUserProfile() {
-//   return async dispatch => {
-//     //var user = firebase.auth().currentUser;
-//     firebase.auth().onAuthStateChanged(user => {
-//       // if (user !== null) {
-//       // console.log("current user is ", user);
-//       const currTime = Date.now();
-//       const currentTime = moment(currTime).format("MMMM Do YYYY, h:mm:ss a");
-//       const profile = {};
-//       profile.uid = user.uid;
-//       profile.facebookUser = user.providerData[0];
-//       profile.displayName = user.providerData[0].displayName;
-//       profile.email = user.providerData[0].email;
-//       profile.photoURL = user.providerData[0].photoURL;
-//       profile.lastLoginAt = currentTime;
-//       profile.followers = [];
-//       profile.following = [];
-//       profile.mediaTags = [];
-//       return createUserProfile(profile);
-//       // }
-//     });
-//   };
-// }
-
-// export function createUserProfile(facebookInfo) {
-//   return async dispatch => {
-//     db.collection("users")
-//       .doc(`${facebookInfo.uid}`)
-//       .set({
-//         facebookInfo
-//       })
-//       .then(function(docRef) {
-//         console.log("Document written with ID: ", docRef.id);
-//         dispatch(userProfileCreated(facebookInfo));
-//       })
-//       .catch(function(error) {
-//         console.error("Error adding document: ", error);
-//         //erorr here
-//         dispatch(createProfileError(error));
-//       });
-//   };
-// }
 
 export const fetchUser = userID => {
   return async dispatch => {
@@ -88,7 +32,7 @@ export const fetchUser = userID => {
         if (doc.exists) {
           console.log("Document data:", doc.data());
           const profile = doc.data();
-          dispatch(profileFetched(profile));
+          dispatch(profileFetched(profile.profile));
         } else {
           const msg = "No such user with that uid";
 
@@ -102,7 +46,6 @@ export const fetchUser = userID => {
   };
 };
 
-///thse are next --- they aslo need actions creaters too! right now they haev none!
 export const fetchFollowers = userID => {
   var docRef = db.collection("users").doc(userID);
   // const docRef = firebase.database().ref("/users/" + uid);

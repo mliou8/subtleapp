@@ -3,15 +3,13 @@ import Video from "app/components/common/media/Video";
 import {
   ScrollView,
   StyleSheet,
-  // Text,
   View,
-  // Button,
   SafeAreaView,
   Image,
   Alert
 } from "react-native";
 import VideoUrl from "assets/videos/video.mp4";
-// import { Entypo } from "@expo/vector-icons";
+
 import firebase from "db/firebase";
 import { Button, Icon, Text } from "native-base";
 import { connect } from "react-redux";
@@ -30,12 +28,8 @@ class LandingPage extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
-        Alert.alert(`user name is ${user.displayName}`);
-        console.log("this  props blah store", this.props.profile);
-        console.log("this  props login stuff blah store", this.props.login);
-
+        Alert.alert(`Hey! ${user.displayName}`);
         this.props.fetchUser(user.uid);
-        // const userInfo= await this.props.fetchUser(user.uid);
         this.props.navigation.navigate("MainScreen");
       }
     });
@@ -100,20 +94,6 @@ class LandingPage extends React.Component {
   }
 }
 {
-  /* <Entypo
-          name="facebook-with-circle"
-          size={64}
-          color="black"
-          onPress={() => this.props.facebookLogin()}
-          style={styles.fbIcon}
-        />
-        <Button
-          title={"Just take me in with no sign in"}
-          onPress={() => {
-            this.props.testLogin();
-            this.props.navigation.navigate("MainScreen");
-          }}
-        /> */
 }
 
 const mapStateToProps = (state, ownProps) => {

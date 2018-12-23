@@ -132,8 +132,7 @@ class ProfileScreen extends React.Component {
                 <Left>
                   <ProfilePortrait
                     style={styles.profile}
-                    // imageSrc={this.props.profile.userProfile.profile.photoURL}
-                    imageSrc="https://graph.facebook.com/10109991608014475/picture"
+                    imageSrc={this.props.profile.userProfile.photoURL}
                   />
                   <Body>
                     <TouchableOpacity
@@ -143,10 +142,7 @@ class ProfileScreen extends React.Component {
                     >
                       <Text>
                         Following:{" "}
-                        {
-                          this.props.profile.userProfile.profile.following
-                            .length
-                        }
+                        {this.props.profile.userProfile.following.length}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -155,11 +151,8 @@ class ProfileScreen extends React.Component {
                       }
                     >
                       <Text>
-                        Followers:
-                        {
-                          this.props.profile.userProfile.profile.followers
-                            .length
-                        }
+                        Followers:{" "}
+                        {this.props.profile.userProfile.followers.length}
                       </Text>
                     </TouchableOpacity>
                   </Body>
@@ -188,7 +181,7 @@ class ProfileScreen extends React.Component {
           </Content>
           <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-            <Text>{this.props.profile.userProfile.profile.displayName}</Text>
+            <Text>{this.props.profile.userProfile.displayName}</Text>
           </View>
           <ProfileBottomContainer />
           <View style={{ height: 40, width: "100%" }} />
@@ -239,8 +232,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    authenticated: state.login.authenticated,
-    userRegistered: state.profile.userRegistered,
+
     userProfile: state.profile.userProfile,
     profile: state.profile,
     login: state.login
@@ -249,12 +241,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    facebookLogin: () => {
-      dispatch(facebookLogin());
-    },
-    createUserProfile: userInfo => {
-      dispatch(createUserProfile(userInfo));
-    },
     fetchUser: uid => {
       dispatch(fetchUser(uid));
     }
