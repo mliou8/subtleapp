@@ -46,20 +46,23 @@ class LandingPage extends React.Component {
         Alert.alert(`user name is ${user.displayName}`);
         console.log("this  props blah store", this.props.profile);
         console.log("this  props login stuff blah store", this.props.login);
+        // console.log("this current user auth is ", user);
+
         // fetchUser(user.uid);
         // this.props.navigation.navigate("MainScreen");
         // if (user !== null && !this.props.profile.userRegistered) {
         //   Alert.alert(`user name is ${user.displayName}`);
         //   console.log("this  props blah store", this.props.profile);
-        const userInfo = {};
-        userInfo.uid = user.uid;
+
+        // this.props.fetchUser(user.uid);
+        this.props.navigation.navigate("MainScreen");
         // userInfo.facebookUser = user.providerData[0];
-        this.checkForUserInDB(userInfo);
+        // this.checkForUserInDB(user);
         //   this.state.profile.createUserProfile(userInfo);
         //   this.props.navigation.navigate("MainScreen");
         // } else {
         //   this.state.profile.fetchUser(user.uid);
-        //   //this.props.navigation.navigate("MainScreen");
+        //this.props.navigation.navigate("MainScreen");
         // }
       }
     });
