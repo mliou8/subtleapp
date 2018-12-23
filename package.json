@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "preinstall": "node -e \"if (process.env.npm_execpath.indexOf('yarn') === -1) { console.log('\u001b[31mPlease use yarn for installing\u001b[0m'); process.exit(1); }\""
   },
   "jest": {
     "preset": "jest-expo"
@@ -18,7 +19,7 @@
     "axios": "^0.18.0",
     "expo": "^31.0.2",
     "firebase": "^5.7.0",
-    "native-base": "^2.8.1",
+    "native-base": "2.7.2",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-fbsdk": "^0.8.0",
