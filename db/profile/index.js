@@ -1,4 +1,5 @@
 import firebase from "db/firebase";
+import db from "../db";
 
 export function createUserifNoneExists(user) {
   const docRef = firebase.database().ref("/users/" + user.uid)
@@ -14,80 +15,88 @@ export function createUserifNoneExists(user) {
   })
 }
 
-export function fetchUser(uid) {
-  const docRef = firebase.database().ref("/users/" + uid)
+export const fetchUser = userID => {
+   return async => {
+     var userRef = db.collection("users").doc(userID);
+ 
+      userRef
+       .get()
+       .then(function(user) {
+         if (user.exists) {
+           return user;
+         } else {
+           return null;
+         }
+       })
+       .catch(function(error) {
+         const msg2 = "Error Retrieving User Document";
+         dispatch(profileNotFound(msg2));
+       });
+   };
+ };
+
+export function fetchNetworks(user) {
+  const userRef = db.collection("users").doc(user.uid);
   
-  docRef.once('value').then(function(snapshot) {
-    if (snapshot.val() !== null) {
-      console.log("snapshot is ", snapshot.val())
-      return snapshot.val();
-    } else {
-      return "";
-    }
+  userRef.get()
+    .then(function(user) {
+      if (user.exists) {
+        return user.socialNetworks; 
+      } else {
+        console.log("No such document!");
+      }
+    })
+    .catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+}
+
+export function addNetwork(networkObj) {
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const currentUser = currentUser();
+  const networkToUpdate = fetchNetworks(currentUser);
+  currentNetworks.push(newNetwork);
+  
+  return userRef.update({
+    socialNetworks: networkToUpdate 
   })
-}
-
-export function fetchFollowers(uid) {
-  const docRef = firebase.database().ref("/users/" + uid)
-  
-  docRef.once('value').then(function(snapshot) {
-    if (snapshot.val() !== null) {
-      console.log("snapshot is ", snapshot.val())
-      return snapshot.val();
-    } else {
-      return "";
-    }
-  })  
-}
-
-export function fetchFollowing(uid) {
-  const docRef = firebase.database().ref("/users/" + uid)
-  
-  docRef.once('value').then(function(snapshot) {
-    if (snapshot.val() !== null) {
-      console.log("snapshot is ", snapshot.val())
-      return snapshot.val();
-    } else {
-      return "";
-    }
+  .then(function() {
+    console.log("Document successfully updated!");
   })
+  .catch(function(error) {
+      // The document probably doesn't exist.
+      console.error("Error updating document: ", error);
+  });
 }
 
-export function followUser(uid) {   
-  const currentUser = firebase.auth().currentUser;
-  const docRefUser = firebase.database().ref("/users/" + uid);
-  const docRefSelf = firebase.database().ref("/users/" + currentUser.uid);
+export function removeNetwork(networkObj) {
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const currentUser = currentUser();
+  const networkToUpdate = fetchNetworks(currentUser);
 
-  docRefUser.once('value').then(function(snapshot) {
-    if (snapshot.val() !== null) {
-      const originalUser = snapshot.val();
-      const followers = snapshot.val().followers
-      followers.push(currentUser.uid)
-      snapshot.val().followers
-      return snapshot.val();
-    } else {
-      return "";
-    }
+  const filteredNetwork = networkToUpdate.filter((networks) => { 
+    return networks.type !== networkObj.type; 
+  }); 
+  
+  return userRef.update({
+    socialNetworks: filteredNetwork 
   })
-}
-
-export function fetchNetworks(uid) {
-  
-}
-
-export function updateNetworks(uid) {
-  
+  .then(function() {
+    console.log("Document successfully updated!");
+  })
+  .catch(function(error) {
+      // The document probably doesn't exist.
+      console.error("Error updating document: ", error);
+  });
 }
  
 // Helpers
-function getCollection(collectionName) {
-  return firebase.firestore().collection(collectionName);
-}
+function currentUser() {
+  var user = firebase.auth().currentUser;
+  if (!user) {
+    return null;
+  } else {
+    return user;
+  }
 
-function getUid() {
-  return (firebase.auth().currentUser || {}).uid;
-}
-
-function getTimestamp() {
-  return Date.now();
 }

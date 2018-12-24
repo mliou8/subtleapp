@@ -6,18 +6,14 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  Picker
+  Picker,
 } from "react-native";
+
 import ProfilePortrait from "app/components/profile/ProfilePortrait";
-import Bio from "app/components/profile/Bio";
-import Row from "app/components/profile/Row";
 import ProfileBottomContainer from "./ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
 import AddSocialNetworkTag from "./AddSocialNetwork";
-
-import { connect } from "react-redux";
-import { listRepos } from "app/reducers/reducer";
 
 import {
   Container,
@@ -37,14 +33,14 @@ import {
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
-export default class ProfileScreen extends React.Component {
+export default class GenericProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Michael Liou",
       headerLeft: (
         <Button
           onPress={() => navigation.getParam("edit")}
-          title="Edit"
+          title="Edit Profile"
           color="#000000"
         />
       ),
@@ -118,14 +114,11 @@ export default class ProfileScreen extends React.Component {
   addSocialBadge = () => {
     this.setState({ displayAdd: !this.state.displayAdd });
   };
+  
   render() {
     return (
       <ScrollView style={styles.container}>
         <View>
-          {/* {this.userId !== this.props. userId?(<View style={{ flex: 1, flexDirection: "row" }}>
-          <View>
-            <Followers />
-          </View> :(null)}*/}
           <Content>
             <Card style={{ height: "45 %" }} transparent>
               <CardItem>
@@ -175,7 +168,6 @@ export default class ProfileScreen extends React.Component {
           </Content>
           <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
           <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-            <Text>Im just here to make some money and get some notoriety</Text>
             <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text>
           </View>
           <ProfileBottomContainer />
@@ -223,14 +215,3 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
-// const mapStateToProps = state => {
-//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-//   return {
-//     repos: storedRepositories
-//   };
-// };
-
-// const mapDispatchToProps = {
-//   listRepos
-// };
