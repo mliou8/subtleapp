@@ -13,10 +13,11 @@ import Bio from 'app/components/profile/Bio';
 import Row from 'app/components/profile/Row';
 import ProfileBottomContainer from './ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
-import Followers from 'app/components/profile/Followers';
+import FollowUser from 'app/components/profile/Followers';
 import AddSocialNetworkTag from './AddSocialNetwork';
-
+import db from 'db/firestore';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import {
   Container,
@@ -119,73 +120,82 @@ class ProfileScreen extends React.Component {
   };
   render() {
     console.log('this screen props', this.props);
+    const bailey = { displayName: 'bailey', uid: '123' };
+
     return (
       <ScrollView style={styles.container}>
-        <View>
-          {/* {this.userId !== this.props. userId?(<View style={{ flex: 1, flexDirection: "row" }}>
+        {this.props.login.userInfo.uid ? (
           <View>
-            <Followers />
-          </View> :(null)}*/}
-          <Content>
-            <Card style={{ height: '45 %' }} transparent>
-              <CardItem>
-                <Left>
-                  <ProfilePortrait
-                    style={styles.profile}
-                    imageSrc={this.props.login.userProfile.photoURL}
-                  />
-                  <Body>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate('FollowersList')
-                      }
-                    >
-                      <Text>
-                        Following:{' '}
-                        {this.props.login.userProfile.following.length}
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate('FollowersList')
-                      }
-                    >
-                      <Text>
-                        Followers:{' '}
-                        {this.props.login.userProfile.followers.length}
-                      </Text>
-                    </TouchableOpacity>
-                  </Body>
-                  <Right>
-                    {this.renderSocialBadges()}
-                    <Button
-                      transparent
-                      style={{
-                        marginTop: 2,
-                        marginBottom: 2
-                      }}
-                      onPress={() => {
-                        this.addSocialBadge();
-                      }}
-                    >
-                      <Icon
-                        type="FontAwesome"
-                        name="plus-circle"
-                        style={{ fontSize: 20 }}
-                      />
-                    </Button>
-                  </Right>
-                </Left>
-              </CardItem>
-            </Card>
-          </Content>
-          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
-          <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-            <Text>{this.props.login.userProfile.displayName}</Text>
+            {/* {this.props.profile.userProfile.uid === this.props.login.userInfo.uid? ( */}
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <FollowUser userOnDisplay={bailey} />
+              {/* <Followers userOnDisplay={this.props.profile.userProfile.uid} /> */}
+            </View>
+            <Content>
+              <Card style={{ height: '45 %' }} transparent>
+                <CardItem>
+                  <Left>
+                    <ProfilePortrait
+                      style={styles.profile}
+                      imageSrc={this.props.login.userInfo.photoURL}
+                    />
+                    <Body>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate('FollowersList')
+                        }
+                      >
+                        <Text>
+                          Following:{' '}
+                          {this.props.login.userInfo.following.length}
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate('FollowersList')
+                        }
+                      >
+                        <Text>
+                          Followers:{' '}
+                          {this.props.login.userInfo.followers.length}
+                        </Text>
+                      </TouchableOpacity>
+                    </Body>
+                    <Right>
+                      {this.renderSocialBadges()}
+                      <Button
+                        transparent
+                        style={{
+                          marginTop: 2,
+                          marginBottom: 2
+                        }}
+                        onPress={() => {
+                          this.addSocialBadge();
+                        }}
+                      >
+                        <Icon
+                          type="FontAwesome"
+                          name="plus-circle"
+                          style={{ fontSize: 20 }}
+                        />
+                      </Button>
+                    </Right>
+                  </Left>
+                </CardItem>
+              </Card>
+            </Content>
+            <View>
+              {this.state.displayAdd ? <AddSocialNetworkTag /> : null}
+            </View>
+            <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
+              <Text>{this.props.login.userInfo.displayName}</Text>
+            </View>
+            <ProfileBottomContainer />
+            <View style={{ height: 40, width: '100%' }} />
           </View>
-          <ProfileBottomContainer />
-          <View style={{ height: 40, width: '100%' }} />
-        </View>
+        ) : (
+          <Spinner color="blue" />
+        )}
       </ScrollView>
     );
   }
@@ -232,7 +242,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-
     userProfile: state.profile.userProfile,
     profile: state.profile,
     login: state.login

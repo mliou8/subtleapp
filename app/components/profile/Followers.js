@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,67 +6,118 @@ import {
   Image,
   TouchableOpacity,
   Button
-} from "react-native";
-import { Icon } from "expo";
+} from 'react-native';
+import { Icon } from 'expo';
+import { connect } from 'react-redux';
 
-export default class Followers extends React.Component {
+import db from 'db/firestore';
+import firebase from 'db/firebase';
+
+class FollowUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      following: this.props.following
+      followingList: this.props.login.userInfo.following,
+      following: false,
+      userOnDisplay: this.props.userOnDisplay
     };
-    // this.resetState = this.resetState.bind(this);
+  }
+
+  followUser() {
+    var user = firebase.auth().currentUser;
+    const catData = {
+      uid: 'RxOI5MCCT5bGaKbxLNjm',
+      displayName: 'bailey',
+      photoUrl: 'https://loremflickr.com/176/230/cat'
+    };
+    const currUser = db.collection('users').doc(user.uid);
+
+    const nowFollowing = this.state.followingList;
+    nowFollowing.push(catData);
+    currUser
+      .update({
+        following: firebase.firestore.FieldValue.arrayUnion(catData)
+      })
+      .then(function() {
+        console.log('Document successfully written!');
+      });
+    this.setState({ following: true });
+  }
+
+  unfollowUser() {
+    var user = firebase.auth().currentUser;
+    const catData = {
+      uid: 'RxOI5MCCT5bGaKbxLNjm',
+      displayName: 'bailey',
+      photoUrl: 'https://loremflickr.com/176/230/cat'
+    };
+
+    const currUser = db.collection('users').doc(user.uid);
+    const nowFollowing = this.state.followingList.filter(
+      item => item.uid !== catData.uid
+    );
+    currUser
+      .update({
+        following: nowFollowing
+      })
+      .then(function() {
+        console.log('Document successfully written!');
+      });
+    this.setState({ following: false });
   }
   render() {
+    // console.log('this props in followers component', this.props.userOnDisplay);
+
     return (
       <View style={styles.container}>
-        <Text> Followers: 500 </Text>
-        <Text> Following: 400 </Text>
-        <TouchableOpacity style={{ paddingLeft: 10 }}>
-          <Icon.Ionicons
-            style={{ justifyContent: "flex-end" }}
-            name={"ios-send"}
-            size={15}
-            title="messages"
-          >
-            <Text> Message User </Text>
-          </Icon.Ionicons>
-        </TouchableOpacity>
-        {/* <TouchableOpacity style={{ justifyContent: "center" }}> */}
-        <View style={{ justifyContent: "center" }}>
+        <View style={{ justifyContent: 'center' }}>
           {this.state.following ? (
             <TouchableOpacity
-              onPress={() => console.log("make the yellow go away")}
-              style={{ borderRadius: 8, backgroundColor: "dodgerblue" }}
-            >
-              <Icon.Ionicons
-                name={"ios-add-circle"}
-                size={15}
-                title="follow"
-                style={{ color: "white" }}
-              >
-                <Text style={{ color: "white" }}> Start Following </Text>
-              </Icon.Ionicons>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => console.log("make the yellow go away")}
+              onPress={() => this.unfollowUser()}
               style={{
                 borderRadius: 8,
-                flexDirection: "row",
+                flexDirection: 'row',
                 padding: 1
               }}
             >
               <Text> Following: </Text>
               <Icon.FontAwesome
-                name={"check-circle"}
+                name={'check-circle'}
                 size={15}
                 title="messages"
-                style={{ color: "dodgerblue" }}
+                style={{ color: 'dodgerblue' }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => this.followUser()}
+              style={{
+                borderRadius: 8,
+                flexDirection: 'row',
+                padding: 1
+              }}
+            >
+              <Text> Following: </Text>
+              <Icon.MaterialIcons
+                name={'check-box-outline-blank'}
+                size={15}
+                title="messages"
+                style={{ color: 'grey' }}
               />
             </TouchableOpacity>
           )}
-          {/* </TouchableOpacity> */}
+        </View>
+        <View style={{ justifyContent: 'space-between' }}>
+          <TouchableOpacity style={{ paddingLeft: 4 }}>
+            <Icon.Ionicons
+              // style={{ justifyContent: 'flex-end' }}
+              name={'ios-send'}
+              size={15}
+              title="messages"
+            >
+              <Text> Message User </Text>
+            </Icon.Ionicons>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -75,14 +126,35 @@ export default class Followers extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap"
+    display: 'flex',
+    flexDirection: 'row'
+    // flexWrap: 'wrap'
   },
   button: {
     borderRadius: 8,
     padding: 8,
-    backgroundColor: "#D3D3D3",
+    backgroundColor: '#D3D3D3',
     marginRight: 8
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userProfile: state.profile.userProfile,
+    profile: state.profile,
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FollowUser);

@@ -16,8 +16,7 @@ import { connect } from 'react-redux';
 
 import db from 'db/firestore';
 
-import { facebookLogin } from 'actions/login/index';
-import { createUserProfile, fetchUser } from 'actions/profile/index';
+import { facebookLogin, fetchUserInfo } from 'actions/login/index';
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -29,7 +28,7 @@ class LandingPage extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         Alert.alert(`Hey! ${user.displayName}`);
-        this.props.fetchUser(user.uid);
+        this.props.fetchUserInfo(user.uid);
         this.props.navigation.navigate('MainScreen', {
           displayName: user.displayName
         });
@@ -94,9 +93,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
     authenticated: state.login.authenticated,
-    userRegistered: state.profile.userRegistered,
-    userProfile: state.profile.userProfile,
-    profile: state.profile,
+    userRegistered: state.login.userRegistered,
+    userInfo: state.login.userInfo,
     login: state.login
   };
 };
@@ -109,8 +107,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createUserProfile: userInfo => {
       dispatch(createUserProfile(userInfo));
     },
-    fetchUser: uid => {
-      dispatch(fetchUser(uid));
+    fetchUserInfo: uid => {
+      dispatch(fetchUserInfo(uid));
     }
   };
 };

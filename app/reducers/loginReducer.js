@@ -4,13 +4,15 @@ import {
   AUTH_FAIL,
   LOGOUT_SUCCESS,
   USER_PROFILE_CREATED,
-  CREATE_PROFILE_ERROR
+  CREATE_PROFILE_ERROR,
+  USER_INFO_FETCHED,
+  USER_INFO_NOT_FOUND
 } from 'actions/login/index';
 
 const initialState = {
   authenticated: false,
   facebookUser: {},
-  userProfile: {},
+  userInfo: {},
   errorMsg: '',
   userRegistered: false
 };
@@ -38,9 +40,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         userRegistered: true,
-        userProfile: action.userProfile
+        userInfo: action.userProfile
       };
     case CREATE_PROFILE_ERROR:
+      return {
+        ...state,
+        userRegistered: false,
+        errorMsg: action.errorMsg
+      };
+    case USER_INFO_FETCHED:
+      return {
+        ...state,
+        userInfo: action.userProfile,
+        userRegistered: true
+      };
+
+    case USER_INFO_NOT_FOUND:
       return {
         ...state,
         userRegistered: false,
