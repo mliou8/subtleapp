@@ -16,12 +16,9 @@ export function createUserifNoneExists(user) {
 }
 
 export const fetchUser = userID => {
-   return async => {
-     var userRef = db.collection("users").doc(userID);
- 
-      userRef
-       .get()
-       .then(function(user) {
+     const userRef = db.collection("users").doc(userID);
+      userRef.get()
+      .then(function(user) {
          if (user.exists) {
            return user;
          } else {
@@ -29,10 +26,8 @@ export const fetchUser = userID => {
          }
        })
        .catch(function(error) {
-         const msg2 = "Error Retrieving User Document";
-         dispatch(profileNotFound(msg2));
+         console.log("Error in retrieving user: ", error)
        });
-   };
  };
 
 export function fetchNetworks(user) {

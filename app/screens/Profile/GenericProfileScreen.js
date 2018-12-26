@@ -10,15 +10,12 @@ import {
 } from "react-native";
 
 import ProfilePortrait from "app/components/profile/ProfilePortrait";
-import ProfileBottomContainer from "./ProfileBottomContainer";
+import ProfileBottomContainer from "./subscreens/ProfileBottomContainer";
 import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
 import AddSocialNetworkTag from "./AddSocialNetwork";
 
-import {
-  Container,
-  Header,
-  Content,
+import { Container, Header, Content,
   Card,
   CardItem,
   Thumbnail,
@@ -31,21 +28,21 @@ import {
   Spinner
 } from "native-base";
 
-const profileImgSrc = "https://loremflickr.com/225/225/dog";
-
 export default class GenericProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: "Michael Liou",
       headerLeft: (
         <Button
-          onPress={() => navigation.getParam("edit")}
+          onPress={() => navigation.navigate("Settings")}
           title="Edit Profile"
           color="#000000"
         />
       ),
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate("Messages")}>
+        <Button 
+          transparent 
+          onPress={() => navigation.navigate("Messages")}>
           <Icon
             type="Entypo"
             name="mail-with-circle"
@@ -59,22 +56,8 @@ export default class GenericProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: false,
       displayAdd: false,
-      badges: [
-        {
-          badgeType: "youtube",
-          sourceName: "justlikemike"
-        },
-        {
-          badgeType: "instagram",
-          sourceName: "justlikemike"
-        },
-        {
-          badgeType: "twitch",
-          sourceName: "justlikemike"
-        }
-      ]
+      socialNetworks: this.props.user.socialNetworks
     };
     this._editProfile = this._editProfile.bind(this);
     this._saveProfile = this._saveProfile.bind(this);

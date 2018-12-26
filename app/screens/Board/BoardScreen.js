@@ -1,34 +1,17 @@
 import React from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Alert
-} from "react-native";
 
+import { Image, Platform, ScrollView, StyleSheet,
+  TouchableOpacity, View, Alert } from "react-native";
+
+import { Container, Header,Content, Card, CardItem,
+    Thumbnail, Text, Button, Icon, Left, Body, Right,
+    Spinner, Badge } from "native-base";
+    
 import Post from "app/components/board/Post";
 import FullPost from "app/components/board/FullPost";
 import BoardHeader from "app/components/board/BoardHeader";
 import LandingPage from "app/screens/Login/LandingPage";
-import {
-  Container,
-  Header,
-  Content,
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Button,
-  Icon,
-  Left,
-  Body,
-  Right,
-  Spinner,
-  Badge
-} from "native-base";
+import { fetchUser } from 'db/profile/index';
 
 const post = {};
 const catArr = [
@@ -82,13 +65,14 @@ export default class BoardScreen extends React.Component {
     this.state = {
       showChallenge: false,
       filterType: "popular",
-      loggedIn: false
+      loggedIn: false,
     };
 
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
+    this.testUser = this.testUser.bind(this)
   }
 
   componentDidMount() {
@@ -113,6 +97,12 @@ export default class BoardScreen extends React.Component {
     } else {
       Alert.alert("You are not logged in");
     }
+  }
+  
+  testUser() {
+    const testUID = "3bbteqbYRfUEY3TYqXvKC4bpOVA2";
+    const testUser = fetchuser(testUID);
+    console.log("testUser is ", testUser)
   }
 
   render() {
