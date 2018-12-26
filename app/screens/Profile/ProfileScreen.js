@@ -120,7 +120,7 @@ class ProfileScreen extends React.Component {
   };
   render() {
     console.log('this screen props', this.props);
-    const bailey = { displayName: 'bailey', uid: '123' };
+    const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
 
     return (
       <ScrollView style={styles.container}>

@@ -26,17 +26,21 @@ class FollowUser extends React.Component {
   followUser() {
     var user = firebase.auth().currentUser;
     const catData = {
-      uid: 'RxOI5MCCT5bGaKbxLNjm',
+      uid: 'AobBHaD1U9WJWOCMNFC8',
       displayName: 'bailey',
       photoUrl: 'https://loremflickr.com/176/230/cat'
     };
     const currUser = db.collection('users').doc(user.uid);
-
+    const userOnView = db.collection('users').doc(catData.uid);
+    // const userOnView = db.collection('users').doc(userOnDisplay.uid);
     const nowFollowing = this.state.followingList;
     nowFollowing.push(catData);
-    currUser
+    currUser.update({
+      following: firebase.firestore.FieldValue.arrayUnion(catData)
+    });
+    userOnView
       .update({
-        following: firebase.firestore.FieldValue.arrayUnion(catData)
+        followers: firebase.firestore.FieldValue.arrayUnion(catData)
       })
       .then(function() {
         console.log('Document successfully written!');
@@ -53,12 +57,17 @@ class FollowUser extends React.Component {
     };
 
     const currUser = db.collection('users').doc(user.uid);
+    const userOnView = db.collection('users').doc(catData.uid);
+    // const userOnView = db.collection('users').doc(userOnDisplay.uid);
     const nowFollowing = this.state.followingList.filter(
       item => item.uid !== catData.uid
     );
-    currUser
+    currUser.update({
+      following: nowFollowing
+    });
+    userOnView
       .update({
-        following: nowFollowing
+        followers: nowFollowing
       })
       .then(function() {
         console.log('Document successfully written!');
