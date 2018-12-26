@@ -2,7 +2,7 @@ import { FACEBOOK_LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, LOGOUT_SUCCESS } from 
 
 const initialState = {
   authenticated: false,
-  facebookUser: {},
+  currentUser: {},
   errorMsg: '',
 }
 
@@ -11,7 +11,7 @@ export default function(state = initialState, action) {
     case FACEBOOK_LOGIN_SUCCESS:
       return { 
         ...state,
-        facebookUser: action.facebookUser,
+        currentUser: action.currentUser,
         authenticated: true,
       };
     case AUTH_SUCCESS:

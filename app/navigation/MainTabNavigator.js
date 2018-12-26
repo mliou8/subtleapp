@@ -8,7 +8,7 @@ import {
 import TabBarIcon from "app/components/common/TabBarIcon";
 import OwnProfileScreen from "app/screens/Profile/OwnProfileScreen";
 import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
-import FollowersListScreen from "app/screens/Profile/FollowersList";
+import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
@@ -17,6 +17,7 @@ import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 import BoardScreen from "app/screens/Board/BoardScreen";
 import FullPost from "app/components/board/FullPost";
 import MosaicScreen from "app/screens/Board/MosaicView";
+import SettingsScreen from "app/containers/Profile/SettingsContainer";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -40,7 +41,8 @@ const ProfileStack = createStackNavigator({
   Messages: MessageScreen,
   Conversation: Conversation,
   FollowersList: FollowersListScreen,
-  AddSocialNetwork: AddSocialNetworkTag
+  AddSocialNetwork: AddSocialNetworkTag,
+  SettingsScreen: SettingsScreen,
 });
 
 ProfileStack.navigationOptions = {

@@ -36,19 +36,27 @@ import {
 
 const profileImgSrc = "https://loremflickr.com/225/225/dog";
 
-export default class ProfileScreen extends React.Component {
+export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Michael Liou",
+      title: "dss Liou",
       headerLeft: (
         <Button
-          onPress={() => navigation.getParam("edit")}
+          onPress={() => navigation.navigate("Settings")}
           title="Edit"
-          color="#000000"
+          style={{
+            borderRadius: 5,
+            borderWidth: 1,
+            marginLeft: 30,
+            width: 50,
+            color: "black",
+          }}
         />
       ),
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate("Messages")}>
+        <Button 
+          transparent 
+          onPress={() => navigation.navigate("Messages")}>
           <Icon
             type="Entypo"
             name="mail-with-circle"
@@ -121,10 +129,6 @@ export default class ProfileScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
         <View>
-          {/* {this.userId !== this.props. userId?(<View style={{ flex: 1, flexDirection: "row" }}>
-          <View>
-            <Followers />
-          </View> :(null)}*/}
           <Content>
             <Card style={{ height: "45 %" }} transparent>
               <CardItem>
@@ -199,21 +203,6 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     justifyContent: "flex-end",
     width: "100%"
-  },
-  profileCard: {
-    display: "flex",
-    flexDirection: "column",
-    paddingTop: 20,
-    paddingLeft: 10,
-    height: 212,
-    alignSelf: "stretch",
-    borderStyle: "solid",
-    borderColor: "black"
-  },
-  iconContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center"
   },
   profile: {
     display: "flex",

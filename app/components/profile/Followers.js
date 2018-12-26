@@ -15,7 +15,6 @@ export default class Followers extends React.Component {
     this.state = {
       following: this.props.following
     };
-    // this.resetState = this.resetState.bind(this);
   }
   render() {
     return (
