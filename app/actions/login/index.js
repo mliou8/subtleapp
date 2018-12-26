@@ -104,50 +104,48 @@ export function facebookLogin() {
             });
         }
       });
-
       dispatch(facebookLoginSuccess(token));
       dispatch(authSuccess());
-      // return createUser();
     }
   };
 }
-export function createUser() {
-  return async dispatch => {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user !== null) {
-        console.log('current user is ', user);
-        const currTime = Date.now();
-        const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-        const profile = {};
-        profile.uid = user.uid;
-        profile.provider = user.providerData[0].providerId;
-        profile.providerID = user.providerData[0].uid;
-        profile.displayName = user.providerData[0].displayName;
-        profile.email = user.providerData[0].email;
-        profile.photoURL = user.providerData[0].photoURL;
-        profile.lastLoginAt = currentTime;
-        profile.followers = [];
-        profile.following = [];
-        profile.mediaTags = [];
+// export function createUser() {
+//   return async dispatch => {
+//     firebase.auth().onAuthStateChanged(function(user) {
+//       if (user !== null) {
+//         console.log('current user is ', user);
+//         const currTime = Date.now();
+//         const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+//         const profile = {};
+//         profile.uid = user.uid;
+//         profile.provider = user.providerData[0].providerId;
+//         profile.providerID = user.providerData[0].uid;
+//         profile.displayName = user.providerData[0].displayName;
+//         profile.email = user.providerData[0].email;
+//         profile.photoURL = user.providerData[0].photoURL;
+//         profile.lastLoginAt = currentTime;
+//         profile.followers = [];
+//         profile.following = [];
+//         profile.mediaTags = [];
 
-        db.collection('users')
-          .doc(user.uid)
-          .set({
-            profile
-          })
-          .then(function(docRef) {
-            console.log('Document written with ID:');
-            dispatch(userProfileCreated(profile));
-          })
-          .catch(function(error) {
-            console.error('Error adding document: ', error);
+//         db.collection('users')
+//           .doc(user.uid)
+//           .set({
+//             profile
+//           })
+//           .then(function(docRef) {
+//             console.log('Document written with ID:');
+//             dispatch(userProfileCreated(profile));
+//           })
+//           .catch(function(error) {
+//             console.error('Error adding document: ', error);
 
-            dispatch(createProfileError(error));
-          });
-      }
-    });
-  };
-}
+//             dispatch(createProfileError(error));
+//           });
+//       }
+//     });
+//   };
+// }
 export async function emailLogin(email, password) {
   await firebase.auth().signInWithEmailAndPassword(email, password);
   const userId = firebase.auth().currentUser.uid;
