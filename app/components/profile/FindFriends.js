@@ -9,34 +9,24 @@ import {
   RkText,
   RkTheme,
 } from 'react-native-ui-kitten';
-import PropTypes from 'prop-types';
+import { Icon } from 'native-base';
 
-export class FindFriends extends React.Component {
-  static propTypes = {
-    selected: PropTypes.bool,
-    color: PropTypes.string,
-    icon: PropTypes.node.isRequired,
-    text: PropTypes.string.isRequired,
-    onPress: PropTypes.func,
-    style: ViewPropTypes.style,
-  };
-  static defaultProps = {
-    selected: false,
-    color: RkTheme.current.colors.text.base,
-    onPress: (() => null),
-    style: {},
-  };
-
+export default class FindFriends extends React.Component {
   render = () => {
     const color = this.props.selected ? this.props.color : RkTheme.current.colors.disabled;
     return (
       <TouchableOpacity style={[styles.wrapper, this.props.style]} onPress={this.props.onPress}>
         <View style={styles.container}>
           <View style={styles.text}>
-            <RkText rkType='awesome' style={[styles.icon, { color }]}>{this.props.icon}</RkText>
-            <RkText rkType='header6' style={{ color }}>{`Find Friends With ${this.props.text}`}</RkText>
+            <RkText rkType='awesome' style={[styles.icon, { color }]}>
+              <Icon
+                type="FontAwesome"
+                name={this.props.iconType || ""}
+              />
+            </RkText>
+            <RkText rkType='header6' style={{ color, marginTop: "5" }}>{this.props.text}</RkText>
           </View>
-          <RkText rkType='awesome small' style={{ color }}>Beep</RkText>
+          <RkText rkType='awesome small' style={{ color: 'red' }}>Remove</RkText>
         </View>
       </TouchableOpacity>
     );

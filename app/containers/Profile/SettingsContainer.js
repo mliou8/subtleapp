@@ -8,6 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  return {}
 }
 
 const SettingsContainer = connect(

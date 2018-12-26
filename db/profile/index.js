@@ -1,19 +1,19 @@
 import firebase from "db/firebase";
 import db from "../db";
 
-export function createUserifNoneExists(user) {
-  const docRef = firebase.database().ref("/users/" + user.uid)
-  docRef.once('value').then(function(snapshot) {
-    if (snapshot.val() !== null) {
-      console.log("User already exists in database.");
-    } else {
-      const { uid, photoURL, displayName, lastLoginAt = "", email, followers = [], following = [], } = user;
-      const newUser = { uid, photoURL, displayName, lastLoginAt, email };
-      docRef.set(newUser);
-      console.log("New User Created from FB credentials.");
-    }
-  })
-}
+// export function createUserifNoneExists(user) {
+//   const docRef = firebase.database().ref("/users/" + user.uid)
+//   docRef.once('value').then(function(snapshot) {
+//     if (snapshot.val() !== null) {
+//       console.log("User already exists in database.");
+//     } else {
+//       const { uid, photoURL, displayName, lastLoginAt = "", email, followers = [], following = [], } = user;
+//       const newUser = { uid, photoURL, displayName, lastLoginAt, email };
+//       docRef.set(newUser);
+//       console.log("New User Created from FB credentials.");
+//     }
+//   })
+// }
 
 export const fetchUser = userID => {
      const userRef = db.collection("users").doc(userID);

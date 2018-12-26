@@ -41,17 +41,11 @@ export default class OwnProfileScreen extends React.Component {
     return {
       title: "dss Liou",
       headerLeft: (
-        <Button
-          onPress={() => navigation.navigate("Settings")}
-          title="Edit"
-          style={{
-            borderRadius: 5,
-            borderWidth: 1,
-            marginLeft: 30,
-            width: 50,
-            color: "black",
-          }}
-        />
+        <Button 
+          transparent 
+          onPress={() => navigation.navigate("Settings")}>
+          <Text>Settings</Text>
+        </Button>
       ),
       headerRight: (
         <Button 

@@ -11,40 +11,46 @@ import {
   RkStyleSheet,
   RkTheme,
 } from 'react-native-ui-kitten';
-
+import { Icons } from 'assets/images/icons/index';
 import FindFriends from 'app/components/profile/FindFriends';
+import { removeNetwork } from 'db/profile/index';
 
 export default class Settings extends React.Component {
   static navigationOptions = {
     title: 'Settings'.toUpperCase(),
   };
-
-  state = {
-    sendPush: true,
-    shouldRefresh: false,
-    twitterEnabled: true,
-    googleEnabled: false,
-    facebookEnabled: true,
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      sendPush: true,
+      shouldRefresh: false,
+    };
+  }
+  
+  renderSocialNetworks = () => {
+    return {
+      this.props.user.socialNetworks.map((socialNetwork) => {
+        return (
+          <View style={styles.row}>
+            <FindFriends
+              text={socialNetwork.sourceName}
+              iconType={socialNetwork.badgeType}
+              selected={this.state.facebookEnabled}
+              onPress={this.onFindFriendsFacebookButtonPressed}
+            />
+          </View>
+        )
+      })
+    }
   };
-
-  onPushNotificationsSettingChanged = (value) => {
+  
+  onPresstoRemove = (value) => {
     this.setState({ sendPush: value });
   };
 
   onRefreshAutomaticallySettingChanged = (value) => {
     this.setState({ shouldRefresh: value });
-  };
-
-  onFindFriendsTwitterButtonPressed = () => {
-    this.setState({ twitterEnabled: !this.state.twitterEnabled });
-  };
-
-  onFindFriendsGoogleButtonPressed = () => {
-    this.setState({ googleEnabled: !this.state.googleEnabled });
-  };
-
-  onFindFriendsFacebookButtonPressed = () => {
-    this.setState({ facebookEnabled: !this.state.facebookEnabled });
   };
 
   render = () => (
@@ -65,7 +71,6 @@ export default class Settings extends React.Component {
         </View>
         <View style={styles.row}>
           <RkText rkType='header6'>Send Push Notifications</RkText>
-          
         </View>
         <View style={styles.row}>
           <RkText rkType='header6'>Refresh Automatically</RkText>
@@ -77,31 +82,21 @@ export default class Settings extends React.Component {
         </View>
         <View style={styles.row}>
           <FindFriends
-            color={RkTheme.current.colors.twitter}
             text='Twitter'
-            icon={FontAwesome.twitter}
+            iconType={'twitter'}
             selected={this.state.twitterEnabled}
             onPress={this.onFindFriendsTwitterButtonPressed}
           />
         </View>
         <View style={styles.row}>
           <FindFriends
-            color={RkTheme.current.colors.google}
             text='Google'
-            icon={FontAwesome.google}
+            iconType={'google'}
             selected={this.state.googleEnabled}
             onPress={this.onFindFriendsGoogleButtonPressed}
           />
         </View>
-        <View style={styles.row}>
-          <FindFriends
-            color={RkTheme.current.colors.facebook}
-            text='Facebook'
-            icon={FontAwesome.facebook}
-            selected={this.state.facebookEnabled}
-            onPress={this.onFindFriendsFacebookButtonPressed}
-          />
-        </View>
+        
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
