@@ -5,13 +5,13 @@ import {
   LOGOUT_SUCCESS,
   USER_PROFILE_CREATED,
   CREATE_PROFILE_ERROR
-} from "actions/login/index";
+} from 'actions/login/index';
 
 const initialState = {
   authenticated: false,
   facebookUser: {},
   userProfile: {},
-  errorMsg: "",
+  errorMsg: '',
   userRegistered: false
 };
 

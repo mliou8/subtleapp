@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,12 +7,12 @@ import {
   Image,
   TouchableOpacity,
   Picker
-} from "react-native";
-import Row from "app/components/profile/Row";
-import Badge from "app/components/common/Badge";
-import Followers from "app/components/profile/Followers";
+} from 'react-native';
+import Row from 'app/components/profile/Row';
+import Badge from 'app/components/common/Badge';
+import Followers from 'app/components/profile/Followers';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
   Container,
@@ -29,21 +29,21 @@ import {
   Right,
   List,
   ListItem
-} from "native-base";
+} from 'native-base';
 
-const avatarImgSrc = "https://loremflickr.com/225/225/cat";
+const avatarImgSrc = 'https://loremflickr.com/225/225/cat';
 
 export default class FollowersListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Following @User",
+      title: 'Following @User',
 
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate("Messages")}>
+        <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
             type="Entypo"
             name="mail-with-circle"
-            style={{ color: "black", fontSize: 30 }}
+            style={{ color: 'black', fontSize: 30 }}
           />
         </Button>
       )
@@ -55,28 +55,28 @@ export default class FollowersListScreen extends React.Component {
       edit: false,
       followers: [
         {
-          name: "CoolPerson",
-          avatarURL: "justlikemike"
+          name: 'CoolPerson',
+          avatarURL: 'justlikemike'
         },
         {
-          name: "OKPerson",
-          avatarURL: "justlikemike"
+          name: 'OKPerson',
+          avatarURL: 'justlikemike'
         },
         {
-          name: "Mom",
-          avatarURL: "justlikemike"
+          name: 'Mom',
+          avatarURL: 'justlikemike'
         },
         {
-          name: "DontRememberName",
-          avatarURL: "justlikemike"
+          name: 'DontRememberName',
+          avatarURL: 'justlikemike'
         },
         {
-          name: "DoNotCall",
-          avatarURL: "justlikemike"
+          name: 'DoNotCall',
+          avatarURL: 'justlikemike'
         },
         {
-          name: "FriendOfFriend",
-          avatarURL: "justlikemike"
+          name: 'FriendOfFriend',
+          avatarURL: 'justlikemike'
         }
       ]
     };

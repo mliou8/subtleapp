@@ -15,8 +15,8 @@
 //     marginBottom: 10,
 //   }
 // })
-import React from "react";
-import { Image, StyleSheet, View, ScrollView } from "react-native";
+import React from 'react';
+import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import {
   Container,
   Header,
@@ -31,7 +31,7 @@ import {
   Body,
   Right,
   Fab
-} from "native-base";
+} from 'native-base';
 
 export default class MosaicScreen extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ export default class MosaicScreen extends React.Component {
       <View>
         <ScrollView>
           <View
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
           >
             {kittens ? (
               kittens.map((catURI, idx) => (
@@ -63,7 +63,7 @@ export default class MosaicScreen extends React.Component {
 
 const styles = StyleSheet.create({
   post: {
-    display: "flex",
+    display: 'flex',
     width: 87,
     height: 112.5,
     borderRadius: 7,

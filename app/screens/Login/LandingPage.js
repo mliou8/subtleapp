@@ -1,5 +1,5 @@
-import React from "react";
-import Video from "app/components/common/media/Video";
+import React from 'react';
+import Video from 'app/components/common/media/Video';
 import {
   ScrollView,
   StyleSheet,
@@ -7,17 +7,17 @@ import {
   SafeAreaView,
   Image,
   Alert
-} from "react-native";
-import VideoUrl from "assets/videos/video.mp4";
+} from 'react-native';
+import VideoUrl from 'assets/videos/video.mp4';
 
-import firebase from "db/firebase";
-import { Button, Icon, Text } from "native-base";
-import { connect } from "react-redux";
+import firebase from 'db/firebase';
+import { Button, Icon, Text } from 'native-base';
+import { connect } from 'react-redux';
 
-import db from "db/firestore";
+import db from 'db/firestore';
 
-import { facebookLogin } from "actions/login/index";
-import { createUserProfile, fetchUser } from "actions/profile/index";
+import { facebookLogin } from 'actions/login/index';
+import { createUserProfile, fetchUser } from 'actions/profile/index';
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -30,7 +30,9 @@ class LandingPage extends React.Component {
       if (user !== null) {
         Alert.alert(`Hey! ${user.displayName}`);
         this.props.fetchUser(user.uid);
-        this.props.navigation.navigate("MainScreen");
+        this.props.navigation.navigate('MainScreen', {
+          displayName: user.displayName
+        });
       }
     });
   }
@@ -55,23 +57,15 @@ class LandingPage extends React.Component {
           <Icon
             name="facebook-with-circle"
             type="Entypo"
-            style={{ color: "white", fontSize: 30 }}
-            // color="white"
+            style={{ color: 'white', fontSize: 30 }}
           />
           <Text> Login with facebook </Text>
         </Button>
-        <Button
-          rounded
-          iconLeft
-          bordered
-          light
-          style={{ marginTop: 10 }}
-          // onPress={() => this.props.facebookLogin()}
-        >
+        <Button rounded iconLeft bordered light style={{ marginTop: 10 }}>
           <Icon
             name="email"
             type="MaterialIcons"
-            style={{ color: "white", fontSize: 30 }}
+            style={{ color: 'white', fontSize: 30 }}
           />
           <Text> Login with email </Text>
         </Button>
@@ -80,14 +74,14 @@ class LandingPage extends React.Component {
           iconLeft
           bordered
           light
-          title={"Just take me in with no sign in"}
+          title={'Just take me in with no sign in'}
           onPress={() => {
             this.props.testLogin();
-            this.props.navigation.navigate("MainScreen");
+            this.props.navigation.navigate('MainScreen');
           }}
-          style={{ backgroundColor: "white", marginTop: 10 }}
+          style={{ backgroundColor: 'white', marginTop: 10 }}
         >
-          <Text style={{ color: "black" }}>take me in without signing in </Text>
+          <Text style={{ color: 'black' }}>take me in without signing in </Text>
         </Button>
       </View>
     );
@@ -129,16 +123,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 30,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   fbIcon: {
-    display: "flex",
+    display: 'flex',
     marginBottom: 30
   },
   backgroundVideo: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,

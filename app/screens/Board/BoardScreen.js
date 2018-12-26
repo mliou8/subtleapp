@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   View,
   Alert
-} from "react-native";
+} from 'react-native';
 
-import Post from "app/components/board/Post";
-import FullPost from "app/components/board/FullPost";
-import BoardHeader from "app/components/board/BoardHeader";
-import LandingPage from "app/screens/Login/LandingPage";
+import Post from 'app/components/board/Post';
+import FullPost from 'app/components/board/FullPost';
+import BoardHeader from 'app/components/board/BoardHeader';
+import LandingPage from 'app/screens/Login/LandingPage';
 import {
   Container,
   Header,
@@ -28,49 +28,49 @@ import {
   Right,
   Spinner,
   Badge
-} from "native-base";
+} from 'native-base';
 
 const post = {};
 const catArr = [
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat",
-  "https://loremflickr.com/176/230/cat"
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat',
+  'https://loremflickr.com/176/230/cat'
 ];
 
 export default class BoardScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Subtle Asian App",
+      title: 'Subtle Asian App',
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate("Messages")}>
+        <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
             type="Entypo"
             name="mail-with-circle"
-            style={{ color: "black", fontSize: 30 }}
+            style={{ color: 'black', fontSize: 30 }}
           />
         </Button>
       )
@@ -81,7 +81,7 @@ export default class BoardScreen extends React.Component {
     super(props);
     this.state = {
       showChallenge: false,
-      filterType: "popular",
+      filterType: 'popular',
       loggedIn: false
     };
 
@@ -100,7 +100,7 @@ export default class BoardScreen extends React.Component {
   };
 
   navigateToFullPost = post => {
-    this.props.navigation.navigate("Post", { post: post });
+    this.props.navigation.navigate('Post', { post: post });
   };
 
   filterContent = filter => {
@@ -109,9 +109,9 @@ export default class BoardScreen extends React.Component {
 
   showLoggedIn() {
     if (this.props.profile.userProfile) {
-      Alert.alert("You are logged in");
+      Alert.alert('You are logged in');
     } else {
-      Alert.alert("You are not logged in");
+      Alert.alert('You are not logged in');
     }
   }
 
@@ -124,19 +124,19 @@ export default class BoardScreen extends React.Component {
         <ScrollView>
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate("Mosaic", { cats: catArr })
+              this.props.navigation.navigate('Mosaic', { cats: catArr })
             }
           >
             {/* //onPress={() => this.navigateToFullPost(post)}> */}
-            <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
           </TouchableOpacity>
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
-          <FullPost imageSrc={"https://loremflickr.com/176/230/cat"} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
         </ScrollView>
       </View>
     );
@@ -145,18 +145,18 @@ export default class BoardScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
+    display: 'flex',
     flex: 1,
-    flexDirection: "column",
-    flexWrap: "wrap",
-    justifyContent: "space-around"
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
   },
 
   postContainer: {
-    display: "flex",
+    display: 'flex',
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around"
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
   }
 });

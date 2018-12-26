@@ -3,11 +3,11 @@ import {
   CREATE_PROFILE_ERROR,
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND
-} from "actions/profile/index";
+} from 'actions/profile/index';
 
 const initialState = {
   userProfile: {},
-  errorMsg: ""
+  errorMsg: ''
 };
 
 export default function(state = initialState, action) {
