@@ -13,7 +13,7 @@ import Bio from 'app/components/profile/Bio';
 import Row from 'app/components/profile/Row';
 import ProfileBottomContainer from './ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
-import FollowUser from 'app/components/profile/Followers';
+import Following from 'app/components/profile/Followers';
 import AddSocialNetworkTag from './AddSocialNetwork';
 import db from 'db/firestore';
 import { connect } from 'react-redux';
@@ -128,7 +128,7 @@ class ProfileScreen extends React.Component {
           <View>
             {/* {this.props.profile.userProfile.uid === this.props.login.userInfo.uid? ( */}
             <View style={{ flex: 1, flexDirection: 'row' }}>
-              <FollowUser userOnDisplay={bailey} />
+              <Following userOnDisplay={bailey} />
               {/* <Followers userOnDisplay={this.props.profile.userProfile.uid} /> */}
             </View>
             <Content>

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
 
-class FollowUser extends React.Component {
+class Following extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -186,4 +186,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FollowUser);
+)(Following);

@@ -1,8 +1,8 @@
 import {
-  USER_PROFILE_CREATED,
-  CREATE_PROFILE_ERROR,
   PROFILE_FETCHED,
-  PROFILE_NOT_FOUND
+  PROFILE_NOT_FOUND,
+  USER_FOLLOWED,
+  USER_UNFOLLOWED
 } from 'actions/profile/index';
 
 const initialState = {
@@ -18,11 +18,15 @@ export default function(state = initialState, action) {
         userProfile: action.userProfile,
         userRegistered: true
       };
-    case CREATE_PROFILE_ERROR:
+    case USER_FOLLOWED:
       return {
         ...state,
-        userRegistered: false,
-        errorMsg: action.errorMsg
+        userProfile: { following: action.userToFollow }
+      };
+    case USER_UNFOLLOWED:
+      return {
+        ...state,
+        userProfile: { following: action.userToUnfollow }
       };
     case PROFILE_NOT_FOUND:
       return {
