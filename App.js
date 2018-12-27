@@ -6,12 +6,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import logger from 'redux-logger'
 import login from 'reducers/reducer'
+import user from 'reducers/userReducer'
 import thunkMiddleware from 'redux-thunk'
 import { facebookLoginSuccess, logOutSuccess } from 'actions/login/index';
 import firebase from 'db/firebase';
 import { connect } from 'react-redux';
 
-const reducer = combineReducers({ login })
+const reducer = combineReducers({ login, user })
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger))
 
 export default class App extends React.Component {

@@ -1,20 +1,6 @@
 import firebase from "db/firebase";
 import db from "../db";
 
-// export function createUserifNoneExists(user) {
-//   const docRef = firebase.database().ref("/users/" + user.uid)
-//   docRef.once('value').then(function(snapshot) {
-//     if (snapshot.val() !== null) {
-//       console.log("User already exists in database.");
-//     } else {
-//       const { uid, photoURL, displayName, lastLoginAt = "", email, followers = [], following = [], } = user;
-//       const newUser = { uid, photoURL, displayName, lastLoginAt, email };
-//       docRef.set(newUser);
-//       console.log("New User Created from FB credentials.");
-//     }
-//   })
-// }
-
 export const fetchUser = userID => {
      const userRef = db.collection("users").doc(userID);
       userRef.get()
@@ -51,15 +37,17 @@ export function addNetwork(networkObj) {
   const currentUser = currentUser();
   const networkToUpdate = fetchNetworks(currentUser);
   currentNetworks.push(newNetwork);
-  
   return userRef.update({
     socialNetworks: networkToUpdate 
   })
   .then(function() {
     console.log("Document successfully updated!");
+    //dispatch action showing edited user
   })
   .catch(function(error) {
       // The document probably doesn't exist.
+      //dispatch action showing edited user fail
+      // handle error by showing alert and redirecting
       console.error("Error updating document: ", error);
   });
 }
@@ -78,9 +66,11 @@ export function removeNetwork(networkObj) {
   })
   .then(function() {
     console.log("Document successfully updated!");
+    //dispatch action showing edited user
   })
   .catch(function(error) {
       // The document probably doesn't exist.
+      //dispatch action showing edited user fail
       console.error("Error updating document: ", error);
   });
 }

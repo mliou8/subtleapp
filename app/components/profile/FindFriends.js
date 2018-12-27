@@ -24,7 +24,7 @@ export default class FindFriends extends React.Component {
                 name={this.props.iconType || ""}
               />
             </RkText>
-            <RkText rkType='header6' style={{ color, marginTop: "5" }}>{this.props.text}</RkText>
+            <RkText rkType='header6' style={{ color }}>{this.props.text}</RkText>
           </View>
           <RkText rkType='awesome small' style={{ color: 'red' }}>Remove</RkText>
         </View>

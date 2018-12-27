@@ -11,7 +11,6 @@ import {
   RkStyleSheet,
   RkTheme,
 } from 'react-native-ui-kitten';
-import { Icons } from 'assets/images/icons/index';
 import FindFriends from 'app/components/profile/FindFriends';
 import { removeNetwork } from 'db/profile/index';
 
@@ -25,14 +24,14 @@ export default class Settings extends React.Component {
     this.state = {
       sendPush: true,
       shouldRefresh: false,
+      socialNetworks: this.props.socialNetworks,
     };
   }
   
   renderSocialNetworks = () => {
-    return {
-      this.props.user.socialNetworks.map((socialNetwork) => {
+      return this.state.socialNetworks.map((socialNetwork, idx) => {
         return (
-          <View style={styles.row}>
+          <View style={styles.row} key={idx}>
             <FindFriends
               text={socialNetwork.sourceName}
               iconType={socialNetwork.badgeType}
@@ -42,9 +41,8 @@ export default class Settings extends React.Component {
           </View>
         )
       })
-    }
-  };
-  
+    };
+    
   onPresstoRemove = (value) => {
     this.setState({ sendPush: value });
   };
