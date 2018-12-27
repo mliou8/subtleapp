@@ -18,7 +18,7 @@ import db from 'db/firestore';
 import firebase from 'db/firebase';
 const catData = {
   uid: 'AobBHaD1U9WJWOCMNFC8',
-  displayName: 'bailey',
+  displayName: 'Bailey',
   photoURL: 'https://loremflickr.com/176/230/cat'
 };
 // const catData = {
