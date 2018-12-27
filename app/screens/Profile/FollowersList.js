@@ -33,7 +33,7 @@ import {
 
 const avatarImgSrc = 'https://loremflickr.com/225/225/cat';
 
-export default class FollowersListScreen extends React.Component {
+class FollowersListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Following @User',
@@ -49,36 +49,12 @@ export default class FollowersListScreen extends React.Component {
       )
     };
   };
+
   constructor(props) {
     super(props);
     this.state = {
       edit: false,
-      followers: [
-        {
-          name: 'CoolPerson',
-          avatarURL: 'justlikemike'
-        },
-        {
-          name: 'OKPerson',
-          avatarURL: 'justlikemike'
-        },
-        {
-          name: 'Mom',
-          avatarURL: 'justlikemike'
-        },
-        {
-          name: 'DontRememberName',
-          avatarURL: 'justlikemike'
-        },
-        {
-          name: 'DoNotCall',
-          avatarURL: 'justlikemike'
-        },
-        {
-          name: 'FriendOfFriend',
-          avatarURL: 'justlikemike'
-        }
-      ]
+      followers: []
     };
     this.renderFollowerslist = this.renderFollowerslist.bind(this);
   }
@@ -97,17 +73,21 @@ export default class FollowersListScreen extends React.Component {
   //       );
   //     });
   //   };
-  renderFollowerslist = () => {
-    return this.state.followers.map((follower, idx) => {
+  renderFollowerslist = listType => {
+    let userList = [];
+    if (listType === 'following') {
+      userList = this.props.following;
+    } else {
+      userList = this.props.followers;
+    }
+    return userList.map((user, idx) => {
       return (
         <ListItem avatar key={idx}>
           <Left>
-            <Thumbnail source={{ uri: avatarImgSrc }} />
+            <Thumbnail source={{ uri: user.photoURL }} />
           </Left>
           <Body>
-            <Text> {follower.name}</Text>
-            {/* <Text note>Follows You Too!  or checkmark icon if follow. 
-            //But this seems uncessary to check the database for this stuff though</Text> */}
+            <Text> {user.displayName}</Text>
           </Body>
           <Right>
             <Icon name="ios-arrow-forward" />
@@ -118,25 +98,36 @@ export default class FollowersListScreen extends React.Component {
   };
 
   render() {
+    const listType = this.props.navigation.state.params.type;
     return (
       <ScrollView>
         <View>
           <Content>
-            <List>{this.renderFollowerslist()}</List>
+            <List>{this.renderFollowerslist(listType)}</List>
           </Content>
         </View>
       </ScrollView>
     );
   }
 }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    following: state.login.userInfo.following,
+    followers: state.login.userInfo.followers,
+    profile: state.profile,
+    login: state.login
+  };
+};
 
-// const mapStateToProps = state => {
-//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-//   return {
-//     repos: storedRepositories
-//   };
-// };
-
-// const mapDispatchToProps = {
-//   listRepos
-// };
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FollowersListScreen);

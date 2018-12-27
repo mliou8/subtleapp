@@ -119,7 +119,6 @@ class ProfileScreen extends React.Component {
     this.setState({ displayAdd: !this.state.displayAdd });
   };
   render() {
-    console.log('this screen props', this.props);
     const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
 
     return (
@@ -142,7 +141,10 @@ class ProfileScreen extends React.Component {
                     <Body>
                       <TouchableOpacity
                         onPress={() =>
-                          this.props.navigation.navigate('FollowersList')
+                          this.props.navigation.navigate(
+                            'FollowersList',
+                            (props = { type: 'following' })
+                          )
                         }
                       >
                         <Text>
@@ -152,7 +154,9 @@ class ProfileScreen extends React.Component {
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() =>
-                          this.props.navigation.navigate('FollowersList')
+                          this.props.navigation.navigate('FollowersList', {
+                            type: 'followers'
+                          })
                         }
                       >
                         <Text>
@@ -242,6 +246,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
+    userInfo: state.login.userInfo,
     userProfile: state.profile.userProfile,
     profile: state.profile,
     login: state.login

@@ -6,7 +6,9 @@ import {
   USER_PROFILE_CREATED,
   CREATE_PROFILE_ERROR,
   USER_INFO_FETCHED,
-  USER_INFO_NOT_FOUND
+  USER_INFO_NOT_FOUND,
+  USER_FOLLOWED,
+  USER_UNFOLLOWED
 } from 'actions/login/index';
 
 const initialState = {
@@ -60,6 +62,26 @@ export default function(state = initialState, action) {
         ...state,
         userRegistered: false,
         errorMsg: action.errorMsg
+      };
+    case USER_FOLLOWED:
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          following: [...state.userInfo.following, action.userToFollow]
+        }
+      };
+    case USER_UNFOLLOWED:
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          following: state.userInfo.following.filter(item => {
+            if (item !== action.userToUnfollow) {
+              return item;
+            }
+          })
+        }
       };
     default:
       return state;

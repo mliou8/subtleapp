@@ -1,8 +1,8 @@
 import {
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND,
-  USER_FOLLOWED,
-  USER_UNFOLLOWED
+  PROFILE_ADD_FOLLOWER,
+  PROFILE_REMOVE_FOLLOWER
 } from 'actions/profile/index';
 
 const initialState = {
@@ -18,15 +18,22 @@ export default function(state = initialState, action) {
         userProfile: action.userProfile,
         userRegistered: true
       };
-    case USER_FOLLOWED:
+    case PROFILE_ADD_FOLLOWER:
       return {
         ...state,
-        userProfile: { following: action.userToFollow }
+        userProfile: { ...state.userProfile, followers: action.userToFollowID }
       };
-    case USER_UNFOLLOWED:
+    case PROFILE_REMOVE_FOLLOWER:
       return {
         ...state,
-        userProfile: { following: action.userToUnfollow }
+        userProfile: {
+          ...state.userProfile,
+          followers: state.userProfile.followers.filter(item => {
+            if (item.uid !== action.userToUnfollowID) {
+              return item;
+            }
+          })
+        }
       };
     case PROFILE_NOT_FOUND:
       return {

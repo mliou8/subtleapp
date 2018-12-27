@@ -9,9 +9,38 @@ import {
 } from 'react-native';
 import { Icon } from 'expo';
 import { connect } from 'react-redux';
-
+import { unfollowUser, followUser } from 'actions/login/index';
+import {
+  profileAddFollower,
+  profileRemoveFollower
+} from 'actions/profile/index';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
+const catData = {
+  uid: 'AobBHaD1U9WJWOCMNFC8',
+  displayName: 'bailey',
+  photoURL: 'https://loremflickr.com/176/230/cat'
+};
+// const catData = {
+//   uid: 'MvFyxRN66DNfmXFBpIMP',
+//   displayName: 'GrumpyCat',
+//   photoURL: 'https://loremflickr.com/176/230/cat'
+// };
+// const catData = {
+//   uid: 'oJVkbWMJWAMaKyEJmSkZ',
+//   displayName: 'Belle',
+//   photoURL: 'https://loremflickr.com/176/230/cat'
+// };
+// const catData = {
+//   uid: 'qo7fZPgVMsLeMYInRL0n',
+//   displayName: 'Berkely',
+//   photoURL: 'https://loremflickr.com/176/230/cat'
+// };
+// const catData = {
+//   uid: '9huXTnWl7raXLktU9hrz',
+//   displayName: 'Maru',
+//   photoURL: 'https://loremflickr.com/176/230/cat'
+// };
 
 class Following extends React.Component {
   constructor(props) {
@@ -23,86 +52,28 @@ class Following extends React.Component {
     };
   }
 
-  followUser() {
-    var user = firebase.auth().currentUser;
-    const catData = {
-      uid: 'AobBHaD1U9WJWOCMNFC8',
-      displayName: 'bailey',
-      photoURL: 'https://loremflickr.com/176/230/cat'
-    };
-    const userData = {
-      uid: user.uid,
-      displayName: user.providerData[0].displayName,
-      photoURL: user.providerData[0].photoURL
-    };
-    const currUser = db.collection('users').doc(user.uid);
-    const userOnView = db.collection('users').doc(catData.uid);
-    // const userOnView = db.collection('users').doc(userOnDisplay.uid);
-    const nowFollowing = this.state.followingList;
-    nowFollowing.push(catData);
-    currUser.update({
-      following: firebase.firestore.FieldValue.arrayUnion(catData)
-    });
-    userOnView
-      .update({
-        followers: firebase.firestore.FieldValue.arrayUnion(userData)
-      })
-      .then(function() {
-        console.log('Document successfully written!');
-      });
+  followCurrentUser() {
+    this.props.followUser(catData);
+    this.props.profileAddFollower(catData.uid);
+    // this.props.followUser(userObj);
+    // this.props.profileAddFollower(userID);
     this.setState({ following: true });
   }
 
-  async unfollowUser() {
-    var user = firebase.auth().currentUser;
-    const catData = {
-      uid: 'AobBHaD1U9WJWOCMNFC8',
-      displayName: 'bailey',
-      photoUrl: 'https://loremflickr.com/176/230/cat'
-    };
-    const userData = {
-      uid: user.uid,
-      displayName: user.providerData[0].displayName,
-      photoURL: user.providerData[0].photoURL
-    };
-    // docRef.get().then(function(doc) {
-    const currUser = db.collection('users').doc(user.uid);
-    const userOnViewRef = db.collection('users').doc(catData.uid);
-    const userOnViewFollowers = await userOnViewRef.get().then(function(doc) {
-      console.log('doc is stuff', doc.data().followers);
-      // userOnViewFollowers = doc.data().followers;
-      return doc.data().followers;
-    });
-
-    console.log('user stuff on view', userOnViewFollowers);
-    const nowFollowing = this.state.followingList.filter(
-      item => item.uid !== catData.uid
-    );
-    const currFollowers = userOnViewFollowers.filter(
-      item => item.uid !== user.uid
-    );
-    currUser.update({
-      following: nowFollowing
-    });
-    // regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
-    userOnViewRef
-      .update({
-        followers: currFollowers
-      })
-      .then(function() {
-        console.log('Document successfully written!');
-      });
+  unfollowCurrentUser() {
+    this.props.unfollowUser(catData);
+    this.props.profileRemoveFollower(catData.uid);
+    // this.props.unfollowUser(userObj);
+    // this.props.profileRemoveFollower(profileUserID);
     this.setState({ following: false });
   }
   render() {
-    // console.log('this props in followers component', this.props.userOnDisplay);
-
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>
           {this.state.following ? (
             <TouchableOpacity
-              onPress={() => this.unfollowUser()}
+              onPress={() => this.unfollowCurrentUser()}
               style={{
                 borderRadius: 8,
                 flexDirection: 'row',
@@ -119,7 +90,7 @@ class Following extends React.Component {
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              onPress={() => this.followUser()}
+              onPress={() => this.followCurrentUser()}
               style={{
                 borderRadius: 8,
                 flexDirection: 'row',
@@ -170,7 +141,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    userProfile: state.profile.userProfile,
+    userInfo: state.login.userInfo,
     profile: state.profile,
     login: state.login
   };
@@ -180,7 +151,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchUser: uid => {
       dispatch(fetchUser(uid));
-    }
+    },
+    followUser: userObj => {
+      dispatch(followUser(userObj));
+    },
+    unfollowUser: userObj => {
+      dispatch(unfollowUser(userObj));
+    },
+
+    profileAddFollower: userID => {
+      dispatch(profileAddFollower(userID));
+    },
+    profileRemoveFollower: profileUserID =>
+      dispatch(profileRemoveFollower(profileUserID))
   };
 };
 export default connect(
