@@ -28,7 +28,12 @@ class FollowUser extends React.Component {
     const catData = {
       uid: 'AobBHaD1U9WJWOCMNFC8',
       displayName: 'bailey',
-      photoUrl: 'https://loremflickr.com/176/230/cat'
+      photoURL: 'https://loremflickr.com/176/230/cat'
+    };
+    const userData = {
+      uid: user.uid,
+      displayName: user.providerData[0].displayName,
+      photoURL: user.providerData[0].photoURL
     };
     const currUser = db.collection('users').doc(user.uid);
     const userOnView = db.collection('users').doc(catData.uid);
@@ -40,7 +45,7 @@ class FollowUser extends React.Component {
     });
     userOnView
       .update({
-        followers: firebase.firestore.FieldValue.arrayUnion(catData)
+        followers: firebase.firestore.FieldValue.arrayUnion(userData)
       })
       .then(function() {
         console.log('Document successfully written!');
@@ -48,26 +53,41 @@ class FollowUser extends React.Component {
     this.setState({ following: true });
   }
 
-  unfollowUser() {
+  async unfollowUser() {
     var user = firebase.auth().currentUser;
     const catData = {
-      uid: 'RxOI5MCCT5bGaKbxLNjm',
+      uid: 'AobBHaD1U9WJWOCMNFC8',
       displayName: 'bailey',
       photoUrl: 'https://loremflickr.com/176/230/cat'
     };
-
+    const userData = {
+      uid: user.uid,
+      displayName: user.providerData[0].displayName,
+      photoURL: user.providerData[0].photoURL
+    };
+    // docRef.get().then(function(doc) {
     const currUser = db.collection('users').doc(user.uid);
-    const userOnView = db.collection('users').doc(catData.uid);
-    // const userOnView = db.collection('users').doc(userOnDisplay.uid);
+    const userOnViewRef = db.collection('users').doc(catData.uid);
+    const userOnViewFollowers = await userOnViewRef.get().then(function(doc) {
+      console.log('doc is stuff', doc.data().followers);
+      // userOnViewFollowers = doc.data().followers;
+      return doc.data().followers;
+    });
+
+    console.log('user stuff on view', userOnViewFollowers);
     const nowFollowing = this.state.followingList.filter(
       item => item.uid !== catData.uid
+    );
+    const currFollowers = userOnViewFollowers.filter(
+      item => item.uid !== user.uid
     );
     currUser.update({
       following: nowFollowing
     });
-    userOnView
+    // regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
+    userOnViewRef
       .update({
-        followers: nowFollowing
+        followers: currFollowers
       })
       .then(function() {
         console.log('Document successfully written!');
