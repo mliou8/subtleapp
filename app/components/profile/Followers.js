@@ -53,7 +53,8 @@ class Following extends React.Component {
   }
 
   followCurrentUser() {
-    this.props.followUser(catData);
+    const currUserInfo = this.props.userInfo;
+    this.props.followUser(catData, currUserInfo);
     this.props.profileAddFollower(catData.uid);
     // this.props.followUser(userObj);
     // this.props.profileAddFollower(userID);
@@ -61,7 +62,8 @@ class Following extends React.Component {
   }
 
   unfollowCurrentUser() {
-    this.props.unfollowUser(catData);
+    const currUserInfo = this.props.userInfo;
+    this.props.unfollowUser(catData, currUserInfo);
     this.props.profileRemoveFollower(catData.uid);
     // this.props.unfollowUser(userObj);
     // this.props.profileRemoveFollower(profileUserID);
@@ -152,11 +154,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchUser: uid => {
       dispatch(fetchUser(uid));
     },
-    followUser: userObj => {
-      dispatch(followUser(userObj));
+    followUser: (userObj, currInfo) => {
+      dispatch(followUser(userObj, currInfo));
     },
-    unfollowUser: userObj => {
-      dispatch(unfollowUser(userObj));
+    unfollowUser: (userObj, currInfo) => {
+      dispatch(unfollowUser(userObj, currInfo));
     },
 
     profileAddFollower: profileUserID => {

@@ -44,7 +44,6 @@ export const fetchUser = userID => {
       .get()
       .then(function(doc) {
         if (doc.exists) {
-          console.log('Document data:', doc.data());
           const profile = doc.data();
           dispatch(profileFetched(profile.profile));
         } else {

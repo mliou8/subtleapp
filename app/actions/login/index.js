@@ -12,9 +12,8 @@ export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const USER_PROFILE_CREATED = 'USER_PROFILE_CREATED';
 export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
 export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
-export const USER_INFO_NOT_FOUND = ' USER_INFO_NOT_FOUND';
-export const USER_FOLLOWED = 'USER_FOLLOWED';
-export const USER_UNFOLLOWED = 'USER_UNFOLLOWED';
+export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
+export const USER_UPDATED = 'USER_UPDATED';
 
 function facebookLoginSuccess(facebookUser) {
   return {
@@ -67,16 +66,10 @@ function logOutSuccess() {
     type: LOGOUT_SUCCESS
   };
 }
-export const userFollowed = userToFollow => {
+export const userUpdated = updatedUserInfo => {
   return {
-    type: USER_FOLLOWED,
-    userToFollow
-  };
-};
-export const userUnfollowed = userToUnfollow => {
-  return {
-    type: USER_UNFOLLOWED,
-    userToUnfollow
+    type: USER_UPDATED,
+    updatedUserInfo
   };
 };
 
@@ -101,7 +94,6 @@ export function facebookLogin() {
 
       firebase.auth().onAuthStateChanged(function(user) {
         if (user !== null) {
-          console.log('current user is ', user);
           const currTime = Date.now();
           const currentTime = moment(currTime).format(
             'MMMM Do YYYY, h:mm:ss a'
@@ -124,7 +116,6 @@ export function facebookLogin() {
               ]
             })
             .then(function(docRef) {
-              console.log('Document written with ID:');
               dispatch(userProfileCreated(userInfo));
             })
             .catch(function(error) {
@@ -152,8 +143,6 @@ export async function userLogout() {
     .signOut()
     .then(
       function() {
-        console.log('Sign out!');
-        console.log(firebase.auth().currentUser);
         dispatch(logOutSuccess());
       },
       function(error) {
@@ -169,7 +158,6 @@ export const fetchUserInfo = userID => {
       .get()
       .then(function(doc) {
         if (doc.exists) {
-          console.log('Document data:', doc.data());
           const profile = doc.data();
           dispatch(userInfoFetched(profile));
         } else {
@@ -185,31 +173,42 @@ export const fetchUserInfo = userID => {
   };
 };
 
-export const followUser = userObj => {
+export const followUser = (userObj, currUserInfo) => {
   return async dispatch => {
     var user = firebase.auth().currentUser;
     const currUserRef = db.collection('users').doc(user.uid);
+    const currUserInfoUpdated = currUserInfo;
+    const currFollowing = [...currUserInfo.following, userObj];
+    console.log('curr followers is---------- ', currFollowing);
+    currUserInfoUpdated.following = currFollowing;
 
     currUserRef
       .update({
         following: firebase.firestore.FieldValue.arrayUnion(userObj)
       })
       .then(function() {
-        dispatch(userFollowed(userObj));
+        dispatch(userUpdated(currUserInfoUpdated));
       });
   };
 };
 
-export const unfollowUser = userObj => {
+export const unfollowUser = (userObj, currUserInfo) => {
   return async dispatch => {
     var user = firebase.auth().currentUser;
+    const currUserInfoUpdated = currUserInfo;
+    const currFollowing = currUserInfoUpdated.following.filter(item => {
+      if (item.uid !== userObj.uid) {
+        return item;
+      }
+    });
+    currUserInfoUpdated.following = currFollowing;
     const currUserRef = db.collection('users').doc(user.uid);
     currUserRef
       .update({
         following: firebase.firestore.FieldValue.arrayRemove(userObj)
       })
       .then(function() {
-        dispatch(userUnfollowed(userObj));
+        dispatch(userUpdated(currUserInfoUpdated));
       });
   };
 };
