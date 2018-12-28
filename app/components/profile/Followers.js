@@ -159,8 +159,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(unfollowUser(userObj));
     },
 
-    profileAddFollower: userID => {
-      dispatch(profileAddFollower(userID));
+    profileAddFollower: profileUserID => {
+      dispatch(profileAddFollower(profileUserID));
     },
     profileRemoveFollower: profileUserID =>
       dispatch(profileRemoveFollower(profileUserID))

@@ -7,8 +7,8 @@ import db from 'db/firestore';
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
-export const PROFILE_ADD_FOLLOWER = 'USER_FOLLOWED';
-export const PROFILE_REMOVE_FOLLOWER = 'USER_UNFOLLOWED';
+export const PROFILE_ADD_FOLLOWER = 'PROFILE_ADD_FOLLOWER';
+export const PROFILE_REMOVE_FOLLOWER = 'PROFILE_REMOVE_FOLLOWER';
 
 export const profileFollowerAdded = userToFollowID => {
   return {

@@ -6,7 +6,7 @@ import {
 } from 'actions/profile/index';
 
 const initialState = {
-  userProfile: {},
+  userProfile: { followers: [], following: [] },
   errorMsg: ''
 };
 
@@ -28,11 +28,12 @@ export default function(state = initialState, action) {
         ...state,
         userProfile: {
           ...state.userProfile,
-          followers: state.userProfile.followers.filter(item => {
-            if (item.uid !== action.userToUnfollowID) {
-              return item;
-            }
-          })
+          followers: [state.userProfile.followers, action.userToUnfollowID]
+          // followers: state.userProfile.followers.filter(item => {
+          //   if (item.uid !== action.userToUnfollowID) {
+          //     return item;
+          //   }
+          // })
         }
       };
     case PROFILE_NOT_FOUND:
