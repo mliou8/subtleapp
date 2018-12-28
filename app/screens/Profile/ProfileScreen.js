@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,17 +7,17 @@ import {
   Image,
   TouchableOpacity,
   Picker
-} from "react-native";
-import ProfilePortrait from "app/components/profile/ProfilePortrait";
-import Bio from "app/components/profile/Bio";
-import Row from "app/components/profile/Row";
-import ProfileBottomContainer from "./ProfileBottomContainer";
-import Badge from "app/components/common/Badge";
-import Followers from "app/components/profile/Followers";
-import AddSocialNetworkTag from "./AddSocialNetwork";
-
-import { connect } from "react-redux";
-import { listRepos } from "app/reducers/reducer";
+} from 'react-native';
+import ProfilePortrait from 'app/components/profile/ProfilePortrait';
+import Bio from 'app/components/profile/Bio';
+import Row from 'app/components/profile/Row';
+import ProfileBottomContainer from './ProfileBottomContainer';
+import Badge from 'app/components/common/Badge';
+import Following from 'app/components/profile/Followers';
+import AddSocialNetworkTag from './AddSocialNetwork';
+import db from 'db/firestore';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
 import {
   Container,
@@ -33,27 +33,27 @@ import {
   Body,
   Right,
   Spinner
-} from "native-base";
+} from 'native-base';
 
-const profileImgSrc = "https://loremflickr.com/225/225/dog";
+const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 
-export default class ProfileScreen extends React.Component {
+class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: "Michael Liou",
+      title: 'User Profile',
       headerLeft: (
         <Button
-          onPress={() => navigation.getParam("edit")}
+          onPress={() => navigation.getParam('edit')}
           title="Edit"
           color="#000000"
         />
       ),
       headerRight: (
-        <Button transparent onPress={() => navigation.navigate("Messages")}>
+        <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
             type="Entypo"
             name="mail-with-circle"
-            style={{ color: "black", fontSize: 30 }}
+            style={{ color: 'black', fontSize: 30 }}
           />
         </Button>
       )
@@ -67,16 +67,16 @@ export default class ProfileScreen extends React.Component {
       displayAdd: false,
       badges: [
         {
-          badgeType: "youtube",
-          sourceName: "justlikemike"
+          badgeType: 'youtube',
+          sourceName: 'justlikemike'
         },
         {
-          badgeType: "instagram",
-          sourceName: "justlikemike"
+          badgeType: 'instagram',
+          sourceName: 'justlikemike'
         },
         {
-          badgeType: "twitch",
-          sourceName: "justlikemike"
+          badgeType: 'twitch',
+          sourceName: 'justlikemike'
         }
       ]
     };
@@ -119,68 +119,87 @@ export default class ProfileScreen extends React.Component {
     this.setState({ displayAdd: !this.state.displayAdd });
   };
   render() {
+    const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
+
     return (
       <ScrollView style={styles.container}>
-        <View>
-          {/* {this.userId !== this.props. userId?(<View style={{ flex: 1, flexDirection: "row" }}>
+        {this.props.login.userInfo.uid ? (
           <View>
-            <Followers />
-          </View> :(null)}*/}
-          <Content>
-            <Card style={{ height: "45 %" }} transparent>
-              <CardItem>
-                <Left>
-                  <ProfilePortrait
-                    style={styles.profile}
-                    imageSrc={profileImgSrc}
-                  />
-                  <Body>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate("FollowersList")
-                      }
-                    >
-                      <Text>Following: 400 </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate("FollowersList")
-                      }
-                    >
-                      <Text>Followers: 500 </Text>
-                    </TouchableOpacity>
-                  </Body>
-                  <Right>
-                    {this.renderSocialBadges()}
-                    <Button
-                      transparent
-                      style={{
-                        marginTop: 2,
-                        marginBottom: 2
-                      }}
-                      onPress={() => {
-                        this.addSocialBadge();
-                      }}
-                    >
-                      <Icon
-                        type="FontAwesome"
-                        name="plus-circle"
-                        style={{ fontSize: 20 }}
-                      />
-                    </Button>
-                  </Right>
-                </Left>
-              </CardItem>
-            </Card>
-          </Content>
-          <View>{this.state.displayAdd ? <AddSocialNetworkTag /> : null}</View>
-          <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-            <Text>Im just here to make some money and get some notoriety</Text>
-            <Text style={{ fontSize: 15, marginTop: 15 }}>@heyitsmmike</Text>
+            {/* {this.props.profile.userProfile.uid === this.props.login.userInfo.uid? ( */}
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Following userOnDisplay={bailey} />
+              {/* <Followers userOnDisplay={this.props.profile.userProfile.uid} /> */}
+            </View>
+            <Content>
+              <Card style={{ height: '45 %' }} transparent>
+                <CardItem>
+                  <Left>
+                    <ProfilePortrait
+                      style={styles.profile}
+                      imageSrc={this.props.login.userInfo.photoURL}
+                    />
+                    <Body>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate(
+                            'FollowersList',
+                            (props = { type: 'following' })
+                          )
+                        }
+                      >
+                        <Text>
+                          Following:{' '}
+                          {this.props.login.userInfo.following.length}
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate('FollowersList', {
+                            type: 'followers'
+                          })
+                        }
+                      >
+                        <Text>
+                          Followers:{' '}
+                          {this.props.login.userInfo.followers.length}
+                        </Text>
+                      </TouchableOpacity>
+                    </Body>
+                    <Right>
+                      {this.renderSocialBadges()}
+                      <Button
+                        transparent
+                        style={{
+                          marginTop: 2,
+                          marginBottom: 2
+                        }}
+                        onPress={() => {
+                          this.addSocialBadge();
+                        }}
+                      >
+                        <Icon
+                          type="FontAwesome"
+                          name="plus-circle"
+                          style={{ fontSize: 20 }}
+                        />
+                      </Button>
+                    </Right>
+                  </Left>
+                </CardItem>
+              </Card>
+            </Content>
+            <View>
+              {this.state.displayAdd ? <AddSocialNetworkTag /> : null}
+            </View>
+            <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
+              <Text>{this.props.login.userInfo.displayName}</Text>
+            </View>
+            <ProfileBottomContainer />
+            <View style={{ height: 40, width: '100%' }} />
           </View>
-          <ProfileBottomContainer />
-          <View style={{ height: 40, width: "100%" }} />
-        </View>
+        ) : (
+          <Spinner color="blue" />
+        )}
       </ScrollView>
     );
   }
@@ -190,47 +209,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 7.6,
-    backgroundColor: "#fff",
-    flexDirection: "column"
+    backgroundColor: '#fff',
+    flexDirection: 'column'
   },
   divider: {
-    borderBottomColor: "black",
+    borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,
     paddingLeft: 10,
     marginTop: 7,
     marginBottom: 7,
-    justifyContent: "flex-end",
-    width: "100%"
+    justifyContent: 'flex-end',
+    width: '100%'
   },
   profileCard: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     paddingTop: 20,
     paddingLeft: 10,
     height: 212,
-    alignSelf: "stretch",
-    borderStyle: "solid",
-    borderColor: "black"
+    alignSelf: 'stretch',
+    borderStyle: 'solid',
+    borderColor: 'black'
   },
   iconContainer: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center"
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   profile: {
-    display: "flex",
-    alignContent: "flex-start",
+    display: 'flex',
+    alignContent: 'flex-start',
     flex: 1
   }
 });
 
-// const mapStateToProps = state => {
-//   let storedRepositories = state.repos.map(repo => ({ key: repo.id, ...repo }));
-//   return {
-//     repos: storedRepositories
-//   };
-// };
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo,
+    userProfile: state.profile.userProfile,
+    profile: state.profile,
+    login: state.login
+  };
+};
 
-// const mapDispatchToProps = {
-//   listRepos
-// };
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileScreen);
