@@ -179,7 +179,7 @@ export const followUser = (userObj, currUserInfo) => {
     const currUserRef = db.collection('users').doc(user.uid);
     const currUserInfoUpdated = currUserInfo;
     const currFollowing = [...currUserInfo.following, userObj];
-    console.log('curr followers is---------- ', currFollowing);
+
     currUserInfoUpdated.following = currFollowing;
 
     currUserRef
