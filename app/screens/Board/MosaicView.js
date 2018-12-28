@@ -1,22 +1,5 @@
-// export default class Message extends React.Component {
-//   render() {
-//     return (
-//         <Image style={styles.post} source={{uri:this.props.imageSrc}} alt="Post"/>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   post: {
-//     display: 'flex',
-//     width: 174,
-//     height: 225,
-//     borderRadius: 7,
-//     marginBottom: 10,
-//   }
-// })
-import React from "react";
-import { Image, StyleSheet, View, ScrollView } from "react-native";
+import React from 'react';
+import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import {
   Container,
   Header,
@@ -31,7 +14,7 @@ import {
   Body,
   Right,
   Fab
-} from "native-base";
+} from 'native-base';
 
 export default class MosaicScreen extends React.Component {
   constructor(props) {
@@ -45,7 +28,7 @@ export default class MosaicScreen extends React.Component {
       <View>
         <ScrollView>
           <View
-            style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+            style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
           >
             {kittens ? (
               kittens.map((catURI, idx) => (
@@ -63,7 +46,7 @@ export default class MosaicScreen extends React.Component {
 
 const styles = StyleSheet.create({
   post: {
-    display: "flex",
+    display: 'flex',
     width: 87,
     height: 112.5,
     borderRadius: 7,

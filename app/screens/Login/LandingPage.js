@@ -1,27 +1,40 @@
-import React from "react";
-import Video from "app/components/common/media/Video";
+import React from 'react';
+import Video from 'app/components/common/media/Video';
 import {
   ScrollView,
   StyleSheet,
-  Text,
   View,
-  Button,
   SafeAreaView,
   Image,
   Alert
-} from "react-native";
-import VideoUrl from "assets/videos/video.mp4";
-import { Entypo } from "@expo/vector-icons";
-import firebase from "db/firebase";
-import { followUser, createUserifNoneExists } from "db/profile/index";
+} from 'react-native';
+import VideoUrl from 'assets/videos/video.mp4';
 
-const testId = "test123";
+import firebase from 'db/firebase';
+import { Button, Icon, Text } from 'native-base';
+import { connect } from 'react-redux';
+
+import db from 'db/firestore';
+
+import { facebookLogin, fetchUserInfo } from 'actions/login/index';
 
 export default class LandingPage extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
-  
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        this.props.fetchUserInfo(user.uid);
+        this.props.navigation.navigate('MainScreen', {
+          displayName: user.displayName
+        });
+      }
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,24 +44,43 @@ export default class LandingPage extends React.Component {
           videoStyle={styles.backgroundVideo}
           muted={true}
         />
-        <Entypo
-          name="facebook-with-circle"
-          size={64}
-          color="black"
-          onPress={() => this.props.facebookLogin()}
-          style={styles.fbIcon}
-        />
         <Button
-          title={"Just take me in with no sign in"}
+          rounded
+          iconLeft
+          bordered
+          light
+          color="white"
+          onPress={() => this.props.facebookLogin()}
+        >
+          <Icon
+            name="facebook-with-circle"
+            type="Entypo"
+            style={{ color: 'white', fontSize: 30 }}
+          />
+          <Text> Login with facebook </Text>
+        </Button>
+        <Button rounded iconLeft bordered light style={{ marginTop: 10 }}>
+          <Icon
+            name="email"
+            type="MaterialIcons"
+            style={{ color: 'white', fontSize: 30 }}
+          />
+          <Text> Login with email </Text>
+        </Button>
+        <Button
+          rounded
+          iconLeft
+          bordered
+          light
+          title={'Just take me in with no sign in'}
           onPress={() => {
             this.props.testLogin();
-            this.props.navigation.navigate("MainScreen");
+            this.props.navigation.navigate('MainScreen');
           }}
-        />
-        <Button
-          title={"Test a Db "}
-          onPress={() => { followUser(testId)}}
-        />
+          style={{ backgroundColor: 'white', marginTop: 10 }}
+        >
+          <Text style={{ color: 'black' }}>take me in without signing in </Text>
+        </Button>
       </View>
     );
   }
@@ -58,16 +90,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 30,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   fbIcon: {
-    display: "flex",
+    display: 'flex',
     marginBottom: 30
   },
   backgroundVideo: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
