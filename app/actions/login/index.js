@@ -1,33 +1,10 @@
-<<<<<<< HEAD
-import config from "../../../config.js";
-import { Alert } from "react-native";
-import { AuthSession } from "expo";
-import firebase from "db/firebase";
-import { createUserifNoneExists } from "db/profile/index";
-||||||| merged common ancestors
-import config from "../../../config.js";
-import { Alert } from "react-native";
-import { AuthSession } from "expo";
-import firebase from "db/firebase";
-=======
 import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
->>>>>>> master
 
-<<<<<<< HEAD
-export const FACEBOOK_LOGIN_SUCCESS = "FACEBOOK_LOGIN_SUCCESS";
-export const AUTH_SUCCESS = "AUTH_SUCCESS";
-export const AUTH_FAIL = "AUTH_FAIL";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-||||||| merged common ancestors
-export const FACEBOOK_LOGIN_SUCCESS = "FACEBOOK_LOGIN_SUCCESS";
-export const AUTH_SUCCESS = "AUTH_SUCCESS";
-export const AUTH_FAIL = "AUTH_FAIL";
-=======
 export const FACEBOOK_LOGIN_SUCCESS = 'FACEBOOK_LOGIN_SUCCESS';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
@@ -37,89 +14,72 @@ export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
 export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
->>>>>>> master
 
-export function facebookLoginSuccess(facebookUser) {
+export const facebookLoginSuccess = (facebookUser) => {
   return {
     type: FACEBOOK_LOGIN_SUCCESS,
     facebookUser
   };
 }
 
-export const userInfoFetched = userProfile => {
+export const userInfoFetched = (userProfile) => {
   return {
     type: USER_INFO_FETCHED,
     userProfile
   };
 };
 
-export const userInfoNotFound = errorMsg => {
+export const userInfoNotFound = (errorMsg) => {
   return {
     type: USER_INFO_NOT_FOUND,
     errorMsg
   };
 };
 
-function userProfileCreated(userProfile) {
+export const userProfileCreated = (userProfile) => {
   return {
     type: USER_PROFILE_CREATED,
     userProfile
   };
 }
-function createProfileError(errorMsg) {
+
+export const createProfileError = (errorMsg) => {
   return {
     type: CREATE_PROFILE_ERROR,
     errorMsg
   };
 }
 
-function authSuccess() {
+export const authSuccess = () => {
   return {
     type: AUTH_SUCCESS
   };
 }
 
-function authFail(errorMsg) {
+export const authFail = (errorMsg) => {
   return {
     type: AUTH_FAIL,
     errorMsg
   };
 }
-function logOutSuccess() {
+
+export const logOutSuccess = () => {
   return {
     type: LOGOUT_SUCCESS
   };
 }
-export const userUpdated = updatedUserInfo => {
+
+export const userUpdated = (updatedUserInfo) => {
   return {
     type: USER_UPDATED,
     updatedUserInfo
   };
 };
 
-<<<<<<< HEAD
-export function logOutSuccess() {
-  return {
-    type: LOGOUT_SUCCESS
-  }
-}
+firebase.auth().onAuthStateChanged(function(user) {
+  createUserIfNoneExists(user)
+});
 
-export async function facebookLogin(dispatch) {
-  const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-    config.fbAppID,
-    {
-      permissions: ["public_profile", "email"]
-    }
-  );
-||||||| merged common ancestors
-export async function facebookLogin(dispatch) {
-  const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-    config.fbAppID,
-    {
-      permissions: ["public_profile", "email"]
-    }
-  );
-=======
 export function facebookLogin() {
   return async dispatch => {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
@@ -130,94 +90,54 @@ export function facebookLogin() {
     );
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      await firebase
+      firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
->>>>>>> master
-
-<<<<<<< HEAD
-  if (type === "success") {
-    const credential = firebase.auth.FacebookAuthProvider.credential(token);
-    await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    dispatch(authSuccess());
-  } else {
-    const errorMsg = "Facebook Login Failed.";
-    dispatch(authFail(errorMsg));
-  }
-  
-  firebase.auth().onAuthStateChanged(user => {
-    if (user != null) {
-      dispatch(facebookLoginSuccess(user));
-      createUserifNoneExists(user);
-    } else {
-      store.dispatch(logOutSuccess());
+      } else {
+        const errorMsg = "Facebook Login Failed.";
+        dispatch(authFail(errorMsg));
+      }
     }
-  })
-  
-  
-}
-||||||| merged common ancestors
-  if (type === "success") {
-    const credential = firebase.auth.FacebookAuthProvider.credential(token);
-    await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    dispatch(facebookLoginSuccess(token));
-    dispatch(authSuccess());
-  } else {
-    const errorMsg = "Facebook Login Failed.";
-    dispatch(authFail(errorMsg));
   }
-}
-=======
-        .catch(function(error) {
-          console.error(error);
-          dispatch(authFail(error));
-        });
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user !== null) {
-          const currTime = Date.now();
-          const currentTime = moment(currTime).format(
-            'MMMM Do YYYY, h:mm:ss a'
-          );
-
-          db.collection('users')
-            .doc(user.uid)
-            .set({
-              uid: user.uid,
-              provider: user.providerData[0].providerId,
-              providerID: user.providerData[0].uid,
-              displayName: user.providerData[0].displayName,
-              email: user.providerData[0].email,
-              photoURL: user.providerData[0].photoURL,
-              lastLoginAt: currentTime,
-              followers: [],
-              following: [],
-              socialNetworks: [
-                { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
-              ]
-            })
-            .then(function(docRef) {
-              dispatch(userProfileCreated(userInfo));
-            })
-            .catch(function(error) {
-              console.error('Error adding document: ', error);
->>>>>>> master
-
-              dispatch(createProfileError(error));
-            });
+  
+function createUserIfNoneExists(user) {
+  const userRef = db.collection('users').doc(user.uid);
+  console.log("user is ", user);
+  
+  userRef
+    .get()
+    .then(function(dbUser) {
+      if (!dbUser.exists) {
+        const currTime = Date.now();
+   	    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+        const newUser = {
+            uid: user.uid,
+            provider: user.providerData[0].providerId,
+            providerID: user.providerData[0].uid,
+            displayName: user.providerData[0].displayName,
+            email: user.providerData[0].email,
+            photoURL: user.providerData[0].photoURL,
+            lastLoginAt: currentTime,
+            followers: [],
+            following: [],
+            socialNetworks: [
+              { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
+            ]
         }
-      });
-      dispatch(facebookLoginSuccess(token));
-      dispatch(authSuccess());
-    }
-  };
-}
+        db.collection('users')
+          .doc(user.uid)
+          .set(newUser)
+          .then(function() {
+            dispatch(userProfileCreated(newUser));
+          })
+          .catch(function(error) {
+            console.error('Error adding document: ', error);
+            dispatch(createProfileError(error));
+          });
+      }
+    })
+  }
 
-export async function emailLogin(email, password) {
-  await firebase.auth().signInWithEmailAndPassword(email, password);
-  const userId = firebase.auth().currentUser.uid;
-  return userId + '';
-}
 
 export async function userLogout() {
   firebase

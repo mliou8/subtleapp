@@ -9,15 +9,14 @@ import {
   Picker
 } from 'react-native';
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
-import Bio from 'app/components/profile/Bio';
-import Row from 'app/components/profile/Row';
-import ProfileBottomContainer from './ProfileBottomContainer';
+import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Following from 'app/components/profile/Followers';
 import AddSocialNetworkTag from './AddSocialNetwork';
 import db from 'db/firestore';
 import { connect } from 'react-redux';
 import moment from 'moment';
+
 
 import {
   Container,
