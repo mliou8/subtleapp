@@ -76,8 +76,10 @@ export const userUpdated = (updatedUserInfo) => {
   };
 };
 
-firebase.auth().onAuthStateChanged(function(user) {
-  createUserIfNoneExists(user)
+firebase.auth().onAuthStateChanged(user => {
+  if (user != null) {
+    createUserIfNoneExists(user)
+  }
 });
 
 export function facebookLogin() {
@@ -100,23 +102,25 @@ export function facebookLogin() {
     }
   }
   
-function createUserIfNoneExists(user) {
+export function createUserIfNoneExists(user) {
   const userRef = db.collection('users').doc(user.uid);
   console.log("user is ", user);
   
   userRef
     .get()
     .then(function(dbUser) {
-      if (!dbUser.exists) {
+      if (dbUser.exists) {
+        return false;
+      } else {
         const currTime = Date.now();
    	    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
         const newUser = {
             uid: user.uid,
             provider: user.providerData[0].providerId,
             providerID: user.providerData[0].uid,
-            displayName: user.providerData[0].displayName,
-            email: user.providerData[0].email,
-            photoURL: user.providerData[0].photoURL,
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
             lastLoginAt: currentTime,
             followers: [],
             following: [],

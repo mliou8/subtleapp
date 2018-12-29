@@ -24,17 +24,6 @@ export default class LandingPage extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        this.props.fetchUserInfo(user.uid);
-        this.props.navigation.navigate('MainScreen', {
-          displayName: user.displayName
-        });
-      }
-    });
-  }
-
   render() {
     return (
       <View style={styles.container}>
@@ -74,7 +63,6 @@ export default class LandingPage extends React.Component {
           light
           title={'Just take me in with no sign in'}
           onPress={() => {
-            this.props.testLogin();
             this.props.navigation.navigate('MainScreen');
           }}
           style={{ backgroundColor: 'white', marginTop: 10 }}

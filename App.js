@@ -11,15 +11,15 @@ export default class App extends React.Component {
     isLoadingComplete: false,
   };
   
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
-        store.dispatch(facebookLoginSuccess(user));
-      } else {
-        store.dispatch(logOutSuccess());
-      }
-    });
-  }
+  // componentDidMount() {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user != null) {
+  //       store.dispatch(facebookLoginSuccess(user));
+  //     } else {
+  //       store.dispatch(logOutSuccess());
+  //     }
+  //   });
+  // }
   
   state = {
     isLoadingComplete: false,
