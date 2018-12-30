@@ -5,7 +5,6 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-export const FACEBOOK_LOGIN_SUCCESS = 'FACEBOOK_LOGIN_SUCCESS';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -14,13 +13,7 @@ export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
 export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
-
-export const facebookLoginSuccess = (facebookUser) => {
-  return {
-    type: FACEBOOK_LOGIN_SUCCESS,
-    facebookUser
-  };
-}
+export const EDIT_USER_FAIL = "EDIT_USER_FAIL";
 
 export const userInfoFetched = (userProfile) => {
   return {
@@ -35,13 +28,6 @@ export const userInfoNotFound = (errorMsg) => {
     errorMsg
   };
 };
-
-export const userProfileCreated = (userProfile) => {
-  return {
-    type: USER_PROFILE_CREATED,
-    userProfile
-  };
-}
 
 export const createProfileError = (errorMsg) => {
   return {
@@ -72,15 +58,18 @@ export const logOutSuccess = () => {
 export const userUpdated = (updatedUserInfo) => {
   return {
     type: USER_UPDATED,
-    updatedUserInfo
+    userInfo: updatedUserInfo,
   };
 };
 
-firebase.auth().onAuthStateChanged(user => {
-  if (user != null) {
-    createUserIfNoneExists(user)
-  }
-});
+
+export const editUserFail = (errorMsg) => {
+  return {
+    type: EDIT_USER_FAIL,
+    errorMsg
+  };
+}
+
 
 export function facebookLogin() {
   return async dispatch => {
@@ -90,11 +79,15 @@ export function facebookLogin() {
         permissions: ['public_profile', 'email']
       }
     );
+    
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
       firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
+        .then((user) => {
+          dispatch(userUpdated(user))
+        })
       } else {
         const errorMsg = "Facebook Login Failed.";
         dispatch(authFail(errorMsg));
@@ -103,43 +96,45 @@ export function facebookLogin() {
   }
   
 export function createUserIfNoneExists(user) {
-  const userRef = db.collection('users').doc(user.uid);
-  console.log("user is ", user);
-  
-  userRef
-    .get()
-    .then(function(dbUser) {
-      if (dbUser.exists) {
-        return false;
-      } else {
-        const currTime = Date.now();
-   	    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-        const newUser = {
-            uid: user.uid,
-            provider: user.providerData[0].providerId,
-            providerID: user.providerData[0].uid,
-            displayName: user.displayName,
-            email: user.email,
-            photoURL: user.photoURL,
-            lastLoginAt: currentTime,
-            followers: [],
-            following: [],
-            socialNetworks: [
-              { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
-            ]
+  return async dispatch => {
+    const userRef = db.collection('users').doc(user.uid);
+    userRef
+      .get()
+      .then(function(dbUser) {
+        if (dbUser.exists) {
+          dispatch(userUpdated(dbUser.data()));
+          dispatch(authSuccess());
+        } else {
+          const currTime = Date.now();
+     	    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+          const newUser = {
+              uid: user.uid,
+              provider: user.providerData[0].providerId,
+              providerID: user.providerData[0].uid,
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              lastLoginAt: currentTime,
+              followers: [],
+              following: [],
+              socialNetworks: [
+                { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
+              ]
+          }
+          db.collection('users')
+            .doc(user.uid)
+            .set(newUser)
+            .then(function() {
+              dispatch(userUpdated(newUser));
+              dispatch(authSuccess());
+            })
+            .catch(function(error) {
+              console.error('Error adding document: ', error);
+              dispatch(createProfileError(error));
+            });
         }
-        db.collection('users')
-          .doc(user.uid)
-          .set(newUser)
-          .then(function() {
-            dispatch(userProfileCreated(newUser));
-          })
-          .catch(function(error) {
-            console.error('Error adding document: ', error);
-            dispatch(createProfileError(error));
-          });
-      }
-    })
+      })
+    }
   }
 
 
