@@ -11,8 +11,10 @@ import {
   RkStyleSheet,
   RkTheme,
 } from 'react-native-ui-kitten';
-import FindFriends from 'app/components/profile/FindFriends';
+import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
 import { removeNetwork } from 'db/profile/index';
+
+const socialNetworkOptions = ['instagram', 'youtube', 'twitch', 'facebook'];
 
 export default class Settings extends React.Component {
   static navigationOptions = {
@@ -24,27 +26,37 @@ export default class Settings extends React.Component {
     this.state = {
       sendPush: true,
       shouldRefresh: false,
-      socialNetworks: this.props.socialNetworks,
+      socialNetworks: [],
+      instagram: false,
+      youtube: false,
+      facebook: false,
+      twitch: false,
     };
+    
+    this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
   }
   
   renderSocialNetworks = () => {
-      return this.state.socialNetworks.map((socialNetwork, idx) => {
+    console.log("this.props ", this.props)
+      return socialNetworkOptions.map((socialNetwork, idx) => {
+        const { source, sourceUrl } = socialNetwork;
+        this.setState({[source]: true});
         return (
           <View style={styles.row} key={idx}>
-            <FindFriends
-              text={socialNetwork.sourceName}
-              iconType={socialNetwork.badgeType}
-              selected={this.state.facebookEnabled}
-              onPress={this.onFindFriendsFacebookButtonPressed}
+            <ConnectedNetworks
+              text={sourceUrl}
+              iconType={source}
+              enabled={this.state[source]}
+              remove={() => onPresstoRemove(source)}
             />
           </View>
         )
       })
-    };
+  };
     
-  onPresstoRemove = (value) => {
-    this.setState({ sendPush: value });
+  onPresstoRemove = (source) => {
+    this.setState({ [source] : false});
+    removeNetwork(source);
   };
 
   onRefreshAutomaticallySettingChanged = (value) => {
@@ -58,43 +70,35 @@ export default class Settings extends React.Component {
           <RkText rkType='primary header6'>PROFILE SETTINGS</RkText>
         </View>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Edit Profile</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Change Password</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <RkText rkType='header6'>Send Push Notifications</RkText>
-        </View>
-        <View style={styles.row}>
-          <RkText rkType='header6'>Refresh Automatically</RkText>
+          <RkText rkType='header6'>Placeholder goes with a switch toggle</RkText>
         </View>
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>FIND FRIENDS</RkText>
+          <RkText rkType='primary header6'>Connected Networks</RkText>
         </View>
+        { this.renderSocialNetworks() }
         <View style={styles.row}>
-          <FindFriends
-            text='Twitter'
-            iconType={'twitter'}
-            selected={this.state.twitterEnabled}
-            onPress={this.onFindFriendsTwitterButtonPressed}
+          <ConnectedNetworks
+            text={`Network Name`}
+            iconType={'facebook'}
+            enabled={this.state.facebookEnabled}
           />
         </View>
         <View style={styles.row}>
-          <FindFriends
-            text='Google'
-            iconType={'google'}
-            selected={this.state.googleEnabled}
-            onPress={this.onFindFriendsGoogleButtonPressed}
+          <ConnectedNetworks
+            text={`Network Name`}
+            iconType={'youtube'}
+            enabled={this.state.youtubeEnabled}
           />
         </View>
-        
+        <View style={styles.row}>
+          <ConnectedNetworks
+            text={`Network Name`}
+            iconType={'instagram'}
+            enabled={this.state.instagramEnabled}
+          />
+        </View>
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
