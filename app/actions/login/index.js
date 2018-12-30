@@ -5,7 +5,6 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-export const FACEBOOK_LOGIN_SUCCESS = 'FACEBOOK_LOGIN_SUCCESS';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -14,64 +13,63 @@ export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
 export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
+export const EDIT_USER_FAIL = "EDIT_USER_FAIL";
 
-function facebookLoginSuccess(facebookUser) {
-  return {
-    type: FACEBOOK_LOGIN_SUCCESS,
-    facebookUser
-  };
-}
-
-export const userInfoFetched = userProfile => {
+export const userInfoFetched = (userProfile) => {
   return {
     type: USER_INFO_FETCHED,
     userProfile
   };
 };
 
-export const userInfoNotFound = errorMsg => {
+export const userInfoNotFound = (errorMsg) => {
   return {
     type: USER_INFO_NOT_FOUND,
     errorMsg
   };
 };
 
-function userProfileCreated(userProfile) {
-  return {
-    type: USER_PROFILE_CREATED,
-    userProfile
-  };
-}
-function createProfileError(errorMsg) {
+export const createProfileError = (errorMsg) => {
   return {
     type: CREATE_PROFILE_ERROR,
     errorMsg
   };
 }
 
-function authSuccess() {
+export const authSuccess = () => {
   return {
     type: AUTH_SUCCESS
   };
 }
 
-function authFail(errorMsg) {
+export const authFail = (errorMsg) => {
   return {
     type: AUTH_FAIL,
     errorMsg
   };
 }
-function logOutSuccess() {
+
+export const logOutSuccess = () => {
   return {
     type: LOGOUT_SUCCESS
   };
 }
-export const userUpdated = updatedUserInfo => {
+
+export const userUpdated = (updatedUserInfo) => {
   return {
     type: USER_UPDATED,
-    updatedUserInfo
+    userInfo: updatedUserInfo,
   };
 };
+
+
+export const editUserFail = (errorMsg) => {
+  return {
+    type: EDIT_USER_FAIL,
+    errorMsg
+  };
+}
+
 
 export function facebookLogin() {
   return async dispatch => {
@@ -81,61 +79,64 @@ export function facebookLogin() {
         permissions: ['public_profile', 'email']
       }
     );
+    
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      await firebase
+      firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
-
-        .catch(function(error) {
-          console.error(error);
-          dispatch(authFail(error));
-        });
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user !== null) {
+        .then((user) => {
+          dispatch(userUpdated(user))
+        })
+      } else {
+        const errorMsg = "Facebook Login Failed.";
+        dispatch(authFail(errorMsg));
+      }
+    }
+  }
+  
+export function createUserIfNoneExists(user) {
+  return async dispatch => {
+    const userRef = db.collection('users').doc(user.uid);
+    userRef
+      .get()
+      .then(function(dbUser) {
+        if (dbUser.exists) {
+          dispatch(userUpdated(dbUser.data()));
+          dispatch(authSuccess());
+        } else {
           const currTime = Date.now();
-          const currentTime = moment(currTime).format(
-            'MMMM Do YYYY, h:mm:ss a'
-          );
-
-          db.collection('users')
-            .doc(user.uid)
-            .set({
+     	    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+          const newUser = {
               uid: user.uid,
               provider: user.providerData[0].providerId,
               providerID: user.providerData[0].uid,
-              displayName: user.providerData[0].displayName,
-              email: user.providerData[0].email,
-              photoURL: user.providerData[0].photoURL,
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
               lastLoginAt: currentTime,
               followers: [],
               following: [],
               socialNetworks: [
                 { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
               ]
-            })
-            .then(function(docRef) {
-              dispatch(userProfileCreated(userInfo));
+          }
+          db.collection('users')
+            .doc(user.uid)
+            .set(newUser)
+            .then(function() {
+              dispatch(userUpdated(newUser));
+              dispatch(authSuccess());
             })
             .catch(function(error) {
               console.error('Error adding document: ', error);
-
               dispatch(createProfileError(error));
             });
         }
-      });
-      dispatch(facebookLoginSuccess(token));
-      dispatch(authSuccess());
+      })
     }
-  };
-}
+  }
 
-export async function emailLogin(email, password) {
-  await firebase.auth().signInWithEmailAndPassword(email, password);
-  const userId = firebase.auth().currentUser.uid;
-  return userId + '';
-}
 
 export async function userLogout() {
   firebase

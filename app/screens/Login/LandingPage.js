@@ -18,22 +18,17 @@ import db from 'db/firestore';
 
 import { facebookLogin, fetchUserInfo } from 'actions/login/index';
 
-class LandingPage extends React.Component {
+export default class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        Alert.alert(`Hey! ${user.displayName}`);
-        this.props.fetchUserInfo(user.uid);
-        this.props.navigation.navigate('MainScreen', {
-          displayName: user.displayName
-        });
-      }
-    });
+  
+  componentWillMount() {
+    // doesnt work yet
+    if (this.props.authenticated) {
+      this.props.navigation.navigate('MainScreen');
+    }
   }
 
   render() {
@@ -75,7 +70,6 @@ class LandingPage extends React.Component {
           light
           title={'Just take me in with no sign in'}
           onPress={() => {
-            this.props.testLogin();
             this.props.navigation.navigate('MainScreen');
           }}
           style={{ backgroundColor: 'white', marginTop: 10 }}
@@ -86,36 +80,6 @@ class LandingPage extends React.Component {
     );
   }
 }
-{
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state,
-    authenticated: state.login.authenticated,
-    userRegistered: state.login.userRegistered,
-    userInfo: state.login.userInfo,
-    login: state.login
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    facebookLogin: () => {
-      dispatch(facebookLogin());
-    },
-    createUserProfile: userInfo => {
-      dispatch(createUserProfile(userInfo));
-    },
-    fetchUserInfo: uid => {
-      dispatch(fetchUserInfo(uid));
-    }
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LandingPage);
 
 const styles = StyleSheet.create({
   container: {

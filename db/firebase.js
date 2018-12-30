@@ -3,4 +3,4 @@ import config from "../config";
 
 firebase.initializeApp(config.firebaseConfig);
 
-export default firebase;
+export default firebase

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
-
+import firebase from 'db/firebase';
 import { Provider } from 'react-redux';
+import { createUserIfNoneExists } from 'app/actions/login';
 import store from 'app/redux/';
 
 export default class App extends React.Component {
@@ -13,7 +14,15 @@ export default class App extends React.Component {
       isLoadingComplete: false
     };
   }
-
+  
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user != null) {
+        store.dispatch(createUserIfNoneExists(user))
+      }
+    });
+  }
+  
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (

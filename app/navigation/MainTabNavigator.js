@@ -6,8 +6,9 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "app/components/common/TabBarIcon";
-import ProfileScreen from "app/screens/Profile/ProfileScreen";
-import FollowersListScreen from "app/screens/Profile/FollowersList";
+import OwnProfileScreen from "app/containers/Profile/OwnProfileContainer";
+import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
+import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
 import PostFullScreen from "app/screens/Post/PostFullScreen";
 import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
 import MessageScreen from "app/screens/Messages/MessageScreen";
@@ -16,7 +17,7 @@ import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 import BoardScreen from "app/screens/Board/BoardScreen";
 import FullPost from "app/components/board/FullPost";
 import MosaicScreen from "app/screens/Board/MosaicView";
-// import BoardScreen from "app/containers/Board/BoardContainer";
+import SettingsScreen from "app/containers/Profile/SettingsContainer";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -24,7 +25,8 @@ const HomeStack = createStackNavigator({
   Messages: MessageScreen,
   Conversation: Conversation,
   FullPost: FullPost,
-  Mosaic: MosaicScreen
+  Mosaic: MosaicScreen,
+  GenericProfileScreen: GenericProfileScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -35,11 +37,12 @@ HomeStack.navigationOptions = {
 };
 
 const ProfileStack = createStackNavigator({
-  Profile: ProfileScreen,
+  Profile: OwnProfileScreen,
   Messages: MessageScreen,
   Conversation: Conversation,
   FollowersList: FollowersListScreen,
-  AddSocialNetwork: AddSocialNetworkTag
+  AddSocialNetwork: AddSocialNetworkTag,
+  Settings: SettingsScreen,
 });
 
 ProfileStack.navigationOptions = {

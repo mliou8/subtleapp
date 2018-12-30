@@ -8,8 +8,6 @@ import {
   Image
 } from "react-native";
 import ProfilePortrait from "app/components/profile/ProfilePortrait";
-import Bio from "app/components/profile/Bio";
-import Row from "app/components/profile/Row";
 import RecentPostScreen from "./RecentPostScreen";
 import AchievementScreen from "./AchievementScreen";
 import Badge from "app/components/common/Badge";

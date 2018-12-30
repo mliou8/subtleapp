@@ -30,7 +30,6 @@ export default class AddSocialNetworkTag extends Component {
   constructor() {
     super();
     this.state = {};
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
