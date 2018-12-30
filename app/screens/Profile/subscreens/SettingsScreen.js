@@ -29,7 +29,7 @@ export default class Settings extends React.Component {
   }
   
   renderSocialNetworks = () => {
-      return this.props.userInfo.socialNetworks.map((socialNetwork, idx) => {
+      return this.state.socialNetworks.map((socialNetwork, idx) => {
         return (
           <View style={styles.row} key={idx}>
             <FindFriends

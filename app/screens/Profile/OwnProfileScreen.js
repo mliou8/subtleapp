@@ -41,7 +41,7 @@ export default class OwnProfileScreen extends React.Component {
       headerLeft: (
         <Button 
           transparent 
-          onPress={() => navigation.navigate('Settings', { user: this.props.userInfo})}>
+          onPress={() => navigation.navigate('Settings')}>
           <Text style= {{color: 'black'}}>Settings</Text>
         </Button>
       ),
