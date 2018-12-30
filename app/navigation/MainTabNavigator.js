@@ -6,7 +6,7 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "app/components/common/TabBarIcon";
-import OwnProfileScreen from "app/screens/Profile/OwnProfileScreen";
+import OwnProfileScreen from "app/containers/Profile/OwnProfileContainer";
 import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
 import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
 import PostFullScreen from "app/screens/Post/PostFullScreen";

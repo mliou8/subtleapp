@@ -14,8 +14,6 @@ import Badge from 'app/components/common/Badge';
 import Following from 'app/components/profile/Followers';
 import AddSocialNetworkTag from './AddSocialNetwork';
 import db from 'db/firestore';
-import { connect } from 'react-redux';
-import moment from 'moment';
 
 
 import {
@@ -43,8 +41,8 @@ export default class OwnProfileScreen extends React.Component {
       headerLeft: (
         <Button 
           transparent 
-          onPress={() => navigation.navigate("Settings")}>
-          <Text>Settings</Text>
+          onPress={() => navigation.navigate('Settings', { user: this.props.userInfo})}>
+          <Text style= {{color: 'black'}}>Settings</Text>
         </Button>
       ),
       headerRight: (
@@ -85,6 +83,7 @@ export default class OwnProfileScreen extends React.Component {
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
     this.addSocialBadge = this.addSocialBadge.bind(this);
   }
+
   componentDidMount() {
     this.props.navigation.setParams({ edit: this._editProfile });
     this.props.navigation.setParams({ save: this._saveProfile });
@@ -122,12 +121,10 @@ export default class OwnProfileScreen extends React.Component {
 
     return (
       <ScrollView style={styles.container}>
-        {this.props.login.userInfo.uid ? (
+        {this.props.userInfo.uid ? (
           <View>
-            {/* {this.props.profile.userProfile.uid === this.props.login.userInfo.uid? ( */}
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <Following userOnDisplay={bailey} />
-              {/* <Followers userOnDisplay={this.props.profile.userProfile.uid} /> */}
             </View>
             <Content>
               <Card style={{ height: '45 %' }} transparent>
@@ -135,7 +132,7 @@ export default class OwnProfileScreen extends React.Component {
                   <Left>
                     <ProfilePortrait
                       style={styles.profile}
-                      imageSrc={this.props.login.userInfo.photoURL}
+                      imageSrc={this.props.userInfo.photoURL}
                     />
                     <Body>
                       <TouchableOpacity
@@ -148,7 +145,7 @@ export default class OwnProfileScreen extends React.Component {
                       >
                         <Text>
                           Following:{' '}
-                          {this.props.login.userInfo.following.length}
+                          {this.props.userInfo.following.length}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
@@ -160,7 +157,7 @@ export default class OwnProfileScreen extends React.Component {
                       >
                         <Text>
                           Followers:{' '}
-                          {this.props.login.userInfo.followers.length}
+                          {this.props.userInfo.followers.length}
                         </Text>
                       </TouchableOpacity>
                     </Body>
@@ -191,7 +188,7 @@ export default class OwnProfileScreen extends React.Component {
               {this.state.displayAdd ? <AddSocialNetworkTag /> : null}
             </View>
             <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-              <Text>{this.props.login.userInfo.displayName}</Text>
+              <Text>{this.props.userInfo.displayName}</Text>
             </View>
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
