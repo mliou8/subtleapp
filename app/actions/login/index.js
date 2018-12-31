@@ -56,6 +56,7 @@ export const logOutSuccess = () => {
 }
 
 export const userUpdated = (updatedUserInfo) => {
+  console.log("is this firing ", updatedUserInfo)
   return {
     type: USER_UPDATED,
     userInfo: updatedUserInfo,
@@ -151,6 +152,7 @@ export async function userLogout() {
       }
     );
 }
+
 export const fetchUserInfo = userID => {
   return async dispatch => {
     var docRef = db.collection('users').doc(`${userID}`);

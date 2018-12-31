@@ -39,11 +39,12 @@ export default class Settings extends React.Component {
   
   // initialize each property to the correct value
   componentDidMount() {
-    this.updateSocialNetworks() 
+    this.updateSocialNetworks() ;
   }
   
   // run this function each time social networks update
   updateSocialNetworks = () => {
+    this.setState({socialNetworks: this.props.userInfo.socialNetworks});
     this.state.socialNetworks.forEach((socialNetwork) => {
       const source = socialNetwork.source.toLowerCase();
       const sourceUrl = socialNetwork.sourceUrl;

@@ -4,6 +4,7 @@ import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
+import { userUpdated } from 'app/actions/login';
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
@@ -38,7 +39,7 @@ export const profileNotFound = errorMsg => {
 
 export const fetchUser = userID => {
   return async dispatch => {
-    var docRef = db.collection('users').doc(`${userID}`);
+    var docRef = db.collection('users').doc(userID);
 
     docRef
       .get()
@@ -48,7 +49,6 @@ export const fetchUser = userID => {
           dispatch(profileFetched(profile.profile));
         } else {
           const msg = 'No such user with that uid';
-
           dispatch(profileNotFound(msg));
         }
       })
@@ -100,35 +100,23 @@ export const profileRemoveFollower = profileUserID => {
   };
 };
 
-export function fetchNetworks(user) {
-  const userRef = db.collection("users").doc(user.uid); 
-    userRef.get()
-    .then(function(user) {
-      if (user.exists) {
-        console.log("user.data().", user.data().socialNetworks);
-        return user.data().socialNetworks; 
-      } else {
-        return "";	         
-        console.log("No such document!");
-      }
-      })	    
-     .catch(function(error) {
-       console.log("Error getting document:", error);
-     });
-  }
-   
-
 export const addNetwork = (networkObj, currentUser) => {
   return async dispatch => {
     const userRef = db.collection("users").doc(currentUser.uid);
-    const networkToUpdate = fetchNetworks(currentUser);
-    console.log("networktoUpdate ", networkToUpdate);
-    networkToUpdate.push(networkObj);
-    return userRef.update({
-      socialNetworks: networkToUpdate,
+    return db.runTransaction((transaction) => {
+      return transaction.get(userRef).then(function(user) {
+        if (!user.exists) {
+          throw "Document does not exist!";
+        }
+        const networksUpdate = user.data().socialNetworks;
+        networksUpdate.push(networkObj)
+        transaction.update(userRef, { socialNetworks: networksUpdate });
+        return user.data().uid
+      })
     })
-    .then(function() {
+    .then(function(uid) {
       console.log("Document successfully updated");
+      dispatch(updateUser(uid));
     })
     .catch(function(error) {
       console.error("Error updating document: ", error);
@@ -137,21 +125,53 @@ export const addNetwork = (networkObj, currentUser) => {
 }
 
 export const removeNetwork = (networkObj, currentUser) => {
-  return async dispatch => {    
+  return async dispatch => {     
     const userRef = db.collection("users").doc(currentUser.uid);
-    const networkToUpdate = fetchNetworks(currentUser);
-    console.log("networktoUpdate ", networkToUpdate);
-    const filteredNetwork = networkToUpdate.filter((networks) => { 
-       return networks.source !== networkObj.source; 
-     }); 
-    return userRef.update({
-      socialNetworks: filteredNetwork 
+    return db.runTransaction((transaction) => {
+      return transaction.get(userRef).then(function(user) {
+        if (!user.exists) {
+          throw "Document does not exist!";
+        }
+        const currentNetworks = user.data().socialNetworks;
+        const filteredNetworks = currentNetworks.filter((networks) => { 
+          return networks.source !== networkObj.source; 
+        }); 
+        if (filteredNetworks.length === 0) {
+          filteredNetworks = [{}];
+        }        
+        console.log("filteredNetworks is ", filteredNetworks);
+        transaction.update(userRef, {socialNetworks: filteredNetworks});
+        return user.data().uid
+      })
     })
-    .then(function() {
-      console.log("Document successfully updated!");
+    .then(function(uid) {
+      console.log("Document successfully updated ", uid);
+      dispatch(updateUser(uid));
     })
     .catch(function(error) {
-        console.error("Error updating document: ", error);
-    });
+      console.error("Error updating document: ", error);
+    })
+  }
+}
+
+const updateUser = (uid) => {
+  return async dispatch => {
+    const userRef = db.collection("users").doc(uid);
+    userRef
+      .get()
+      .then(function(user) {
+        if (user.exists) {
+          const profile = user.data();
+          console.log("newProfile");
+          dispatch(userUpdated(profile));
+        } else {
+          const msg = 'No such user with that uid';
+          dispatch(profileNotFound(msg));
+        }
+      })
+      .catch(function(error) {
+        const msg = 'Error Retrieving User Document';
+        dispatch(profileNotFound(msg));
+      });
   }
 }
