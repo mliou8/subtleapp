@@ -12,7 +12,7 @@ import {
   RkTheme,
 } from 'react-native-ui-kitten';
 import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
-import { removeNetwork } from 'db/profile/index';
+import { removeNetwork, addNetwork } from 'db/profile/index';
 
 const socialNetworkOptions = ['instagram', 'youtube', 'twitch', 'facebook'];
 
@@ -62,7 +62,7 @@ export default class Settings extends React.Component {
               iconType={socialNetwork}
               enabled={this.state[socialNetwork.toLowerCase()].enabled}
               onPressToRemove={() => this.onPressToRemove(socialNetwork)}
-              onPressToAdd={() => this.onPressToAdd(socialNetwork)}
+              onPressToAdd={() => this.onPressToAdd()}
             />
           </View>
         )
@@ -70,7 +70,6 @@ export default class Settings extends React.Component {
   };
     
   onPressToRemove = (source) => {
-    this.setState({[source] : false});
     removeNetwork(source);
   };
   

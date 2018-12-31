@@ -100,50 +100,57 @@ export const profileRemoveFollower = profileUserID => {
   };
 };
 
-export function addNetwork(networkObj) {
-  const currentUser = currentUser();
-  const userRef = db.collection("users").doc(currentUser.uid);
-  console.log("currentUser ", currentUser)
-  const networkToUpdate = fetchNetworks(currentUser);
-  currentNetworks.push(newNetwork);
-  return userRef.update({
-    socialNetworks: networkToUpdate,
-  })
-  .then(function() {
-    console.log("Document successfully updated");
-  })
-  .catch(function(error) {
-    console.error("Error updating document: ", error);
-   })
-}
-
-export function removeNetwork(networkObj) {
-  const currentUser = currentUser();
-  console.log("currentUser ", currentUser)
-  const userRef = db.collection("users").doc(currentUser.uid);
-  const networkToUpdate = fetchNetworks(currentUser);
-  const filteredNetwork = networkToUpdate.filter((networks) => { 
-     return networks.type !== networkObj.type; 
-   }); 
-  return userRef.update({
-    socialNetworks: filteredNetwork 
-  })
-  .then(function() {
-    console.log("Document successfully updated!");
-  })
-  .catch(function(error) {
-      // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
-  });
-}
-
-function currentUser() {
-  const user = firebase.auth().currentUser;
-  console.log("user is ", user);
-  if (!user) {
-    return null;
+export function fetchNetworks(user) {
+  const userRef = db.collection("users").doc(user.uid); 
+    userRef.get()
+    .then(function(user) {
+      if (user.exists) {
+        return user.data().socialNetworks; 
+      } else {
+        return "";	         
+        console.log("No such document!");
+      }
+      })	    
+     .catch(function(error) {
+       console.log("Error getting document:", error);
+     });
   }
-  else {
-    return user;
+   
+
+export const addNetwork = (networkObj) => {
+  return async dispatch => {
+    const currentUser = firebase.auth().currentUser;
+    const userRef = db.collection("users").doc(currentUser.uid);
+    const networkToUpdate = fetchNetworks(currentUser);
+    currentNetworks.push(newNetwork);
+    return userRef.update({
+      socialNetworks: networkToUpdate,
+    })
+    .then(function() {
+      console.log("Document successfully updated");
+    })
+    .catch(function(error) {
+      console.error("Error updating document: ", error);
+    })
+  }
+}
+
+export const removeNetwork = (networkObj) => {
+  return async dispatch => {    
+    const currentUser = firebase.auth().currentUser;
+    const userRef = db.collection("users").doc(currentUser.uid);
+    const networkToUpdate = fetchNetworks(currentUser);
+    const filteredNetwork = networkToUpdate.filter((networks) => { 
+       return networks.source !== networkObj.source; 
+     }); 
+    return userRef.update({
+      socialNetworks: filteredNetwork 
+    })
+    .then(function() {
+      console.log("Document successfully updated!");
+    })
+    .catch(function(error) {
+        console.error("Error updating document: ", error);
+    });
   }
 }
