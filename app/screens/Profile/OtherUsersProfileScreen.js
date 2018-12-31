@@ -37,7 +37,15 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-
+      headerLeft: (
+        <Button transparent onPress={() => navigation.pop(1)}>
+          <Icon
+            type="Ionicons"
+            name="ios-arrow-back"
+            style={{ color: 'black', fontSize: 28 }}
+          />
+        </Button>
+      ),
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
@@ -136,7 +144,6 @@ class OtherUsersProfileScreen extends React.Component {
                             userList: this.props.profile.userProfile.followers
                           })
                         }
-                        //need to change this to accept a list prop. or we get errors
                       >
                         <Text>
                           Followers:{' '}
@@ -205,19 +212,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchUserProfileInfo: uid => {
       dispatch(fetchUserProfileInfo(uid));
-    },
-    followUser: (userObj, currInfo) => {
-      dispatch(followUser(userObj, currInfo));
-    },
-    unfollowUser: (userObj, currInfo) => {
-      dispatch(unfollowUser(userObj, currInfo));
-    },
-
-    profileAddFollower: profileUserID => {
-      dispatch(profileAddFollower(profileUserID));
-    },
-    profileRemoveFollower: profileUserID =>
-      dispatch(profileRemoveFollower(profileUserID))
+    }
   };
 };
 export default connect(

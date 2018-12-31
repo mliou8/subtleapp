@@ -44,8 +44,8 @@ const ProfileStack = createStackNavigator({
   Conversation: Conversation,
   FollowersList: FollowersListScreen,
   AddSocialNetwork: AddSocialNetworkTag,
-  Settings: SettingsScreen
-  // OtherUsersProfile: OtherUsersProfileScreen
+  Settings: SettingsScreen,
+  OtherUsersProfile: OtherUsersProfileScreen
 });
 
 ProfileStack.navigationOptions = {
