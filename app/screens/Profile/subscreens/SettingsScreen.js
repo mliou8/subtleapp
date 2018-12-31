@@ -26,27 +26,40 @@ export default class Settings extends React.Component {
     this.state = {
       sendPush: true,
       shouldRefresh: false,
-      socialNetworks: [],
-      instagram: false,
-      youtube: false,
-      facebook: false,
-      twitch: false,
+      socialNetworks: this.props.userInfo.socialNetworks,
+      instagram: { enabled: false, sourceUrl: '' },
+      youtube: { enabled: false, sourceUrl: '' },
+      facebook: { enabled: false, sourceUrl: '' },
+      twitch: { enabled: false, sourceUrl: '' },
     };
     
     this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
+    this.updateSocialNetworks = this.updateSocialNetworks.bind(this);
+  }
+  
+  // initialize each property to the correct value
+  componentDidMount() {
+    this.updateSocialNetworks() 
+  }
+  
+  // run this function each time social networks update
+  updateSocialNetworks = () => {
+    this.state.socialNetworks.forEach((socialNetwork) => {
+      const source = socialNetwork.source.toLowerCase();
+      const sourceUrl = socialNetwork.sourceUrl;
+      this.setState({[source]: { enabled: true, sourceUrl: sourceUrl }});
+    })
+    console.log("this.state is ", this.state);
   }
   
   renderSocialNetworks = () => {
-    console.log("this.props ", this.props)
       return socialNetworkOptions.map((socialNetwork, idx) => {
-        const { source, sourceUrl } = socialNetwork;
-        this.setState({[source]: true});
         return (
           <View style={styles.row} key={idx}>
             <ConnectedNetworks
-              text={sourceUrl}
-              iconType={source}
-              enabled={this.state[source]}
+              text={this.state[socialNetwork.toLowerCase()].sourceUrl}
+              iconType={socialNetwork}
+              enabled={this.state[socialNetwork.toLowerCase()].enabled}
               remove={() => onPresstoRemove(source)}
             />
           </View>
@@ -57,10 +70,6 @@ export default class Settings extends React.Component {
   onPresstoRemove = (source) => {
     this.setState({ [source] : false});
     removeNetwork(source);
-  };
-
-  onRefreshAutomaticallySettingChanged = (value) => {
-    this.setState({ shouldRefresh: value });
   };
 
   render = () => (
@@ -78,27 +87,6 @@ export default class Settings extends React.Component {
           <RkText rkType='primary header6'>Connected Networks</RkText>
         </View>
         { this.renderSocialNetworks() }
-        <View style={styles.row}>
-          <ConnectedNetworks
-            text={`Network Name`}
-            iconType={'facebook'}
-            enabled={this.state.facebookEnabled}
-          />
-        </View>
-        <View style={styles.row}>
-          <ConnectedNetworks
-            text={`Network Name`}
-            iconType={'youtube'}
-            enabled={this.state.youtubeEnabled}
-          />
-        </View>
-        <View style={styles.row}>
-          <ConnectedNetworks
-            text={`Network Name`}
-            iconType={'instagram'}
-            enabled={this.state.instagramEnabled}
-          />
-        </View>
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>

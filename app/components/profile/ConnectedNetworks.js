@@ -43,7 +43,7 @@ export default class ConnectedNetworks extends React.Component {
             </RkText>
             <RkText rkType='header6' style={{ marginTop: 5, marginLeft: 5, color }}>{this.props.text}</RkText>
           </View>
-          { buttonToggle(this.props.enabled) }
+          { this.buttonToggle(this.props.enabled) }
         </View>
       </TouchableOpacity>
     );

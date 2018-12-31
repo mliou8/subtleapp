@@ -3,12 +3,14 @@ import SettingsScreen from 'screens/Profile/subscreens/SettingsScreen';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.login.facebookUser,
+    userInfo: state.login.userInfo
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    
+  }
 }
 
 const SettingsContainer = connect(
