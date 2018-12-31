@@ -139,7 +139,6 @@ export const removeNetwork = (networkObj, currentUser) => {
         if (filteredNetworks.length === 0) {
           filteredNetworks = [{}];
         }        
-        console.log("filteredNetworks is ", filteredNetworks);
         transaction.update(userRef, {socialNetworks: filteredNetworks});
         return user.data().uid
       })

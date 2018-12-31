@@ -56,7 +56,6 @@ export const logOutSuccess = () => {
 }
 
 export const userUpdated = (updatedUserInfo) => {
-  console.log("is this firing ", updatedUserInfo)
   return {
     type: USER_UPDATED,
     userInfo: updatedUserInfo,
