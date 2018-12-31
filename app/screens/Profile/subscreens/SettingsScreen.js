@@ -44,7 +44,6 @@ export default class Settings extends React.Component {
   
   // run this function each time social networks update
   updateSocialNetworks = () => {
-    this.setState({socialNetworks: this.props.userInfo.socialNetworks});
     this.state.socialNetworks.forEach((socialNetwork) => {
       const source = socialNetwork.source.toLowerCase();
       const sourceUrl = socialNetwork.sourceUrl;
@@ -70,13 +69,14 @@ export default class Settings extends React.Component {
   };
     
   onPressToRemove = (networkObj, userInfo) => {
-    console.log("networkObj 2 ", networkObj)
-    console.log("userInfo 2 ", userInfo)
     this.props.removeNetwork(networkObj, userInfo);
+    this.setState({[networkObj.source] : {enabled: false, edit: false, sourceUrl: ''}})
   };
   
   onPressToAdd = (networkObj, userInfo) => {
     this.props.addNetwork(networkObj, userInfo);
+    const { source, sourceUrl} = networkObj
+    this.setState({[source] : {enabled: true, edit: false, sourceUrl: sourceUrl}})
   }
 
   render = () => (
