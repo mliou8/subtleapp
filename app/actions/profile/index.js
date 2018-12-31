@@ -81,7 +81,7 @@ export const profileAddFollower = profileUserID => {
 
 export const profileRemoveFollower = profileUserID => {
   return async dispatch => {
-    var user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser;
     const userData = {
       uid: user.uid,
       displayName: user.providerData[0].displayName,
@@ -105,6 +105,7 @@ export function fetchNetworks(user) {
     userRef.get()
     .then(function(user) {
       if (user.exists) {
+        console.log("user.data().", user.data().socialNetworks);
         return user.data().socialNetworks; 
       } else {
         return "";	         
@@ -117,12 +118,12 @@ export function fetchNetworks(user) {
   }
    
 
-export const addNetwork = (networkObj) => {
+export const addNetwork = (networkObj, currentUser) => {
   return async dispatch => {
-    const currentUser = firebase.auth().currentUser;
     const userRef = db.collection("users").doc(currentUser.uid);
     const networkToUpdate = fetchNetworks(currentUser);
-    currentNetworks.push(newNetwork);
+    console.log("networktoUpdate ", networkToUpdate);
+    networkToUpdate.push(networkObj);
     return userRef.update({
       socialNetworks: networkToUpdate,
     })
@@ -135,11 +136,11 @@ export const addNetwork = (networkObj) => {
   }
 }
 
-export const removeNetwork = (networkObj) => {
+export const removeNetwork = (networkObj, currentUser) => {
   return async dispatch => {    
-    const currentUser = firebase.auth().currentUser;
     const userRef = db.collection("users").doc(currentUser.uid);
     const networkToUpdate = fetchNetworks(currentUser);
+    console.log("networktoUpdate ", networkToUpdate);
     const filteredNetwork = networkToUpdate.filter((networks) => { 
        return networks.source !== networkObj.source; 
      }); 

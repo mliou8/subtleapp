@@ -18,12 +18,23 @@ export default class ConnectedNetworks extends React.Component {
     this.state = { text: 'Social Handle', edit: false };
     this.buttonToggle = this.buttonToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
   }
   
   handleSubmit = () => {
-    this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}) 
+    console.log("iconType ", this.props.iconType)
+    console.log("text ", this.state.text)
+    console.log("userInfo ", this.props.userInfo)
+    this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}, this.props.userInfo); 
     this.setState({edit: false})
+  }
+  
+  handleRemove = () => {
+    console.log("iconType ", this.props.iconType)
+    console.log("text ", this.props.text)
+    console.log("userInfo ", this.props.userInfo)
+    this.props.onPressToRemove({source: this.props.iconType, sourceUrl: this.props.text}, this.props.userInfo);
   }
   
   toggleEdit = () => {
@@ -34,7 +45,7 @@ export default class ConnectedNetworks extends React.Component {
     } else {
       return (
         <TextInput 
-          style={{height: 20, borderColor: 'gray', borderWidth: 1}}
+          style={{height: 20, marginTop: 5, marginLeft: 6, borderColor: 'gray', borderWidth: .7}}
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
           />
@@ -45,7 +56,7 @@ export default class ConnectedNetworks extends React.Component {
   buttonToggle = (enabled) => {
     if (enabled) {
       return (
-        <RkText rkType='awesome small' style={{ color: 'red' }} onPress={() => this.props.onPressToRemove()}>Remove Network</RkText>
+        <RkText rkType='awesome small' style={{ color: 'red' }} onPress={() => this.handleRemove()}>Remove Network</RkText>
       )
     } else if (this.state.edit === false){
       return (

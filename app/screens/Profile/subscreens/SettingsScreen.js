@@ -24,8 +24,6 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendPush: true,
-      shouldRefresh: false,
       socialNetworks: this.props.userInfo.socialNetworks,
       instagram: { enabled: false, edit: 'false', sourceUrl: '' },
       youtube: { enabled: false, edit: 'false', sourceUrl: '' },
@@ -61,20 +59,23 @@ export default class Settings extends React.Component {
               text={this.state[socialNetwork.toLowerCase()].sourceUrl}
               iconType={socialNetwork}
               enabled={this.state[socialNetwork.toLowerCase()].enabled}
-              onPressToRemove={() => this.onPressToRemove(socialNetwork)}
-              onPressToAdd={() => this.onPressToAdd()}
+              onPressToRemove={this.onPressToRemove}
+              onPressToAdd={this.onPressToAdd}
+              userInfo={this.props.userInfo}
             />
           </View>
         )
       })
   };
     
-  onPressToRemove = (source) => {
-    removeNetwork(source);
+  onPressToRemove = (networkObj, userInfo) => {
+    console.log("networkObj 2 ", networkObj)
+    console.log("userInfo 2 ", userInfo)
+    this.props.removeNetwork(networkObj, userInfo);
   };
   
-  onPressToAdd = (source) => {
-    addNetwork(source);
+  onPressToAdd = (networkObj, userInfo) => {
+    this.props.addNetwork(networkObj, userInfo);
   }
 
   render = () => (
