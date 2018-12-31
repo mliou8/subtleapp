@@ -23,17 +23,11 @@ export default class ConnectedNetworks extends React.Component {
   }
   
   handleSubmit = () => {
-    console.log("iconType ", this.props.iconType)
-    console.log("text ", this.state.text)
-    console.log("userInfo ", this.props.userInfo)
     this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}, this.props.userInfo); 
     this.setState({edit: false})
   }
   
   handleRemove = () => {
-    console.log("iconType ", this.props.iconType)
-    console.log("text ", this.props.text)
-    console.log("userInfo ", this.props.userInfo)
     this.props.onPressToRemove({source: this.props.iconType, sourceUrl: this.props.text}, this.props.userInfo);
   }
   
