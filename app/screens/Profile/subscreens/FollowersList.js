@@ -57,14 +57,8 @@ class FollowersListScreen extends React.Component {
     this.renderFollowerslist = this.renderFollowerslist.bind(this);
   }
 
-  renderFollowerslist = listType => {
-    let userList = [];
-    if (listType === 'following') {
-      userList = this.props.following;
-    } else {
-      userList = this.props.followers;
-    }
-    return userList.map((user, idx) => {
+  renderFollowerslist = (listType, listContent) => {
+    return listContent.map((user, idx) => {
       return (
         <ListItem avatar key={idx}>
           <Left>
@@ -93,11 +87,12 @@ class FollowersListScreen extends React.Component {
 
   render() {
     const listType = this.props.navigation.state.params.type;
+    const listContent = this.props.navigation.state.params.userList;
     return (
       <ScrollView>
         <View>
           <Content>
-            <List>{this.renderFollowerslist(listType)}</List>
+            <List>{this.renderFollowerslist(listType, listContent)}</List>
           </Content>
         </View>
       </ScrollView>

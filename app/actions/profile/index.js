@@ -9,6 +9,7 @@ export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
 export const PROFILE_ADD_FOLLOWER = 'PROFILE_ADD_FOLLOWER';
 export const PROFILE_REMOVE_FOLLOWER = 'PROFILE_REMOVE_FOLLOWER';
+export const PROFILE_UPDATED = 'PROFILE_UPDATED';
 
 export const profileFollowerAdded = userToFollowID => {
   return {
@@ -20,6 +21,13 @@ export const profileFollowerRemoved = userToUnfollowID => {
   return {
     type: PROFILE_REMOVE_FOLLOWER,
     userToUnfollowID
+  };
+};
+
+export const profileUpdated = updatedProfileInfo => {
+  return {
+    type: PROFILE_UPDATED,
+    profileInfo: updatedProfileInfo
   };
 };
 export const profileInfoFetched = userProfile => {
@@ -59,7 +67,7 @@ export const fetchUserProfileInfo = userID => {
   };
 };
 
-export const profileAddFollower = profileUserID => {
+export const profileAddFollower = (userToFollowID, currProfileInfo) => {
   return async dispatch => {
     const user = firebase.auth().currentUser;
     const userData = {
@@ -67,19 +75,22 @@ export const profileAddFollower = profileUserID => {
       displayName: user.providerData[0].displayName,
       photoURL: user.providerData[0].photoURL
     };
-    const userOnView = db.collection('users').doc(profileUserID);
+    const followersListUpdated = currProfileInfo.push(userData);
+    const updatedProfileInfo = currProfileInfo;
+    updatedProfileInfo.followers = followersListUpdated;
+    const userOnView = db.collection('users').doc(userToFollowID);
 
     userOnView
       .update({
         followers: firebase.firestore.FieldValue.arrayUnion(userData)
       })
       .then(function() {
-        dispatch(profileFollowerAdded(profileUserID));
+        dispatch(profileUpdated(updatedProfileInfo));
       });
   };
 };
 
-export const profileRemoveFollower = profileUserID => {
+export const profileRemoveFollower = (userToUnfollowID, currProfileInfo) => {
   return async dispatch => {
     var user = firebase.auth().currentUser;
     const userData = {
@@ -87,15 +98,19 @@ export const profileRemoveFollower = profileUserID => {
       displayName: user.providerData[0].displayName,
       photoURL: user.providerData[0].photoURL
     };
-
-    const userOnViewRef = db.collection('users').doc(profileUserID);
+    const followersListUpdated = currProfileInfo.filter(
+      item => item.uid !== userToUnfollowID
+    );
+    const updatedProfileInfo = currProfileInfo;
+    updatedProfileInfo.followers = followersListUpdated;
+    const userOnViewRef = db.collection('users').doc(userToUnfollowID);
 
     userOnViewRef
       .update({
         followers: firebase.firestore.FieldValue.arrayRemove(userData)
       })
       .then(function() {
-        dispatch(profileFollowerRemoved(profileUserID));
+        dispatch(profileUpdated(updatedProfileInfo));
       });
   };
 };

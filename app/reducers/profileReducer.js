@@ -2,7 +2,8 @@ import {
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND,
   PROFILE_ADD_FOLLOWER,
-  PROFILE_REMOVE_FOLLOWER
+  PROFILE_REMOVE_FOLLOWER,
+  PROFILE_UPDATED
 } from 'actions/profile/index';
 
 const initialState = {
@@ -18,10 +19,10 @@ export default function(state = initialState, action) {
         userProfile: action.userProfile,
         userRegistered: true
       };
-    case PROFILE_ADD_FOLLOWER:
+    case PROFILE_UPDATED:
       return {
         ...state,
-        userProfile: { ...state.userProfile, followers: action.userToFollowID }
+        userProfile: action.profileInfo
       };
     case PROFILE_REMOVE_FOLLOWER:
       return {
@@ -29,11 +30,6 @@ export default function(state = initialState, action) {
         userProfile: {
           ...state.userProfile,
           followers: [state.userProfile.followers, action.userToUnfollowID]
-          // followers: state.userProfile.followers.filter(item => {
-          //   if (item.uid !== action.userToUnfollowID) {
-          //     return item;
-          //   }
-          // })
         }
       };
     case PROFILE_NOT_FOUND:

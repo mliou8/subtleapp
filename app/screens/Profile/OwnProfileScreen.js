@@ -114,8 +114,6 @@ export default class OwnProfileScreen extends React.Component {
     this.setState({ displayAdd: !this.state.displayAdd });
   };
   render() {
-    const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
-
     return (
       <ScrollView style={styles.container}>
         {this.props.userInfo.uid ? (
@@ -133,7 +131,10 @@ export default class OwnProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate(
                             'FollowersList',
-                            (props = { type: 'following' })
+                            (props = {
+                              type: 'following',
+                              userList: this.props.userInfo.following
+                            })
                           )
                         }
                       >
@@ -144,7 +145,8 @@ export default class OwnProfileScreen extends React.Component {
                       <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
-                            type: 'followers'
+                            type: 'followers',
+                            userList: this.props.userInfo.followers
                           })
                         }
                       >

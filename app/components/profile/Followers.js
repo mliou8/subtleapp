@@ -53,9 +53,10 @@ class Following extends React.Component {
     const currUserInfo = this.props.userInfo;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
+    const userOnDisplayProfile = this.props.profile.userProfile;
 
     this.props.followUser(userOnDisplay, currUserInfo);
-    this.props.profileAddFollower(userOnDisplay.uid);
+    this.props.profileAddFollower(userOnDisplay.uid, userOnDisplayProfile);
     this.setState({ following: true });
   }
 
@@ -63,8 +64,9 @@ class Following extends React.Component {
     const currUserInfo = this.props.userInfo;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
+    const userOnDisplayProfile = this.props.profile.userProfile;
     this.props.unfollowUser(userOnDisplay, currUserInfo);
-    this.props.profileRemoveFollower(userOnDisplay.uid);
+    this.props.profileRemoveFollower(userOnDisplay.uid, userOnDisplayProfile);
 
     this.setState({ following: false });
   }

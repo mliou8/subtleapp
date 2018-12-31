@@ -117,7 +117,10 @@ class OtherUsersProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate(
                             'FollowersList',
-                            (props = { type: 'following' })
+                            (props = {
+                              type: 'following',
+                              userList: this.props.profile.userProfile.following
+                            })
                           )
                         }
                       >
@@ -129,9 +132,11 @@ class OtherUsersProfileScreen extends React.Component {
                       <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
-                            type: 'followers'
+                            type: 'followers',
+                            userList: this.props.profile.userProfile.followers
                           })
                         }
+                        //need to change this to accept a list prop. or we get errors
                       >
                         <Text>
                           Followers:{' '}
