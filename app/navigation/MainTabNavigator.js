@@ -1,23 +1,24 @@
-import React from "react";
-import { Platform } from "react-native";
+import React from 'react';
+import { Platform } from 'react-native';
 import {
   createStackNavigator,
   createBottomTabNavigator
-} from "react-navigation";
+} from 'react-navigation';
 
-import TabBarIcon from "app/components/common/TabBarIcon";
-import OwnProfileScreen from "app/containers/Profile/OwnProfileContainer";
-import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
-import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
-import PostFullScreen from "app/screens/Post/PostFullScreen";
-import SubmitSelectionScreen from "app/screens/Submit/SubmitSelectionScreen";
-import MessageScreen from "app/screens/Messages/MessageScreen";
-import Conversation from "app/screens/Messages/FullConversation";
-import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
-import BoardScreen from "app/screens/Board/BoardScreen";
-import FullPost from "app/components/board/FullPost";
-import MosaicScreen from "app/screens/Board/MosaicView";
-import SettingsScreen from "app/containers/Profile/SettingsContainer";
+import TabBarIcon from 'app/components/common/TabBarIcon';
+import OwnProfileScreen from 'app/containers/Profile/OwnProfileContainer';
+import GenericProfileScreen from 'app/screens/Profile/GenericProfileScreen';
+import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen';
+import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
+import PostFullScreen from 'app/screens/Post/PostFullScreen';
+import SubmitSelectionScreen from 'app/screens/Submit/SubmitSelectionScreen';
+import MessageScreen from 'app/screens/Messages/MessageScreen';
+import Conversation from 'app/screens/Messages/FullConversation';
+import AddSocialNetworkTag from 'app/screens/Profile/AddSocialNetwork';
+import BoardScreen from 'app/screens/Board/BoardScreen';
+import FullPost from 'app/components/board/FullPost';
+import MosaicScreen from 'app/screens/Board/MosaicView';
+import SettingsScreen from 'app/containers/Profile/SettingsContainer';
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -27,12 +28,13 @@ const HomeStack = createStackNavigator({
   FullPost: FullPost,
   Mosaic: MosaicScreen,
   GenericProfileScreen: GenericProfileScreen,
+  OtherUsersProfile: OtherUsersProfileScreen
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "Home",
+  tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={"ios-keypad"} />
+    <TabBarIcon focused={focused} name={'ios-keypad'} />
   )
 };
 
@@ -42,13 +44,14 @@ const ProfileStack = createStackNavigator({
   Conversation: Conversation,
   FollowersList: FollowersListScreen,
   AddSocialNetwork: AddSocialNetworkTag,
-  Settings: SettingsScreen,
+  Settings: SettingsScreen
+  // OtherUsersProfile: OtherUsersProfileScreen
 });
 
 ProfileStack.navigationOptions = {
-  tabBarLabel: "Profile",
+  tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={"md-person"} />
+    <TabBarIcon focused={focused} name={'md-person'} />
   )
 };
 
@@ -57,9 +60,9 @@ const SubmitStack = createStackNavigator({
 });
 
 SubmitStack.navigationOptions = {
-  tabBarLabel: "Submit",
+  tabBarLabel: 'Submit',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={"ios-add-circle"} />
+    <TabBarIcon focused={focused} name={'ios-add-circle'} />
   )
 };
 

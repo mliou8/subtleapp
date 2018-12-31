@@ -23,10 +23,16 @@ export default class LandingPage extends React.Component {
     super(props);
     this.state = {};
   }
-  
+
   componentWillMount() {
     // doesnt work yet
     if (this.props.authenticated) {
+      this.props.navigation.navigate('MainScreen');
+    }
+  }
+  componentDidUpdate() {
+    if (this.props.authenticated) {
+      Alert.alert(`Hey! ${this.props.userInfo.displayName}`);
       this.props.navigation.navigate('MainScreen');
     }
   }

@@ -12,8 +12,10 @@ import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Following from 'app/components/profile/Followers';
-import AddSocialNetworkTag from './AddSocialNetwork';
+
+import { connect } from 'react-redux';
 import db from 'db/firestore';
+import { fetchUserProfileInfo } from 'actions/profile/index';
 
 import {
   Container,
@@ -31,17 +33,11 @@ import {
   Spinner
 } from 'native-base';
 
-const profileImgSrc = 'https://loremflickr.com/225/225/dog';
-
-export default class OwnProfileScreen extends React.Component {
+class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-      headerLeft: (
-        <Button transparent onPress={() => navigation.navigate('Settings')}>
-          <Text style={{ color: 'black' }}>Settings</Text>
-        </Button>
-      ),
+
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
@@ -57,8 +53,7 @@ export default class OwnProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edit: false,
-      displayAdd: false,
+      userOnDisplay: {},
       badges: [
         {
           badgeType: 'youtube',
@@ -74,25 +69,16 @@ export default class OwnProfileScreen extends React.Component {
         }
       ]
     };
-    this._editProfile = this._editProfile.bind(this);
-    this._saveProfile = this._saveProfile.bind(this);
+
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
-    this.addSocialBadge = this.addSocialBadge.bind(this);
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ edit: this._editProfile });
-    this.props.navigation.setParams({ save: this._saveProfile });
+    const { userToDisplay } = this.props.navigation.state.params;
+
+    this.props.fetchUserProfileInfo(userToDisplay.uid);
   }
-
-  _editProfile = () => {
-    this.setState({ edit: !this.state.edit });
-  };
-
-  _saveProfile = () => {
-    this.setState({ edit: !this.state.edit });
-  };
 
   renderSocialMenu = () => {
     return <AddSocialNetworkTag />;
@@ -110,23 +96,21 @@ export default class OwnProfileScreen extends React.Component {
     });
   };
 
-  addSocialBadge = () => {
-    this.setState({ displayAdd: !this.state.displayAdd });
-  };
   render() {
-    const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
-
     return (
       <ScrollView style={styles.container}>
-        {this.props.userInfo.uid ? (
+        {this.props.profile.userProfile.uid ? (
           <View>
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Following userOnDisplay={this.props.profile.userProfile} />
+            </View>
             <Content>
               <Card style={{ height: '45 %' }} transparent>
                 <CardItem>
                   <Left>
                     <ProfilePortrait
                       style={styles.profile}
-                      imageSrc={this.props.userInfo.photoURL}
+                      imageSrc={this.props.profile.userProfile.photoURL}
                     />
                     <Body>
                       <TouchableOpacity
@@ -138,7 +122,8 @@ export default class OwnProfileScreen extends React.Component {
                         }
                       >
                         <Text>
-                          Following: {this.props.userInfo.following.length}
+                          Following:{' '}
+                          {this.props.profile.userProfile.following.length}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
@@ -149,7 +134,8 @@ export default class OwnProfileScreen extends React.Component {
                         }
                       >
                         <Text>
-                          Followers: {this.props.userInfo.followers.length}
+                          Followers:{' '}
+                          {this.props.profile.userProfile.followers.length}
                         </Text>
                       </TouchableOpacity>
                     </Body>
@@ -180,7 +166,7 @@ export default class OwnProfileScreen extends React.Component {
               {this.state.displayAdd ? <AddSocialNetworkTag /> : null}
             </View>
             <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-              <Text>{this.props.userInfo.displayName}</Text>
+              <Text>{this.props.profile.userProfile.displayName}</Text>
             </View>
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
@@ -215,3 +201,39 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo,
+    profile: state.profile,
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    },
+    fetchUserProfileInfo: uid => {
+      dispatch(fetchUserProfileInfo(uid));
+    },
+    followUser: (userObj, currInfo) => {
+      dispatch(followUser(userObj, currInfo));
+    },
+    unfollowUser: (userObj, currInfo) => {
+      dispatch(unfollowUser(userObj, currInfo));
+    },
+
+    profileAddFollower: profileUserID => {
+      dispatch(profileAddFollower(profileUserID));
+    },
+    profileRemoveFollower: profileUserID =>
+      dispatch(profileRemoveFollower(profileUserID))
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OtherUsersProfileScreen);

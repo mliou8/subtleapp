@@ -22,21 +22,21 @@ export const profileFollowerRemoved = userToUnfollowID => {
     userToUnfollowID
   };
 };
-export const profileFetched = userProfile => {
+export const profileInfoFetched = userProfile => {
   return {
     type: PROFILE_FETCHED,
     userProfile
   };
 };
 
-export const profileNotFound = errorMsg => {
+export const profileInfoNotFound = errorMsg => {
   return {
     type: PROFILE_NOT_FOUND,
     errorMsg
   };
 };
 
-export const fetchUser = userID => {
+export const fetchUserProfileInfo = userID => {
   return async dispatch => {
     var docRef = db.collection('users').doc(`${userID}`);
 
@@ -45,16 +45,16 @@ export const fetchUser = userID => {
       .then(function(doc) {
         if (doc.exists) {
           const profile = doc.data();
-          dispatch(profileFetched(profile.profile));
+          dispatch(profileInfoFetched(profile));
         } else {
           const msg = 'No such user with that uid';
 
-          dispatch(profileNotFound(msg));
+          dispatch(profileInfoNotFound(msg));
         }
       })
       .catch(function(error) {
         const msg2 = 'Error Retrieving User Document';
-        dispatch(profileNotFound(msg2));
+        dispatch(profileInfoNotFound(msg2));
       });
   };
 };
