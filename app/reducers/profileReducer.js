@@ -2,7 +2,7 @@ import {
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND,
   PROFILE_ADD_FOLLOWER,
-  PROFILE_REMOVE_FOLLOWER
+  PROFILE_REMOVE_FOLLOWER,
 } from 'actions/profile/index';
 
 const initialState = {

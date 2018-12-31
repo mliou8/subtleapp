@@ -118,7 +118,7 @@ export function createUserIfNoneExists(user) {
               followers: [],
               following: [],
               socialNetworks: [
-                { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
+                { source: 'facebook', sourceUrl: 'facebookprofileurl' }
               ]
           }
           db.collection('users')
@@ -151,6 +151,7 @@ export async function userLogout() {
       }
     );
 }
+
 export const fetchUserInfo = userID => {
   return async dispatch => {
     var docRef = db.collection('users').doc(`${userID}`);

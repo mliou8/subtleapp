@@ -15,17 +15,9 @@ import Badge from "app/components/common/Badge";
 import Followers from "app/components/profile/Followers";
 import AddSocialNetworkTag from "./AddSocialNetwork";
 
-import { Container, Header, Content,
-  Card,
-  CardItem,
-  Thumbnail,
-  Text,
-  Button,
-  Icon,
-  Left,
-  Body,
-  Right,
-  Spinner
+import { Container, Header, Content, Card,
+  CardItem, Thumbnail, Text, Button, Icon,
+  Left, Body, Right, Spinner
 } from "native-base";
 
 export default class GenericProfile extends React.Component {

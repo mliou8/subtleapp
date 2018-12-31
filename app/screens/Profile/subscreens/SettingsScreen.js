@@ -11,8 +11,10 @@ import {
   RkStyleSheet,
   RkTheme,
 } from 'react-native-ui-kitten';
-import FindFriends from 'app/components/profile/FindFriends';
-import { removeNetwork } from 'db/profile/index';
+import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
+import { removeNetwork, addNetwork } from 'db/profile/index';
+
+const socialNetworkOptions = ['instagram', 'youtube', 'twitch', 'facebook'];
 
 export default class Settings extends React.Component {
   static navigationOptions = {
@@ -22,34 +24,60 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sendPush: true,
-      shouldRefresh: false,
-      socialNetworks: this.props.socialNetworks,
+      socialNetworks: this.props.userInfo.socialNetworks,
+      instagram: { enabled: false, edit: 'false', sourceUrl: '' },
+      youtube: { enabled: false, edit: 'false', sourceUrl: '' },
+      facebook: { enabled: false, edit: 'false', sourceUrl: '' },
+      twitch: { enabled: false, edit: 'false', sourceUrl: '' },
     };
+    
+    this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
+    this.updateSocialNetworks = this.updateSocialNetworks.bind(this);
+    this.onPressToRemove = this.onPressToRemove.bind(this);
+    this.onPressToAdd = this.onPressToAdd.bind(this);
+  }
+  
+  // initialize each property to the correct value
+  componentDidMount() {
+    this.updateSocialNetworks() ;
+  }
+  
+  // run this function each time social networks update
+  updateSocialNetworks = () => {
+    this.state.socialNetworks.forEach((socialNetwork) => {
+      const source = socialNetwork.source.toLowerCase();
+      const sourceUrl = socialNetwork.sourceUrl;
+      this.setState({[source]: { enabled: true, sourceUrl: sourceUrl }});
+    })
   }
   
   renderSocialNetworks = () => {
-      return this.state.socialNetworks.map((socialNetwork, idx) => {
+      return socialNetworkOptions.map((socialNetwork, idx) => {
         return (
           <View style={styles.row} key={idx}>
-            <FindFriends
-              text={socialNetwork.sourceName}
-              iconType={socialNetwork.badgeType}
-              selected={this.state.facebookEnabled}
-              onPress={this.onFindFriendsFacebookButtonPressed}
+            <ConnectedNetworks
+              text={this.state[socialNetwork.toLowerCase()].sourceUrl}
+              iconType={socialNetwork}
+              enabled={this.state[socialNetwork.toLowerCase()].enabled}
+              onPressToRemove={this.onPressToRemove}
+              onPressToAdd={this.onPressToAdd}
+              userInfo={this.props.userInfo}
             />
           </View>
         )
       })
-    };
+  };
     
-  onPresstoRemove = (value) => {
-    this.setState({ sendPush: value });
+  onPressToRemove = (networkObj, userInfo) => {
+    this.props.removeNetwork(networkObj, userInfo);
+    this.setState({[networkObj.source] : {enabled: false, edit: false, sourceUrl: ''}})
   };
-
-  onRefreshAutomaticallySettingChanged = (value) => {
-    this.setState({ shouldRefresh: value });
-  };
+  
+  onPressToAdd = (networkObj, userInfo) => {
+    this.props.addNetwork(networkObj, userInfo);
+    const { source, sourceUrl} = networkObj
+    this.setState({[source] : {enabled: true, edit: false, sourceUrl: sourceUrl}})
+  }
 
   render = () => (
     <ScrollView style={styles.container}>
@@ -58,43 +86,14 @@ export default class Settings extends React.Component {
           <RkText rkType='primary header6'>PROFILE SETTINGS</RkText>
         </View>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Edit Profile</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Change Password</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <RkText rkType='header6'>Send Push Notifications</RkText>
-        </View>
-        <View style={styles.row}>
-          <RkText rkType='header6'>Refresh Automatically</RkText>
+          <RkText rkType='header6'>Placeholder goes with a switch toggle</RkText>
         </View>
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>FIND FRIENDS</RkText>
+          <RkText rkType='primary header6'>Connected Networks</RkText>
         </View>
-        <View style={styles.row}>
-          <FindFriends
-            text='Twitter'
-            iconType={'twitter'}
-            selected={this.state.twitterEnabled}
-            onPress={this.onFindFriendsTwitterButtonPressed}
-          />
-        </View>
-        <View style={styles.row}>
-          <FindFriends
-            text='Google'
-            iconType={'google'}
-            selected={this.state.googleEnabled}
-            onPress={this.onFindFriendsGoogleButtonPressed}
-          />
-        </View>
-        
+        { this.renderSocialNetworks() }
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>

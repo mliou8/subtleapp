@@ -36,31 +36,30 @@ const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 
 export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'User Profile',
-      headerLeft: (
-        <Button 
-          transparent 
-          onPress={() => navigation.navigate('Settings')}>
-          <Text style= {{color: 'black'}}>Settings</Text>
-        </Button>
-      ),
-      headerRight: (
-        <Button transparent onPress={() => navigation.navigate('Messages')}>
-          <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            style={{ color: 'black', fontSize: 30 }}
-          />
-        </Button>
-      )
+      return {
+        title: 'User Profile',
+        headerLeft: (
+          <Button 
+            transparent 
+            onPress={() => navigation.navigate('Settings', { userInfo: navigation.state.params.userInfo })}>
+            <Text style= {{color: 'black'}}>Settings</Text>
+          </Button>
+        ),
+        headerRight: (
+          <Button transparent onPress={() => navigation.navigate('Messages')}>
+            <Icon
+              type="Entypo"
+              name="mail-with-circle"
+              style={{ color: 'black', fontSize: 30 }}
+            />
+          </Button>
+        )
     };
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      edit: false,
       displayAdd: false,
       badges: [
         {
@@ -77,25 +76,14 @@ export default class OwnProfileScreen extends React.Component {
         }
       ]
     };
-    this._editProfile = this._editProfile.bind(this);
-    this._saveProfile = this._saveProfile.bind(this);
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
     this.addSocialBadge = this.addSocialBadge.bind(this);
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ edit: this._editProfile });
-    this.props.navigation.setParams({ save: this._saveProfile });
+    this.props.navigation.setParams({ userInfo: this.props.userInfo });
   }
-
-  _editProfile = () => {
-    this.setState({ edit: !this.state.edit });
-  };
-
-  _saveProfile = () => {
-    this.setState({ edit: !this.state.edit });
-  };
 
   renderSocialMenu = () => {
     return <AddSocialNetworkTag />;
