@@ -118,7 +118,7 @@ export function createUserIfNoneExists(user) {
               followers: [],
               following: [],
               socialNetworks: [
-                { source: 'Facebook', sourceUrl: 'facebookprofileurl' }
+                { source: 'facebook', sourceUrl: 'facebookprofileurl' }
               ]
           }
           db.collection('users')

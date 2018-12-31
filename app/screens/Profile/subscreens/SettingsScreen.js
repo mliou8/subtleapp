@@ -27,14 +27,16 @@ export default class Settings extends React.Component {
       sendPush: true,
       shouldRefresh: false,
       socialNetworks: this.props.userInfo.socialNetworks,
-      instagram: { enabled: false, sourceUrl: '' },
-      youtube: { enabled: false, sourceUrl: '' },
-      facebook: { enabled: false, sourceUrl: '' },
-      twitch: { enabled: false, sourceUrl: '' },
+      instagram: { enabled: false, edit: 'false', sourceUrl: '' },
+      youtube: { enabled: false, edit: 'false', sourceUrl: '' },
+      facebook: { enabled: false, edit: 'false', sourceUrl: '' },
+      twitch: { enabled: false, edit: 'false', sourceUrl: '' },
     };
     
     this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
     this.updateSocialNetworks = this.updateSocialNetworks.bind(this);
+    this.onPressToRemove = this.onPressToRemove.bind(this);
+    this.onPressToAdd = this.onPressToAdd.bind(this);
   }
   
   // initialize each property to the correct value
@@ -49,7 +51,6 @@ export default class Settings extends React.Component {
       const sourceUrl = socialNetwork.sourceUrl;
       this.setState({[source]: { enabled: true, sourceUrl: sourceUrl }});
     })
-    console.log("this.state is ", this.state);
   }
   
   renderSocialNetworks = () => {
@@ -60,17 +61,22 @@ export default class Settings extends React.Component {
               text={this.state[socialNetwork.toLowerCase()].sourceUrl}
               iconType={socialNetwork}
               enabled={this.state[socialNetwork.toLowerCase()].enabled}
-              remove={() => onPresstoRemove(source)}
+              onPressToRemove={() => this.onPressToRemove(socialNetwork)}
+              onPressToAdd={() => this.onPressToAdd(socialNetwork)}
             />
           </View>
         )
       })
   };
     
-  onPresstoRemove = (source) => {
-    this.setState({ [source] : false});
+  onPressToRemove = (source) => {
+    this.setState({[source] : false});
     removeNetwork(source);
   };
+  
+  onPressToAdd = (source) => {
+    addNetwork(source);
+  }
 
   render = () => (
     <ScrollView style={styles.container}>

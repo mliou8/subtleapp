@@ -99,3 +99,51 @@ export const profileRemoveFollower = profileUserID => {
       });
   };
 };
+
+export function addNetwork(networkObj) {
+  const currentUser = currentUser();
+  const userRef = db.collection("users").doc(currentUser.uid);
+  console.log("currentUser ", currentUser)
+  const networkToUpdate = fetchNetworks(currentUser);
+  currentNetworks.push(newNetwork);
+  return userRef.update({
+    socialNetworks: networkToUpdate,
+  })
+  .then(function() {
+    console.log("Document successfully updated");
+  })
+  .catch(function(error) {
+    console.error("Error updating document: ", error);
+   })
+}
+
+export function removeNetwork(networkObj) {
+  const currentUser = currentUser();
+  console.log("currentUser ", currentUser)
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const networkToUpdate = fetchNetworks(currentUser);
+  const filteredNetwork = networkToUpdate.filter((networks) => { 
+     return networks.type !== networkObj.type; 
+   }); 
+  return userRef.update({
+    socialNetworks: filteredNetwork 
+  })
+  .then(function() {
+    console.log("Document successfully updated!");
+  })
+  .catch(function(error) {
+      // The document probably doesn't exist.
+      console.error("Error updating document: ", error);
+  });
+}
+
+function currentUser() {
+  const user = firebase.auth().currentUser;
+  console.log("user is ", user);
+  if (!user) {
+    return null;
+  }
+  else {
+    return user;
+  }
+}

@@ -25,7 +25,9 @@ export default class ConnectedNetworks extends React.Component {
         <RkText rkType='awesome small' style={{ color: 'red' }} onPress={() => this.props.onPressToRemove()}>Remove Network</RkText>
       )
     } else {
-      <RkText rkType='awesome small' style={{ color: 'blue' }}>Connect</RkText>
+      return (
+        <RkText rkType='awesome small' style={{ color: 'blue' }} onPress={() => this.props.onPressToAdd()}>Connect</RkText>  
+      )
     }
   }
   
