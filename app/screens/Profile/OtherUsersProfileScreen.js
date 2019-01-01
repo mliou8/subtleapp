@@ -97,13 +97,24 @@ class OtherUsersProfileScreen extends React.Component {
     return <AddSocialNetworkTag />;
   };
 
+  // renderSocialBadges = () => {
+  //   return this.state.badges.map((badge, idx) => {
+  //     return (
+  //       <Badge
+  //         key={idx}
+  //         badgeType={badge.badgeType}
+  //         sourceName={badge.sourceName}
+  //       />
+  //     );
+  //   });
+  // };
   renderSocialBadges = () => {
-    return this.state.badges.map((badge, idx) => {
+    return this.props.profile.userProfile.socialNetworks.map((badge, idx) => {
       return (
         <Badge
           key={idx}
-          badgeType={badge.badgeType}
-          sourceName={badge.sourceName}
+          badgeType={badge.source}
+          sourceName={badge.sourceURL}
         />
       );
     });

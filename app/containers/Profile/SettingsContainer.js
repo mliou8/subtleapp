@@ -1,12 +1,12 @@
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import SettingsScreen from 'screens/Profile/subscreens/SettingsScreen';
-import { addNetwork, removeNetwork } from 'actions/profile/index';
+import { addNetwork, removeNetwork } from 'actions/login/index';
 
 const mapStateToProps = (state, ownProps) => {
   return {
     userInfo: state.login.userInfo
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -15,13 +15,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeNetwork: (networkObj, userInfo) => {
       dispatch(removeNetwork(networkObj, userInfo));
-    },
+    }
   };
 };
 
 const SettingsContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SettingsScreen)
+)(SettingsScreen);
 
-export default SettingsContainer
+export default SettingsContainer;

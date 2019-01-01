@@ -94,12 +94,12 @@ export default class OwnProfileScreen extends React.Component {
   };
 
   renderSocialBadges = () => {
-    return this.state.badges.map((badge, idx) => {
+    return this.props.userInfo.socialNetworks.map((badge, idx) => {
       return (
         <Badge
           key={idx}
-          badgeType={badge.badgeType}
-          sourceName={badge.sourceName}
+          badgeType={badge.source}
+          sourceName={badge.sourceURL}
         />
       );
     });
@@ -151,7 +151,7 @@ export default class OwnProfileScreen extends React.Component {
                     </Body>
                     <Right>
                       {this.renderSocialBadges()}
-                      <Button
+                      {/* <Button
                         transparent
                         style={{
                           marginTop: 2,
@@ -166,7 +166,7 @@ export default class OwnProfileScreen extends React.Component {
                           name="plus-circle"
                           style={{ fontSize: 20 }}
                         />
-                      </Button>
+                      </Button> */}
                     </Right>
                   </Left>
                 </CardItem>

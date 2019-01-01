@@ -209,3 +209,85 @@ export const unfollowUser = (userObj, currUserInfo) => {
       });
   };
 };
+
+export const addNetwork = (networkObj, currentUser) => {
+  return async dispatch => {
+    const userRef = db.collection('users').doc(currentUser.uid);
+    return db
+      .runTransaction(transaction => {
+        return transaction.get(userRef).then(function(user) {
+          if (!user.exists) {
+            throw 'Document does not exist!';
+          }
+          const networksUpdate = user.data().socialNetworks;
+          networksUpdate.push(networkObj);
+          // currentUser.socialNetworks = networksUpdate;
+          transaction.update(userRef, { socialNetworks: networksUpdate });
+          return user.data().uid;
+        });
+      })
+      .then(function(uid) {
+        console.log('Document successfully updated');
+
+        dispatch(updateUser(uid));
+        // dispatch(userUpdated(currentUser));
+      })
+      .catch(function(error) {
+        console.error('Error updating document: ', error);
+      });
+  };
+};
+
+export const removeNetwork = (networkObj, currentUser) => {
+  return async dispatch => {
+    const userRef = db.collection('users').doc(currentUser.uid);
+    return db
+      .runTransaction(transaction => {
+        return transaction.get(userRef).then(function(user) {
+          if (!user.exists) {
+            throw 'Document does not exist!';
+          }
+          const currentNetworks = user.data().socialNetworks;
+          const filteredNetworks = currentNetworks.filter(networks => {
+            return networks.source !== networkObj.source;
+          });
+          if (filteredNetworks.length === 0) {
+            filteredNetworks = [{}];
+          }
+          // currentUser.socialNetworks = filteredNetworks;
+          transaction.update(userRef, { socialNetworks: filteredNetworks });
+          return user.data().uid;
+        });
+      })
+      .then(function(uid) {
+        console.log('Document successfully updated ', uid);
+        dispatch(updateUser(uid));
+        // dispatch(userUpdated(currentUser));
+      })
+      .catch(function(error) {
+        console.error('Error updating document: ', error);
+      });
+  };
+};
+
+const updateUser = uid => {
+  return async dispatch => {
+    const userRef = db.collection('users').doc(uid);
+    userRef
+      .get()
+      .then(function(user) {
+        if (user.exists) {
+          const profile = user.data();
+          console.log('newProfile');
+          dispatch(userUpdated(profile));
+        } else {
+          const msg = 'No such user with that uid';
+          dispatch(profileNotFound(msg));
+        }
+      })
+      .catch(function(error) {
+        const msg = 'Error Retrieving User Document';
+        dispatch(profileNotFound(msg));
+      });
+  };
+};
