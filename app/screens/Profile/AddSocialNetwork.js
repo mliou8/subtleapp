@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,11 +7,11 @@ import {
   Image,
   TouchableOpacity,
   Picker
-} from "react-native";
+} from 'react-native';
 
-import Badge from "app/components/common/Badge";
+import Badge from 'app/components/common/Badge';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 import {
   Card,
@@ -24,7 +24,7 @@ import {
   Container,
   Header,
   Content
-} from "native-base";
+} from 'native-base';
 
 export default class AddSocialNetworkTag extends Component {
   constructor() {
@@ -34,19 +34,19 @@ export default class AddSocialNetworkTag extends Component {
 
   render() {
     const networks = [
-      "facebook",
-      "twitter",
-      "instagram",
-      "snapchat",
-      "youtube"
+      'facebook',
+      'twitter',
+      'instagram',
+      'snapchat',
+      'youtube'
     ];
     const self = this;
     return (
       <View>
         <View>
-          <Card style={{ display: "flex", flexDirection: "row" }}>
+          <Card style={{ display: 'flex', flexDirection: 'row' }}>
             <Form>
-              <Item picker style={{ width: "45%" }}>
+              <Item picker style={{ width: '45%' }}>
                 <Picker
                   selectedValue={this.state.selectedNetwork}
                   itemStyle={{ height: 80, width: 100 }}
@@ -66,7 +66,7 @@ export default class AddSocialNetworkTag extends Component {
                 </Picker>
               </Item>
             </Form>
-            <Form style={{ width: "50%" }}>
+            <Form style={{ width: '50%' }}>
               <Item floatingLabel>
                 <Label>Username:</Label>
                 <Input />
@@ -78,7 +78,7 @@ export default class AddSocialNetworkTag extends Component {
                 marginTop: 2
               }}
               onPress={() =>
-                console.log("onSubmit function will be fired--after I write it")
+                console.log('onSubmit function will be fired--after I write it')
               }
             >
               <Icon

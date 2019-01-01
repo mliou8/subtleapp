@@ -64,21 +64,7 @@ export default class OwnProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayAdd: false,
-      badges: [
-        {
-          badgeType: 'youtube',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'instagram',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'twitch',
-          sourceName: 'justlikemike'
-        }
-      ]
+      displayAdd: false
     };
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);

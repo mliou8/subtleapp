@@ -43,7 +43,6 @@ class Followers extends React.Component {
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-    console.log('-------------- user on display si swho???', userOnDisplay);
 
     this.props.followUser(userOnDisplay, currUserInfo);
     this.props.profileAddFollower(userOnDisplayProfile);
@@ -66,7 +65,7 @@ class Followers extends React.Component {
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-    console.log('-------------- user on display si swho???', userOnDisplay);
+
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>

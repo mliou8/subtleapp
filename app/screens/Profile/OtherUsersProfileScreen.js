@@ -84,10 +84,6 @@ class OtherUsersProfileScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log(
-      '--------------- this props in other user profile',
-      this.props.navigation.state.params
-    );
     const { userToDisplay } = this.props.navigation.state.params;
 
     this.props.fetchUserProfileInfo(userToDisplay.uid);
