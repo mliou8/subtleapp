@@ -40,12 +40,13 @@ class Followers extends React.Component {
 
   followCurrentUser() {
     const currUserInfo = this.props.userInfo;
+    const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-    const userOnDisplayProfile = this.props.profile.userProfile;
+    console.log('-------------- user on display si swho???', userOnDisplay);
 
     this.props.followUser(userOnDisplay, currUserInfo);
-    this.props.profileAddFollower(userOnDisplay.uid, userOnDisplayProfile);
+    this.props.profileAddFollower(userOnDisplayProfile);
     this.setState({ following: true });
   }
 
@@ -54,12 +55,18 @@ class Followers extends React.Component {
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
     const userOnDisplayProfile = this.props.profile.userProfile;
+
     this.props.unfollowUser(userOnDisplay, currUserInfo);
-    this.props.profileRemoveFollower(userOnDisplay.uid, userOnDisplayProfile);
+    this.props.profileRemoveFollower(userOnDisplayProfile);
 
     this.setState({ following: false });
   }
   render() {
+    const currUserInfo = this.props.userInfo;
+    const userOnDisplayProfile = this.props.profile.userProfile;
+    const { displayName, uid, photoURL } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, photoURL };
+    console.log('-------------- user on display si swho???', userOnDisplay);
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>
@@ -150,11 +157,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(unfollowUser(userObj, currInfo));
     },
 
-    profileAddFollower: profileUserID => {
-      dispatch(profileAddFollower(profileUserID));
+    profileAddFollower: profileInfo => {
+      dispatch(profileAddFollower(profileInfo));
     },
-    profileRemoveFollower: profileUserID =>
-      dispatch(profileRemoveFollower(profileUserID))
+    profileRemoveFollower: profileInfo =>
+      dispatch(profileRemoveFollower(profileInfo))
   };
 };
 export default connect(

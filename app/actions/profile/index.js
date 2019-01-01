@@ -4,7 +4,7 @@ import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import { userUpdated } from 'app/actions/login';
+// import { userUpdated } from 'app/actions/login';
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
@@ -27,7 +27,7 @@ export const PROFILE_UPDATED = 'PROFILE_UPDATED';
 export const profileUpdated = updatedProfileInfo => {
   return {
     type: PROFILE_UPDATED,
-    profileInfo: updatedProfileInfo
+    updatedProfileInfo
   };
 };
 export const profileFetched = userProfile => {
@@ -66,7 +66,7 @@ export const fetchUserProfileInfo = userID => {
   };
 };
 
-export const profileAddFollower = (userToFollowID, currProfileInfo) => {
+export const profileAddFollower = profileUserInfo => {
   return async dispatch => {
     const user = firebase.auth().currentUser;
     const userData = {
@@ -74,10 +74,10 @@ export const profileAddFollower = (userToFollowID, currProfileInfo) => {
       displayName: user.providerData[0].displayName,
       photoURL: user.providerData[0].photoURL
     };
-    const followersListUpdated = currProfileInfo.push(userData);
-    const updatedProfileInfo = currProfileInfo;
+    const followersListUpdated = profileUserInfo.followers.concat(userData);
+    const updatedProfileInfo = profileUserInfo;
     updatedProfileInfo.followers = followersListUpdated;
-    const userOnView = db.collection('users').doc(userToFollowID);
+    const userOnView = db.collection('users').doc(profileUserInfo.uid);
 
     userOnView
       .update({
@@ -89,7 +89,7 @@ export const profileAddFollower = (userToFollowID, currProfileInfo) => {
   };
 };
 
-export const profileRemoveFollower = (userToUnfollowID, currProfileInfo) => {
+export const profileRemoveFollower = profileUserInfo => {
   return async dispatch => {
     var user = firebase.auth().currentUser;
     const userData = {
@@ -97,14 +97,15 @@ export const profileRemoveFollower = (userToUnfollowID, currProfileInfo) => {
       displayName: user.providerData[0].displayName,
       photoURL: user.providerData[0].photoURL
     };
-    const followersListUpdated = currProfileInfo.filter(
-      item => item.uid !== userToUnfollowID
-    );
-    const updatedProfileInfo = currProfileInfo;
-    updatedProfileInfo.followers = followersListUpdated;
-    const userOnViewRef = db.collection('users').doc(userToUnfollowID);
 
-    userOnViewRef
+    const followersListUpdated = profileUserInfo.followers.filter(
+      item => item.uid !== userData.uid
+    );
+    const updatedProfileInfo = profileUserInfo;
+    updatedProfileInfo.followers = followersListUpdated;
+    const profileOnViewRef = db.collection('users').doc(profileUserInfo.uid);
+
+    profileOnViewRef
       .update({
         followers: firebase.firestore.FieldValue.arrayRemove(userData)
       })
@@ -169,24 +170,24 @@ export const removeNetwork = (networkObj, currentUser) => {
   };
 };
 
-const updateUser = uid => {
-  return async dispatch => {
-    const userRef = db.collection('users').doc(uid);
-    userRef
-      .get()
-      .then(function(user) {
-        if (user.exists) {
-          const profile = user.data();
-          console.log('newProfile');
-          dispatch(userUpdated(profile));
-        } else {
-          const msg = 'No such user with that uid';
-          dispatch(profileNotFound(msg));
-        }
-      })
-      .catch(function(error) {
-        const msg = 'Error Retrieving User Document';
-        dispatch(profileNotFound(msg));
-      });
-  };
-};
+// const updateUser = uid => {
+//   return async dispatch => {
+//     const userRef = db.collection('users').doc(uid);
+//     userRef
+//       .get()
+//       .then(function(user) {
+//         if (user.exists) {
+//           const profile = user.data();
+//           console.log('newProfile');
+//           dispatch(userUpdated(profile));
+//         } else {
+//           const msg = 'No such user with that uid';
+//           dispatch(profileNotFound(msg));
+//         }
+//       })
+//       .catch(function(error) {
+//         const msg = 'Error Retrieving User Document';
+//         dispatch(profileNotFound(msg));
+//       });
+//   };
+// };
