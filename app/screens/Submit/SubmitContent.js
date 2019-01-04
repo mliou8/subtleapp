@@ -6,6 +6,8 @@ import {
     TouchableOpacity,
     Button,
     ScrollView,
+    ImageBackground,
+    Alert,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -40,29 +42,67 @@ export default class SubmitContent extends Component {
         this.setState({ modalVisible: visible });
     };
 
-    pickImageFromCameraRoll = async () => {
+    takePicture = async () => {
         this.toggleModal(false);
         await timeout(500); // let modal transition complete
 
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        await Permissions.askAsync(Permissions.CAMERA);
+
         try {
-            let { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [4, 3],
-            });
+            let { uri, cancelled } = await ImagePicker.launchCameraAsync();
             if (!cancelled) {
                 this.setState(state => {
                     return {
                         ...state,
                         uploads: [...state.uploads, uri],
-                        modalVisible: false,
+                    };
+                });
+            }
+        } catch (e) {
+            console.error('Could not take picture', e);
+        }
+    };
+
+    pickImageFromCameraRoll = async () => {
+        this.toggleModal(false);
+        await timeout(500); // let modal transition complete
+
+        await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        try {
+            let { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            });
+            if (!cancelled) {
+                this.setState(state => {
+                    return {
+                        uploads: [...state.uploads, uri],
                     };
                 });
             }
         } catch (e) {
             console.error('Could not get image from camera roll', e);
         }
+    };
+
+    removeImage = uri => {
+        Alert.alert('', 'Are you sure you want to remove this picture from your post?', [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+            },
+            {
+                text: 'OK',
+                onPress: () => {
+                    this.setState(state => {
+                        return {
+                            uploads: state.uploads.filter(upload => upload !== uri),
+                        };
+                    });
+                },
+            },
+        ]);
     };
 
     render() {
@@ -77,7 +117,10 @@ export default class SubmitContent extends Component {
                             isVisible={this.state.modalVisible}
                         >
                             <View style={styles.modalContainer}>
-                                <TouchableOpacity onPress={() => null} style={styles.modalButton}>
+                                <TouchableOpacity
+                                    onPress={this.takePicture}
+                                    style={styles.modalButton}
+                                >
                                     <Icon size={30} name="camera" style={styles.modalIcon} />
                                     <Text>Take photo</Text>
                                 </TouchableOpacity>
@@ -121,11 +164,21 @@ export default class SubmitContent extends Component {
                                 {this.state.uploads.length
                                     ? this.state.uploads.map(uri => {
                                           return (
-                                              <Image
+                                              <ImageBackground
                                                   key={uri}
                                                   style={styles.upload}
                                                   source={{ uri }}
-                                              />
+                                              >
+                                                  <TouchableOpacity
+                                                      onPress={() => this.removeImage(uri)}
+                                                  >
+                                                      <Icon
+                                                          size={25}
+                                                          name="close"
+                                                          style={styles.delete}
+                                                      />
+                                                  </TouchableOpacity>
+                                              </ImageBackground>
                                           );
                                       })
                                     : null}

@@ -62,7 +62,15 @@ export default (styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     upload: {
+        marginVertical: 10,
         width: 280,
         height: 210,
     },
+    delete: {
+        color: 'white',
+        opacity: .7,
+        position: 'absolute',
+        right: 5,
+        top: 5
+    }
 }));
