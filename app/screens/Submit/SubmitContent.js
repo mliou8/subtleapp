@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Keyboard, View, TouchableWithoutFeedback, TouchableOpacity, Button } from 'react-native';
+import {
+    Keyboard,
+    View,
+    TouchableWithoutFeedback,
+    TouchableOpacity,
+    Button,
+    ScrollView,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ImagePicker, Permissions } from 'expo';
@@ -7,6 +14,7 @@ import { ImagePicker, Permissions } from 'expo';
 import { Avatar, Image } from '../../components/image';
 import { Input } from '../../components/form';
 import { Text } from '../../components/text';
+import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
 
 export default class SubmitContent extends Component {
@@ -18,7 +26,7 @@ export default class SubmitContent extends Component {
     state = {
         height: 40,
         modalVisible: false,
-        upload: '',
+        uploads: [],
     };
 
     updateSize = height => {
@@ -33,11 +41,24 @@ export default class SubmitContent extends Component {
     };
 
     pickImageFromCameraRoll = async () => {
+        this.toggleModal(false);
+        await timeout(500); // let modal transition complete
+
         await Permissions.askAsync(Permissions.CAMERA_ROLL);
         try {
-            let result = await ImagePicker.launchImageLibraryAsync();
-            if (!result.cancelled) {
-                this.setState({ upload: result.uri, modalVisible: false });
+            let { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+            });
+            if (!cancelled) {
+                this.setState(state => {
+                    return {
+                        ...state,
+                        uploads: [...state.uploads, uri],
+                        modalVisible: false,
+                    };
+                });
             }
         } catch (e) {
             console.error('Could not get image from camera roll', e);
@@ -47,59 +68,71 @@ export default class SubmitContent extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={styles.container}>
-                    <Modal
-                        avoidKeyboard
-                        onBackdropPress={() => this.toggleModal(false)}
-                        onBackButtonPress={() => this.toggleModal(false)}
-                        isVisible={this.state.modalVisible}
-                    >
-                        <View style={styles.modalContainer}>
-                            <TouchableOpacity onPress={() => null} style={styles.modalButton}>
-                                <Icon size={30} name="camera" style={styles.modalIcon} />
-                                <Text>Take photo</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={this.pickImageFromCameraRoll}
-                                style={styles.modalButton}
-                            >
-                                <Icon size={30} name="image" style={styles.modalIcon} />
-                                <Text>Choose photo from gallery</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Modal>
-                    <View style={styles.profile}>
-                        <Avatar
-                            size={65}
-                            styles={styles.avatar}
-                            src={this.props.user.photoURL || 'http://i.pravatar.cc/100'}
-                        />
-                        <Text style={styles.name}>{this.props.user.displayName || 'You'}</Text>
-                    </View>
-                    <View style={styles.form}>
-                        <Input
-                            multiline
-                            placeholder="What's up?"
-                            style={[styles.input, { height: this.state.height }]}
-                            onContentSizeChange={e =>
-                                this.updateSize(e.nativeEvent.contentSize.height)
-                            }
-                            maxLength={200}
-                        />
-                        <TouchableOpacity
-                            onPress={() => this.toggleModal(true)}
-                            style={styles.touchable}
+                <ScrollView>
+                    <View style={styles.container}>
+                        <Modal
+                            avoidKeyboard
+                            onBackdropPress={() => this.toggleModal(false)}
+                            onBackButtonPress={() => this.toggleModal(false)}
+                            isVisible={this.state.modalVisible}
                         >
-                            <Icon name="camera" size={20} style={styles.icon} />
-                            <Text style={styles.add}>Add photo</Text>
-                        </TouchableOpacity>
-                        <View style={styles.images}>
-                            {this.state.upload ? (
-                                <Image style={styles.upload} source={{ uri: this.state.upload }} />
-                            ) : null}
+                            <View style={styles.modalContainer}>
+                                <TouchableOpacity onPress={() => null} style={styles.modalButton}>
+                                    <Icon size={30} name="camera" style={styles.modalIcon} />
+                                    <Text>Take photo</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={this.pickImageFromCameraRoll}
+                                    style={styles.modalButton}
+                                >
+                                    <Icon size={30} name="image" style={styles.modalIcon} />
+                                    <Text>Choose photo from gallery</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </Modal>
+                        <View style={styles.profile}>
+                            <Avatar
+                                size={65}
+                                styles={styles.avatar}
+                                src={this.props.user.photoURL || 'http://i.pravatar.cc/100'}
+                            />
+                            <Text style={styles.name}>{this.props.user.displayName || 'You'}</Text>
+                        </View>
+                        <View style={styles.form}>
+                            <Input
+                                multiline
+                                placeholder="What's up?"
+                                style={[styles.input, { height: this.state.height }]}
+                                onContentSizeChange={e =>
+                                    this.updateSize(e.nativeEvent.contentSize.height)
+                                }
+                                maxLength={200}
+                            />
+                            <TouchableOpacity
+                                onPress={() => this.toggleModal(true)}
+                                style={styles.touchable}
+                            >
+                                <Icon name="camera" size={20} style={styles.icon} />
+                                <Text style={styles.add}>
+                                    {this.state.uploads.length ? 'Add more photos' : 'Add photos'}
+                                </Text>
+                            </TouchableOpacity>
+                            <View style={styles.images}>
+                                {this.state.uploads.length
+                                    ? this.state.uploads.map(uri => {
+                                          return (
+                                              <Image
+                                                  key={uri}
+                                                  style={styles.upload}
+                                                  source={{ uri }}
+                                              />
+                                          );
+                                      })
+                                    : null}
+                            </View>
                         </View>
                     </View>
-                </View>
+                </ScrollView>
             </TouchableWithoutFeedback>
         );
     }
