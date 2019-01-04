@@ -12,7 +12,7 @@ import styles from './SubmitContent.styles';
 export default class SubmitContent extends Component {
     static navigationOptions = {
         headerTitle: 'Create post',
-        headerRight: <Button title="Submit" />,
+        headerRight: <Button onPress={() => console.log('submit')} title="Submit" />,
     };
 
     state = {
@@ -40,7 +40,7 @@ export default class SubmitContent extends Component {
                 this.setState({ upload: result.uri, modalVisible: false });
             }
         } catch (e) {
-            console.error('Could not get image from camera roll');
+            console.error('Could not get image from camera roll', e);
         }
     };
 
@@ -69,8 +69,12 @@ export default class SubmitContent extends Component {
                         </View>
                     </Modal>
                     <View style={styles.profile}>
-                        <Avatar size={65} styles={styles.avatar} src="http://i.pravatar.cc/100" />
-                        <Text style={styles.name}>David Martin</Text>
+                        <Avatar
+                            size={65}
+                            styles={styles.avatar}
+                            src={this.props.user.photoURL || 'http://i.pravatar.cc/100'}
+                        />
+                        <Text style={styles.name}>{this.props.user.displayName || 'You'}</Text>
                     </View>
                     <View style={styles.form}>
                         <Input
