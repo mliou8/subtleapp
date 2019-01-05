@@ -16,33 +16,8 @@ import {
 } from 'actions/profile/index';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
-const catData = {
-  uid: 'AobBHaD1U9WJWOCMNFC8',
-  displayName: 'Bailey',
-  photoURL: 'https://loremflickr.com/176/230/cat'
-};
-// const catData = {
-//   uid: 'MvFyxRN66DNfmXFBpIMP',
-//   displayName: 'GrumpyCat',
-//   photoURL: 'https://loremflickr.com/176/230/cat'
-// };
-// const catData = {
-//   uid: 'oJVkbWMJWAMaKyEJmSkZ',
-//   displayName: 'Belle',
-//   photoURL: 'https://loremflickr.com/176/230/cat'
-// };
-// const catData = {
-//   uid: 'qo7fZPgVMsLeMYInRL0n',
-//   displayName: 'Berkely',
-//   photoURL: 'https://loremflickr.com/176/230/cat'
-// };
-// const catData = {
-//   uid: '9huXTnWl7raXLktU9hrz',
-//   displayName: 'Maru',
-//   photoURL: 'https://loremflickr.com/176/230/cat'
-// };
 
-class Following extends React.Component {
+class Followers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,25 +26,46 @@ class Following extends React.Component {
       userOnDisplay: this.props.userOnDisplay
     };
   }
+  componentDidMount() {
+    const currView = this.props.profile.userProfile;
+    const amFollowing = this.props.userInfo.following.filter(
+      item => item.uid === currView.uid
+    );
+    if (amFollowing.length) {
+      this.setState({ following: true });
+    } else {
+      this.setState({ following: false });
+    }
+  }
 
   followCurrentUser() {
     const currUserInfo = this.props.userInfo;
-    this.props.followUser(catData, currUserInfo);
-    this.props.profileAddFollower(catData.uid);
-    // this.props.followUser(userObj);
-    // this.props.profileAddFollower(userID);
+    const userOnDisplayProfile = this.props.profile.userProfile;
+    const { displayName, uid, photoURL } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, photoURL };
+
+    this.props.followUser(userOnDisplay, currUserInfo);
+    this.props.profileAddFollower(userOnDisplayProfile);
     this.setState({ following: true });
   }
 
   unfollowCurrentUser() {
     const currUserInfo = this.props.userInfo;
-    this.props.unfollowUser(catData, currUserInfo);
-    this.props.profileRemoveFollower(catData.uid);
-    // this.props.unfollowUser(userObj);
-    // this.props.profileRemoveFollower(profileUserID);
+    const { displayName, uid, photoURL } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, photoURL };
+    const userOnDisplayProfile = this.props.profile.userProfile;
+
+    this.props.unfollowUser(userOnDisplay, currUserInfo);
+    this.props.profileRemoveFollower(userOnDisplayProfile);
+
     this.setState({ following: false });
   }
   render() {
+    const currUserInfo = this.props.userInfo;
+    const userOnDisplayProfile = this.props.profile.userProfile;
+    const { displayName, uid, photoURL } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, photoURL };
+
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>
@@ -139,7 +135,6 @@ const styles = StyleSheet.create({
     marginRight: 8
   }
 });
-
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
@@ -161,14 +156,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(unfollowUser(userObj, currInfo));
     },
 
-    profileAddFollower: profileUserID => {
-      dispatch(profileAddFollower(profileUserID));
+    profileAddFollower: profileInfo => {
+      dispatch(profileAddFollower(profileInfo));
     },
-    profileRemoveFollower: profileUserID =>
-      dispatch(profileRemoveFollower(profileUserID))
+    profileRemoveFollower: profileInfo =>
+      dispatch(profileRemoveFollower(profileInfo))
   };
 };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Following);
+)(Followers);

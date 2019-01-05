@@ -1,12 +1,13 @@
 import {
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND,
-  PROFILE_ADD_FOLLOWER,
-  PROFILE_REMOVE_FOLLOWER,
+  // PROFILE_ADD_FOLLOWER,
+  // PROFILE_REMOVE_FOLLOWER,
+  PROFILE_UPDATED
 } from 'actions/profile/index';
 
 const initialState = {
-  userProfile: { followers: [], following: [] },
+  userProfile: {},
   errorMsg: ''
 };
 
@@ -18,24 +19,24 @@ export default function(state = initialState, action) {
         userProfile: action.userProfile,
         userRegistered: true
       };
-    case PROFILE_ADD_FOLLOWER:
+    case PROFILE_UPDATED:
       return {
         ...state,
-        userProfile: { ...state.userProfile, followers: action.userToFollowID }
+        userProfile: action.updatedProfileInfo
       };
-    case PROFILE_REMOVE_FOLLOWER:
-      return {
-        ...state,
-        userProfile: {
-          ...state.userProfile,
-          followers: [state.userProfile.followers, action.userToUnfollowID]
-          // followers: state.userProfile.followers.filter(item => {
-          //   if (item.uid !== action.userToUnfollowID) {
-          //     return item;
-          //   }
-          // })
-        }
-      };
+    // case PROFILE_ADD_FOLLOWER:
+    //   return {
+    //     ...state,
+    //     userProfile: { ...state.userProfile, followers: action.userToFollowID }
+    //   };
+    // case PROFILE_REMOVE_FOLLOWER:
+    //   return {
+    //     ...state,
+    //     userProfile: {
+    //       ...state.userProfile,
+    //       followers: [state.userProfile.followers, action.userToUnfollowID]
+    //     }
+    //   };
     case PROFILE_NOT_FOUND:
       return {
         ...state,

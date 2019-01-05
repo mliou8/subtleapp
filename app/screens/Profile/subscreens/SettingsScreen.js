@@ -1,16 +1,6 @@
-
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import {
-  RkText,
-  RkStyleSheet,
-  RkTheme,
-} from 'react-native-ui-kitten';
+import { ScrollView, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { RkText, RkStyleSheet, RkTheme } from 'react-native-ui-kitten';
 import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
 import { removeNetwork, addNetwork } from 'db/profile/index';
 
@@ -18,9 +8,9 @@ const socialNetworkOptions = ['instagram', 'youtube', 'twitch', 'facebook'];
 
 export default class Settings extends React.Component {
   static navigationOptions = {
-    title: 'Settings'.toUpperCase(),
+    title: 'Settings'.toUpperCase()
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,114 +18,120 @@ export default class Settings extends React.Component {
       instagram: { enabled: false, edit: 'false', sourceUrl: '' },
       youtube: { enabled: false, edit: 'false', sourceUrl: '' },
       facebook: { enabled: false, edit: 'false', sourceUrl: '' },
-      twitch: { enabled: false, edit: 'false', sourceUrl: '' },
+      twitch: { enabled: false, edit: 'false', sourceUrl: '' }
     };
-    
+
     this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
     this.updateSocialNetworks = this.updateSocialNetworks.bind(this);
     this.onPressToRemove = this.onPressToRemove.bind(this);
     this.onPressToAdd = this.onPressToAdd.bind(this);
   }
-  
+
   // initialize each property to the correct value
   componentDidMount() {
-    this.updateSocialNetworks() ;
+    this.updateSocialNetworks();
   }
-  
+
   // run this function each time social networks update
   updateSocialNetworks = () => {
-    this.state.socialNetworks.forEach((socialNetwork) => {
+    this.state.socialNetworks.forEach(socialNetwork => {
       const source = socialNetwork.source.toLowerCase();
       const sourceUrl = socialNetwork.sourceUrl;
-      this.setState({[source]: { enabled: true, sourceUrl: sourceUrl }});
-    })
-  }
-  
-  renderSocialNetworks = () => {
-      return socialNetworkOptions.map((socialNetwork, idx) => {
-        return (
-          <View style={styles.row} key={idx}>
-            <ConnectedNetworks
-              text={this.state[socialNetwork.toLowerCase()].sourceUrl}
-              iconType={socialNetwork}
-              enabled={this.state[socialNetwork.toLowerCase()].enabled}
-              onPressToRemove={this.onPressToRemove}
-              onPressToAdd={this.onPressToAdd}
-              userInfo={this.props.userInfo}
-            />
-          </View>
-        )
-      })
+      this.setState({ [source]: { enabled: true, sourceUrl: sourceUrl } });
+    });
   };
-    
+
+  renderSocialNetworks = () => {
+    return socialNetworkOptions.map((socialNetwork, idx) => {
+      return (
+        <View style={styles.row} key={idx}>
+          <ConnectedNetworks
+            text={this.state[socialNetwork.toLowerCase()].sourceUrl}
+            iconType={socialNetwork}
+            enabled={this.state[socialNetwork.toLowerCase()].enabled}
+            onPressToRemove={this.onPressToRemove}
+            onPressToAdd={this.onPressToAdd}
+            userInfo={this.props.userInfo}
+          />
+        </View>
+      );
+    });
+  };
+
   onPressToRemove = (networkObj, userInfo) => {
     this.props.removeNetwork(networkObj, userInfo);
-    this.setState({[networkObj.source] : {enabled: false, edit: false, sourceUrl: ''}})
+    this.setState({
+      [networkObj.source]: { enabled: false, edit: false, sourceUrl: '' }
+    });
   };
-  
+
   onPressToAdd = (networkObj, userInfo) => {
     this.props.addNetwork(networkObj, userInfo);
-    const { source, sourceUrl} = networkObj
-    this.setState({[source] : {enabled: true, edit: false, sourceUrl: sourceUrl}})
-  }
+    const { source, sourceUrl } = networkObj;
+    this.setState({
+      [source]: { enabled: true, edit: false, sourceUrl: sourceUrl }
+    });
+  };
 
   render = () => (
     <ScrollView style={styles.container}>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>PROFILE SETTINGS</RkText>
+          <RkText rkType="primary header6">PROFILE SETTINGS</RkText>
         </View>
         <View style={styles.row}>
-          <RkText rkType='header6'>Placeholder goes with a switch toggle</RkText>
+          <RkText rkType="header6">
+            Placeholder goes with a switch toggle
+          </RkText>
         </View>
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>Connected Networks</RkText>
+          <RkText rkType="primary header6">Connected Networks</RkText>
         </View>
-        { this.renderSocialNetworks() }
+        {this.renderSocialNetworks()}
       </View>
       <View style={styles.section}>
         <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>SUPPORT</RkText>
+          <RkText rkType="primary header6">SUPPORT</RkText>
         </View>
         <View style={styles.row}>
           <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Help</RkText>
+            <RkText rkType="header6">Help</RkText>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Privacy Policy</RkText>
+            <RkText rkType="header6">Privacy Policy</RkText>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Terms & Conditions</RkText>
+            <RkText rkType="header6">Terms & Conditions</RkText>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType='header6'>Logout</RkText>
+            <RkText rkType="header6">Logout</RkText>
           </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
-  )
+  );
 }
 
 const styles = RkStyleSheet.create(theme => ({
   container: {
-    backgroundColor: theme.colors.screen.base,
+    backgroundColor: theme.colors.screen.base
   },
   header: {
-    paddingVertical: 25,
+    paddingVertical: 25
   },
   section: {
-    marginVertical: 25,
+    marginVertical: 25
   },
   heading: {
-    paddingBottom: 12.5,
+    paddingBottom: 12.5
   },
   row: {
     flexDirection: 'row',
@@ -143,13 +139,13 @@ const styles = RkStyleSheet.create(theme => ({
     paddingHorizontal: 17.5,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: theme.colors.border.base,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   rowButton: {
     flex: 1,
-    paddingVertical: 24,
+    paddingVertical: 24
   },
   switch: {
-    marginVertical: 14,
-  },
+    marginVertical: 14
+  }
 }));

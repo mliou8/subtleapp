@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import socialImages from "assets/images/social/exports.js";
-import { WebBrowser } from "expo";
+import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import socialImages from 'assets/images/social/exports.js';
+import { WebBrowser } from 'expo';
 
-import { Button, Icon } from "native-base";
+import { Button, Icon } from 'native-base';
 
 export default class Badge extends React.Component {
   constructor(props) {
@@ -11,19 +11,17 @@ export default class Badge extends React.Component {
     this.badgeTypePicker = this.badgeTypePicker.bind(this);
     this._handleBadgePress = this._handleBadgePress.bind(this);
   }
-  _handleBadgePress = (badgeType, sourceName) => {
-    if (badgeType === "twitch") {
-      return WebBrowser.openBrowserAsync(
-        `https://www.twitch.tv/${sourceName}/`
-      );
+  _handleBadgePress = (source, sourceUrl) => {
+    if (source === 'twitch') {
+      return WebBrowser.openBrowserAsync(`https://www.twitch.tv/${sourceUrl}/`);
     } else {
       return WebBrowser.openBrowserAsync(
-        `https://www.${badgeType}.com/${sourceName}/`
+        `https://www.${source}.com/${sourceUrl}/`
       );
     }
   };
 
-  badgeTypePicker = (type, sourceName) => {
+  badgeTypePicker = (source, sourceUrl) => {
     return (
       <Button
         small
@@ -36,19 +34,19 @@ export default class Badge extends React.Component {
           paddingBottom: 3
         }}
         onPress={() => {
-          this._handleBadgePress(type, sourceName);
+          this._handleBadgePress(source, sourceURL);
         }}
       >
         <Icon
           type="FontAwesome"
-          name={type}
+          name={source.toLowerCase()}
           style={{
             marginLeft: 3,
             paddingLeft: 3,
             paddingBottom: 3
           }}
         />
-        <Text> {sourceName} </Text>
+        <Text> {sourceUrl} </Text>
       </Button>
     );
   };
@@ -63,19 +61,19 @@ export default class Badge extends React.Component {
 
 const styles = StyleSheet.create({
   badgeContainer: {
-    display: "flex",
+    display: 'flex',
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: 6,
-    backgroundColor: "#F0F0F0",
+    backgroundColor: '#F0F0F0',
     marginRight: 4,
     paddingRight: 5,
-    alignContent: "center",
-    height: "10%",
-    width: "28%"
+    alignContent: 'center',
+    height: '10%',
+    width: '28%'
   },
   badgeText: {
-    display: "flex",
+    display: 'flex',
     fontSize: 12,
     includeFontPadding: false,
     lineHeight: 20,
