@@ -59,28 +59,8 @@ class FollowersListScreen extends React.Component {
     this.renderFollowerslist = this.renderFollowerslist.bind(this);
   }
 
-  //   renderFollowerslist = () => {
-  //     return this.state.followers.map((follower, idx) => {
-  //       return (
-  //         <ListItem key={idx}>
-  //           <Left>
-  //             <Text> {follower.name}</Text>
-  //           </Left>
-  //           <Right>
-  //             <Icon name="ios-arrow-forward" />
-  //           </Right>
-  //         </ListItem>
-  //       );
-  //     });
-  //   };
-  renderFollowerslist = listType => {
-    let userList = [];
-    if (listType === 'following') {
-      userList = this.props.following;
-    } else {
-      userList = this.props.followers;
-    }
-    return userList.map((user, idx) => {
+  renderFollowerslist = (listType, listContent) => {
+    return listContent.map((user, idx) => {
       return (
         <ListItem avatar key={idx}>
           <Left>
@@ -90,7 +70,17 @@ class FollowersListScreen extends React.Component {
             <Text> {user.displayName}</Text>
           </Body>
           <Right>
-            <Icon name="ios-arrow-forward" />
+            <Button
+              iconRight
+              transparent
+              onPress={() =>
+                this.props.navigation.navigate('OtherUsersProfile', {
+                  userToDisplay: user
+                })
+              }
+            >
+              <Icon name="ios-arrow-forward" />
+            </Button>
           </Right>
         </ListItem>
       );
@@ -99,11 +89,12 @@ class FollowersListScreen extends React.Component {
 
   render() {
     const listType = this.props.navigation.state.params.type;
+    const listContent = this.props.navigation.state.params.userList;
     return (
       <ScrollView>
         <View>
           <Content>
-            <List>{this.renderFollowerslist(listType)}</List>
+            <List>{this.renderFollowerslist(listType, listContent)}</List>
           </Content>
         </View>
       </ScrollView>

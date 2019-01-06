@@ -89,7 +89,7 @@ export default class BoardScreen extends React.Component {
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
-    this.testUser = this.testUser.bind(this)
+    this.testUser = this.testUser.bind(this);
   }
 
   componentDidMount() {
@@ -115,11 +115,11 @@ export default class BoardScreen extends React.Component {
       Alert.alert('You are not logged in');
     }
   }
-  
+
   testUser() {
-    const testUID = "3bbteqbYRfUEY3TYqXvKC4bpOVA2";
+    const testUID = '3bbteqbYRfUEY3TYqXvKC4bpOVA2';
     const testUser = fetchuser(testUID);
-    console.log("testUser is ", testUser)
+    // console.log("testUser is ", testUser)
   }
 
   render() {
