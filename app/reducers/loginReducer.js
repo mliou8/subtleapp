@@ -15,7 +15,6 @@ const initialState = {
   authenticated: false,
   userInfo: {},
   errorMsg: '',
-  userRegistered: false,
 };
 
 export default function(state = initialState, action) {
@@ -39,8 +38,13 @@ export default function(state = initialState, action) {
     case CREATE_PROFILE_ERROR:
       return {
         ...state,
-        userRegistered: false,
         errorMsg: action.errorMsg
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        authenticated: false,
+        userInfo: {},
       };
     case USER_INFO_FETCHED:
       return {

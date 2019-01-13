@@ -1,5 +1,5 @@
 import config from '../../../config.js';
-import { Alert } from 'react-native';
+import { AlertIOS } from 'react-native';
 import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
@@ -101,6 +101,7 @@ export function createUserIfNoneExists(user) {
         dispatch(userUpdated(dbUser.data()));
         dispatch(authSuccess());
       } else {
+        checkCode();
         const currTime = Date.now();
         const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
         const newUser = {
@@ -133,18 +134,45 @@ export function createUserIfNoneExists(user) {
   };
 }
 
-export async function userLogout() {
-  firebase
-    .auth()
-    .signOut()
-    .then(
-      function() {
-        dispatch(logOutSuccess());
+function promptCode() {
+    AlertIOS.prompt(
+    'Please enter your invite code:',
+    null,
+    [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
       },
-      function(error) {
-        console.error(error);
-      }
-    );
+      {
+        text: 'OK',
+        onPress: (code) => console.log('OK Pressed, password: ' + code),
+      },
+    ],
+    null,
+    'default',
+  );
+}
+
+async function checkCode(code) {
+  // takes in a code. Ejects either an error "failure state" or a pass state which
+  // goes on to the rest of the create user code. 
+  // Uses a prompt, takes the prompt and looks it up and then handles or rejects it.. 
+  // rejection should give you additional chances to try again. 
+  const inviteRef = db.collection('codes').doc(code);
+  
+}
+
+export function userLogout() {
+  return async dispatch => {
+    try {
+      await firebase.auth().signOut();
+      dispatch(logOutSuccess());
+    }
+    catch (e) {
+      console.log("Error: ", e)
+    }
+  }
 }
 
 export const fetchUserInfo = userID => {

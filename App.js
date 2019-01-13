@@ -19,7 +19,7 @@ export default class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
         store.dispatch(createUserIfNoneExists(user))
-      }
+      } 
     });
   }
   

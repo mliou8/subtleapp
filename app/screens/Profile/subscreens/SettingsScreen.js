@@ -153,7 +153,11 @@ export default class Settings extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
+          <TouchableOpacity style={styles.rowButton} 
+            onPress={() => {
+              this.props.logOut()
+              this.props.navigation.navigate('LandingPage');
+            }}>
             <RkText rkType="header6">Logout</RkText>
           </TouchableOpacity>
         </View>
@@ -186,7 +190,6 @@ const styles = RkStyleSheet.create(theme => ({
   },
   rowButton: {
     flex: 1,
-    paddingVertical: 24
   },
   switch: {
     marginVertical: 14

@@ -31,10 +31,8 @@ export default class LandingPage extends React.Component {
     }
   }
   componentDidUpdate() {
-    const userName = this.props.userInfo.displayName.split(' ');
-
     if (this.props.authenticated) {
-      Alert.alert(`Welcome back ${userName[0]}!`);
+      Alert.alert(`Welcome back!`);
       this.props.navigation.navigate('MainScreen');
     }
   }
@@ -62,14 +60,6 @@ export default class LandingPage extends React.Component {
             style={{ color: 'white', fontSize: 30 }}
           />
           <Text> Login with facebook </Text>
-        </Button>
-        <Button rounded iconLeft bordered light style={{ marginTop: 10 }}>
-          <Icon
-            name="email"
-            type="MaterialIcons"
-            style={{ color: 'white', fontSize: 30 }}
-          />
-          <Text> Login with email </Text>
         </Button>
         <Button
           rounded
