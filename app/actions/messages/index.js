@@ -98,16 +98,6 @@ export const fetchConversation = convoID => {
   };
 };
 
-// _id: 1,
-// text: 'My message',
-// createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),
-// user: {
-//   _id: 2,
-//   name: 'React Native',
-//   avatar: 'https://facebook.github.io/react/img/logo_og.png',
-// },
-// image: 'https://facebook.github.io/react/img/logo_og.png',
-
 export const sendNewMsg = (convoId, newMsg, currMsgs) => {
   return async dispatch => {
     // const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -124,40 +114,6 @@ export const sendNewMsg = (convoId, newMsg, currMsgs) => {
       });
   };
 };
-// const convos = {
-//   author: 'Kristin',
-//   text: 'hi human who feeds me!',
-//   timeSent: new Date()
-// };
-
-// sendNewMsg('tcudaUCLo5R9LjERXqzA', convos);
-
-//     return async dispatch => {
-//       const userRef = db.collection('users').doc(currentUser.uid);
-//       return db
-//         .runTransaction(transaction => {
-//           return transaction.get(userRef).then(function(user) {
-//             if (!user.exists) {
-//               throw 'Document does not exist!';
-//             }
-//             const networksUpdate = user.data().socialNetworks;
-//             networksUpdate.push(networkObj);
-//             // currentUser.socialNetworks = networksUpdate;
-//             transaction.update(userRef, { socialNetworks: networksUpdate });
-//             return user.data().uid;
-//           });
-//         })
-//         .then(function(uid) {
-//           console.log('Document successfully updated');
-
-//           dispatch(updateUser(uid));
-//           // dispatch(userUpdated(currentUser));
-//         })
-//         .catch(function(error) {
-//           console.error('Error updating document: ', error);
-//         });
-//     };
-//   };
 
 //   export const removeUserMsg = (networkObj, currentUser) => {
 //     return async dispatch => {

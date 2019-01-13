@@ -10,7 +10,8 @@ import {
 const initialState = {
   currentMessages: {},
   currentConversation: {},
-  errorMsg: ''
+  errorMsg: '',
+  fetched: false
 };
 
 export default function(state = initialState, action) {
@@ -23,7 +24,8 @@ export default function(state = initialState, action) {
     case USER_CONVERSATION_FETCHED:
       return {
         ...state,
-        currentConversation: action.userConversation
+        currentConversation: action.userConversation,
+        fetched: true
       };
     // case USER_MESSAGE_SENT:
     //   return {

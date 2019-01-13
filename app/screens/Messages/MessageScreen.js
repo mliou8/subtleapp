@@ -133,12 +133,8 @@ class MessageScreen extends React.Component {
     this.renderMessages = this.renderMessages.bind(this);
   }
   componentWillMount() {
-    // console.log(
-    //   'this props in message screen',
-    //   this.props.navigation.state.params.userInfo
-    // );
     const userConversations = this.props.login.userInfo.conversations;
-
+    //would map through userConversations
     this.props.fetchConversation(userConversations[0].convoID);
     const userInfo = this.props.userInfo;
     // const convos = this.props.messages.currentConversation;
@@ -158,7 +154,8 @@ class MessageScreen extends React.Component {
           <TouchableHighlight
             onPress={() =>
               this.props.navigation.navigate('Conversation', {
-                messages: message.messages
+                messages: message.messages,
+                convoID: message.convoID
               })
             }
             underlayColor={'#999999'}
@@ -177,10 +174,6 @@ class MessageScreen extends React.Component {
   };
 
   render() {
-    console.log(
-      'this state messages screen --------------',
-      this.state.messages
-    );
     return <View style={styles.container}>{this.renderMessages()}</View>;
   }
 }
