@@ -9,11 +9,11 @@ import {
   View
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-
+import { Spinner } from 'native-base';
 import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
-import moment, { now } from 'moment';
+// import moment, { now } from 'moment';
 import firebase from 'db/firebase';
 
 import db from 'db/firestore';
@@ -24,7 +24,7 @@ class Conversation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: this.props.navigation.getParam('messages'),
+      messages: [],
       convoID: this.props.navigation.getParam('convoID')
     };
     this.onSend = this.onSend.bind(this);
@@ -34,11 +34,35 @@ class Conversation extends React.Component {
     const self = this;
     const convoID = this.state.convoID;
     const docRef = db.collection('conversations').doc(convoID);
+
+    // await firebase.auth().onAuthStateChanged(function(user) {
+    //   if (user) {
+    //     docRef.onSnapshot(function(doc) {
+    //       msgs = doc.data().messages;
+    //       console.log('Current data: ', doc.data().messages);
+    //     });
+    //     self.setState({
+    //       messages: msgs
+    //     });
+    //   } else {
+    //     console.log('not logged in');
+    //   }
+    // });
     docRef.get().then(function(doc) {
       if (doc.exists) {
         const conversation = doc.data();
+        //might need error handling in case its an empty array bc user has deleted old ones?
+        const testnewMsgs = conversation.messages.forEach(item => {
+          let oldTime = item.createdAt;
+          const jstime = oldTime.toDate();
+          item.createdAt = jstime;
+
+          return item;
+        });
+        const newMsgs = conversation.messages;
+
         self.setState({
-          messages: conversation.messages
+          messages: newMsgs
         });
         return conversation;
       } else {
@@ -48,33 +72,40 @@ class Conversation extends React.Component {
     });
   }
 
-  onSend(messages) {
-    console.log('this is new messages ---------', this.state.messages);
+  onSend(messages = []) {
     const prevMsgs = this.state.messages;
-    const chatID = this.state.convoID;
-    // _id: generateMessageID(),
-    this.props.sendNewMsg(chatID, messages, prevMsgs);
-    this.setState(prevMsgs => ({
-      messages: GiftedChat.append(prevMsgs, messages)
+    const convoID = this.state.convoID;
+
+    const currUserRef = db.collection('conversations').doc(convoID);
+    currUserRef.update({
+      messages: firebase.firestore.FieldValue.arrayUnion(messages[0])
+    });
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages)
     }));
   }
 
   render() {
     const { navigation } = this.props;
-    console.log('------------------curre convo-----', this.state);
+    // console.log('------------------curre convo-----', this.state);
     const msgs = this.state.messages;
     return (
       <GiftedChat
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
         user={{
-          _id: this.props.userInfo.uid
+          _id: this.props.userInfo.uid,
+          name: this.props.userInfo.displayName,
+          avatar: this.props.userInfo.photoURL
         }}
+        //user here is the current user
         showUserAvatar={true}
         isLoadingEarlier={true}
-
-        //bottomOffset={20}
-        //user here is the current user as the id will be given in the messages
+        dateFormat={'LL'}
+        inverted={false}
+        //other display options:
+        // showAvatarForEveryMessage={true}
+        // onPressAvatar (Function(user)) - Callback when a message avatar is tapped
       />
     );
   }
@@ -90,54 +121,17 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    fetchConversation: id => {
-      dispatch(fetchConversation(id));
-    },
-    sendNewMsg: (convoID, msgs, oldMsgs) => {
-      dispatch(sendNewMsg(convoID, msgs, oldMsgs));
-    }
-  };
-};
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     // fetchConversation: id => {
+//     //   dispatch(fetchConversation(id));
+//     // },
+//     // sendNewMsg: (convoID, msgs, oldMsgs) => {
+//     //   dispatch(sendNewMsg(convoID, msgs, oldMsgs));
+//     // }
+//   };
+// };
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Conversation);
-
-// [23:47:07] this is new messages --------- Array [
-//   [23:47:07]   Object {
-//   [23:47:07]     "_id": "28f36ffe-7050-451b-901a-5c4fbe28687b",
-//   [23:47:07]     "createdAt": 2019-01-13T04:47:07.336Z,
-//   [23:47:07]     "text": "The new message",
-//   [23:47:07]     "user": Object {
-//   [23:47:07]       "_id": "F6i0CYwBLgZN5uOFs4nhbs7vuKz1",
-//   [23:47:07]     },
-//   [23:47:07]   },
-//   [23:47:07] ]
-// this is messages --------- Array [
-//   [20:02:19]   Object {
-//   [20:02:19]     "_id": "cc031d38-0779-4208-bfe9-f6b543e12f2d",
-//   [20:02:19]     "createdAt": 2019-01-13T01:02:20.767Z,
-//   [20:02:19]     "text": "Hey girl hayy",
-//   [20:02:19]     "user": Object {
-//   [20:02:19]       "_id": "F6i0CYwBLgZN5uOFs4nhbs7vuKz1",
-//   [20:02:19]     },
-//   [20:02:19]   },
-//   [20:02:19] ]
-// function testMsg(convoId) {
-//   db.collection('conversations')
-//     .doc(convoId)
-//     .onSnapshot(function(doc) {
-//       console.log('Current data: ', doc.data());
-//     });
-// }
-//'AobBHaD1U9WJWOCMNFC8'
-// 'F6i0CYwBLgZN5uOFs4nhbs7vuKz1'
-// sendNewMsg = (convoId, newMsg, currMsgs) => {
-
-// const convos = {
-//   author: 'Kristin',
-//   text: 'hi human who feeds me!',
-//   timeSent: new Date()
-// };
