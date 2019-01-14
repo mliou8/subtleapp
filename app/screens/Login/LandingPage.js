@@ -9,34 +9,45 @@ import {
   Alert
 } from 'react-native';
 import VideoUrl from 'assets/videos/video.mp4';
-
+import DialogInput from 'react-native-dialog-input';
 import firebase from 'db/firebase';
 import { Button, Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
-
 import db from 'db/firestore';
-
-import { facebookLogin, fetchUserInfo } from 'actions/login/index';
 
 export default class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalOpen: this.props.modalOpen,
+      inviteError: this.props.inviteError,
+    };
+    this.closeModal = this.closeModal.bind(this);
+    this.submitInput = this.submitInput.bind(this);
   }
 
-  componentWillMount() {
-    // doesnt work yet
+  componentDidUpdate(prevProps) {
     if (this.props.authenticated) {
+      Alert.alert(`Welcome back!`);
       this.props.navigation.navigate('MainScreen');
+    }
+    if (this.props.modalOpen === true && !prevProps.modalOpen) {
+      this.setState({modalOpen: this.props.modalOpen});
+    }
+    if (prevProps.modalOpen == true && !this.props.modalOpen) {
+      this.setState({modalOpen: this.props.modalOpen});
+    }
+    if (!prevProps.inviteError && this.props.inviteError) {
+      this.setState({inviteError: this.props.inviteError});
     }
   }
-  componentDidUpdate() {
-    const userName = this.props.userInfo.displayName.split(' ');
-
-    if (this.props.authenticated) {
-      Alert.alert(`Welcome back ${userName[0]}!`);
-      this.props.navigation.navigate('MainScreen');
-    }
+  
+  submitInput(input) {
+    this.props.checkCode(input);
+  }
+  
+  closeModal() {
+    this.setState({modalOpen: false});
   }
 
   render() {
@@ -61,16 +72,14 @@ export default class LandingPage extends React.Component {
             type="Entypo"
             style={{ color: 'white', fontSize: 30 }}
           />
-          <Text> Login with facebook </Text>
+        <Text>Login with Facebook</Text>
         </Button>
-        <Button rounded iconLeft bordered light style={{ marginTop: 10 }}>
-          <Icon
-            name="email"
-            type="MaterialIcons"
-            style={{ color: 'white', fontSize: 30 }}
-          />
-          <Text> Login with email </Text>
-        </Button>
+        <DialogInput isDialogVisible={this.state.modalOpen}
+          title={"Please Enter Invite Code"}
+          hintInput={this.state.inviteError ? 'Please Try Again' : 'Invite Code'}
+          submitInput={(inputText) => {this.submitInput(inputText)}}
+          closeDialog={() => {this.closeModal()}}>
+        </DialogInput>
         <Button
           rounded
           iconLeft

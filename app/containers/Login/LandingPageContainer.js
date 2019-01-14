@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { facebookLogin, testLogin } from 'actions/login/index';
+import { facebookLogin, checkCode } from 'actions/login/index';
 import LandingPage from 'screens/Login/LandingPage';
 
 
@@ -8,6 +8,8 @@ const mapStateToProps = (state, ownProps) => {
     authenticated: state.login.authenticated,
     userRegistered: state.login.userRegistered,
     userInfo: state.login.userInfo,
+    modalOpen: state.login.modalOpen,
+    inviteError: state.login.inviteError,
   };
 };
 
@@ -16,11 +18,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     facebookLogin: () => {
       dispatch(facebookLogin());
     },
-    createUserProfile: userInfo => {
-      dispatch(createUserProfile(userInfo));
-    },
-    fetchUserInfo: uid => {
-      dispatch(fetchUserInfo(uid));
+    checkCode: (code) => {
+      dispatch(checkCode(code));
     }
   };
 };
