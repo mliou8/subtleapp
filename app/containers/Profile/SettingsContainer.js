@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SettingsScreen from 'screens/Profile/subscreens/SettingsScreen';
-import { addNetwork, removeNetwork } from 'actions/login/index';
+import { addNetwork, removeNetwork, userLogout } from 'actions/login/index';
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     removeNetwork: (networkObj, userInfo) => {
       dispatch(removeNetwork(networkObj, userInfo));
+    },
+    logOut: () => {
+      dispatch(userLogout());
     }
   };
 };

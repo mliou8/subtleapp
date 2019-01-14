@@ -8,14 +8,18 @@ import {
   USER_INFO_FETCHED,
   USER_INFO_NOT_FOUND,
   USER_UPDATED,
-  EDIT_USER_FAIL
+  EDIT_USER_FAIL,
+  OPEN_MODAL,
+  CLOSE_MODAL,
+  INVITE_ERROR,
 } from 'actions/login/index';
 
 const initialState = {
   authenticated: false,
   userInfo: {},
   errorMsg: '',
-  userRegistered: false,
+  modalOpen: false,
+  inviteError: false,
 };
 
 export default function(state = initialState, action) {
@@ -39,8 +43,13 @@ export default function(state = initialState, action) {
     case CREATE_PROFILE_ERROR:
       return {
         ...state,
-        userRegistered: false,
         errorMsg: action.errorMsg
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        authenticated: false,
+        userInfo: {},
       };
     case USER_INFO_FETCHED:
       return {
@@ -57,6 +66,21 @@ export default function(state = initialState, action) {
         ...state,
         userInfo: action.userInfo
       };
+    case OPEN_MODAL:
+      return {
+        ...state,
+        modalOpen: true
+      }
+    case CLOSE_MODAL:
+      return {
+        ...state,
+        modalOpen: false
+      }
+    case INVITE_ERROR:
+      return {
+        ...state,
+        inviteError: true
+      }
     case EDIT_USER_FAIL:
       return { 
         ...state,
