@@ -64,13 +64,16 @@ class Followers extends React.Component {
         convoID: this.state.existingConvoId
       });
     } else {
-      const newMsgRef = await db.collection('conversations').doc();
-      const newMsgID = newMsgRef.id;
+      // const newMsgRef = await db.collection('conversations').doc();
+      // const newMsgID = newMsgRef.id;
+      // const addMsgRef = await db
+      //   .collection('conversations')
+      //   .doc(newMsgID)
+      //   .set({ messages: [] });
       const addMsgRef = await db
         .collection('conversations')
-        .doc(newMsgID)
-        .set({ messages: [] });
-
+        .add({ messages: [] });
+      const newMsgID = addMsgRef.id;
       const userData = {
         uid: userInfo.uid,
         userName: userInfo.displayName,
