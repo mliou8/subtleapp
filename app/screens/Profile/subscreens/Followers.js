@@ -30,14 +30,23 @@ class Followers extends React.Component {
   }
   componentDidMount() {
     const currView = this.props.profile.userProfile;
+    const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
     const amFollowing = this.props.userInfo.following.filter(
       item => item.uid === currView.uid
     );
+    const chatting = currUsersConversations.filter(item => {
+      if (item.userName === currView.displayName) {
+        return item;
+      }
+    });
     if (amFollowing.length) {
       this.setState({ following: true });
     } else {
       this.setState({ following: false });
+    }
+    if (chatting.length) {
+      this.setState({ existingConvoId: chatting[0].convoID });
     }
   }
 
@@ -46,54 +55,56 @@ class Followers extends React.Component {
     const self = this;
     const currUsersConversations = this.props.userInfo.conversations;
     const userToMsg = this.state.userOnDisplay;
-    console.log('=-------------------------curruser', userToMsg);
-    const chatting = currUsersConversations.filter(item => {
-      if (item.userName === userToMsg.displayName) {
-        return item;
-      }
-    });
-    console.log('=-------------------------chatting', chatting[0].convoID);
-    if (chatting.length) {
-      this.setState({ existingConvoId: chatting[0].convoID });
-      // } else {
-      //change to profileUser action
-      //and currentuserAction
-      // const newMsgRef = await db.collection('conversations').doc();
+    // console.log('=-------------------------curruser', userToMsg);
+    // const chatting = currUsersConversations.filter(item => {
+    //   if (item.userName === userToMsg.displayName) {
+    //     return item;
+    //   }
+    // });
+    console.log(
+      '=-------------------------chatting',
+      this.state.existingConvoId
+    );
 
-      // //console.log('-----------------------------this id ------', newMsgRef.id);
-      // const userInfo = this.props.userInfo;
-      // const userData = {
-      //   uid: userInfo.uid,
-      //   userName: userInfo.displayName,
-      //   photoURL: userInfo.photoURL,
-      //   convoID: newMsgRef.id
-      // };
-      // const userToMsgData = {
-      //   uid: userToMsg.uid,
-      //   userName: userToMsg.displayName,
-      //   photoURL: userToMsg.photoURL,
-      //   convoID: newMsgRef.id
-      // };
-      // const chatListUpdated = userToMsg.conversations.concat(userData);
+    //change to profileUser action
+    //and currentuserAction
+    // const newMsgRef = await db.collection('conversations').doc();
+    // const addMsgRef = await db.collection('conversations').doc(newMsgRef.id);
 
-      // const userOnViewRef = db.collection('users').doc(userToMsg.uid);
-      // userOnViewRef.update({
-      //   conversations: firebase.firestore.FieldValue.arrayUnion(userData)
-      // });
+    // //console.log('-----------------------------this id ------', newMsgRef.id);
+    // const userInfo = this.props.userInfo;
+    // const userData = {
+    //   uid: userInfo.uid,
+    //   userName: userInfo.displayName,
+    //   photoURL: userInfo.photoURL,
+    //   convoID: newMsgRef.id
+    // };
+    // const userToMsgData = {
+    //   uid: userToMsg.uid,
+    //   userName: userToMsg.displayName,
+    //   photoURL: userToMsg.photoURL,
+    //   convoID: newMsgRef.id
+    // };
+    // const chatListUpdated = userToMsg.conversations.concat(userData);
 
-      // const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+    // const userOnViewRef = db.collection('users').doc(userToMsg.uid);
+    // userOnViewRef.update({
+    //   conversations: firebase.firestore.FieldValue.arrayUnion(userData)
+    // });
 
-      // const currUserOnRef = db.collection('users').doc(userInfo.uid);
-      // currUserOnRef
-      //   .update({
-      //     conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
-      //   })
-      //   .then(function() {
-      //     console.log('new chatting happening here');
-      //     self.setState({ existingConvoId: newMsgRef.id });
-      //   })
-      // .then(
-    }
+    // const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+
+    // const currUserOnRef = db.collection('users').doc(userInfo.uid);
+    // currUserOnRef
+    //   .update({
+    //     conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
+    //   })
+    //   .then(function() {
+    //     console.log('new chatting happening here');
+    //     self.setState({ existingConvoId: newMsgRef.id });
+    //   })
+    // .then(
+    // }
     navigate('Conversation', {
       messages: [],
       convoID: this.state.existingConvoId
