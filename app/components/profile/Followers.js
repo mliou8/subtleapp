@@ -23,7 +23,8 @@ class Followers extends React.Component {
     this.state = {
       followingList: this.props.login.userInfo.following,
       following: false,
-      userOnDisplay: this.props.userOnDisplay
+      userOnDisplay: this.props.userOnDisplay,
+      existingConvoId: null
     };
   }
   componentDidMount() {
@@ -35,6 +36,51 @@ class Followers extends React.Component {
       this.setState({ following: true });
     } else {
       this.setState({ following: false });
+    }
+  }
+  alreadyChatting() {
+    const self = this;
+    const currUsersConversations = this.props.userInfo.conversations;
+    const userToMsg = this.state.userOnView;
+
+    const chatting = currUsersConversations.filter(item => {
+      item.userName === userToMsg.displayName;
+    });
+    if (chatting.length) {
+      this.setState({ existingConvoId: chatting.convoID });
+    } else {
+      const newMsgRef = db.collection('conversations').doc();
+      const userInfo = this.props.userInfo;
+      const userData = {
+        uid: userInfo.uid,
+        displayName: userInfo.displayName,
+        photoURL: userInfo.photoURL,
+        convoID: newMsgRef
+      };
+      const userToMsgData = {
+        uid: userToMsg.uid,
+        displayName: userToMsg.displayName,
+        photoURL: userToMsg.photoURL,
+        convoID: newMsgRef
+      };
+      const chatListUpdated = userToMsg.conversations.concat(userData);
+
+      const userOnViewRef = db.collection('users').doc(userToMsg.uid);
+      userOnViewRef.update({
+        conversations: firebase.firestore.FieldValue.arrayUnion(userData)
+      });
+
+      const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+
+      const currUserOnRef = db.collection('users').doc(userInfo.uid);
+      userOnViewRef
+        .update({
+          conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
+        })
+        .then(function() {
+          console.log('new chatting happening here');
+          self.setState({ existingConvoId: newMsgRef });
+        });
     }
   }
 
@@ -106,13 +152,16 @@ class Followers extends React.Component {
           )}
         </View>
         <View style={{ justifyContent: 'space-between' }}>
-          <TouchableOpacity style={{ paddingLeft: 4 }}>
-            <Icon.Ionicons
-              // style={{ justifyContent: 'flex-end' }}
-              name={'ios-send'}
-              size={15}
-              title="messages"
-            >
+          <TouchableOpacity
+            style={{ paddingLeft: 4 }}
+            onPress={() =>
+              this.props.navigation.navigate('Conversation', {
+                messages: message.messages,
+                convoID: this.state.existingConvoId
+              })
+            }
+          >
+            <Icon.Ionicons name={'ios-send'} size={15} title="messages">
               <Text> Message User </Text>
             </Icon.Ionicons>
           </TouchableOpacity>
@@ -126,7 +175,6 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row'
-    // flexWrap: 'wrap'
   },
   button: {
     borderRadius: 8,
@@ -140,7 +188,8 @@ const mapStateToProps = (state, ownProps) => {
     ...state,
     userInfo: state.login.userInfo,
     profile: state.profile,
-    login: state.login
+    login: state.login,
+    userOnView: state.profile.userProfile
   };
 };
 
@@ -155,7 +204,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     unfollowUser: (userObj, currInfo) => {
       dispatch(unfollowUser(userObj, currInfo));
     },
-
     profileAddFollower: profileInfo => {
       dispatch(profileAddFollower(profileInfo));
     },

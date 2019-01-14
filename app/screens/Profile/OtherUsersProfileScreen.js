@@ -63,20 +63,7 @@ class OtherUsersProfileScreen extends React.Component {
     this.state = {
       userOnDisplay: {},
       socialNetworks: this.props.profile.userProfile.socialNetworks,
-      badges: [
-        {
-          badgeType: 'youtube',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'instagram',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'twitch',
-          sourceName: 'justlikemike'
-        }
-      ]
+      badges: []
     };
 
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
@@ -93,17 +80,6 @@ class OtherUsersProfileScreen extends React.Component {
     return <AddSocialNetworkTag />;
   };
 
-  // renderSocialBadges = () => {
-  //   return this.state.badges.map((badge, idx) => {
-  //     return (
-  //       <Badge
-  //         key={idx}
-  //         badgeType={badge.badgeType}
-  //         sourceName={badge.sourceName}
-  //       />
-  //     );
-  //   });
-  // };
   renderSocialBadges = () => {
     return this.props.profile.userProfile.socialNetworks.map((badge, idx) => {
       return (

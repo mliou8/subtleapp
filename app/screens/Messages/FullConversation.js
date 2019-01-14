@@ -9,16 +9,14 @@ import {
   View
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { Spinner } from 'native-base';
+
 import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
-// import moment, { now } from 'moment';
 import firebase from 'db/firebase';
 
 import db from 'db/firestore';
 import { connect } from 'react-redux';
-import { sendNewMsg, fetchConversation } from 'app/actions/messages/index';
 
 class Conversation extends React.Component {
   constructor(props) {
@@ -35,39 +33,30 @@ class Conversation extends React.Component {
     const convoID = this.state.convoID;
     const docRef = db.collection('conversations').doc(convoID);
 
-    // await firebase.auth().onAuthStateChanged(function(user) {
-    //   if (user) {
-    //     docRef.onSnapshot(function(doc) {
-    //       msgs = doc.data().messages;
-    //       console.log('Current data: ', doc.data().messages);
-    //     });
-    //     self.setState({
-    //       messages: msgs
-    //     });
-    //   } else {
-    //     console.log('not logged in');
-    //   }
-    // });
     docRef.get().then(function(doc) {
       if (doc.exists) {
         const conversation = doc.data();
         //might need error handling in case its an empty array bc user has deleted old ones?
-        const testnewMsgs = conversation.messages.forEach(item => {
-          let oldTime = item.createdAt;
-          const jstime = oldTime.toDate();
-          item.createdAt = jstime;
-
-          return item;
-        });
-        const newMsgs = conversation.messages;
-
-        self.setState({
-          messages: newMsgs
-        });
-        return conversation;
-      } else {
-        const msg = 'No such user with that uid';
-        return msg;
+        //in the case that conversation exists on user and id exists on conversation collection but things have been delted
+        //somethign like  if conversation.messages is undefined set state []
+        //will need diff flow for starting a new convo
+        if (!conversation.messages) {
+          self.setState({
+            messages: []
+          });
+        } else {
+          const testnewMsgs = conversation.messages.forEach(item => {
+            let oldTime = item.createdAt;
+            const jstime = oldTime.toDate();
+            item.createdAt = jstime;
+            return item;
+          });
+          const newMsgs = conversation.messages;
+          self.setState({
+            messages: newMsgs
+          });
+          return conversation;
+        }
       }
     });
   }
@@ -87,8 +76,7 @@ class Conversation extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    // console.log('------------------curre convo-----', this.state);
-    const msgs = this.state.messages;
+
     return (
       <GiftedChat
         messages={this.state.messages}
@@ -98,7 +86,6 @@ class Conversation extends React.Component {
           name: this.props.userInfo.displayName,
           avatar: this.props.userInfo.photoURL
         }}
-        //user here is the current user
         showUserAvatar={true}
         isLoadingEarlier={true}
         dateFormat={'LL'}
@@ -121,16 +108,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//   return {
-//     // fetchConversation: id => {
-//     //   dispatch(fetchConversation(id));
-//     // },
-//     // sendNewMsg: (convoID, msgs, oldMsgs) => {
-//     //   dispatch(sendNewMsg(convoID, msgs, oldMsgs));
-//     // }
-//   };
-// };
 export default connect(
   mapStateToProps,
   null

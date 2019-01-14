@@ -46,20 +46,6 @@ export const userConversationUpdated = updatedConversation => {
   };
 };
 
-// export const userMessageSent= (newMessage) => {
-//     return {
-//       type: USER_MESSAGE_SENT,
-//       newMessage
-//     };
-//   };
-
-// export const userMessageDeleted= (userProfile) => {
-//     return {
-//       type: USER_MESSAGE_DELETED,
-//       userProfile
-//     };
-//   };
-
 export const fetchUserMsgs = userID => {
   return async dispatch => {
     var docRef = db.collection('users').doc(`${userID}`);
@@ -83,7 +69,6 @@ export const fetchConversation = convoID => {
     docRef.get().then(function(doc) {
       if (doc.exists) {
         const conversation = doc.data();
-
         dispatch(userConversationFetched(conversation));
       } else {
         const msg = 'No such user with that uid';
@@ -109,7 +94,6 @@ export const sendNewMsg = (convoId, newMsg, currMsgs) => {
         messages: firebase.firestore.FieldValue.arrayUnion(newMsg)
       })
       .then(function() {
-        //console.log('data added');
         dispatch(userConversationUpdated(updatedConvo));
       });
   };
@@ -171,10 +155,3 @@ export const sendNewMsg = (convoId, newMsg, currMsgs) => {
 //       console.log('data added');
 //     });
 // }
-// const convos = {
-//   author: 'Bailey',
-//   text: 'hi human who feeds me!',
-//   timeSent: new Date()
-// };
-
-// testMsgAdd('tcudaUCLo5R9LjERXqzA', convos);
