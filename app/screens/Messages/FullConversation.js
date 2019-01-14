@@ -23,7 +23,7 @@ class Conversation extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      convoID: null
+      convoID: this.props.navigation.getParam('convoID')
     };
     this.onSend = this.onSend.bind(this);
   }
@@ -31,6 +31,7 @@ class Conversation extends React.Component {
   componentDidMount() {
     const self = this;
     const convoID = this.state.convoID;
+    //const convoProp = this.props.navigation.convoID;
     const convoProp = this.props.navigation.getParam('convoID');
     console.log('-----------------------convoprop------', convoProp);
     // const docRef = db.collection('conversations').doc(convoID);

@@ -52,9 +52,9 @@ class Followers extends React.Component {
         return item;
       }
     });
-    console.log('=-------------------------chatting', chatting);
+    console.log('=-------------------------chatting', chatting[0].convoID);
     if (chatting.length) {
-      this.setState({ existingConvoId: chatting.convoID });
+      this.setState({ existingConvoId: chatting[0].convoID });
       // } else {
       //change to profileUser action
       //and currentuserAction
