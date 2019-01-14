@@ -1,5 +1,5 @@
 import config from '../../../config.js';
-import { AlertIOS } from 'react-native';
+import DialogInput from 'react-native-dialog-input';
 import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
@@ -14,6 +14,10 @@ export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
 export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const INVITE_ERROR = 'INVITE_ERROR';
+
 
 export const userInfoFetched = userProfile => {
   return {
@@ -69,6 +73,24 @@ export const editUserFail = errorMsg => {
   };
 };
 
+export const openModal = () => {
+  return {
+    type: OPEN_MODAL,
+  }
+}
+
+export const closeModal = () => {
+  return {
+    type: CLOSE_MODAL,
+  }
+}
+
+export const inviteError = () => {
+  return {
+    type: INVITE_ERROR,
+  }
+}
+
 export function facebookLogin() {
   return async dispatch => {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
@@ -80,12 +102,9 @@ export function facebookLogin() {
 
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      firebase
+      await firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential)
-        .then(user => {
-          dispatch(userUpdated(user));
-        });
     } else {
       const errorMsg = 'Facebook Login Failed.';
       dispatch(authFail(errorMsg));
@@ -93,7 +112,18 @@ export function facebookLogin() {
   };
 }
 
-export function createUserIfNoneExists(user) {
+export function doesUserExist(user) {
+    const userRef = db.collection('users').doc(user.uid);
+    return userRef.get().then(function(dbUser) {
+      if (dbUser.exists) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+}
+
+export function logUserIn(user) {
   return async dispatch => {
     const userRef = db.collection('users').doc(user.uid);
     userRef.get().then(function(dbUser) {
@@ -101,66 +131,58 @@ export function createUserIfNoneExists(user) {
         dispatch(userUpdated(dbUser.data()));
         dispatch(authSuccess());
       } else {
-        checkCode();
-        const currTime = Date.now();
-        const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-        const newUser = {
-          uid: user.uid,
-          provider: user.providerData[0].providerId,
-          providerID: user.providerData[0].uid,
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          lastLoginAt: currentTime,
-          followers: [],
-          following: [],
-          socialNetworks: [
-            { source: 'facebook', sourceUrl: 'facebookprofileurl' }
-          ]
-        };
-        db.collection('users')
-          .doc(user.uid)
-          .set(newUser)
-          .then(function() {
-            dispatch(userUpdated(newUser));
-            dispatch(authSuccess());
-          })
-          .catch(function(error) {
-            console.error('Error adding document: ', error);
-            dispatch(createProfileError(error));
-          });
+        return false;
       }
-    });
+    })
+  }
+}
+
+function createUser(user) {
+  return async dispatch => {
+      const currTime = Date.now();
+      const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+      const newUser = {
+        uid: user.uid,
+        provider: user.providerData[0].providerId,
+        providerID: user.providerData[0].uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        lastLoginAt: currentTime,
+        followers: [],
+        following: [],
+        socialNetworks: [
+          { source: 'facebook', sourceUrl: 'facebookprofileurl' }
+        ]
+      };
+      db.collection('users')
+        .doc(user.uid)
+        .set(newUser)
+        .then(function() {
+          dispatch(userUpdated(newUser));
+          dispatch(authSuccess());
+        })
+        .catch(function(error) {
+          console.error('Error adding document: ', error);
+          dispatch(createProfileError(error));
+        });
+    } 
   };
-}
 
-function promptCode() {
-    AlertIOS.prompt(
-    'Please enter your invite code:',
-    null,
-    [
-      {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: (code) => console.log('OK Pressed, password: ' + code),
-      },
-    ],
-    null,
-    'default',
-  );
-}
-
-async function checkCode(code) {
-  // takes in a code. Ejects either an error "failure state" or a pass state which
-  // goes on to the rest of the create user code. 
-  // Uses a prompt, takes the prompt and looks it up and then handles or rejects it.. 
-  // rejection should give you additional chances to try again. 
-  const inviteRef = db.collection('codes').doc(code);
-  
+export function checkCode(code) {
+  return async dispatch => {
+    const inviteRef = db.collection('codes').doc(code);
+    const user = firebase.auth().currentUser;
+    inviteRef.get().then((dbCode) => {
+        if(dbCode.exists) {
+          dispatch(createUser(user))
+          dispatch(closeModal())
+          inviteRef.update({usersUsed: firebase.firestore.FieldValue.arrayUnion(user.uid)})
+        } else {
+          dispatch(inviteError())
+        }
+    })
+  }
 }
 
 export function userLogout() {
@@ -187,7 +209,6 @@ export const fetchUserInfo = userID => {
           dispatch(userInfoFetched(profile));
         } else {
           const msg = 'No such user with that uid';
-
           dispatch(userInfoNotFound(msg));
         }
       })
@@ -249,16 +270,13 @@ export const addNetwork = (networkObj, currentUser) => {
           }
           const networksUpdate = user.data().socialNetworks;
           networksUpdate.push(networkObj);
-          // currentUser.socialNetworks = networksUpdate;
           transaction.update(userRef, { socialNetworks: networksUpdate });
           return user.data().uid;
         });
       })
       .then(function(uid) {
         console.log('Document successfully updated');
-
         dispatch(updateUser(uid));
-        // dispatch(userUpdated(currentUser));
       })
       .catch(function(error) {
         console.error('Error updating document: ', error);

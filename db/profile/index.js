@@ -45,9 +45,5 @@ export async function createCode(currUser) {
   catch (err) {
     console.log("Error code ", err);
   }
-  
-  return inviteCode;
 }
-
-
  
