@@ -18,12 +18,10 @@ export default class App extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
-        console.log("triggering auth function ", user)
         doesUserExist(user).then(exists => {
           if (exists) {
             store.dispatch(logUserIn(user));
           } else {
-            console.log("user does not exist ask for invite code");
             store.dispatch(openModal());
           }
         })
