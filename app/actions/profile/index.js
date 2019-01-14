@@ -100,3 +100,21 @@ export const profileRemoveFollower = profileUserInfo => {
       });
   };
 };
+
+export const profileAddChat = (convoID, userInfo, profileUserInfo) => {
+  return async dispatch => {
+    const chatListUpdated = profileUserInfo.conversations.concat(userInfo);
+
+    const updatedProfileInfo = profileUserInfo;
+    updatedProfileInfo.conversations = chatListUpdated;
+    const userOnView = db.collection('users').doc(profileUserInfo.uid);
+
+    userOnView
+      .update({
+        conversations: firebase.firestore.FieldValue.arrayUnion(userInfo)
+      })
+      .then(function() {
+        dispatch(profileUpdated(updatedProfileInfo));
+      });
+  };
+};

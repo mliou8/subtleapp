@@ -18,7 +18,6 @@ export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const INVITE_ERROR = 'INVITE_ERROR';
 
-
 export const userInfoFetched = userProfile => {
   return {
     type: USER_INFO_FETCHED,
@@ -75,21 +74,21 @@ export const editUserFail = errorMsg => {
 
 export const openModal = () => {
   return {
-    type: OPEN_MODAL,
-  }
-}
+    type: OPEN_MODAL
+  };
+};
 
 export const closeModal = () => {
   return {
-    type: CLOSE_MODAL,
-  }
-}
+    type: CLOSE_MODAL
+  };
+};
 
 export const inviteError = () => {
   return {
-    type: INVITE_ERROR,
-  }
-}
+    type: INVITE_ERROR
+  };
+};
 
 export function facebookLogin() {
   return async dispatch => {
@@ -102,9 +101,7 @@ export function facebookLogin() {
 
     if (type === 'success') {
       const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      await firebase
-        .auth()
-        .signInAndRetrieveDataWithCredential(credential)
+      await firebase.auth().signInAndRetrieveDataWithCredential(credential);
     } else {
       const errorMsg = 'Facebook Login Failed.';
       dispatch(authFail(errorMsg));
@@ -113,14 +110,14 @@ export function facebookLogin() {
 }
 
 export function doesUserExist(user) {
-    const userRef = db.collection('users').doc(user.uid);
-    return userRef.get().then(function(dbUser) {
-      if (dbUser.exists) {
-        return true;
-      } else {
-        return false;
-      }
-    })
+  const userRef = db.collection('users').doc(user.uid);
+  return userRef.get().then(function(dbUser) {
+    if (dbUser.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 }
 
 export function logUserIn(user) {
@@ -133,56 +130,56 @@ export function logUserIn(user) {
       } else {
         return false;
       }
-    })
-  }
+    });
+  };
 }
 
 function createUser(user) {
   return async dispatch => {
-      const currTime = Date.now();
-      const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-      const newUser = {
-        uid: user.uid,
-        provider: user.providerData[0].providerId,
-        providerID: user.providerData[0].uid,
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-        lastLoginAt: currentTime,
-        followers: [],
-        following: [],
-        socialNetworks: [
-          { source: 'facebook', sourceUrl: 'facebookprofileurl' }
-        ]
-      };
-      db.collection('users')
-        .doc(user.uid)
-        .set(newUser)
-        .then(function() {
-          dispatch(userUpdated(newUser));
-          dispatch(authSuccess());
-        })
-        .catch(function(error) {
-          console.error('Error adding document: ', error);
-          dispatch(createProfileError(error));
-        });
-    } 
+    const currTime = Date.now();
+    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+    const newUser = {
+      uid: user.uid,
+      provider: user.providerData[0].providerId,
+      providerID: user.providerData[0].uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      lastLoginAt: currentTime,
+      followers: [],
+      following: [],
+      socialNetworks: [{ source: 'facebook', sourceUrl: 'facebookprofileurl' }]
+    };
+    db.collection('users')
+      .doc(user.uid)
+      .set(newUser)
+      .then(function() {
+        dispatch(userUpdated(newUser));
+        dispatch(authSuccess());
+      })
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+        dispatch(createProfileError(error));
+      });
   };
+}
 
 export function checkCode(code) {
   return async dispatch => {
     const inviteRef = db.collection('codes').doc(code);
     const user = firebase.auth().currentUser;
-    inviteRef.get().then((dbCode) => {
-        if(dbCode.exists) {
-          dispatch(createUser(user))
-          dispatch(closeModal())
-          inviteRef.update({usersUsed: firebase.firestore.FieldValue.arrayUnion(user.uid)})
-        } else {
-          dispatch(inviteError())
-        }
-    })
-  }
+    inviteRef.get().then(dbCode => {
+      if (dbCode.exists) {
+        dispatch(createUser(user));
+        dispatch(closeModal());
+        inviteRef.update({
+          usersUsed: firebase.firestore.FieldValue.arrayUnion(user.uid)
+        });
+      } else {
+        dispatch(inviteError());
+      }
+    });
+  };
 }
 
 export function userLogout() {
@@ -190,11 +187,10 @@ export function userLogout() {
     try {
       await firebase.auth().signOut();
       dispatch(logOutSuccess());
+    } catch (e) {
+      console.log('Error: ', e);
     }
-    catch (e) {
-      console.log("Error: ", e)
-    }
-  }
+  };
 }
 
 export const fetchUserInfo = userID => {
@@ -312,6 +308,21 @@ export const removeNetwork = (networkObj, currentUser) => {
       })
       .catch(function(error) {
         console.error('Error updating document: ', error);
+      });
+  };
+};
+export const userAddChat = (convoID, userToMsgInfo, userInfo) => {
+  return async dispatch => {
+    const userChatsUpdated = userInfo.conversations.concat(userToMsgInfo);
+    const updatedUserInfo = userInfo;
+    updatedUserInfo.conversations = userChatsUpdated;
+    const currUserOnRef = db.collection('users').doc(userInfo.uid);
+    currUserOnRef
+      .update({
+        conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgInfo)
+      })
+      .then(function() {
+        dispatch(userUpdated(updatedUserInfo));
       });
   };
 };

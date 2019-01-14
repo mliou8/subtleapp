@@ -31,37 +31,37 @@ class Conversation extends React.Component {
   componentDidMount() {
     const self = this;
     const convoID = this.state.convoID;
-    //const convoProp = this.props.navigation.convoID;
-    const convoProp = this.props.navigation.getParam('convoID');
-    console.log('-----------------------convoprop------', convoProp);
-    // const docRef = db.collection('conversations').doc(convoID);
 
-    // docRef.get().then(function(doc) {
-    //   if (doc.exists) {
-    //     const conversation = doc.data();
-    //     //might need error handling in case its an empty array bc user has deleted old ones?
-    //     //in the case that conversation exists on user and id exists on conversation collection but things have been delted
-    //     //somethign like  if conversation.messages is undefined set state []
-    //     //will need diff flow for starting a new convo
-    //     if (!conversation.messages) {
-    //       self.setState({
-    //         messages: []
-    //       });
-    //     } else {
-    //       const testnewMsgs = conversation.messages.forEach(item => {
-    //         let oldTime = item.createdAt;
-    //         const jstime = oldTime.toDate();
-    //         item.createdAt = jstime;
-    //         return item;
-    //       });
-    //       const newMsgs = conversation.messages;
-    //       self.setState({
-    //         messages: newMsgs
-    //       });
-    //       return conversation;
-    //     }
-    //   }
-    // });
+    const convoProp = this.props.navigation.getParam('convoID');
+
+    const docRef = db.collection('conversations').doc(convoID);
+
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+        const conversation = doc.data();
+        //might need error handling in case its an empty array bc user has deleted old ones?
+        //in the case that conversation exists on user and id exists on conversation collection but things have been delted
+        //somethign like  if conversation.messages is undefined set state []
+        //will need diff flow for starting a new convo
+        if (!conversation.messages) {
+          self.setState({
+            messages: []
+          });
+        } else {
+          const testnewMsgs = conversation.messages.forEach(item => {
+            let oldTime = item.createdAt;
+            const jstime = oldTime.toDate();
+            item.createdAt = jstime;
+            return item;
+          });
+          const newMsgs = conversation.messages;
+          self.setState({
+            messages: newMsgs
+          });
+          return conversation;
+        }
+      }
+    });
   }
 
   onSend(messages = []) {

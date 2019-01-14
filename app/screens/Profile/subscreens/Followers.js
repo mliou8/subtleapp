@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import { Icon } from 'expo';
 import { connect } from 'react-redux';
-import { unfollowUser, followUser } from 'actions/login/index';
+import { unfollowUser, followUser, userAddChat } from 'actions/login/index';
 import {
   profileAddFollower,
-  profileRemoveFollower
+  profileRemoveFollower,
+  profileAddChat
 } from 'actions/profile/index';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
@@ -55,66 +56,44 @@ class Followers extends React.Component {
     const self = this;
     const currUsersConversations = this.props.userInfo.conversations;
     const userToMsg = this.state.userOnDisplay;
-    // console.log('=-------------------------curruser', userToMsg);
-    // const chatting = currUsersConversations.filter(item => {
-    //   if (item.userName === userToMsg.displayName) {
-    //     return item;
-    //   }
-    // });
-    console.log(
-      '=-------------------------chatting',
-      this.state.existingConvoId
-    );
+    const userInfo = this.props.userInfo;
 
-    //change to profileUser action
-    //and currentuserAction
-    // const newMsgRef = await db.collection('conversations').doc();
-    // const addMsgRef = await db.collection('conversations').doc(newMsgRef.id);
+    if (this.state.existingConvoId) {
+      navigate('Conversation', {
+        messages: [],
+        convoID: this.state.existingConvoId
+      });
+    } else {
+      const newMsgRef = await db.collection('conversations').doc();
+      const newMsgID = newMsgRef.id;
+      const addMsgRef = await db
+        .collection('conversations')
+        .doc(newMsgID)
+        .set({ messages: [] });
 
-    // //console.log('-----------------------------this id ------', newMsgRef.id);
-    // const userInfo = this.props.userInfo;
-    // const userData = {
-    //   uid: userInfo.uid,
-    //   userName: userInfo.displayName,
-    //   photoURL: userInfo.photoURL,
-    //   convoID: newMsgRef.id
-    // };
-    // const userToMsgData = {
-    //   uid: userToMsg.uid,
-    //   userName: userToMsg.displayName,
-    //   photoURL: userToMsg.photoURL,
-    //   convoID: newMsgRef.id
-    // };
-    // const chatListUpdated = userToMsg.conversations.concat(userData);
+      const userData = {
+        uid: userInfo.uid,
+        userName: userInfo.displayName,
+        avatar: userInfo.photoURL,
+        convoID: newMsgID
+      };
 
-    // const userOnViewRef = db.collection('users').doc(userToMsg.uid);
-    // userOnViewRef.update({
-    //   conversations: firebase.firestore.FieldValue.arrayUnion(userData)
-    // });
+      this.props.profileAddChat(newMsgID, userData, userToMsg);
+      const userToMsgData = {
+        uid: userToMsg.uid,
+        userName: userToMsg.displayName,
+        avatar: userToMsg.photoURL,
+        convoID: newMsgID
+      };
 
-    // const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+      this.props.userAddChat(newMsgID, userToMsgData, userInfo);
 
-    // const currUserOnRef = db.collection('users').doc(userInfo.uid);
-    // currUserOnRef
-    //   .update({
-    //     conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
-    //   })
-    //   .then(function() {
-    //     console.log('new chatting happening here');
-    //     self.setState({ existingConvoId: newMsgRef.id });
-    //   })
-    // .then(
-    // }
-    navigate('Conversation', {
-      messages: [],
-      convoID: this.state.existingConvoId
-    });
-    // );
-    // }
-    // this.props.navigation.navigate('Conversation', {
-    //   messages: message.messages,
-    //   convoID: this.state.existingConvoId
-    // });
+      self.setState({ existingConvoId: newMsgID });
+      navigate('Conversation', {
+        messages: [],
+        convoID: newMsgID
+      });
+    }
   }
 
   followCurrentUser() {
@@ -144,7 +123,7 @@ class Followers extends React.Component {
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-    // console.log('-------------------props in followers ----------', this.props);
+
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>
@@ -235,8 +214,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     profileAddFollower: profileInfo => {
       dispatch(profileAddFollower(profileInfo));
     },
-    profileRemoveFollower: profileInfo =>
-      dispatch(profileRemoveFollower(profileInfo))
+    profileRemoveFollower: profileInfo => {
+      dispatch(profileRemoveFollower(profileInfo));
+    },
+    userAddChat: (newMsgID, userToMsgData, userInfo) => {
+      dispatch(userAddChat(newMsgID, userToMsgData, userInfo));
+    },
+    profileAddChat: (convoID, userInfo, profileUserInfo) => {
+      dispatch(profileAddChat(convoID, userInfo, profileUserInfo));
+    }
   };
 };
 export default connect(
