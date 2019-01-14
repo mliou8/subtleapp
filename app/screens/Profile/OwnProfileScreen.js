@@ -11,7 +11,7 @@ import {
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
-import Following from 'app/components/profile/Followers';
+
 import AddSocialNetworkTag from './AddSocialNetwork';
 import db from 'db/firestore';
 

@@ -10,7 +10,6 @@ import {
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import { fetchConversation } from 'app/actions/messages/index';
 
 import MessageRow from 'app/components/messages/MessageRow';
 
@@ -20,7 +19,7 @@ class MessageScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { messages: messages };
+    this.state = { messages: [] };
     this.renderMessages = this.renderMessages.bind(this);
   }
   componentWillMount() {

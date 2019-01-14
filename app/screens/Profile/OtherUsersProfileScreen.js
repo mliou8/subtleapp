@@ -11,7 +11,7 @@ import {
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
-import Followers from 'app/components/profile/Followers';
+import Followers from './subscreens/Followers';
 
 import { connect } from 'react-redux';
 import db from 'db/firestore';
@@ -98,7 +98,10 @@ class OtherUsersProfileScreen extends React.Component {
         {this.props.profile.userProfile.uid ? (
           <View>
             <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Followers userOnDisplay={this.props.profile.userProfile} />
+              <Followers
+                navigation={this.props.navigation}
+                userOnDisplay={this.props.profile.userProfile}
+              />
             </View>
             <Content>
               <Card style={{ height: '45 %' }} transparent>

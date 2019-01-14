@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Row from 'app/components/profile/Row';
 import Badge from 'app/components/common/Badge';
-import Followers from 'app/components/profile/Followers';
+import Followers from './Followers';
 
 import { connect } from 'react-redux';
 

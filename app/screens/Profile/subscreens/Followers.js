@@ -16,6 +16,7 @@ import {
 } from 'actions/profile/index';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
+import { withNavigation } from 'react-navigation';
 
 class Followers extends React.Component {
   constructor(props) {
@@ -23,12 +24,13 @@ class Followers extends React.Component {
     this.state = {
       followingList: this.props.login.userInfo.following,
       following: false,
-      userOnDisplay: this.props.userOnDisplay,
+      userOnDisplay: null,
       existingConvoId: null
     };
   }
   componentDidMount() {
     const currView = this.props.profile.userProfile;
+    this.setState({ userOnDisplay: currView });
     const amFollowing = this.props.userInfo.following.filter(
       item => item.uid === currView.uid
     );
@@ -38,50 +40,70 @@ class Followers extends React.Component {
       this.setState({ following: false });
     }
   }
-  alreadyChatting() {
+
+  async alreadyChatting() {
+    const { navigate } = this.props.navigation;
     const self = this;
     const currUsersConversations = this.props.userInfo.conversations;
-    const userToMsg = this.state.userOnView;
-
+    const userToMsg = this.state.userOnDisplay;
+    console.log('=-------------------------curruser', userToMsg);
     const chatting = currUsersConversations.filter(item => {
-      item.userName === userToMsg.displayName;
+      if (item.userName === userToMsg.displayName) {
+        return item;
+      }
     });
+    console.log('=-------------------------chatting', chatting);
     if (chatting.length) {
       this.setState({ existingConvoId: chatting.convoID });
-    } else {
-      const newMsgRef = db.collection('conversations').doc();
-      const userInfo = this.props.userInfo;
-      const userData = {
-        uid: userInfo.uid,
-        displayName: userInfo.displayName,
-        photoURL: userInfo.photoURL,
-        convoID: newMsgRef
-      };
-      const userToMsgData = {
-        uid: userToMsg.uid,
-        displayName: userToMsg.displayName,
-        photoURL: userToMsg.photoURL,
-        convoID: newMsgRef
-      };
-      const chatListUpdated = userToMsg.conversations.concat(userData);
+      // } else {
+      //change to profileUser action
+      //and currentuserAction
+      // const newMsgRef = await db.collection('conversations').doc();
 
-      const userOnViewRef = db.collection('users').doc(userToMsg.uid);
-      userOnViewRef.update({
-        conversations: firebase.firestore.FieldValue.arrayUnion(userData)
-      });
+      // //console.log('-----------------------------this id ------', newMsgRef.id);
+      // const userInfo = this.props.userInfo;
+      // const userData = {
+      //   uid: userInfo.uid,
+      //   userName: userInfo.displayName,
+      //   photoURL: userInfo.photoURL,
+      //   convoID: newMsgRef.id
+      // };
+      // const userToMsgData = {
+      //   uid: userToMsg.uid,
+      //   userName: userToMsg.displayName,
+      //   photoURL: userToMsg.photoURL,
+      //   convoID: newMsgRef.id
+      // };
+      // const chatListUpdated = userToMsg.conversations.concat(userData);
 
-      const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+      // const userOnViewRef = db.collection('users').doc(userToMsg.uid);
+      // userOnViewRef.update({
+      //   conversations: firebase.firestore.FieldValue.arrayUnion(userData)
+      // });
 
-      const currUserOnRef = db.collection('users').doc(userInfo.uid);
-      userOnViewRef
-        .update({
-          conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
-        })
-        .then(function() {
-          console.log('new chatting happening here');
-          self.setState({ existingConvoId: newMsgRef });
-        });
+      // const userChatsUpdated = userInfo.conversations.concat(userToMsgData);
+
+      // const currUserOnRef = db.collection('users').doc(userInfo.uid);
+      // currUserOnRef
+      //   .update({
+      //     conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgData)
+      //   })
+      //   .then(function() {
+      //     console.log('new chatting happening here');
+      //     self.setState({ existingConvoId: newMsgRef.id });
+      //   })
+      // .then(
     }
+    navigate('Conversation', {
+      messages: [],
+      convoID: this.state.existingConvoId
+    });
+    // );
+    // }
+    // this.props.navigation.navigate('Conversation', {
+    //   messages: message.messages,
+    //   convoID: this.state.existingConvoId
+    // });
   }
 
   followCurrentUser() {
@@ -111,7 +133,7 @@ class Followers extends React.Component {
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-
+    // console.log('-------------------props in followers ----------', this.props);
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'center' }}>
@@ -154,12 +176,7 @@ class Followers extends React.Component {
         <View style={{ justifyContent: 'space-between' }}>
           <TouchableOpacity
             style={{ paddingLeft: 4 }}
-            onPress={() =>
-              this.props.navigation.navigate('Conversation', {
-                messages: message.messages,
-                convoID: this.state.existingConvoId
-              })
-            }
+            onPress={() => this.alreadyChatting()}
           >
             <Icon.Ionicons name={'ios-send'} size={15} title="messages">
               <Text> Message User </Text>
