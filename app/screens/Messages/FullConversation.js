@@ -26,17 +26,19 @@ class Conversation extends React.Component {
       convoID: null,
       convoLoaded: false
     };
+    this._mounted = false;
     this.onSend = this.onSend.bind(this);
   }
 
-  componentWillMount() {
+  async componentDidMount() {
+    this._mounted = true;
     const self = this;
     const convoID = this.props.navigation.getParam('convoID');
     this.setState({ convoID });
 
     const docRef = db.collection('conversations').doc(convoID);
 
-    docRef.get().then(function(doc) {
+    await docRef.get().then(function(doc) {
       if (doc.exists) {
         const conversation = doc.data();
         //might need error handling in case its an empty array bc user has deleted old ones?
@@ -48,14 +50,14 @@ class Conversation extends React.Component {
             messages: []
           });
         } else {
-          const testnewMsgs = conversation.messages.forEach(item => {
+          const testnewMsgs = conversation.messages.map(item => {
             let oldTime = item.createdAt;
             const jstime = oldTime.toDate();
             item.createdAt = jstime;
             return item;
           });
           const newMsgs = testnewMsgs;
-          // const newMsgs = conversation.messages;
+
           self.setState({
             messages: newMsgs,
             convoLoaded: true
@@ -64,6 +66,9 @@ class Conversation extends React.Component {
         }
       }
     });
+  }
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   onSend(messages = []) {
