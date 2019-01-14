@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-
+import { Spinner } from 'native-base';
 import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
@@ -23,16 +23,16 @@ class Conversation extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      convoID: this.props.navigation.getParam('convoID')
+      convoID: null,
+      convoLoaded: false
     };
     this.onSend = this.onSend.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const self = this;
-    const convoID = this.state.convoID;
-
-    const convoProp = this.props.navigation.getParam('convoID');
+    const convoID = this.props.navigation.getParam('convoID');
+    this.setState({ convoID });
 
     const docRef = db.collection('conversations').doc(convoID);
 
@@ -43,7 +43,7 @@ class Conversation extends React.Component {
         //in the case that conversation exists on user and id exists on conversation collection but things have been delted
         //somethign like  if conversation.messages is undefined set state []
         //will need diff flow for starting a new convo
-        if (!conversation.messages) {
+        if (!conversation.messages.length) {
           self.setState({
             messages: []
           });
@@ -54,9 +54,11 @@ class Conversation extends React.Component {
             item.createdAt = jstime;
             return item;
           });
-          const newMsgs = conversation.messages;
+          const newMsgs = testnewMsgs;
+          // const newMsgs = conversation.messages;
           self.setState({
-            messages: newMsgs
+            messages: newMsgs,
+            convoLoaded: true
           });
           return conversation;
         }
@@ -79,25 +81,28 @@ class Conversation extends React.Component {
 
   render() {
     const { navigation } = this.props;
-
-    return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={messages => this.onSend(messages)}
-        user={{
-          _id: this.props.userInfo.uid,
-          name: this.props.userInfo.displayName,
-          avatar: this.props.userInfo.photoURL
-        }}
-        showUserAvatar={true}
-        isLoadingEarlier={true}
-        dateFormat={'LL'}
-        inverted={false}
-        //other display options:
-        // showAvatarForEveryMessage={true}
-        // onPressAvatar (Function(user)) - Callback when a message avatar is tapped
-      />
-    );
+    if (this.state.convoLoaded) {
+      return (
+        <GiftedChat
+          messages={this.state.messages}
+          onSend={messages => this.onSend(messages)}
+          user={{
+            _id: this.props.userInfo.uid,
+            name: this.props.userInfo.displayName,
+            avatar: this.props.userInfo.photoURL
+          }}
+          showUserAvatar={true}
+          isLoadingEarlier={true}
+          dateFormat={'LL'}
+          inverted={false}
+          //other display options:
+          // showAvatarForEveryMessage={true}
+          // onPressAvatar (Function(user)) - Callback when a message avatar is tapped
+        />
+      );
+    } else {
+      return <Spinner color="blue" />;
+    }
   }
 }
 

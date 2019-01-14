@@ -22,7 +22,7 @@ class MessageScreen extends React.Component {
     this.state = { messages: [] };
     this.renderMessages = this.renderMessages.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     const userConversations = this.props.login.userInfo.conversations;
 
     const userInfo = this.props.userInfo;
@@ -47,10 +47,11 @@ class MessageScreen extends React.Component {
             underlayColor={'#999999'}
           >
             <MessageRow
-              userImageUrl={message.userImageURL}
+              userImageUrl={message.avatar}
               userName={message.userName}
               //  userMessagePreview={message.user.userMessagePreview}
-              userMessagePreview={'hey human. Feed Me. NOW!'}
+              userMessagePreview={'your chat with...'}
+              // userMessagePreview={'hey human. Feed Me. NOW!'}
               // lastMessageTime={message.user.lastMessageTime}
             />
           </TouchableHighlight>
