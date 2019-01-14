@@ -45,7 +45,7 @@ class Conversation extends React.Component {
         //in the case that conversation exists on user and id exists on conversation collection but things have been delted
         //somethign like  if conversation.messages is undefined set state []
         //will need diff flow for starting a new convo
-        if (!conversation.messages.length) {
+        if (!conversation.messages) {
           self.setState({
             messages: []
           });

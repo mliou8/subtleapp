@@ -88,9 +88,7 @@ class Followers extends React.Component {
         avatar: userToMsg.photoURL,
         convoID: newMsgID
       };
-
       this.props.userAddChat(newMsgID, userToMsgData, userInfo);
-
       self.setState({ existingConvoId: newMsgID });
       navigate('Conversation', {
         messages: [],
