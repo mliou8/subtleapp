@@ -19,7 +19,8 @@ export default class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: this.props.modalOpen
+      modalOpen: this.props.modalOpen,
+      inviteError: this.props.inviteError,
     };
     this.closeModal = this.closeModal.bind(this);
     this.submitInput = this.submitInput.bind(this);
@@ -31,10 +32,13 @@ export default class LandingPage extends React.Component {
       this.props.navigation.navigate('MainScreen');
     }
     if (this.props.modalOpen === true && !prevProps.modalOpen) {
-      this.setState({modalOpen: this.props.modalOpen})
+      this.setState({modalOpen: this.props.modalOpen});
     }
     if (prevProps.modalOpen == true && !this.props.modalOpen) {
-      this.setState({modalOpen: this.props.modalOpen})
+      this.setState({modalOpen: this.props.modalOpen});
+    }
+    if (!prevProps.inviteError && this.props.inviteError) {
+      this.setState({inviteError: this.props.inviteError});
     }
   }
   
@@ -45,7 +49,6 @@ export default class LandingPage extends React.Component {
   closeModal() {
     this.setState({modalOpen: false});
   }
-
 
   render() {
     return (
@@ -73,7 +76,7 @@ export default class LandingPage extends React.Component {
         </Button>
         <DialogInput isDialogVisible={this.state.modalOpen}
           title={"Please Enter Invite Code"}
-          hintInput ={"Invite Code"}
+          hintInput={this.state.inviteError ? 'Please Try Again' : 'Invite Code'}
           submitInput={(inputText) => {this.submitInput(inputText)}}
           closeDialog={() => {this.closeModal()}}>
         </DialogInput>
