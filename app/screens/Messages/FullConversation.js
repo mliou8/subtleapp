@@ -32,10 +32,18 @@ class Conversation extends React.Component {
 
   async componentDidMount() {
     this._mounted = true;
-    const self = this;
     const convoID = this.props.navigation.getParam('convoID');
-    this.setState({ convoID });
+    const newMsgs = await getConvoFromDB(convoID);
 
+    this.setState({ convoID, messages: newMsgs, convoLoaded: true });
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
+  async getConvoFromDBasync(convoID) {
+    const self = this;
     const docRef = db.collection('conversations').doc(convoID);
 
     await docRef.get().then(function(doc) {
@@ -53,19 +61,10 @@ class Conversation extends React.Component {
             item.createdAt = jstime;
             return item;
           });
-          const newMsgs = testnewMsgs;
-
-          self.setState({
-            messages: newMsgs,
-            convoLoaded: true
-          });
-          return conversation;
+          return testnewMsgs;
         }
       }
     });
-  }
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   onSend(messages = []) {
