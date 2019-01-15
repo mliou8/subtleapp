@@ -7,7 +7,8 @@ import {
   Text,
   View,
   Button,
-  TouchableHighlight
+  TouchableHighlight,
+  RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -19,10 +20,12 @@ class MessageScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { messages: [] };
+    this.state = { messages: [], refreshing: false };
+    this._mounted = true;
     this.renderMessages = this.renderMessages.bind(this);
   }
   componentDidMount() {
+    this._mounted = true;
     const userConversations = this.props.login.userInfo.conversations;
 
     const userInfo = this.props.userInfo;
@@ -32,6 +35,18 @@ class MessageScreen extends React.Component {
       user: userInfo
     });
   }
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+  // _onRefresh = () => {
+  //   const self = this;
+  //   const userConversations = this.props.login.userInfo.conversations;
+  //   self
+  //     .setState({ refreshing: true, messages: userConversations })
+  //     .then(() => {
+  //       self.setState({ refreshing: false });
+  //     });
+  // };
 
   renderMessages = () => {
     return this.state.messages.map((message, idx) => {
@@ -61,7 +76,18 @@ class MessageScreen extends React.Component {
   };
 
   render() {
-    return <View style={styles.container}>{this.renderMessages()}</View>;
+    return (
+      // <ScrollView
+      //   refreshControl={
+      //     <RefreshControl
+      //       refreshing={this.state.refreshing}
+      //       onRefresh={this._onRefresh}
+      //     />
+      //   }
+      // >
+      <View style={styles.container}>{this.renderMessages()}</View>
+      // </ScrollView>
+    );
   }
 }
 

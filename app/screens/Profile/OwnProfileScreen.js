@@ -135,25 +135,7 @@ export default class OwnProfileScreen extends React.Component {
                         </Text>
                       </TouchableOpacity>
                     </Body>
-                    <Right>
-                      {this.renderSocialBadges()}
-                      {/* <Button
-                        transparent
-                        style={{
-                          marginTop: 2,
-                          marginBottom: 2
-                        }}
-                        onPress={() => {
-                          this.addSocialBadge();
-                        }}
-                      >
-                        <Icon
-                          type="FontAwesome"
-                          name="plus-circle"
-                          style={{ fontSize: 20 }}
-                        />
-                      </Button> */}
-                    </Right>
+                    <Right>{this.renderSocialBadges()}</Right>
                   </Left>
                 </CardItem>
               </Card>

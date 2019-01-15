@@ -38,7 +38,7 @@ class OtherUsersProfileScreen extends React.Component {
     return {
       title: 'User Profile',
       headerLeft: (
-        <Button transparent onPress={() => navigation.pop(1)}>
+        <Button transparent onPress={() => navigation.goBack()}>
           <Icon
             type="Ionicons"
             name="ios-arrow-back"
@@ -65,15 +65,20 @@ class OtherUsersProfileScreen extends React.Component {
       socialNetworks: this.props.profile.userProfile.socialNetworks,
       badges: []
     };
+    this._mounted = false;
 
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this._mounted = true;
     const { userToDisplay } = this.props.navigation.state.params;
 
-    this.props.fetchUserProfileInfo(userToDisplay.uid);
+    await this.props.fetchUserProfileInfo(userToDisplay.uid);
+  }
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   renderSocialMenu = () => {

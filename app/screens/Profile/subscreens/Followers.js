@@ -28,8 +28,10 @@ class Followers extends React.Component {
       userOnDisplay: null,
       existingConvoId: null
     };
+    this._mounted = false;
   }
   componentDidMount() {
+    this._mounted = true;
     const currView = this.props.profile.userProfile;
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
@@ -50,6 +52,9 @@ class Followers extends React.Component {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
   }
+  componentWillUnmount() {
+    this._mounted = false;
+  }
 
   async alreadyChatting() {
     const { navigate } = this.props.navigation;
@@ -64,12 +69,6 @@ class Followers extends React.Component {
         convoID: this.state.existingConvoId
       });
     } else {
-      // const newMsgRef = await db.collection('conversations').doc();
-      // const newMsgID = newMsgRef.id;
-      // const addMsgRef = await db
-      //   .collection('conversations')
-      //   .doc(newMsgID)
-      //   .set({ messages: [] });
       const addMsgRef = await db
         .collection('conversations')
         .add({ messages: [] });
