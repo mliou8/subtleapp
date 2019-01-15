@@ -11,6 +11,7 @@ import {
   RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import MessageRow from 'app/components/messages/MessageRow';
 
@@ -20,36 +21,37 @@ class MessageScreen extends React.Component {
   };
   constructor(props) {
     super(props);
-    this.state = { messages: [], refreshing: false };
+    this.state = { messagesArray: [], refreshing: false };
     this._mounted = true;
     this.renderMessages = this.renderMessages.bind(this);
   }
   componentDidMount() {
     this._mounted = true;
-    const userConversations = this.props.login.userInfo.conversations;
-
+    const userActiveConversationsArray = this.props.login.userInfo
+      .conversations;
     const userInfo = this.props.userInfo;
+    const userActiveConversationsList = userActiveConversationsArray.map(
+      item => {
+        let oldTime = item.lastMessageTime;
+        const jstime = oldTime.toDate();
+
+        item.lastMessageTime = moment(jstime).format('lll');
+        return item;
+      }
+    );
+    const newMsgs = userActiveConversationsList;
 
     this.setState({
-      messages: userConversations,
+      messagesArray: userActiveConversationsArray,
       user: userInfo
     });
   }
   componentWillUnmount() {
     this._mounted = false;
   }
-  // _onRefresh = () => {
-  //   const self = this;
-  //   const userConversations = this.props.login.userInfo.conversations;
-  //   self
-  //     .setState({ refreshing: true, messages: userConversations })
-  //     .then(() => {
-  //       self.setState({ refreshing: false });
-  //     });
-  // };
 
   renderMessages = () => {
-    return this.state.messages.map((message, idx) => {
+    return this.state.messagesArray.map((message, idx) => {
       return (
         <View key={idx}>
           <TouchableHighlight
@@ -64,10 +66,8 @@ class MessageScreen extends React.Component {
             <MessageRow
               userImageUrl={message.avatar}
               userName={message.userName}
-              //  userMessagePreview={message.user.userMessagePreview}
               userMessagePreview={'your chat with...'}
-              // userMessagePreview={'hey human. Feed Me. NOW!'}
-              // lastMessageTime={message.user.lastMessageTime}
+              lastMessageTime={message.lastMessageTime}
             />
           </TouchableHighlight>
         </View>
@@ -77,16 +77,9 @@ class MessageScreen extends React.Component {
 
   render() {
     return (
-      // <ScrollView
-      //   refreshControl={
-      //     <RefreshControl
-      //       refreshing={this.state.refreshing}
-      //       onRefresh={this._onRefresh}
-      //     />
-      //   }
-      // >
-      <View style={styles.container}>{this.renderMessages()}</View>
-      // </ScrollView>
+      <ScrollView>
+        <View style={styles.container}>{this.renderMessages()}</View>
+      </ScrollView>
     );
   }
 }

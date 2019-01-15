@@ -41,10 +41,7 @@ class Conversation extends React.Component {
     await docRef.get().then(function(doc) {
       if (doc.exists) {
         const conversation = doc.data();
-        //might need error handling in case its an empty array bc user has deleted old ones?
-        //in the case that conversation exists on user and id exists on conversation collection but things have been delted
-        //somethign like  if conversation.messages is undefined set state []
-        //will need diff flow for starting a new convo
+
         if (!conversation.messages) {
           self.setState({
             messages: []
@@ -100,9 +97,6 @@ class Conversation extends React.Component {
           isLoadingEarlier={true}
           dateFormat={'LL'}
           inverted={false}
-          //other display options:
-          // showAvatarForEveryMessage={true}
-          // onPressAvatar (Function(user)) - Callback when a message avatar is tapped
         />
       );
     } else {

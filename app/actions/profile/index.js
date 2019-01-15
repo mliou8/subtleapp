@@ -101,8 +101,9 @@ export const profileRemoveFollower = profileUserInfo => {
   };
 };
 
-export const profileAddChat = (convoID, userInfo, profileUserInfo) => {
+export const addNewChatToOtherUser = (userInfo, profileUserInfo) => {
   return async dispatch => {
+    userInfo.lastMessageTime = Date.now();
     const chatListUpdated = profileUserInfo.conversations.concat(userInfo);
 
     const updatedProfileInfo = profileUserInfo;

@@ -311,8 +311,9 @@ export const removeNetwork = (networkObj, currentUser) => {
       });
   };
 };
-export const userAddChat = (convoID, userToMsgInfo, userInfo) => {
+export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
   return async dispatch => {
+    userToMsgInfo.lastMessageTime = Date.now();
     const userChatsUpdated = userInfo.conversations.concat(userToMsgInfo);
     const updatedUserInfo = userInfo;
     updatedUserInfo.conversations = userChatsUpdated;

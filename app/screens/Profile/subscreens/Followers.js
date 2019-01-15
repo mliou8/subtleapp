@@ -9,11 +9,15 @@ import {
 } from 'react-native';
 import { Icon } from 'expo';
 import { connect } from 'react-redux';
-import { unfollowUser, followUser, userAddChat } from 'actions/login/index';
+import {
+  unfollowUser,
+  followUser,
+  addNewChatToCurrentUser
+} from 'actions/login/index';
 import {
   profileAddFollower,
   profileRemoveFollower,
-  profileAddChat
+  addNewChatToOtherUser
 } from 'actions/profile/index';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
@@ -80,14 +84,14 @@ class Followers extends React.Component {
         convoID: newMsgID
       };
 
-      this.props.profileAddChat(newMsgID, userData, userToMsg);
+      this.props.addNewChatToOtherUser(userData, userToMsg);
       const userToMsgData = {
         uid: userToMsg.uid,
         userName: userToMsg.displayName,
         avatar: userToMsg.photoURL,
         convoID: newMsgID
       };
-      this.props.userAddChat(newMsgID, userToMsgData, userInfo);
+      this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
       self.setState({ existingConvoId: newMsgID });
       navigate('Conversation', {
         messages: [],
@@ -217,11 +221,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     profileRemoveFollower: profileInfo => {
       dispatch(profileRemoveFollower(profileInfo));
     },
-    userAddChat: (newMsgID, userToMsgData, userInfo) => {
-      dispatch(userAddChat(newMsgID, userToMsgData, userInfo));
+    addNewChatToCurrentUser: (userToMsgData, userInfo) => {
+      dispatch(addNewChatToCurrentUser(userToMsgData, userInfo));
     },
-    profileAddChat: (convoID, userInfo, profileUserInfo) => {
-      dispatch(profileAddChat(convoID, userInfo, profileUserInfo));
+    addNewChatToOtherUser: (userInfo, profileUserInfo) => {
+      dispatch(addNewChatToOtherUser(userInfo, profileUserInfo));
     }
   };
 };
