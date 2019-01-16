@@ -189,6 +189,25 @@ export const followUser = (userObj, currUserInfo) => {
   };
 };
 
+export const newGeneralPost = (postInfo, currUserInfo) => {
+  return async dispatch => {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection('users').doc(user.uid);
+    const currUserPostsUpdated = currUserInfo;
+    const currFollowing = [...currUserInfo.following, userObj];
+
+    currUserPostsUpdated.following = currFollowing;
+
+    currUserRef
+      .update({
+        following: firebase.firestore.FieldValue.arrayUnion(userObj)
+      })
+      .then(function() {
+        dispatch(userUpdated(currPostsUpdated));
+      });
+  };
+};
+
 export const unfollowUser = (userObj, currUserInfo) => {
   return async dispatch => {
     const user = firebase.auth().currentUser;

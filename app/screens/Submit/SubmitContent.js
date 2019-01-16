@@ -22,15 +22,16 @@ import {
   Label
 } from 'native-base';
 import { SingleLineInput } from '../../components/form';
-
+import { connect } from 'react-redux';
 import { Avatar, Image } from '../../components/image';
 import { InputBody } from '../../components/form';
 import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
+import { addPostToUser } from 'actions/login/index';
 import firebase from 'db/firebase';
 
-export default class SubmitContent extends Component {
+class SubmitContent extends Component {
   static navigationOptions = {
     headerTitle: 'Create post',
     headerRight: <Button onPress={() => console.log('submit')} title="Submit" />
@@ -77,7 +78,9 @@ export default class SubmitContent extends Component {
     // We're done with the blob, close and release it
     blob.close();
 
-    return await snapshot.ref.getDownloadURL();
+    const downloadURL = await snapshot.ref.getDownloadURL();
+    // .then(createPost(downloadURL));
+    createPost(downloadURL);
   }
 
   updateSize = height => {
@@ -90,10 +93,46 @@ export default class SubmitContent extends Component {
   updateTextInput(text) {
     this.setState({ text });
   }
+  updateTitleInput(title) {
+    this.setState({ title });
+  }
 
   toggleModal = visible => {
     this.setState({ modalVisible: visible });
   };
+
+  async createPost(downloadURL) {
+    const expiryDate = new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    );
+    const Author = this.props.userInfo.displayName;
+    const datePosted = Date.now();
+    const newPostForm = {
+      photoRef: photoURL,
+      datePosted,
+      expiryDate,
+      Title: this.state.title,
+      Text: this.state.text,
+      Author,
+      Location: '',
+      comments: [],
+      reactions: { likes: 0, LOLs: 0 },
+      type: 'general'
+    };
+    const addPostRef = await db.collection('posts').add({ newPostForm });
+    const newPostID = addPostRef.id;
+    const postData = { id: newPostId, datePosted, type: 'general' };
+    this.addPostToUser(postData);
+  }
+
+  addPostToUser(postData) {
+    const currUserInfo = this.props.userInfo;
+    this.props.newGeneralPost(postData, currUserInfo);
+    // navigate('Conversation', {
+    //   messages: [],
+    //   convoID: newMsgID
+    // });
+  }
 
   takePicture = async () => {
     this.toggleModal(false);
@@ -165,7 +204,6 @@ export default class SubmitContent extends Component {
   };
 
   render() {
-    //console.log('this.state.text------', this.state.text);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView>
@@ -207,7 +245,10 @@ export default class SubmitContent extends Component {
               <Form>
                 <Item floatingLabel>
                   <Label>Title</Label>
-                  <Input />
+                  <Input
+                    onChangeText={text => this.updateTitleInput(text)}
+                    value={this.state.title}
+                  />
                 </Item>
               </Form>
               <InputBody
@@ -255,11 +296,42 @@ export default class SubmitContent extends Component {
                   : null}
               </View>
             </View>
-            {/* <Button onPress={() => this.uploadImage()} title="Submit" /> */}
             <Button onPress={() => this.uploadPhoto()} title="Submit" />
+            <Button
+              onPress={() =>
+                console.log(
+                  'text:',
+                  this.state.text,
+                  'title:',
+                  this.state.title
+                )
+              }
+              title="Test Inputs"
+            />
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo,
+    profile: state.profile,
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    newGeneralPost: (postData, currUserInfo) => {
+      dispatch(newGeneralPost(postData, currUserInfo));
+    }
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubmitContent);
