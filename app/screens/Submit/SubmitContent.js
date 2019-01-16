@@ -12,9 +12,19 @@ import {
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ImagePicker, Permissions } from 'expo';
+import {
+  Container,
+  Header,
+  Content,
+  Form,
+  Item,
+  Input,
+  Label
+} from 'native-base';
+import { SingleLineInput } from '../../components/form';
 
 import { Avatar, Image } from '../../components/image';
-import { Input } from '../../components/form';
+import { InputBody } from '../../components/form';
 import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
@@ -31,7 +41,8 @@ export default class SubmitContent extends Component {
     this.state = {
       height: 40,
       modalVisible: false,
-      uploads: []
+      uploads: [],
+      post: {}
     };
   }
 
@@ -75,6 +86,10 @@ export default class SubmitContent extends Component {
       height: newHeight
     });
   };
+
+  updateTextInput(text) {
+    this.setState({ text });
+  }
 
   toggleModal = visible => {
     this.setState({ modalVisible: visible });
@@ -150,6 +165,7 @@ export default class SubmitContent extends Component {
   };
 
   render() {
+    //console.log('this.state.text------', this.state.text);
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView>
@@ -188,7 +204,13 @@ export default class SubmitContent extends Component {
               </Text>
             </View>
             <View style={styles.form}>
-              <Input
+              <Form>
+                <Item floatingLabel>
+                  <Label>Title</Label>
+                  <Input />
+                </Item>
+              </Form>
+              <InputBody
                 multiline
                 placeholder="What's up?"
                 style={[styles.input, { height: this.state.height }]}
@@ -196,7 +218,10 @@ export default class SubmitContent extends Component {
                   this.updateSize(e.nativeEvent.contentSize.height)
                 }
                 maxLength={200}
+                onChangeText={text => this.updateTextInput(text)}
+                value={this.state.text}
               />
+
               <TouchableOpacity
                 onPress={() => this.toggleModal(true)}
                 style={styles.touchable}
