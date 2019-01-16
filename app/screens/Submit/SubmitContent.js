@@ -36,14 +36,37 @@ export default class SubmitContent extends Component {
   }
 
   async uploadPhoto() {
-    const response = await fetch(this.state.uploads[0]);
-    const blob = await response.blob();
-    const fileName = 'profileImage.jpeg';
-    const ref = firebase.storage().ref('test/two');
-    await ref
-      .put(blob, { contentType: 'image/jpg' })
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+    const uri = this.state.uploads[0];
+    const fileName = 'testingEditing';
+    this.uploadImageAsync(uri, fileName);
+  }
+  async uploadImageAsync(uri, fileName) {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+    const ref = firebase
+      .storage()
+      .ref('test/')
+      .child(`${fileName}`);
+    const snapshot = await ref.put(blob);
+
+    // We're done with the blob, close and release it
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
   }
 
   updateSize = height => {
@@ -87,7 +110,9 @@ export default class SubmitContent extends Component {
 
     try {
       let { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.3,
+        allowsEditing: true
       });
       if (!cancelled) {
         this.setState(state => {
@@ -205,6 +230,7 @@ export default class SubmitContent extends Component {
                   : null}
               </View>
             </View>
+            {/* <Button onPress={() => this.uploadImage()} title="Submit" /> */}
             <Button onPress={() => this.uploadPhoto()} title="Submit" />
           </View>
         </ScrollView>
