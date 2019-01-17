@@ -50,7 +50,7 @@ class SubmitContent extends Component {
 
   async uploadPhoto() {
     const uri = this.state.uploads[0];
-    const fileName = 'testingEditing';
+
     this.uploadImageAsync(uri);
   }
   async uploadImageAsync(uri) {
