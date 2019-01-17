@@ -28,13 +28,13 @@ import { InputBody } from '../../components/form';
 import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
-import { addPostToUser } from 'actions/login/index';
+import { newGeneralPost } from 'actions/login/index';
 import firebase from 'db/firebase';
+import db from 'db/firestore';
 
 class SubmitContent extends Component {
   static navigationOptions = {
-    headerTitle: 'Create post',
-    headerRight: <Button onPress={() => console.log('submit')} title="Submit" />
+    headerTitle: 'Create post'
   };
 
   constructor() {
@@ -79,8 +79,9 @@ class SubmitContent extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    // .then(createPost(downloadURL));
-    createPost(downloadURL);
+
+    this.createPost(downloadURL);
+    this.props.navigation.navigate('Home');
   }
 
   updateSize = height => {
@@ -105,33 +106,30 @@ class SubmitContent extends Component {
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
+    const currUserInfo = this.props.userInfo;
     const Author = this.props.userInfo.displayName;
     const datePosted = Date.now();
-    const newPostForm = {
-      photoRef: photoURL,
+
+    const addPostRef = await db.collection('posts').add({
+      photoRef: downloadURL,
       datePosted,
       expiryDate,
       Title: this.state.title,
       Text: this.state.text,
       Author,
-      Location: '',
+      Location: { city: '', country: '' },
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: 'general'
-    };
-    const addPostRef = await db.collection('posts').add({ newPostForm });
+    });
     const newPostID = addPostRef.id;
-    const postData = { id: newPostId, datePosted, type: 'general' };
-    this.addPostToUser(postData);
+    const postData = { id: newPostID, datePosted, type: 'general' };
+    this.addPostToUser(postData, currUserInfo);
   }
 
   addPostToUser(postData) {
     const currUserInfo = this.props.userInfo;
     this.props.newGeneralPost(postData, currUserInfo);
-    // navigate('Conversation', {
-    //   messages: [],
-    //   convoID: newMsgID
-    // });
   }
 
   takePicture = async () => {
@@ -296,17 +294,10 @@ class SubmitContent extends Component {
                   : null}
               </View>
             </View>
-            <Button onPress={() => this.uploadPhoto()} title="Submit" />
             <Button
-              onPress={() =>
-                console.log(
-                  'text:',
-                  this.state.text,
-                  'title:',
-                  this.state.title
-                )
-              }
-              title="Test Inputs"
+              color="#841584"
+              onPress={() => this.uploadPhoto()}
+              title="Submit"
             />
           </View>
         </ScrollView>

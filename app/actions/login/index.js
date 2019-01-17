@@ -194,16 +194,16 @@ export const newGeneralPost = (postInfo, currUserInfo) => {
     const user = firebase.auth().currentUser;
     const currUserRef = db.collection('users').doc(user.uid);
     const currUserPostsUpdated = currUserInfo;
-    const currFollowing = [...currUserInfo.following, userObj];
+    const currPosts = [...currUserInfo.posts, postInfo];
 
-    currUserPostsUpdated.following = currFollowing;
+    currUserPostsUpdated.posts = currPosts;
 
     currUserRef
       .update({
-        following: firebase.firestore.FieldValue.arrayUnion(userObj)
+        posts: firebase.firestore.FieldValue.arrayUnion(postInfo)
       })
       .then(function() {
-        dispatch(userUpdated(currPostsUpdated));
+        dispatch(userUpdated(currUserPostsUpdated));
       });
   };
 };
