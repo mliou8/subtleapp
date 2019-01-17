@@ -4,7 +4,6 @@ import {
   View,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  Button,
   ScrollView,
   ImageBackground,
   Alert
@@ -15,6 +14,7 @@ import { ImagePicker, Permissions } from 'expo';
 import {
   Container,
   Header,
+  Button,
   Content,
   Form,
   Item,
@@ -294,11 +294,12 @@ class SubmitContent extends Component {
                   : null}
               </View>
             </View>
-            <Button
-              color="#841584"
-              onPress={() => this.uploadPhoto()}
-              title="Submit"
-            />
+
+            <Button block primary onPress={() => this.uploadPhoto()}>
+              <Text color="white" styles={{ fontSize: 40, fontWeight: 'bold' }}>
+                Submit
+              </Text>
+            </Button>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
