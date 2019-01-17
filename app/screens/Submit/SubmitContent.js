@@ -29,6 +29,7 @@ import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
 import { newGeneralPost } from 'actions/login/index';
+import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
@@ -50,11 +51,12 @@ class SubmitContent extends Component {
   async uploadPhoto() {
     const uri = this.state.uploads[0];
     const fileName = 'testingEditing';
-    this.uploadImageAsync(uri, fileName);
+    this.uploadImageAsync(uri);
   }
-  async uploadImageAsync(uri, fileName) {
+  async uploadImageAsync(uri) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function() {
@@ -72,7 +74,8 @@ class SubmitContent extends Component {
     const ref = firebase
       .storage()
       .ref('test/')
-      .child(`${fileName}`);
+      .child(`${filename}`);
+
     const snapshot = await ref.put(blob);
 
     // We're done with the blob, close and release it
@@ -108,7 +111,8 @@ class SubmitContent extends Component {
     );
     const currUserInfo = this.props.userInfo;
     const Author = this.props.userInfo.displayName;
-    const datePosted = Date.now();
+    const currentTime = Date.now();
+    const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
 
     const addPostRef = await db.collection('posts').add({
       photoRef: downloadURL,
