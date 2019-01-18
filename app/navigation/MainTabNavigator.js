@@ -23,7 +23,6 @@ import BoardScreen from 'app/screens/Board/BoardScreen';
 import FullPost from 'app/components/board/FullPost';
 import MosaicScreen from 'app/screens/Board/MosaicView';
 import SettingsScreen from 'app/containers/Profile/SettingsContainer';
-import Followers from 'app/screens/Profile/subscreens/Followers';
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -64,7 +63,8 @@ ProfileStack.navigationOptions = {
 const SubmitStack = createStackNavigator({
   SubmitSelection: SubmitSelectionScreen,
   SubmitContent: SubmitContentContainer,
-  SubmitDating: SubmitDatingScreen
+  SubmitDating: SubmitDatingScreen,
+  Home: BoardScreen
 });
 
 SubmitStack.navigationOptions = {

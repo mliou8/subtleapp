@@ -95,8 +95,6 @@ export default class OwnProfileScreen extends React.Component {
     this.setState({ displayAdd: !this.state.displayAdd });
   };
   render() {
-    const bailey = { displayName: 'Bailey', uid: 'AobBHaD1U9WJWOCMNFC8' };
-
     return (
       <ScrollView style={styles.container}>
         {this.props.userInfo.uid ? (
