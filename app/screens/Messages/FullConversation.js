@@ -74,26 +74,27 @@ class Conversation extends React.Component {
     db.collection('conversations')
       .doc(convoID)
       .onSnapshot(function(doc) {
-        console.log('Current data: ', doc.data());
-        const conversation = doc.data();
-        if (!conversation.messages) {
-          self.setState({
-            messages: []
-          });
-        } else {
-          const testnewMsgs = conversation.messages.map(item => {
-            let oldTime = item.createdAt;
-            const jstime = oldTime.toDate();
-            item.createdAt = jstime;
-            return item;
-          });
-          const newMsgs = testnewMsgs;
+        if (doc.exists) {
+          const conversation = doc.data();
+          if (!conversation.messages) {
+            self.setState({
+              messages: []
+            });
+          } else {
+            const testnewMsgs = conversation.messages.map(item => {
+              let oldTime = item.createdAt;
+              const jstime = oldTime.toDate();
+              item.createdAt = jstime;
+              return item;
+            });
+            const newMsgs = testnewMsgs;
 
-          self.setState({
-            messages: newMsgs,
-            convoLoaded: true
-          });
-          return conversation;
+            self.setState({
+              messages: newMsgs,
+              convoLoaded: true
+            });
+            return conversation;
+          }
         }
       });
   }

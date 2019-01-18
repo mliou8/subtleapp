@@ -27,22 +27,12 @@ class MessageScreen extends React.Component {
   }
   componentDidMount() {
     this._mounted = true;
-    const userActiveConversationsArray = this.props.login.userInfo
-      .conversations;
+    const activeConversationsArray = this.props.login.userInfo.conversations;
     const userInfo = this.props.userInfo;
-    const userActiveConversationsList = userActiveConversationsArray.map(
-      item => {
-        let oldTime = item.lastMessageTime;
-        const jstime = oldTime.toDate();
 
-        item.lastMessageTime = moment(jstime).format('lll');
-        return item;
-      }
-    );
-    const newMsgs = userActiveConversationsList;
-
+    const newMsgs = activeConversationsArray;
     this.setState({
-      messagesArray: userActiveConversationsArray,
+      messagesArray: newMsgs,
       user: userInfo
     });
   }
@@ -57,7 +47,6 @@ class MessageScreen extends React.Component {
           <TouchableHighlight
             onPress={() =>
               this.props.navigation.navigate('Conversation', {
-                messages: message.messages,
                 convoID: message.convoID
               })
             }
