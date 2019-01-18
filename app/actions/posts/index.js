@@ -4,7 +4,7 @@ import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import userUpdated from './login';
+import { userUpdated } from '../login';
 
 export const newGeneralPost = (postInfo, currUserInfo) => {
   return async dispatch => {
