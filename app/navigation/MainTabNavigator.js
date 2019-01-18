@@ -3,7 +3,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import {
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  DrawerNavigator
 } from 'react-navigation';
 
 
@@ -21,10 +22,15 @@ import SubmitDatingScreen from "../screens/Submit/SubmitDating";
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
 import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
-import BoardScreen from "app/screens/Board/BoardScreen";
 import FullPost from "app/components/board/FullPost";
 import MosaicScreen from "app/screens/Board/MosaicView";
 import SettingsScreen from "app/containers/Profile/SettingsContainer";
+import SideMenu from "app/components/sidemenu/SideMenu";
+
+import BoardScreen from "app/screens/Board/BoardScreen";
+import RaveScreen from "app/screens/Board/RaveScreen";
+import BulletinScreen from "app/screens/Board/BulletinScreen";
+import DatingScreen from "app/screens/Board/DatingScreen";
 
 const HomeStack = createStackNavigator({
   Home: BoardScreen,
@@ -43,6 +49,25 @@ HomeStack.navigationOptions = {
     <TabBarIcon focused={focused} name={'ios-keypad'} />
   )
 };
+
+const drawerNav = DrawerNavigator({
+  Home: {
+    screen: BoardScreen,
+  },
+  Dating: {
+    screen: DatingScreen,
+  },
+  Rave: {
+    screen: RaveScreen,
+  },
+  Bulletin: {
+    screen: BulletinScreen,
+  }
+ }, {
+  contentComponent: (props) => {
+    return <SideMenu {...props} />;
+  }
+});
 
 const ProfileStack = createStackNavigator({
   Profile: OwnProfileScreen,

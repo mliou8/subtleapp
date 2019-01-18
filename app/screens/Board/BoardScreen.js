@@ -13,6 +13,8 @@ import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 import BoardHeader from 'app/components/board/BoardHeader';
 import LandingPage from 'app/screens/Login/LandingPage';
+import SideMenu from 'components/sidemenu/SideMenu';
+
 import {
   Container,
   Header,
@@ -73,7 +75,14 @@ export default class BoardScreen extends React.Component {
             style={{ color: 'black', fontSize: 30 }}
           />
         </Button>
-      )
+      ),
+      headerLeft: (
+        <Icon
+          type="FontAwesome"
+          name="align-left"
+          style={{ marginLeft: 10 }}
+        />
+        )
     };
   };
 
@@ -125,10 +134,8 @@ export default class BoardScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <BoardHeader setFilter={this.filterContent} />
-        {/* for grid view - or two column view
-        <ScrollView contentContainerStyle={styles.postContainer}> */}
         <ScrollView>
+          <SideMenu/>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Mosaic', { cats: catArr })

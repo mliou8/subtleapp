@@ -11,6 +11,7 @@ const LoginNavigator = createStackNavigator(
         navigationOptions: {
             tabBarVisible: false,
             headerStyle: { display: 'none' },
+            gesturesEnabled: false,
         },
         swipeEnabled: false,
         lazy: true,
