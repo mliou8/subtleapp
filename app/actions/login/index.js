@@ -128,34 +128,6 @@ export function logUserIn(user) {
         dispatch(userUpdated(dbUser.data()));
         dispatch(authSuccess());
       } else {
-        const currTime = Date.now();
-        const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-        const newUser = {
-          uid: user.uid,
-          provider: user.providerData[0].providerId,
-          providerID: user.providerData[0].uid,
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-          lastLoginAt: currentTime,
-          followers: [],
-          following: [],
-          socialNetworks: [
-            { source: 'facebook', sourceUrl: 'facebookprofileurl' }
-          ],
-          posts: []
-        };
-        db.collection('users')
-          .doc(user.uid)
-          .set(newUser)
-          .then(function() {
-            dispatch(userUpdated(newUser));
-            dispatch(authSuccess());
-          })
-          .catch(function(error) {
-            console.error('Error adding document: ', error);
-            dispatch(createProfileError(error));
-          });
         return false;
       }
     });
@@ -258,25 +230,6 @@ export const followUser = (userObj, currUserInfo) => {
       })
       .then(function() {
         dispatch(userUpdated(currUserInfoUpdated));
-      });
-  };
-};
-
-export const newGeneralPost = (postInfo, currUserInfo) => {
-  return async dispatch => {
-    const user = firebase.auth().currentUser;
-    const currUserRef = db.collection('users').doc(user.uid);
-    const currUserPostsUpdated = currUserInfo;
-    const currPosts = [...currUserInfo.posts, postInfo];
-
-    currUserPostsUpdated.posts = currPosts;
-
-    currUserRef
-      .update({
-        posts: firebase.firestore.FieldValue.arrayUnion(postInfo)
-      })
-      .then(function() {
-        dispatch(userUpdated(currUserPostsUpdated));
       });
   };
 };

@@ -28,7 +28,7 @@ import { InputBody } from '../../components/form';
 import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
-import { newGeneralPost } from 'actions/login/index';
+import { newGeneralPost } from 'actions/posts/index';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
