@@ -103,7 +103,10 @@ export const profileRemoveFollower = profileUserInfo => {
 
 export const addNewChatToOtherUser = (userInfo, profileUserInfo) => {
   return async dispatch => {
-    userInfo.lastMessageTime = Date.now();
+    const currTime = Date.now();
+    userInfo.lastMessageTime = moment(currTime).format(
+      'MMMM Do YYYY, h:mm:ss a'
+    );
     const chatListUpdated = profileUserInfo.conversations.concat(userInfo);
 
     const updatedProfileInfo = profileUserInfo;

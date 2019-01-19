@@ -29,41 +29,6 @@ class Conversation extends React.Component {
     this._mounted = false;
     this.onSend = this.onSend.bind(this);
   }
-  //old version that works
-  // async componentDidMount() {
-  //   this._mounted = true;
-  //   const self = this;
-  //   const convoID = this.props.navigation.getParam('convoID');
-  //   this.setState({ convoID });
-
-  //   const docRef = db.collection('conversations').doc(convoID);
-
-  //   await docRef.get().then(function(doc) {
-  //     if (doc.exists) {
-  //       const conversation = doc.data();
-
-  //       if (!conversation.messages) {
-  //         self.setState({
-  //           messages: []
-  //         });
-  //       } else {
-  //         const testnewMsgs = conversation.messages.map(item => {
-  //           let oldTime = item.createdAt;
-  //           const jstime = oldTime.toDate();
-  //           item.createdAt = jstime;
-  //           return item;
-  //         });
-  //         const newMsgs = testnewMsgs;
-
-  //         self.setState({
-  //           messages: newMsgs,
-  //           convoLoaded: true
-  //         });
-  //         return conversation;
-  //       }
-  //     }
-  //   });
-  // }
 
   componentDidMount() {
     this._mounted = true;

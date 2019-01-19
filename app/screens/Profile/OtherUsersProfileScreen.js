@@ -37,15 +37,17 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-      headerLeft: (
-        <Button transparent onPress={() => navigation.goBack()}>
-          <Icon
-            type="Ionicons"
-            name="ios-arrow-back"
-            style={{ color: 'black', fontSize: 28 }}
-          />
-        </Button>
-      ),
+      //headerLeft: (
+      // <Button transparent onPress={() => navigation.goBack()}>
+      // .pop({ n: 1, }
+      //   <Button transparent onPress={() => navigation.nav({ n: 1 })}>
+      //     <Icon
+      //       type="Ionicons"
+      //       name="ios-arrow-back"
+      //       style={{ color: 'black', fontSize: 28 }}
+      //     />
+      //   </Button>
+      // ),
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
@@ -74,6 +76,7 @@ class OtherUsersProfileScreen extends React.Component {
   async componentDidMount() {
     this._mounted = true;
     const { userToDisplay } = this.props.navigation.state.params;
+    this.setState({ userToDisplay });
 
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
   }

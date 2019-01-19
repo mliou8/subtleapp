@@ -69,7 +69,6 @@ class Followers extends React.Component {
 
     if (this.state.existingConvoId) {
       navigate('Conversation', {
-        messages: [],
         convoID: this.state.existingConvoId
       });
     } else {
@@ -94,8 +93,7 @@ class Followers extends React.Component {
       this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
       self.setState({ existingConvoId: newMsgID });
       navigate('Conversation', {
-        messages: [],
-        convoID: newMsgID
+        convoID: this.state.existingConvoId
       });
     }
   }
