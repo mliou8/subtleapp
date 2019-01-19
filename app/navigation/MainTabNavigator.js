@@ -43,6 +43,7 @@ const HomeStack = createStackNavigator({
   Rave: RaveScreen,
   Bulletin: BulletinScreen,
   Dating: DatingScreen,
+  SideMenu: SideMenu,
 });
 
 HomeStack.navigationOptions = {

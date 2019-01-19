@@ -13,7 +13,7 @@ import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 import BoardHeader from 'app/components/board/BoardHeader';
 import LandingPage from 'app/screens/Login/LandingPage';
-import SideMenu from 'components/sidemenu/SideMenu';
+import OptionalMenu from 'components/sidemenu/SideMenu';
 
 import {
   Container,
@@ -131,11 +131,15 @@ export default class BoardScreen extends React.Component {
     // console.log("testUser is ", testUser)
   }
 
+  onToggleMenu() {
+    console.log("Toggle the menu")
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <SideMenu/>
+          <OptionalMenu isOpen={true}/>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Mosaic', { cats: catArr })

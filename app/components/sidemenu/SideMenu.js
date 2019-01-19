@@ -7,13 +7,20 @@ import {
   Platform,
   StyleSheet,
   Button,
+  Dimensions,
+  Text,
 } from 'react-native';
 import {
   RkStyleSheet,
   RkText,
   RkTheme,
 } from 'react-native-ui-kitten';
+import MenuOverlay from 'app/components/sidemenu/MenuOverlay';
 import { Icon } from 'native-base';
+
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
+
 
 const menuChoices = ['BoardScreen', 'DatingScreen', 'RaveScreen', 'BulletinScreen'];
 
@@ -25,7 +32,7 @@ export default class SideMenu extends React.Component {
     this.toggle = this.toggle.bind(this);
 
     this.state = {
-      isOpen: false,
+      isOpen: this.props.isOpen,
       selectedItem: 'About',
     };
   }
@@ -48,70 +55,54 @@ export default class SideMenu extends React.Component {
       selectedItem: item,
     });
 
-  renderMenu = () => {
-    return menuChoices.map(item => {
-      return (
-        <TouchableHighlight
-          style={styles.container}
-          key={item}
-          underlayColor={RkTheme.current.colors.button.underlay}
-          activeOpacity={1}
-          onPress={() => this.onMenuItemPressed(item)}>
-          <View style={styles.content}>
-            <View style={styles.content}>
-              <RkText
-                style={styles.icon}
-                rkType='moon primary xlarge'>{icon}
-              </RkText>
-              <RkText>{item}</RkText>
-            </View>
-            <RkText rkType='awesome secondaryColor small'>
-              <Icon
-                type="FontAwesome"
-                name="angle-right"
-                />
-            </RkText>
-          </View>
-      </TouchableHighlight>
-      )
-    })
-  }
+  render() {
+    const {
+        navigation,
+        onToggleMenu
+    } = this.props
 
-  render = () => (
-    <SideMenu
-      style={styles.root}
-      isOpen={this.state.isOpen}
-      onChange={isOpen => this.updateMenuState(isOpen)}
-      >
-      <ScrollView
-        showsVerticalScrollIndicator={false}>
-        <View style={[styles.container, styles.content]}>
-          <RkText rkType='logo'>UI Kitten</RkText>
+    return (
+        <View style={styles.container}>
+            <MenuOverlay
+                onToggleMenu={onToggleMenu}
+                navigation={navigation}
+            />
+            <View style={styles.menu}>
+               <Text> Menu Options </Text>
+            </View>
         </View>
-      {/*this is rendering the menus options*/}
-        {this.renderMenu()}
-      </ScrollView>
-    </SideMenu>
-  )
+    );
+  }
 }
 
-const styles = RkStyleSheet.create(theme => ({
-  container: {
-    height: 80,
-    paddingHorizontal: 16,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-  },
-  root: {
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
-    backgroundColor: theme.colors.screen.base,
-  },
-  content: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  icon: {
-    marginRight: 13,
-  },
-}));
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        position : 'absolute',
+        left: 0,
+        top: 0,
+        width : width,
+        height : height,
+        paddingTop : 10,
+        paddingLeft : 10,
+        paddingRight : 10,
+        paddingBottom : 10,
+    },
+    menu: {
+        flex: 1,
+        backgroundColor: '#FFF',
+        position : 'absolute',
+        left: 0,
+        top: 0,
+        width : width * 0.8,
+        height : height,
+        paddingTop : 10,
+        paddingLeft : 10,
+        paddingRight : 10,
+        paddingBottom : 10,
+    },
+    menuItem : {
+        paddingTop : 10
+    }
+});
+
