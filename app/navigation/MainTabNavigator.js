@@ -4,7 +4,6 @@ import { Platform } from 'react-native';
 import {
   createStackNavigator,
   createBottomTabNavigator,
-  DrawerNavigator
 } from 'react-navigation';
 
 
@@ -40,7 +39,10 @@ const HomeStack = createStackNavigator({
   FullPost: FullPost,
   Mosaic: MosaicScreen,
   GenericProfileScreen: GenericProfileScreen,
-  OtherUsersProfile: OtherUsersProfileScreen
+  OtherUsersProfile: OtherUsersProfileScreen,
+  Rave: RaveScreen,
+  Bulletin: BulletinScreen,
+  Dating: DatingScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -49,25 +51,6 @@ HomeStack.navigationOptions = {
     <TabBarIcon focused={focused} name={'ios-keypad'} />
   )
 };
-
-const drawerNav = DrawerNavigator({
-  Home: {
-    screen: BoardScreen,
-  },
-  Dating: {
-    screen: DatingScreen,
-  },
-  Rave: {
-    screen: RaveScreen,
-  },
-  Bulletin: {
-    screen: BulletinScreen,
-  }
- }, {
-  contentComponent: (props) => {
-    return <SideMenu {...props} />;
-  }
-});
 
 const ProfileStack = createStackNavigator({
   Profile: OwnProfileScreen,
@@ -102,5 +85,5 @@ SubmitStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
-  ProfileStack
+  ProfileStack,
 });
