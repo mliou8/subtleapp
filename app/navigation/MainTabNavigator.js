@@ -5,17 +5,16 @@ import {
   createBottomTabNavigator,
 } from 'react-navigation';
 import { Icon } from 'native-base';
-
 import TabBarIcon from "app/components/common/TabBarIcon";
 import OwnProfileScreen from "app/containers/Profile/OwnProfileContainer";
 import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
 import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen';
-import FollowersListScreen from "app/screens/Profile/subscreens/FollowersList";
-import PostFullScreen from "app/screens/Post/PostFullScreen";
+import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
+import PostFullScreen from 'app/screens/Post/PostFullScreen';
 
-import SubmitContentContainer from "../containers/Submit/SubmitContentContainer";
-import SubmitSelectionScreen from "../screens/Submit/SubmitSelectionScreen";
-import SubmitDatingScreen from "../screens/Submit/SubmitDating";
+import SubmitContentContainer from '../containers/Submit/SubmitContentContainer';
+import SubmitSelectionScreen from '../screens/Submit/SubmitSelectionScreen';
+import SubmitDatingScreen from '../screens/Submit/SubmitDating';
 
 import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
@@ -83,7 +82,8 @@ ProfileStack.navigationOptions = {
 const SubmitStack = createStackNavigator({
   SubmitSelection: SubmitSelectionScreen,
   SubmitContent: SubmitContentContainer,
-  SubmitDating: SubmitDatingScreen
+  SubmitDating: SubmitDatingScreen,
+  Home: BoardScreen
 });
 
 SubmitStack.navigationOptions = {
