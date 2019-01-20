@@ -22,7 +22,7 @@ export default class DatingScreen extends React.Component {
   render() {
     return (
       <View>
-      	Set up Dating Screen
+      	<Text>Set up Dating Screen</Text>
       </View>
     );
   }

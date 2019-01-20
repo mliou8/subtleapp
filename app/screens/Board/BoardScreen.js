@@ -96,7 +96,6 @@ export default class BoardScreen extends React.Component {
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
-    this.showLoggedIn = this.showLoggedIn.bind(this);
   }
 
   componentDidMount() {
@@ -115,34 +114,26 @@ export default class BoardScreen extends React.Component {
     this.setState({ filterType: filter });
   };
 
-  showLoggedIn() {
-    if (this.props.userInfo.uid) {
-      Alert.alert('You are logged in');
-    } else {
-      Alert.alert('You are not logged in');
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Mosaic', { cats: catArr })
-            }
-          >
-            {/* //onPress={() => this.navigateToFullPost(post)}> */}
+          <ScrollView>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Mosaic', { cats: catArr })
+              }
+            >
+              {/* //onPress={() => this.navigateToFullPost(post)}> */}
+              <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            </TouchableOpacity>
             <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          </TouchableOpacity>
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-        </ScrollView>
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          </ScrollView>
       </View>
     );
   }

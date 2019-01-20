@@ -2,7 +2,6 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
-import DrawerNavigator from 'app/navigation/DrawerNavigator';
 import firebase from 'db/firebase';
 import { Provider } from 'react-redux';
 import { doesUserExist, logUserIn, openModal } from 'app/actions/login';
@@ -42,10 +41,10 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <Provider store={store}>
-            <AppNavigator />
-          </Provider>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <Provider store={store}>
+              <AppNavigator />
+            </Provider>
         </View>
       );
     }

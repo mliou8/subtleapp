@@ -22,28 +22,18 @@ import MessageScreen from "app/screens/Messages/MessageScreen";
 import Conversation from "app/screens/Messages/FullConversation";
 import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
 import FullPost from "app/components/board/FullPost";
-import MosaicScreen from "app/screens/Board/MosaicView";
 import SettingsScreen from "app/containers/Profile/SettingsContainer";
-import SideMenu from "app/components/sidemenu/SideMenu";
-
 import BoardScreen from "app/screens/Board/BoardScreen";
-import RaveScreen from "app/screens/Board/RaveScreen";
-import BulletinScreen from "app/screens/Board/BulletinScreen";
-import DatingScreen from "app/screens/Board/DatingScreen";
+import DrawerNavigator from "./DrawerNavigator";
 
 const HomeStack = createStackNavigator({
-  Home: BoardScreen,
+  Home: DrawerNavigator,
   Post: PostFullScreen,
   Messages: MessageScreen,
   Conversation: Conversation,
   FullPost: FullPost,
-  Mosaic: MosaicScreen,
   GenericProfileScreen: GenericProfileScreen,
   OtherUsersProfile: OtherUsersProfileScreen,
-  Rave: RaveScreen,
-  Bulletin: BulletinScreen,
-  Dating: DatingScreen,
-  SideMenu: SideMenu,
 });
 
 HomeStack.navigationOptions = {

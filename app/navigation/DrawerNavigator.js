@@ -1,8 +1,9 @@
 import { createDrawerNavigator } from 'react-navigation';
 import RaveScreen from "app/screens/Board/RaveScreen";
 import BulletinScreen from "app/screens/Board/BulletinScreen";
-import DatingScreen from "app/screens/Board/DatingScreen";
 import BoardScreen from "app/screens/Board/BoardScreen";
+import DatingScreen from "app/screens/Board/DatingScreen";
+import MainTabNavigator from "./MainTabNavigator";
 import SideMenu from "app/components/sidemenu/SideMenu";
 
 
