@@ -33,7 +33,7 @@ import {
 export default class GenericProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Michael Liou',
+      title: 'Profile',
       headerLeft: (
         <Button
           onPress={() => navigation.navigate('Settings')}

@@ -57,10 +57,8 @@ class FollowersListScreen extends React.Component {
       userList: []
     };
     this.renderFollowerslist = this.renderFollowerslist.bind(this);
-    this._mounted = false;
   }
   componentDidMount() {
-    this._mounted = true;
     const listType = this.props.navigation.getParam('type');
     if (listType === 'followers') {
       const userList = this.props.login.userInfo.followers;
@@ -74,9 +72,6 @@ class FollowersListScreen extends React.Component {
         userList
       });
     }
-  }
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   renderFollowerslist = listContent => {

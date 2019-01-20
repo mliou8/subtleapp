@@ -22,6 +22,7 @@ import {
 import db from 'db/firestore';
 import firebase from 'db/firebase';
 import { withNavigation } from 'react-navigation';
+import moment from 'moment';
 
 class Followers extends React.Component {
   constructor(props) {
@@ -32,10 +33,8 @@ class Followers extends React.Component {
       userOnDisplay: null,
       existingConvoId: null
     };
-    this._mounted = false;
   }
   componentDidMount() {
-    this._mounted = true;
     const currView = this.props.profile.userProfile;
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
@@ -56,9 +55,6 @@ class Followers extends React.Component {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
   }
-  componentWillUnmount() {
-    this._mounted = false;
-  }
 
   async alreadyChatting() {
     const { navigate } = this.props.navigation;
@@ -66,7 +62,8 @@ class Followers extends React.Component {
     const currUsersConversations = this.props.userInfo.conversations;
     const userToMsg = this.state.userOnDisplay;
     const userInfo = this.props.userInfo;
-
+    const currTime = Date.now();
+    const messageTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
     if (this.state.existingConvoId) {
       navigate('Conversation', {
         convoID: this.state.existingConvoId
@@ -80,7 +77,8 @@ class Followers extends React.Component {
         uid: userInfo.uid,
         userName: userInfo.displayName,
         avatar: userInfo.photoURL,
-        convoID: newMsgID
+        convoID: newMsgID,
+        lastMessageTime: messageTime
       };
 
       this.props.addNewChatToOtherUser(userData, userToMsg);
@@ -88,7 +86,8 @@ class Followers extends React.Component {
         uid: userToMsg.uid,
         userName: userToMsg.displayName,
         avatar: userToMsg.photoURL,
-        convoID: newMsgID
+        convoID: newMsgID,
+        lastMessageTime: messageTime
       };
       this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
       self.setState({ existingConvoId: newMsgID });

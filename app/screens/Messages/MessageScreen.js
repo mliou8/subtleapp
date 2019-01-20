@@ -22,11 +22,10 @@ class MessageScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = { messagesArray: [], refreshing: false };
-    this._mounted = true;
+
     this.renderMessages = this.renderMessages.bind(this);
   }
   componentDidMount() {
-    this._mounted = true;
     const activeConversationsArray = this.props.login.userInfo.conversations;
     const userInfo = this.props.userInfo;
 
@@ -35,9 +34,6 @@ class MessageScreen extends React.Component {
       messagesArray: newMsgs,
       user: userInfo
     });
-  }
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   renderMessages = () => {
@@ -88,8 +84,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
     userInfo: state.login.userInfo,
-    conversations: state.login.userInfo.conversations,
-    profile: state.profile
+    conversations: state.login.userInfo.conversations
   };
 };
 

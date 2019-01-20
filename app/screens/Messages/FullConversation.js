@@ -14,6 +14,7 @@ import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
 import firebase from 'db/firebase';
+import moment from 'moment';
 
 import db from 'db/firestore';
 import { connect } from 'react-redux';
@@ -26,12 +27,11 @@ class Conversation extends React.Component {
       convoID: null,
       convoLoaded: false
     };
-    this._mounted = false;
+
     this.onSend = this.onSend.bind(this);
   }
 
   componentDidMount() {
-    this._mounted = true;
     const self = this;
     const convoID = this.props.navigation.getParam('convoID');
     this.setState({ convoID });
@@ -46,13 +46,12 @@ class Conversation extends React.Component {
               messages: []
             });
           } else {
-            const testnewMsgs = conversation.messages.map(item => {
+            const newMsgs = conversation.messages.map(item => {
               let oldTime = item.createdAt;
               const jstime = oldTime.toDate();
               item.createdAt = jstime;
               return item;
             });
-            const newMsgs = testnewMsgs;
 
             self.setState({
               messages: newMsgs,
@@ -62,10 +61,6 @@ class Conversation extends React.Component {
           }
         }
       });
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   onSend(messages = []) {
@@ -109,8 +104,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
     userInfo: state.login.userInfo,
-    conversations: state.login.userInfo.conversations,
-    profile: state.profile
+    conversations: state.login.userInfo.conversations
   };
 };
 

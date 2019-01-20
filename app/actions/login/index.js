@@ -313,10 +313,6 @@ export const removeNetwork = (networkObj, currentUser) => {
 };
 export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
   return async dispatch => {
-    const currTime = Date.now();
-    userToMsgInfo.lastMessageTime = moment(currTime).format(
-      'MMMM Do YYYY, h:mm:ss a'
-    );
     const userChatsUpdated = userInfo.conversations.concat(userToMsgInfo);
     const updatedUserInfo = userInfo;
     updatedUserInfo.conversations = userChatsUpdated;
