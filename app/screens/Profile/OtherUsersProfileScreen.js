@@ -11,7 +11,7 @@ import {
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
-import Followers from 'app/components/profile/Followers';
+import Followers from './subscreens/Followers';
 
 import { connect } from 'react-redux';
 import db from 'db/firestore';
@@ -37,15 +37,17 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-      headerLeft: (
-        <Button transparent onPress={() => navigation.pop(1)}>
-          <Icon
-            type="Ionicons"
-            name="ios-arrow-back"
-            style={{ color: 'black', fontSize: 28 }}
-          />
-        </Button>
-      ),
+      //headerLeft: (
+      // <Button transparent onPress={() => navigation.goBack()}>
+      // .pop({ n: 1, }
+      //   <Button transparent onPress={() => navigation.nav({ n: 1 })}>
+      //     <Icon
+      //       type="Ionicons"
+      //       name="ios-arrow-back"
+      //       style={{ color: 'black', fontSize: 28 }}
+      //     />
+      //   </Button>
+      // ),
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
@@ -63,47 +65,29 @@ class OtherUsersProfileScreen extends React.Component {
     this.state = {
       userOnDisplay: {},
       socialNetworks: this.props.profile.userProfile.socialNetworks,
-      badges: [
-        {
-          badgeType: 'youtube',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'instagram',
-          sourceName: 'justlikemike'
-        },
-        {
-          badgeType: 'twitch',
-          sourceName: 'justlikemike'
-        }
-      ]
+      badges: []
     };
+    this._mounted = false;
 
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    this._mounted = true;
     const { userToDisplay } = this.props.navigation.state.params;
+    this.setState({ userToDisplay });
 
-    this.props.fetchUserProfileInfo(userToDisplay.uid);
+    await this.props.fetchUserProfileInfo(userToDisplay.uid);
+  }
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   renderSocialMenu = () => {
     return <AddSocialNetworkTag />;
   };
 
-  // renderSocialBadges = () => {
-  //   return this.state.badges.map((badge, idx) => {
-  //     return (
-  //       <Badge
-  //         key={idx}
-  //         badgeType={badge.badgeType}
-  //         sourceName={badge.sourceName}
-  //       />
-  //     );
-  //   });
-  // };
   renderSocialBadges = () => {
     return this.props.profile.userProfile.socialNetworks.map((badge, idx) => {
       return (
@@ -122,7 +106,10 @@ class OtherUsersProfileScreen extends React.Component {
         {this.props.profile.userProfile.uid ? (
           <View>
             <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Followers userOnDisplay={this.props.profile.userProfile} />
+              <Followers
+                navigation={this.props.navigation}
+                userOnDisplay={this.props.profile.userProfile}
+              />
             </View>
             <Content>
               <Card style={{ height: '45 %' }} transparent>
