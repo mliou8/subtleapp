@@ -13,7 +13,6 @@ import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 import BoardHeader from 'app/components/board/BoardHeader';
 import LandingPage from 'app/screens/Login/LandingPage';
-import SideMenu from 'components/sidemenu/SideMenu';
 
 import {
   Container,
@@ -98,8 +97,6 @@ export default class BoardScreen extends React.Component {
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
     this.showLoggedIn = this.showLoggedIn.bind(this);
-    this.testUser = this.testUser.bind(this);
-    this.onToggleMenu = this.onToggleMenu.bind(this);
   }
 
   componentDidMount() {
@@ -126,21 +123,10 @@ export default class BoardScreen extends React.Component {
     }
   }
 
-  testUser() {
-    const testUID = '3bbteqbYRfUEY3TYqXvKC4bpOVA2';
-    const testUser = fetchuser(testUID);
-    // console.log("testUser is ", testUser)
-  }
-
-  onToggleMenu() {
-    console.log("Toggle the menu")
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <SideMenu onToggleMenu={this.onToggleMenu}/>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Mosaic', { cats: catArr })

@@ -53,7 +53,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 2,
     marginLeft: 1
-    // flexDirection: "column",
-    // flexWrap: "wrap"
   }
 });

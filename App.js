@@ -2,6 +2,7 @@ import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Alert } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
+import DrawerNavigator from 'app/navigation/DrawerNavigator';
 import firebase from 'db/firebase';
 import { Provider } from 'react-redux';
 import { doesUserExist, logUserIn, openModal } from 'app/actions/login';
@@ -14,7 +15,7 @@ export default class App extends React.Component {
       isLoadingComplete: false,
     };
   }
-  
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
@@ -25,10 +26,10 @@ export default class App extends React.Component {
             store.dispatch(openModal());
           }
         })
-      }   
+      }
     });
   }
-  
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -36,7 +37,7 @@ export default class App extends React.Component {
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
-        />  
+        />
       );
     } else {
       return (
