@@ -14,6 +14,28 @@ import {
 } from 'native-base';
 
 export default class RaveScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Subtle Asian App',
+      headerRight: (
+        <Button transparent onPress={() => navigation.navigate('Messages')}>
+          <Icon
+            type="Entypo"
+            name="mail-with-circle"
+            style={{ color: 'black', fontSize: 30 }}
+          />
+        </Button>
+      ),
+      headerLeft: (
+        <Icon
+          type="FontAwesome"
+          name="align-left"
+          style={{ marginLeft: 10 }}
+        />
+        )
+    };
+  };
+
   constructor(props) {
     super(props);
     this.state = {};

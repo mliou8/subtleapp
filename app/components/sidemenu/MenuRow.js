@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    TouchableHighlight,
+    TouchableOpacity,
     Text,
     StyleSheet,
     Dimensions,
@@ -17,7 +17,7 @@ const height = Dimensions.get('window').height
 export default class MenuRow extends Component {
     render() {
         return (
-            <TouchableHighlight
+            <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate(this.props.screen)
                 }}
@@ -32,7 +32,7 @@ export default class MenuRow extends Component {
                     </View>
                     <Text>{this.props.text}</Text>
                 </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     }
 }

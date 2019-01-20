@@ -1,11 +1,10 @@
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import RaveScreen from "app/screens/Board/RaveScreen";
 import BulletinScreen from "app/screens/Board/BulletinScreen";
-import BoardScreen from "app/screens/Board/BoardScreen";
+import { BoardScreen, BoardNavOptions } from "app/screens/Board/BoardScreen";
 import DatingScreen from "app/screens/Board/DatingScreen";
 import MainTabNavigator from "./MainTabNavigator";
 import SideMenu from "app/components/sidemenu/SideMenu";
-
 
 const DrawerNavigator = createDrawerNavigator(
   {
