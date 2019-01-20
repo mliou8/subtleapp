@@ -22,7 +22,7 @@ export default class RaveScreen extends React.Component {
   render() {
     return (
       <View>
-      	Set up Rave Screen
+      	<Text>Set up Rave Screen</Text>
       </View>
     );
   }

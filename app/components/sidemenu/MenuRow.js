@@ -19,7 +19,7 @@ export default class MenuRow extends Component {
         return (
             <TouchableHighlight
                 onPress={() => {
-                    this.props.onToggleMenu()
+                    this.props.navigation.navigate(this.props.screen)
                 }}
                 >
                 <View style={styles.container}>

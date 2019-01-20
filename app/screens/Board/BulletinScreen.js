@@ -22,7 +22,7 @@ export default class BulletinScreen extends React.Component {
   render() {
     return (
       <View>
-      	Set up Bulletin Screen
+      	<Text>Set up Bulletin Screen</Text>
       </View>
     );
   }

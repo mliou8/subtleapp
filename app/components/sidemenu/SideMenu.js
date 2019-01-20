@@ -24,10 +24,10 @@ const height = Dimensions.get('window').height
 
 
 const menuChoices = [
-  {icon: 'bank', text:'BoardScreen'},
-  {icon: 'sort-alpha-desc', text:'DatingScreen'},
-  {icon: 'money', text:'RaveScreen'},
-  {icon: 'comment-o', text:'BulletinScreen'},
+  {icon: 'bank', text: 'Board', screen: 'Home'},
+  {icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating'},
+  {icon: 'money', text: 'Raves', screen: 'Rave'},
+  {icon: 'comment-o', text: 'Bulletin', screen: 'Bulletin'},
 ];
 
 export default class SideMenu extends React.Component {
@@ -55,7 +55,6 @@ export default class SideMenu extends React.Component {
 
   onMenuItemSelected = item =>
     this.setState({
-      isOpen: false,
       selectedItem: item,
     });
 
@@ -67,17 +66,19 @@ export default class SideMenu extends React.Component {
 
     return (
         <ScrollView style={styles.container}>
-            <MenuOverlay
-                onToggleMenu={onToggleMenu}
-                navigation={navigation}
-            />
             <View style={styles.menu}>
               {
                 menuChoices.map((item)=> {
                   return (
-                    <MenuRow icon={item.icon} text={item.text} />
-                    )
-                })
+                    <MenuRow
+                      key={item.screen}
+                      icon={item.icon}
+                      text={item.text}
+                      screen={item.screen}
+                      navigation={navigation}
+                      />
+                      )
+                  })
               }
             </View>
         </ScrollView>
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         position : 'absolute',
         left: 0,
         top: 0,
-        width : width * 0.65,
+        width : width * 0.5,
         height : height,
         paddingTop : 10,
         paddingLeft : 10,
