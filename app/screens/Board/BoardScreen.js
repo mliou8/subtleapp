@@ -13,6 +13,7 @@ import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 import BoardHeader from 'app/components/board/BoardHeader';
 import LandingPage from 'app/screens/Login/LandingPage';
+
 import {
   Container,
   Header,
@@ -61,22 +62,7 @@ const catArr = [
   'https://loremflickr.com/176/230/cat'
 ];
 
-export default class BoardScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Subtle Asian App',
-      headerRight: (
-        <Button transparent onPress={() => navigation.navigate('Messages')}>
-          <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            style={{ color: 'black', fontSize: 30 }}
-          />
-        </Button>
-      )
-    };
-  };
-
+export class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,8 +74,6 @@ export default class BoardScreen extends React.Component {
     this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
-    this.showLoggedIn = this.showLoggedIn.bind(this);
-    this.testUser = this.testUser.bind(this);
   }
 
   componentDidMount() {
@@ -108,47 +92,31 @@ export default class BoardScreen extends React.Component {
     this.setState({ filterType: filter });
   };
 
-  showLoggedIn() {
-    if (this.props.userInfo.uid) {
-      Alert.alert('You are logged in');
-    } else {
-      Alert.alert('You are not logged in');
-    }
-  }
-
-  testUser() {
-    const testUID = '3bbteqbYRfUEY3TYqXvKC4bpOVA2';
-    const testUser = fetchuser(testUID);
-    // console.log("testUser is ", testUser)
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <BoardHeader setFilter={this.filterContent} />
-        {/* for grid view - or two column view
-        <ScrollView contentContainerStyle={styles.postContainer}> */}
-        <ScrollView>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Mosaic', { cats: catArr })
-            }
-          >
-            {/* //onPress={() => this.navigateToFullPost(post)}> */}
+          <ScrollView>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Mosaic', { cats: catArr })
+              }
+            >
+              {/* //onPress={() => this.navigateToFullPost(post)}> */}
+              <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            </TouchableOpacity>
             <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          </TouchableOpacity>
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-        </ScrollView>
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          </ScrollView>
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {

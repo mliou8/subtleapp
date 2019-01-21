@@ -14,7 +14,7 @@ export default class App extends React.Component {
       isLoadingComplete: false,
     };
   }
-  
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user != null) {
@@ -25,10 +25,10 @@ export default class App extends React.Component {
             store.dispatch(openModal());
           }
         })
-      }   
+      }
     });
   }
-  
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -36,15 +36,15 @@ export default class App extends React.Component {
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
-        />  
+        />
       );
     } else {
       return (
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <Provider store={store}>
-            <AppNavigator />
-          </Provider>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <Provider store={store}>
+              <AppNavigator />
+            </Provider>
         </View>
       );
     }
