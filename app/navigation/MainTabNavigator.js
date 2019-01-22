@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Platform, Button } from 'react-native';
+import { Platform } from 'react-native';
+import { Button, Text } from 'native-base';
 import {
   createStackNavigator,
-  createBottomTabNavigator,
+  createBottomTabNavigator
 } from 'react-navigation';
-import { Icon } from 'native-base';
-import TabBarIcon from "app/components/common/TabBarIcon";
-import OwnProfileScreen from "app/containers/Profile/OwnProfileContainer";
-import GenericProfileScreen from "app/screens/Profile/GenericProfileScreen";
+import { Icon, Fab } from 'native-base';
+import TabBarIcon from 'app/components/common/TabBarIcon';
+import OwnProfileScreen from 'app/containers/Profile/OwnProfileContainer';
+import GenericProfileScreen from 'app/screens/Profile/GenericProfileScreen';
 import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen';
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
@@ -16,49 +17,56 @@ import SubmitContentContainer from '../containers/Submit/SubmitContentContainer'
 import SubmitSelectionScreen from '../screens/Submit/SubmitSelectionScreen';
 import SubmitDatingScreen from '../screens/Submit/SubmitDating';
 
-import MessageScreen from "app/screens/Messages/MessageScreen";
-import Conversation from "app/screens/Messages/FullConversation";
-import AddSocialNetworkTag from "app/screens/Profile/AddSocialNetwork";
-import FullPost from "app/components/board/FullPost";
-import SettingsScreen from "app/containers/Profile/SettingsContainer";
-import { BoardScreen } from "app/screens/Board/BoardScreen";
-import DrawerNavigator from "./DrawerNavigator";
+import MessageScreen from 'app/screens/Messages/MessageScreen';
+import Conversation from 'app/screens/Messages/FullConversation';
+import AddSocialNetworkTag from 'app/screens/Profile/AddSocialNetwork';
+import FullPost from 'app/components/board/FullPost';
+import SettingsScreen from 'app/containers/Profile/SettingsContainer';
+import { BoardScreen } from 'app/screens/Board/BoardScreen';
+import DrawerNavigator from './DrawerNavigator';
 
 const HomeStack = createStackNavigator({
-    Home: {
-      screen: DrawerNavigator,
-      navigationOptions: ({ navigation }) => ({
+  Home: {
+    screen: DrawerNavigator,
+    navigationOptions: ({ navigation }) => ({
       title: 'Subtle Asian App',
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
       headerRight: (
+        <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            onPress={() => navigation.navigate('Messages')}
-            style={{ color: 'black', fontSize: 30, marginRight: 20 }}
+            type="Octicons"
+            name="mail-read"
+            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
           />
+        </Button>
       ),
       headerLeft: (
         <Icon
           type="FontAwesome"
           name="align-left"
-          style={{ marginLeft: 10 }}
+          style={{ marginLeft: 10, color: 'white' }}
           onPress={() => navigation.toggleDrawer()}
         />
-        ),
-      }),
-    },
-    Post: PostFullScreen,
-    Messages: MessageScreen,
-    Conversation: Conversation,
-    FullPost: FullPost,
-    GenericProfileScreen: GenericProfileScreen,
-    OtherUsersProfile: OtherUsersProfileScreen,
-  });
+      )
+    })
+  },
+  Post: PostFullScreen,
+  Messages: MessageScreen,
+  Conversation: Conversation,
+  FullPost: FullPost,
+  GenericProfileScreen: GenericProfileScreen,
+  OtherUsersProfile: OtherUsersProfileScreen
+});
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={'ios-keypad'} />
+    <TabBarIcon focused={focused} name={'ios-home'} />
   )
 };
 
@@ -75,7 +83,7 @@ const ProfileStack = createStackNavigator({
 ProfileStack.navigationOptions = {
   tabBarLabel: 'Profile',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={'md-person'} />
+    <TabBarIcon focused={focused} name={'ios-person'} />
   )
 };
 
@@ -88,13 +96,23 @@ const SubmitStack = createStackNavigator({
 
 SubmitStack.navigationOptions = {
   tabBarLabel: 'Submit',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={'ios-add-circle'} />
+  // tabBarIcon: ({ focused }) => (
+  //   <TabBarIcon focused={focused} name={'ios-add'} />
+  tabBarIcon: (
+    <Fab
+      direction="up"
+      containerStyle={{ borderRadius: 10 }}
+      style={{ backgroundColor: '#242424', borderRadius: 10 }}
+      position="bottomLeft"
+      // onPress={() => navigation('SubmitSelection')}
+    >
+      <Icon name="plus" type="Feather" size={30} color="white" />
+    </Fab>
   )
 };
 
 export default createBottomTabNavigator({
   HomeStack,
   SubmitStack,
-  ProfileStack,
+  ProfileStack
 });

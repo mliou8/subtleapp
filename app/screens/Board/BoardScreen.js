@@ -30,6 +30,7 @@ import {
   Spinner,
   Badge
 } from 'native-base';
+import { LinearGradient } from 'expo';
 
 const post = {};
 const catArr = [
@@ -95,28 +96,27 @@ export class BoardScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-          <ScrollView>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('Mosaic', { cats: catArr })
-              }
-            >
-              {/* //onPress={() => this.navigateToFullPost(post)}> */}
-              <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            </TouchableOpacity>
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Mosaic', { cats: catArr })
+            }
+          >
+            {/* //onPress={() => this.navigateToFullPost(post)}> */}
             <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-            <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          </ScrollView>
+          </TouchableOpacity>
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+        </ScrollView>
       </View>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

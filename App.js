@@ -11,7 +11,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      isLoadingComplete: false,
+      isLoadingComplete: false
     };
   }
 
@@ -24,7 +24,7 @@ export default class App extends React.Component {
           } else {
             store.dispatch(openModal());
           }
-        })
+        });
       }
     });
   }
@@ -41,10 +41,10 @@ export default class App extends React.Component {
     } else {
       return (
         <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <Provider store={store}>
-              <AppNavigator />
-            </Provider>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <Provider store={store}>
+            <AppNavigator />
+          </Provider>
         </View>
       );
     }
@@ -61,7 +61,9 @@ export default class App extends React.Component {
         ...Icon.Ionicons.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
-        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf')
+        'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        poppins: require('./assets/fonts/Poppins-Regular.ttf'),
+        poppinsBold: require('./assets/fonts/Poppins-Bold.ttf')
       })
     ]);
   };
