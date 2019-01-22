@@ -37,6 +37,12 @@ export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
       headerLeft: (
         <Button
           transparent
@@ -46,15 +52,19 @@ export default class OwnProfileScreen extends React.Component {
             })
           }
         >
-          <Text style={{ color: 'black' }}>Settings</Text>
+          <Icon
+            type="Ionicons"
+            name="ios-settings"
+            style={{ color: 'white', fontSize: 30 }}
+          />
         </Button>
       ),
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            style={{ color: 'black', fontSize: 30 }}
+            type="Octicons"
+            name="mail-read"
+            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
           />
         </Button>
       )

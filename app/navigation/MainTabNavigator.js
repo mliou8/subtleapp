@@ -94,22 +94,20 @@ const SubmitStack = createStackNavigator({
   Home: BoardScreen
 });
 
-SubmitStack.navigationOptions = {
+SubmitStack.navigationOptions = ({ navigation }) => ({
   tabBarLabel: 'Submit',
-  // tabBarIcon: ({ focused }) => (
-  //   <TabBarIcon focused={focused} name={'ios-add'} />
   tabBarIcon: (
     <Fab
       direction="up"
       containerStyle={{ borderRadius: 10 }}
       style={{ backgroundColor: '#242424', borderRadius: 10 }}
       position="bottomLeft"
-      // onPress={() => navigation('SubmitSelection')}
+      onPress={() => navigation.navigate('SubmitSelection')}
     >
       <Icon name="plus" type="Feather" size={30} color="white" />
     </Fab>
   )
-};
+});
 
 export default createBottomTabNavigator({
   HomeStack,

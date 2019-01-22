@@ -30,7 +30,6 @@ import {
   Spinner,
   Badge
 } from 'native-base';
-import { LinearGradient } from 'expo';
 
 const post = {};
 const catArr = [
