@@ -19,13 +19,14 @@ import {
   Form,
   Item,
   Input,
-  Label
+  Label,
+  Text
 } from 'native-base';
 import { SingleLineInput } from '../../components/form';
 import { connect } from 'react-redux';
 import { Avatar, Image } from '../../components/image';
 import { InputBody } from '../../components/form';
-import { Text } from '../../components/text';
+// import { Text } from '../../components/text';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
 import { newGeneralPost } from 'actions/posts/index';
@@ -34,8 +35,31 @@ import firebase from 'db/firebase';
 import db from 'db/firestore';
 
 class SubmitContent extends Component {
-  static navigationOptions = {
-    headerTitle: 'Create post'
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Create Post',
+      headerStyle: { backgroundColor: '#242424', height: 120 },
+
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
+      headerRight: (
+        <Button
+          rounded
+          style={{ backgroundColor: 'white' }}
+          onPress={() => this.uploadPhoto()}
+        >
+          <Text style={{ color: 'black', fontFamily: 'poppins' }}>POST</Text>
+        </Button>
+      ),
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon name="chevron-left" style={{ color: 'white', fontSize: 25 }} />
+        </Button>
+      )
+    };
   };
 
   constructor() {
@@ -208,7 +232,7 @@ class SubmitContent extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView>
+        <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
             <Modal
               avoidKeyboard
@@ -299,8 +323,17 @@ class SubmitContent extends Component {
               </View>
             </View>
 
-            <Button block primary onPress={() => this.uploadPhoto()}>
-              <Text color="white" styles={{ fontSize: 40, fontWeight: 'bold' }}>
+            <Button
+              block
+              style={{ backgroundColor: 'black' }}
+              onPress={() => this.uploadPhoto()}
+            >
+              <Text
+                color="white"
+                style={{
+                  fontFamily: 'poppinsBold'
+                }}
+              >
                 Submit
               </Text>
             </Button>
