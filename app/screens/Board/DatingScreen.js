@@ -1,5 +1,11 @@
 import React from 'react';
-import { Image, StyleSheet, View, ScrollView } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  ScrollView
+} from 'react-native';
+
 import {
   Container,
   Header,
@@ -13,6 +19,8 @@ import {
   Left,
 } from 'native-base';
 
+import Post from 'app/components/dating/Post';
+
 export default class DatingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +31,7 @@ export default class DatingScreen extends React.Component {
     return (
       <View>
       	<Text>Set up Dating Screen</Text>
+        <Post></Post>
       </View>
     );
   }

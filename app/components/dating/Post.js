@@ -19,7 +19,6 @@ import {
 export default class Post extends React.Component {
   constructor() {
     super();
-    this.state = { active: "false" };
   }
   render() {
     return (
@@ -28,7 +27,7 @@ export default class Post extends React.Component {
           <Left>
             <Thumbnail small source={{ uri: this.props.imageSrc }} />
             <Body>
-              <Text note>@PostAuthor</Text>
+              <Text>@PostAuthor</Text>
             </Body>
           </Left>
         </CardItem>
@@ -66,9 +65,8 @@ export default class Post extends React.Component {
 const styles = StyleSheet.create({
   post: {
     display: "flex",
-    width: 174,
-    height: 225,
+    width: 80,
+    height: 130,
     borderRadius: 7,
-    marginBottom: 10
   }
 });
