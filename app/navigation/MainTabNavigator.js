@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Button, Text } from 'native-base';
 import {
   createStackNavigator,
@@ -95,13 +95,19 @@ const SubmitStack = createStackNavigator({
 });
 
 SubmitStack.navigationOptions = ({ navigation }) => ({
-  tabBarLabel: 'Submit',
+  tabBarLabel: <View />,
   tabBarIcon: (
     <Fab
       direction="up"
-      containerStyle={{ borderRadius: 10 }}
-      style={{ backgroundColor: '#242424', borderRadius: 10 }}
-      position="bottomLeft"
+      style={{
+        backgroundColor: '#242424',
+        borderRadius: 10,
+        alignContent: 'center',
+        position: 'absolute',
+        bottom: 10,
+        right: 10
+      }}
+      position="bottomRight"
       onPress={() => navigation.navigate('SubmitSelection')}
     >
       <Icon name="plus" type="Feather" size={30} color="white" />
