@@ -27,6 +27,14 @@ export default class DatingScreen extends React.Component {
     this.state = {};
   }
 
+  fetchDatingStuff() {
+    // url
+    // ig handle
+    // Text
+    // like count
+    // comments and comment count
+  }
+
   render() {
     return (
       <View>
