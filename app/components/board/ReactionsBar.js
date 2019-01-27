@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, ScrollView } from 'react-native';
 import {
   Container,
   Header,
@@ -27,48 +27,54 @@ export default class ReactionsBar extends React.Component {
   render() {
     return (
       <View>
-        <Card
-          fullWidth
-          style={{
-            display: 'flex',
-            flexDirection: 'row'
-          }}
-        >
-          <CardItem>
-            <Button transparent>
-              <Emoji name="joy" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
-          <CardItem>
-            <Button transparent>
-              <Emoji name="heart_eyes" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
+        <ScrollView horizontal={true} c>
+          <View>
+            <Card
+              fullWidth
+              style={{
+                display: 'flex',
+                flexDirection: 'row'
+              }}
+            >
+              <CardItem>
+                <Button light>
+                  <Emoji name="joy" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="heart_eyes" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
 
-          <CardItem>
-            <Button transparent>
-              <Emoji name="sob" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
-          <CardItem>
-            <Button transparent>
-              <Emoji name="fire" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
-          <CardItem>
-            <Button transparent>
-              <Emoji name="+1" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
-          <CardItem>
-            <Button transparent>
-              <Emoji name="100" style={{ fontSize: 20 }} />
-            </Button>
-            <Button transparent>
-              <Emoji name="clap" style={{ fontSize: 20 }} />
-            </Button>
-          </CardItem>
-        </Card>
+              <CardItem>
+                <Button light>
+                  <Emoji name="sob" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="fire" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="+1" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="100" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="clap" style={{ fontSize: 20 }} />
+                </Button>
+              </CardItem>
+            </Card>
+          </View>
+        </ScrollView>
       </View>
     );
   }

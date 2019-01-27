@@ -71,7 +71,7 @@ export default class BulletinPost extends React.Component {
 
           <CardItem footer bordered>
             <Left>
-              <Button transparent>
+              <Button light>
                 <Icon
                   style={{ color: 'magenta', fontSize: 25 }}
                   active={true}
@@ -84,7 +84,7 @@ export default class BulletinPost extends React.Component {
             </Left>
             <Body>
               <Button
-                transparent
+                light
                 onPress={() =>
                   this.setState({ showReactions: !this.state.showReactions })
                 }
@@ -92,15 +92,21 @@ export default class BulletinPost extends React.Component {
                 <Icon
                   style={{ color: '#fcc21b', fontSize: 25 }}
                   active
-                  name="smile-o"
-                  type="FontAwesome"
+                  name="smiley"
+                  type="Octicons"
                 >
+                  <Icon
+                    style={{ color: '#fcc21b', fontSize: 25 }}
+                    active
+                    name="ios-add"
+                    type="Ionicons"
+                  />
                   <Text style={{ fontSize: 10 }}> 12 </Text>
                 </Icon>
               </Button>
             </Body>
             <Right>
-              <Button transparent>
+              <Button light>
                 <Icon
                   style={{ color: 'coral', fontSize: 25 }}
                   active
