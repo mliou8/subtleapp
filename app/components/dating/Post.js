@@ -10,7 +10,8 @@ import {
   Text,
   Button,
   Body,
-  Icon
+  Icon,
+  Left,
 } from "native-base";
 
 import {
@@ -30,10 +31,14 @@ export default class Post extends React.Component {
               source={{uri: 'https://placeimg.com/180/200/people'}}
               style={styles.cardImage}
             />
-            <CardItem style={styles.cardItem}>
-              <Text style={styles.handle}>@Handle</Text>
-              <Text style={styles.caption}>Caption and text / OK ATTENTION everyone this is a
-              beautiful person and blah blah blah blah blah </Text>
+            <CardItem style={styles.cardText}>
+                <Text style={styles.handle}>Title</Text>
+                <Text
+                  style={styles.caption}
+                  numberOfLines={3}>
+                  Caption and text / OK ATTENTION everyone this is a
+                  beautiful person and blah blah blah blah blah
+                </Text>
             </CardItem>
           <CardItem style={styles.actionIcons}>
             <Button small transparent style={{paddingBottom: 0}}>
@@ -74,6 +79,12 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
   },
+  cardText: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    textAlign: "left",
+  },
   actionIcons: {
     display: "flex",
     flexDirection: "row",
@@ -82,8 +93,10 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderTopWidth: .5,
     borderTopColor: 'lightgrey',
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   icon: {
     fontSize: 20,
@@ -92,8 +105,12 @@ const styles = StyleSheet.create({
   },
   handle: {
     fontSize: 12,
+    alignSelf: "flex-start",
+    fontWeight: "bold",
+    marginBottom: 2,
   },
   caption: {
     fontSize: 12,
+    overflow: "hidden",
   }
 });
