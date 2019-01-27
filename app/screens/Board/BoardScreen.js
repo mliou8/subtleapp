@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-around'
   },
-
   postContainer: {
     display: 'flex',
     flex: 1,

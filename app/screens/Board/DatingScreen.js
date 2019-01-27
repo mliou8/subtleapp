@@ -37,14 +37,22 @@ export default class DatingScreen extends React.Component {
 
   render() {
     return (
-      <View>
-      	<Text>Set up Dating Screen</Text>
-        <Post></Post>
+      <View style={styles.container}>
+          <Post></Post>
+          <Post></Post>
+          <Post></Post>
+          <Post></Post>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+      display: 'flex',
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    }
 });

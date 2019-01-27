@@ -13,39 +13,44 @@ import {
   Icon
 } from "native-base";
 
+import {
+  MaterialIcons,
+} from '@expo/vector-icons';
+
+
 export default class Post extends React.Component {
   constructor() {
     super();
   }
   render() {
     return (
-      <Card style={styles.post}>
-        <CardItem>
-            <Thumbnail small source={{ uri: this.props.imageSrc }} />
-            <Body>
-              <Text>@PostAuthor</Text>
-            </Body>
-        </CardItem>
-        <CardItem cardBody>
-          <Image
-            source={{uri: 'https://placeimg.com/120/160/people'}}
-            style={styles.cardImage}
-          />
-        </CardItem>
-        <CardItem>
-            <Text>@Handle</Text>
-        </CardItem>
-        <CardItem>
-            <Text>Caption and text / OK ATTENTION everyone this is a
-            beautiful person and blah blah blah blah blah </Text>
-        </CardItem>
-        <CardItem style={styles.actionIcons}>
-          <Button small transparent style={{paddingBottom: 0}}>
-            <Icon style={styles.icon} name="chatbubbles" />
-          </Button>
-          <Button small transparent style={{paddingBottom: 0}}>
-            <Icon style={styles.icon} name="heart" />
-          </Button>
+        <Card style={styles.post}>
+          <CardItem cardBody style={styles.cardItem}>
+            <Image
+              source={{uri: 'https://placeimg.com/180/200/people'}}
+              style={styles.cardImage}
+            />
+            <CardItem style={styles.cardItem}>
+              <Text style={styles.handle}>@Handle</Text>
+              <Text style={styles.caption}>Caption and text / OK ATTENTION everyone this is a
+              beautiful person and blah blah blah blah blah </Text>
+            </CardItem>
+          <CardItem style={styles.actionIcons}>
+            <Button small transparent style={{paddingBottom: 0}}>
+              <MaterialIcons
+                style={styles.icon}
+                color="black"
+                name="chat"
+                />
+            </Button>
+            <Button small transparent style={{paddingBottom: 0}}>
+              <Icon
+                style={styles.icon}
+                type="FontAwesome"
+                name="heart-o"
+                />
+            </Button>
+          </CardItem>
         </CardItem>
       </Card>
     );
@@ -55,18 +60,40 @@ export default class Post extends React.Component {
 const styles = StyleSheet.create({
   post: {
     display: "flex",
-    width: 200,
-    height: 300,
-    borderRadius: 7,
+    flexDirection: "column",
+    width: 190,
+    marginBottom: 20,
+    paddingBottom: 5,
+  },
+  cardImage: {
+    height: 160,
+    width: 190,
+    resizeMode: "stretch"
+  },
+  cardItem: {
+    display: "flex",
+    flexDirection: "column",
   },
   actionIcons: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
-    paddingBottom: 0,
+    justifyContent: "space-between",
+    alignSelf: 'stretch',
+    borderStyle: 'solid',
+    borderTopWidth: .5,
+    borderTopColor: 'lightgrey',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   icon: {
-    fontSize: 25,
+    fontSize: 20,
     color: "black",
+    margin: 0,
+  },
+  handle: {
+    fontSize: 12,
+  },
+  caption: {
+    fontSize: 12,
   }
 });
