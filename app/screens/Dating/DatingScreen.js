@@ -3,7 +3,8 @@ import {
   Image,
   StyleSheet,
   View,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -25,6 +26,8 @@ export default class DatingScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.handlePress = this.handlePress.bind(this)
   }
 
   fetchDatingStuff() {
@@ -35,10 +38,20 @@ export default class DatingScreen extends React.Component {
     // comments and comment count
   }
 
+  handlePress() {
+    console.log("this.props ", this.props.navigation)
+  }
+
   render() {
     return (
       <View style={styles.container}>
-          <Post></Post>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('DatingFullScreen')
+          }
+          >
+          <Post/>
+        </TouchableOpacity>
           <Post></Post>
           <Post></Post>
           <Post></Post>

@@ -70,19 +70,9 @@ export class BoardScreen extends React.Component {
       filterType: 'popular',
       loggedIn: false
     };
-
-    this._showChallenge = this._showChallenge.bind(this);
     this.filterContent = this.filterContent.bind(this);
     this.navigateToFullPost = this.navigateToFullPost.bind(this);
   }
-
-  componentDidMount() {
-    this.props.navigation.setParams({ showChallenge: this._showChallenge });
-  }
-
-  _showChallenge = () => {
-    this.setState({ showChallenge: !this.state.showChallenge });
-  };
 
   navigateToFullPost = post => {
     this.props.navigation.navigate('Post', { post: post });

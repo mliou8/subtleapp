@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, View, ScrollView } from "react-native";
+import { Image, StyleSheet, View, ScrollView, TouchableOpacity } from "react-native";
 import {
   Container,
   Header,
@@ -25,7 +25,10 @@ export default class Post extends React.Component {
   }
   render() {
     return (
-        <Card style={styles.post}>
+        <Card
+          style={styles.post}
+          transparent
+          >
           <CardItem cardBody style={styles.cardItem}>
             <Image
               source={{uri: 'https://placeimg.com/180/200/people'}}
@@ -66,13 +69,13 @@ const styles = StyleSheet.create({
   post: {
     display: "flex",
     flexDirection: "column",
-    width: 190,
+    width: 185,
     marginBottom: 20,
     paddingBottom: 5,
   },
   cardImage: {
     height: 160,
-    width: 190,
+    width: 185,
     resizeMode: "stretch"
   },
   cardItem: {
@@ -112,5 +115,6 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 12,
     overflow: "hidden",
+    marginBottom: 10,
   }
 });
