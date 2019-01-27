@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Row from 'app/components/profile/Row';
 import Badge from 'app/components/common/Badge';
-import Followers from 'app/components/profile/Followers';
+import Followers from './Followers';
 
 import { connect } from 'react-redux';
 
@@ -54,12 +54,27 @@ class FollowersListScreen extends React.Component {
     super(props);
     this.state = {
       edit: false,
-      followers: []
+      userList: []
     };
     this.renderFollowerslist = this.renderFollowerslist.bind(this);
   }
+  componentDidMount() {
+    const listType = this.props.navigation.getParam('type');
+    if (listType === 'followers') {
+      const userList = this.props.login.userInfo.followers;
+      this.setState({
+        userList
+      });
+    }
+    if (listType === 'following') {
+      const userList = this.props.login.userInfo.following;
+      this.setState({
+        userList
+      });
+    }
+  }
 
-  renderFollowerslist = (listType, listContent) => {
+  renderFollowerslist = listContent => {
     return listContent.map((user, idx) => {
       return (
         <ListItem avatar key={idx}>
@@ -89,12 +104,12 @@ class FollowersListScreen extends React.Component {
 
   render() {
     const listType = this.props.navigation.state.params.type;
-    const listContent = this.props.navigation.state.params.userList;
+    const listContent = this.state.userList;
     return (
       <ScrollView>
         <View>
           <Content>
-            <List>{this.renderFollowerslist(listType, listContent)}</List>
+            <List>{this.renderFollowerslist(listContent)}</List>
           </Content>
         </View>
       </ScrollView>
@@ -106,19 +121,11 @@ const mapStateToProps = (state, ownProps) => {
     ...state,
     following: state.login.userInfo.following,
     followers: state.login.userInfo.followers,
-    profile: state.profile,
     login: state.login
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    fetchUser: uid => {
-      dispatch(fetchUser(uid));
-    }
-  };
-};
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(FollowersListScreen);

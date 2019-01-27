@@ -8,130 +8,64 @@ import {
   View,
   Button,
   TouchableHighlight,
+  RefreshControl
 } from 'react-native';
+import { connect } from 'react-redux';
+import moment from 'moment';
 
 import MessageRow from 'app/components/messages/MessageRow';
 
-const messages = [
-  {
-    user: {
-      userImageUrl: 'https://loremflickr.com/60/60/dog',
-      userName: 'heyitsmmike',
-      userMessagePreview: 'hey whats the happening',
-      lastMessageTime: '4:04 am'
-    },
-    messages: [
-      {
-        _id: 1,
-        text: 'hey whats the happening',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsmmike',
-        },
-      },
-      {
-        _id: 2,
-        text: 'hey just hanging here',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsib',
-        },
-      },
-      {
-        _id: 3,
-        text: 'its the cool',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsmmike',
-        },
-      },
-      {
-        _id: 4,
-        text: 'well this was fun',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsib',
-        },
-      }
-    ]
-  },
-  {
-    user: {
-      userImageUrl: 'https://loremflickr.com/60/60/dog',
-      userName: 'heyitsmmike',
-      userMessagePreview: 'hey whats the happening',
-      lastMessageTime: '4:04 am'
-    },
-    messages: [
-      {
-        _id: 1,
-        text: 'hey whats the happening',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsmmike',
-        },
-      },
-      {
-        _id: 2,
-        text: 'hey just hanging here',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsib',
-        },
-      },
-      {
-        _id: 3,
-        text: 'its the cool',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsmmike',
-        },
-      },
-      {
-        _id: 4,
-        text: 'well this was fun',
-        createdAt: new Date(),
-        user: {
-          _id: 'heyitsib',
-        },
-      }
-    ]
-  }
-];
-
-export default class MessageScreen extends React.Component {
+class MessageScreen extends React.Component {
   static navigationOptions = {
-    title: 'Messages',
+    title: 'Messages'
   };
   constructor(props) {
     super(props);
-    this.state = {messages: messages}
+    this.state = { messagesArray: [], refreshing: false };
+
     this.renderMessages = this.renderMessages.bind(this);
   }
-  
+  componentDidMount() {
+    const activeConversationsArray = this.props.login.userInfo.conversations;
+    const userInfo = this.props.userInfo;
+
+    const newMsgs = activeConversationsArray;
+    this.setState({
+      messagesArray: newMsgs,
+      user: userInfo
+    });
+  }
+
   renderMessages = () => {
-    return this.state.messages.map((message, idx) => {
+    return this.state.messagesArray.map((message, idx) => {
       return (
         <View key={idx}>
-          <TouchableHighlight onPress={() => this.props.navigation.navigate('Conversation', { messages: message.messages })} underlayColor={"#999999"}>
+          <TouchableHighlight
+            onPress={() =>
+              this.props.navigation.navigate('Conversation', {
+                convoID: message.convoID
+              })
+            }
+            underlayColor={'#999999'}
+          >
             <MessageRow
-              userImageUrl={message.user.userImageUrl}
-              userName={message.user.userName}
-              userMessagePreview={message.user.userMessagePreview}
-              lastMessageTime={message.user.lastMessageTime}
+              userImageUrl={message.avatar}
+              userName={message.userName}
+              userMessagePreview={'your chat with...'}
+              lastMessageTime={message.lastMessageTime}
             />
-          </TouchableHighlight> 
+          </TouchableHighlight>
         </View>
-      )
-    })
-  }
+      );
+    });
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.renderMessages()}
-      </View>
-    )
+      <ScrollView>
+        <View style={styles.container}>{this.renderMessages()}</View>
+      </ScrollView>
+    );
   }
 }
 
@@ -139,10 +73,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 15,
+    padding: 15
   },
   headerContainer: {
-    margin: "auto",
+    margin: 'auto'
   }
 });
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo,
+    conversations: state.login.userInfo.conversations
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(MessageScreen);

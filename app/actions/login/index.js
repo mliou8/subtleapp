@@ -311,6 +311,21 @@ export const removeNetwork = (networkObj, currentUser) => {
       });
   };
 };
+export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
+  return async dispatch => {
+    const userChatsUpdated = userInfo.conversations.concat(userToMsgInfo);
+    const updatedUserInfo = userInfo;
+    updatedUserInfo.conversations = userChatsUpdated;
+    const currUserOnRef = db.collection('users').doc(userInfo.uid);
+    currUserOnRef
+      .update({
+        conversations: firebase.firestore.FieldValue.arrayUnion(userToMsgInfo)
+      })
+      .then(function() {
+        dispatch(userUpdated(updatedUserInfo));
+      });
+  };
+};
 
 const updateUser = uid => {
   return async dispatch => {
@@ -320,7 +335,7 @@ const updateUser = uid => {
       .then(function(user) {
         if (user.exists) {
           const profile = user.data();
-          // console.log('newProfile');
+
           dispatch(userUpdated(profile));
         } else {
           const msg = 'No such user with that uid';
