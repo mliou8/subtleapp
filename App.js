@@ -63,7 +63,8 @@ export default class App extends React.Component {
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
         poppins: require('./assets/fonts/Poppins-Regular.ttf'),
-        poppinsBold: require('./assets/fonts/Poppins-Bold.ttf')
+        poppinsBold: require('./assets/fonts/Poppins-Bold.ttf'),
+        poppinsLight: require('./assets/fonts/Poppins-Light.ttf')
       })
     ]);
   };

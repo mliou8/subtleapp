@@ -38,14 +38,11 @@ export default class BulletinPost extends React.Component {
                 styles={styles.avatar}
                 src={'https://loremflickr.com/176/230/cat'}
               />
-            </Left>
-            <Body>
-              <Text
-                style={{ fontSize: 15, color: 'coral', fontFamily: 'poppins' }}
-              >
+              <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
                 @postAuthor
               </Text>
-            </Body>
+            </Left>
+
             <Right>
               <Button rounded light onPress={() => this.toggleReactions()}>
                 <Text style={{ fontFamily: 'poppins' }}>location</Text>
@@ -55,30 +52,48 @@ export default class BulletinPost extends React.Component {
           <CardItem
             style={{
               display: 'flex',
-              height: 100,
+              width: null,
+              flex: 1,
+              justifyContent: 'center'
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: 'poppins',
+                justifyContent: 'center'
+              }}
+            >
+              Title: This is where the title of the bulletin post would go
+            </Text>
+          </CardItem>
+          <CardItem
+            style={{
+              display: 'flex',
               width: null,
               flex: 1,
               alignContent: 'center'
             }}
           >
-            <Text style={{ fontSize: 18, fontFamily: 'poppinsBold' }}>
-              title{`\n`}
-            </Text>
-            <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
-              some quote about the text above
+            <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
+              some text that they'd enter. For people to read. Maybe related to
+              the title? I don't know!
             </Text>
           </CardItem>
 
-          <CardItem footer bordered>
+          <CardItem bordered footer>
             <Left>
               <Button light>
                 <Icon
-                  style={{ color: 'magenta', fontSize: 25 }}
+                  style={{ fontSize: 20 }}
                   active={true}
-                  name="heart"
+                  name="heart-o"
                   type="FontAwesome"
                 >
-                  <Text style={{ fontSize: 10 }}> 0 </Text>
+                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                    {' '}
+                    0{' '}
+                  </Text>
                 </Icon>
               </Button>
             </Left>
@@ -90,30 +105,36 @@ export default class BulletinPost extends React.Component {
                 }
               >
                 <Icon
-                  style={{ color: '#fcc21b', fontSize: 25 }}
+                  style={{ color: '#fcc21b', fontSize: 20 }}
                   active
                   name="smiley"
                   type="Octicons"
                 >
                   <Icon
-                    style={{ color: '#fcc21b', fontSize: 25 }}
+                    style={{ color: '#fcc21b', fontSize: 20 }}
                     active
                     name="ios-add"
                     type="Ionicons"
                   />
-                  <Text style={{ fontSize: 10 }}> 12 </Text>
+                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                    {' '}
+                    12{' '}
+                  </Text>
                 </Icon>
               </Button>
             </Body>
             <Right>
               <Button light>
                 <Icon
-                  style={{ color: 'coral', fontSize: 25 }}
+                  style={{ fontSize: 20 }}
                   active
-                  name="comments"
+                  name="commenting"
                   type="FontAwesome"
                 >
-                  <Text style={{ fontSize: 10 }}> 12 </Text>
+                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                    {' '}
+                    12{' '}
+                  </Text>
                 </Icon>
               </Button>
             </Right>

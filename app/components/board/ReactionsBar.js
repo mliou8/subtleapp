@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, Text, ScrollView } from 'react-native';
+import { Image, StyleSheet, View, ScrollView } from 'react-native';
 import {
   Container,
   Header,
@@ -13,7 +13,8 @@ import {
   Body,
   Footer,
   Right,
-  Fab
+  Fab,
+  Text
 } from 'native-base';
 import { Avatar } from '../../components/image';
 
@@ -33,43 +34,64 @@ export default class ReactionsBar extends React.Component {
               fullWidth
               style={{
                 display: 'flex',
-                flexDirection: 'row'
+                flexDirection: 'row',
+                justifyContent: 'space-evenly'
               }}
+              transparent
             >
               <CardItem>
                 <Button light>
                   <Emoji name="joy" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
               <CardItem>
                 <Button light>
                   <Emoji name="heart_eyes" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
 
               <CardItem>
                 <Button light>
                   <Emoji name="sob" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="rage" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
+                </Button>
+              </CardItem>
+              <CardItem>
+                <Button light>
+                  <Emoji name="open_mouth" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
               <CardItem>
                 <Button light>
                   <Emoji name="fire" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
               <CardItem>
                 <Button light>
                   <Emoji name="+1" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
               <CardItem>
                 <Button light>
                   <Emoji name="100" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
               <CardItem>
                 <Button light>
                   <Emoji name="clap" style={{ fontSize: 20 }} />
+                  <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>0</Text>
                 </Button>
               </CardItem>
             </Card>
