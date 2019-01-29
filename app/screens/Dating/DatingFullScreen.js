@@ -53,21 +53,52 @@ export default class DatingFullScreen extends React.Component {
 
   render() {
     return (
-        <ScrollView style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView>
           <Text style={styles.mainText}>
-          { this.renderTextPost() }
+            { this.renderTextPost() }
           </Text>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{uri: 'https://placeimg.com/100/100/people'}}
+              style={styles.cardImage}
+            />
+            <Image
+              source={{uri: 'https://placeimg.com/100/100/people'}}
+              style={styles.cardImage}
+            />
+            <Image
+              source={{uri: 'https://placeimg.com/100/100/people'}}
+              style={styles.cardImage}
+            />
+            <Image
+              source={{uri: 'https://placeimg.com/100/100/people'}}
+              style={styles.cardImage}
+            />
+          </View>
         </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    padding: 10,
+    flex: 1,
+    padding: 24,
+    backgroundColor: "white",
   },
   mainText: {
     display: "flex",
+  },
+  cardImage: {
+    height: 300,
+    width: 300,
+    marginBottom: 15,
+  },
+  imageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 });
