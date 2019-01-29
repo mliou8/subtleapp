@@ -10,8 +10,9 @@ import {
   Text,
   Button,
   Icon,
-  Left,
+  Left
 } from 'native-base';
+import BulletinPost from 'app/components/board/BulletinPost';
 
 export default class BulletinScreen extends React.Component {
   constructor(props) {
@@ -21,13 +22,18 @@ export default class BulletinScreen extends React.Component {
 
   render() {
     return (
-      <View>
-      	<Text>Set up Bulletin Screen</Text>
+      <View style={styles.container}>
+        <ScrollView>
+          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <BulletinPost imageSrc={'https://loremflickr.com/176/230/dog'} />
+          <BulletinPost imageSrc={'https://loremflickr.com/176/230/bunny'} />
+          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+
+          <View />
+        </ScrollView>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
