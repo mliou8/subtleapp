@@ -22,11 +22,9 @@ import {
   Label,
   Text
 } from 'native-base';
-import { SingleLineInput } from '../../components/form';
+import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
-import { Avatar, Image } from '../../components/image';
-import { InputBody } from '../../components/form';
-// import { Text } from '../../components/text';
+import { Avatar, Image } from 'app/components/image';
 import timeout from '../../util/timeout';
 import styles from './SubmitContent.styles';
 import { newGeneralPost } from 'actions/posts/index';
@@ -39,7 +37,6 @@ class SubmitContent extends Component {
     return {
       title: 'Create Post',
       headerStyle: { backgroundColor: '#242424', height: 120 },
-
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -65,7 +62,7 @@ class SubmitContent extends Component {
   constructor() {
     super();
     this.state = {
-      height: 40,
+      height: 250,
       modalVisible: false,
       uploads: [],
       post: {}
@@ -112,7 +109,7 @@ class SubmitContent extends Component {
   }
 
   updateSize = height => {
-    let newHeight = height < 40 ? 40 : height;
+    let newHeight = height < 250 ? 250 : height;
     this.setState({
       height: newHeight
     });
@@ -134,18 +131,19 @@ class SubmitContent extends Component {
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
     const currUserInfo = this.props.userInfo;
-    const Author = this.props.userInfo.displayName;
+    const author = this.props.userInfo.displayName;
     const currentTime = Date.now();
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-
+    const textToSend = JSON.stringify(this.state.text)
+    console.log("TexttoSend ", textToSend);
     const addPostRef = await db.collection('posts').add({
       photoRef: downloadURL,
       datePosted,
       expiryDate,
-      Title: this.state.title,
-      Text: this.state.text,
-      Author,
-      Location: { city: '', country: '' },
+      title: this.state.title,
+      text: textToSend,
+      author,
+      location: { city: '', country: '' },
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: 'general'
@@ -277,18 +275,17 @@ class SubmitContent extends Component {
                   />
                 </Item>
               </Form>
-              <InputBody
+              <SingleInput
                 multiline
                 placeholder="What's up?"
                 style={[styles.input, { height: this.state.height }]}
                 onContentSizeChange={e =>
                   this.updateSize(e.nativeEvent.contentSize.height)
                 }
-                maxLength={200}
                 onChangeText={text => this.updateTextInput(text)}
+                maxLength={3000}
                 value={this.state.text}
               />
-
               <TouchableOpacity
                 onPress={() => this.toggleModal(true)}
                 style={styles.touchable}
