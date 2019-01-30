@@ -8,30 +8,25 @@ import {
   StyleSheet,
   Button,
   Dimensions,
-  Text,
+  Text
 } from 'react-native';
-import {
-  RkStyleSheet,
-  RkText,
-  RkTheme,
-} from 'react-native-ui-kitten';
+import { RkStyleSheet, RkText, RkTheme } from 'react-native-ui-kitten';
 import MenuOverlay from 'app/components/sidemenu/MenuOverlay';
 import MenuRow from 'app/components/sidemenu/MenuRow';
 import { Icon } from 'native-base';
 
-const width = Dimensions.get('window').width
-const height = Dimensions.get('window').height
-
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 const menuChoices = [
-  {icon: 'bank', text: 'Board', screen: 'Home'},
-  {icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating'},
-  {icon: 'money', text: 'Raves', screen: 'Rave'},
-  {icon: 'comment-o', text: 'Bulletin', screen: 'Bulletin'},
+  { icon: 'bank', text: 'Board', screen: 'Home' },
+  { icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating' },
+  { icon: 'money', text: 'Raves', screen: 'Rave' },
+  { icon: 'comment-o', text: 'Bulletin', screen: 'Bulletin' },
+  { icon: 'photo', text: 'Selfies', screen: 'Selfies' }
 ];
 
 export default class SideMenu extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -39,13 +34,13 @@ export default class SideMenu extends React.Component {
 
     this.state = {
       isOpen: this.props.isOpen,
-      selectedItem: 'About',
+      selectedItem: 'About'
     };
   }
 
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen,
+      isOpen: !this.state.isOpen
     });
   }
 
@@ -55,59 +50,55 @@ export default class SideMenu extends React.Component {
 
   onMenuItemSelected = item =>
     this.setState({
-      selectedItem: item,
+      selectedItem: item
     });
 
   render() {
-    const {
-        navigation,
-        onToggleMenu
-    } = this.props
+    const { navigation, onToggleMenu } = this.props;
 
     return (
       <View style={styles.menu}>
-        {
-          menuChoices.map((item)=> {
-            return (
-              <MenuRow
-                key={item.screen}
-                icon={item.icon}
-                text={item.text}
-                screen={item.screen}
-                navigation={navigation}
-                />
-                )
-            })
-        }
+        {menuChoices.map(item => {
+          return (
+            <MenuRow
+              key={item.screen}
+              icon={item.icon}
+              text={item.text}
+              screen={item.screen}
+              navigation={navigation}
+            />
+          );
+        })}
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        position : 'absolute',
-        left: 0,
-        top: 0,
-        width : width,
-        height : height,
-        paddingRight : 10,
-        paddingBottom : 10,
-    },
-    menu: {
-        flex: 1,
-        backgroundColor: '#FFF',
-        position : 'absolute',
-        left: 0,
-        top: 0,
-        width : width * 0.5,
-        height : height,
-        paddingTop : 10,
-        paddingLeft : 10,
-        paddingRight : 10,
-        paddingBottom : 10,
-    },
-    menuItem : {
-        paddingTop : 10
-    }
+  container: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: width,
+    height: height,
+    paddingRight: 10,
+    paddingBottom: 10
+  },
+  menu: {
+    flex: 1,
+    // backgroundColor: '#FFF',
+    backgroundColor: '#242424',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: width * 0.5,
+    height: height,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 10
+  },
+  menuItem: {
+    paddingTop: 10
+  }
 });
