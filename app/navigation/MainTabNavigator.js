@@ -14,7 +14,7 @@ import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
 
 import SubmitContentContainer from '../containers/Submit/SubmitContentContainer';
-import SubmitSelectionScreen from '../screens/Submit/SubmitSelectionScreen';
+import SubmitBase from '../screens/Submit/SubmitBase';
 import SubmitDatingScreen from '../screens/Submit/SubmitDating';
 
 import MessageScreen from 'app/screens/Messages/MessageScreen';
@@ -88,7 +88,7 @@ ProfileStack.navigationOptions = {
 };
 
 const SubmitStack = createStackNavigator({
-  SubmitSelection: SubmitSelectionScreen,
+  SubmitBase: SubmitBase,
   SubmitContent: SubmitContentContainer,
   SubmitDating: SubmitDatingScreen,
   Home: BoardScreen
@@ -108,7 +108,7 @@ SubmitStack.navigationOptions = ({ navigation }) => ({
         right: 10
       }}
       position="bottomRight"
-      onPress={() => navigation.navigate('SubmitSelection')}
+      onPress={() => navigation.navigate('SubmitBase')}
     >
       <Icon name="plus" type="Feather" size={30} color="white" />
     </Fab>
