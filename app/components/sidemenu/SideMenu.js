@@ -65,30 +65,27 @@ export default class SideMenu extends React.Component {
     } = this.props
 
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.menu}>
-              {
-                menuChoices.map((item)=> {
-                  return (
-                    <MenuRow
-                      key={item.screen}
-                      icon={item.icon}
-                      text={item.text}
-                      screen={item.screen}
-                      navigation={navigation}
-                      />
-                      )
-                  })
-              }
-            </View>
-        </ScrollView>
+      <View style={styles.menu}>
+        {
+          menuChoices.map((item)=> {
+            return (
+              <MenuRow
+                key={item.screen}
+                icon={item.icon}
+                text={item.text}
+                screen={item.screen}
+                navigation={navigation}
+                />
+                )
+            })
+        }
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         position : 'absolute',
         left: 0,
         top: 0,
@@ -96,7 +93,6 @@ const styles = StyleSheet.create({
         height : height,
         paddingRight : 10,
         paddingBottom : 10,
-        zIndex: 1,
     },
     menu: {
         flex: 1,
@@ -115,4 +111,3 @@ const styles = StyleSheet.create({
         paddingTop : 10
     }
 });
-

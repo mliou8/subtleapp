@@ -16,7 +16,7 @@ import {
   Fab
 } from "native-base";
 
-export default class Message extends React.Component {
+export default class Post extends React.Component {
   constructor() {
     super();
     this.state = { active: "false" };
