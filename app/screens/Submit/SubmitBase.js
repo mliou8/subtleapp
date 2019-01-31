@@ -96,6 +96,9 @@ export default class SubmitBase extends Component {
               label='Choose Post Type'
               data={data}
               animationDuration={0}
+              value={this.state.postType}
+              onChangeText={(value) => this.setState({postType: value})}
+              selectedItemColor="rgba(0, 0, 0, .87)"
               dropdownOffset={{ top: 0, left: 0 }}
             />
             { this.renderForm() }

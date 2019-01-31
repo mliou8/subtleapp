@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 export default class SubmitDating extends Component {
     static navigationOptions = {
@@ -7,7 +7,11 @@ export default class SubmitDating extends Component {
     };
 
     render() {
-        return <View style={styles.container} />;
+        return (
+            <View style={styles.container}>
+              <Text> Dating </Text>
+            </View>
+        )
     }
 }
 

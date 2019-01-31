@@ -259,10 +259,10 @@ export default class SubmitContent extends Component {
               <Avatar
                 size={65}
                 styles={styles.avatar}
-                src={this.props.user.photoURL || 'http://i.pravatar.cc/100'}
+                src={'http://i.pravatar.cc/100'}
               />
               <Text style={styles.name}>
-                {this.props.user.displayName || 'You'}
+                {'You'}
               </Text>
             </View>
             <View style={styles.form}>
