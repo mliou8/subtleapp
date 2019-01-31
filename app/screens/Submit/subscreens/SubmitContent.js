@@ -25,14 +25,14 @@ import {
 import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
 import { Avatar, Image } from 'app/components/image';
-import timeout from '../../util/timeout';
+import timeout from 'app/util/timeout';
 import styles from './SubmitContent.styles';
 import { newGeneralPost } from 'actions/posts/index';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-class SubmitContent extends Component {
+export default class SubmitContent extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create Post',
@@ -340,24 +340,3 @@ class SubmitContent extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newGeneralPost: (postData, currUserInfo) => {
-      dispatch(newGeneralPost(postData, currUserInfo));
-    }
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubmitContent);

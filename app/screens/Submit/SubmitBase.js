@@ -8,10 +8,9 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import { Dropdown } from 'react-native-material-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImagePicker, Permissions } from 'expo';
+import styles from './SubmitBase.styles';
 import {
   Container,
   Header,
@@ -23,22 +22,16 @@ import {
   Label,
   Text
 } from 'native-base';
-import SingleInput from 'app/components/form/SingleInput';
-import { connect } from 'react-redux';
-import { Avatar, Image } from 'app/components/image';
-import timeout from '../../util/timeout';
-import styles from './SubmitContent.styles';
-import { newGeneralPost } from 'actions/posts/index';
-import moment from 'moment';
-import firebase from 'db/firebase';
-import db from 'db/firestore';
+import SubmitContent from './subscreens/SubmitContent';
+import SubmitDating from './subscreens/SubmitDating';
 
+//Options for dropdowns
 const data = [
   { value: "bulletin" },
   { value: "dating" },
 ];
 
-class SubmitBase extends Component {
+export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create Post',
@@ -74,11 +67,24 @@ class SubmitBase extends Component {
       postType: "general"
     };
 
-    this.submitPost.bind(this);
+    this.submitPost = this.submitPost.bind(this);
+    this.renderForrm = this.renderForm.bind(this);
   }
 
   submitPost() {
 
+  }
+
+  renderForm () {
+    if (this.state.postType === "dating") {
+      return (
+        <SubmitDating/>
+      )
+    } else {
+      return (
+        <SubmitContent/>
+      )
+    }
   }
 
   render() {
@@ -86,36 +92,16 @@ class SubmitBase extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
-          <Dropdown
-            label='Choose Post Type'
-            data={data}
-            animationDuration={0}
-            dropdownOffset={{top:50, left: 0}}
-          />
+            <Dropdown
+              label='Choose Post Type'
+              data={data}
+              animationDuration={0}
+              dropdownOffset={{ top: 0, left: 0 }}
+            />
+            { this.renderForm() }
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newGeneralPost: (postData, currUserInfo) => {
-      dispatch(newGeneralPost(postData, currUserInfo));
-    }
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubmitBase);

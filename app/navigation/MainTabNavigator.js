@@ -13,9 +13,7 @@ import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
 
-import SubmitContentContainer from '../containers/Submit/SubmitContentContainer';
-import SubmitBase from '../screens/Submit/SubmitBase';
-import SubmitDatingScreen from '../screens/Submit/SubmitDating';
+import SubmitBase from 'app/containers/Submit/SubmitContentContainer';
 
 import MessageScreen from 'app/screens/Messages/MessageScreen';
 import Conversation from 'app/screens/Messages/FullConversation';
@@ -89,8 +87,6 @@ ProfileStack.navigationOptions = {
 
 const SubmitStack = createStackNavigator({
   SubmitBase: SubmitBase,
-  SubmitContent: SubmitContentContainer,
-  SubmitDating: SubmitDatingScreen,
   Home: BoardScreen
 });
 
@@ -105,7 +101,7 @@ SubmitStack.navigationOptions = ({ navigation }) => ({
         alignContent: 'center',
         position: 'absolute',
         bottom: 10,
-        right: 10
+        right: 20
       }}
       position="bottomRight"
       onPress={() => navigation.navigate('SubmitBase')}

@@ -1,9 +1,18 @@
 import { connect } from 'react-redux';
-import SubmitContent from '../../screens/Submit/SubmitContent';
-import { getUser } from '../../selectors/user';
+import SubmitBase from '../../screens/Submit/SubmitBase';
 
-const mapStateToProps = state => ({
-    user: getUser(state),
-});
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+  };
+};
 
-export default connect(mapStateToProps)(SubmitContent);
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+  }
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SubmitBase);
