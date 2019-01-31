@@ -8,7 +8,6 @@ import {
   ImageBackground,
   Alert,
 } from 'react-native';
-import { Dropdown } from 'react-native-material-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './SubmitBase.styles';
 import {
@@ -24,37 +23,19 @@ import {
 } from 'native-base';
 import SubmitContent from './subscreens/SubmitContent';
 import SubmitDating from './subscreens/SubmitDating';
+import SubmitHeader from 'app/components/submit/SubmitHeader';
 
-//Options for dropdowns
-const data = [
-  { value: "bulletin" },
-  { value: "dating" },
-];
 
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create Post',
-      headerStyle: { backgroundColor: '#242424', height: 120 },
+      headerStyle: { backgroundColor: 'black', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20
+        fontSize: 18,
       },
-      headerRight: (
-        <Button
-          rounded
-          style={{ backgroundColor: 'white' }}
-          onPress={() => this.uploadPhoto()}
-        >
-          <Text style={{ color: 'black', fontFamily: 'poppins' }}>POST</Text>
-        </Button>
-      ),
-      headerLeft: (
-        <Button transparent onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" style={{ color: 'white', fontSize: 25 }} />
-        </Button>
-      )
     };
   };
 
@@ -64,11 +45,16 @@ export default class SubmitBase extends Component {
       height: 250,
       uploads: [],
       postAuthor: {},
-      postType: "general"
+      postType: "bulletin"
     };
 
     this.submitPost = this.submitPost.bind(this);
-    this.renderForrm = this.renderForm.bind(this);
+    this.renderForm = this.renderForm.bind(this);
+    this.setPostType = this.setPostType.bind(this);
+  }
+
+  setPostType (value) {
+    this.setState({ postType: value })
   }
 
   submitPost() {
@@ -92,15 +78,9 @@ export default class SubmitBase extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
-            <Dropdown
-              label='Choose Post Type'
-              data={data}
-              animationDuration={0}
-              value={this.state.postType}
-              onChangeText={(value) => this.setState({postType: value})}
-              selectedItemColor="rgba(0, 0, 0, .87)"
-              dropdownOffset={{ top: 0, left: 0 }}
-            />
+            <SubmitHeader
+              setType={this.setPostType}
+              />
             { this.renderForm() }
           </View>
         </ScrollView>

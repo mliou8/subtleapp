@@ -24,7 +24,6 @@ import {
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
-import { Avatar, Image } from 'app/components/image';
 import timeout from 'app/util/timeout';
 import styles from './SubmitContent.styles';
 import { newGeneralPost } from 'actions/posts/index';
@@ -255,16 +254,6 @@ export default class SubmitContent extends Component {
                 </TouchableOpacity>
               </View>
             </Modal>
-            <View style={styles.profile}>
-              <Avatar
-                size={65}
-                styles={styles.avatar}
-                src={'http://i.pravatar.cc/100'}
-              />
-              <Text style={styles.name}>
-                {'You'}
-              </Text>
-            </View>
             <View style={styles.form}>
               <Form>
                 <Item floatingLabel>
