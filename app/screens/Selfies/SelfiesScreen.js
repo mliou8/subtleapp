@@ -66,73 +66,137 @@ class SelfiesScreen extends React.Component {
       //   <ScrollView style={styles.container}>
       <View style={{ backgroundColor: '#242424' }}>
         {this.props.userInfo.uid ? (
-          <View style={{ height: 200, backgroundColor: '#242424' }}>
-            <View>
-              <Card style={{ height: '75 %' }} transparent>
-                <CardItem style={{ backgroundColor: '#242424' }}>
-                  <Left>
-                    <Thumbnail
-                      //   large
-                      source={{ uri: this.props.userInfo.photoURL }}
-                    />
-                  </Left>
-                  <Body>
-                    <TouchableOpacity
-                      onPress={() =>
-                        this.props.navigation.navigate('FollowersList', {
-                          type: 'following',
-                          userList: this.props.userInfo.following
-                        })
+          <View>
+            <ScrollView>
+              <View style={{ height: 200, backgroundColor: '#242424' }}>
+                <View>
+                  <Card style={{ height: '75 %' }} transparent>
+                    <CardItem style={{ backgroundColor: '#242424' }}>
+                      <Left>
+                        <Thumbnail
+                          //   large
+                          source={{ uri: this.props.userInfo.photoURL }}
+                        />
+                      </Left>
+                      <Body>
+                        <TouchableOpacity
+                          onPress={() =>
+                            this.props.navigation.navigate('FollowersList', {
+                              type: 'following',
+                              userList: this.props.userInfo.following
+                            })
+                          }
+                        >
+                          <Text
+                            style={{ fontFamily: 'poppins', color: 'white' }}
+                          >
+                            appeal yourself
+                          </Text>
+                        </TouchableOpacity>
+                      </Body>
+                    </CardItem>
+                  </Card>
+                </View>
+
+                <View>
+                  <Tabs tabBarUnderlineStyle={{ backgroundColor: 'white' }}>
+                    <Tab
+                      tabStyle={{ backgroundColor: '#242424' }}
+                      heading={
+                        <TabHeading style={{ backgroundColor: '#242424' }}>
+                          <Icon name="ios-camera" style={{ color: 'white' }} />
+                          <Text
+                            style={{ fontFamily: 'poppins', color: 'white' }}
+                          >
+                            Photos
+                          </Text>
+                        </TabHeading>
                       }
                     >
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        appeal yourself
-                      </Text>
-                    </TouchableOpacity>
-                  </Body>
-                </CardItem>
-              </Card>
-            </View>
-
-            <View>
-              <Tabs tabBarUnderlineStyle={{ backgroundColor: 'white' }}>
-                <Tab
-                  tabStyle={{ backgroundColor: '#242424' }}
-                  heading={
-                    <TabHeading style={{ backgroundColor: '#242424' }}>
-                      <Icon name="ios-camera" style={{ color: 'white' }} />
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        Photos
-                      </Text>
-                    </TabHeading>
-                  }
-                >
-                  <SelfieFeed />
-                </Tab>
-                <Tab
-                  heading={
-                    <TabHeading style={{ backgroundColor: '#242424' }}>
-                      <Icon
-                        name="plus"
-                        style={{ color: 'white' }}
-                        type="Feather"
-                      />
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        Submit
-                      </Text>
-                    </TabHeading>
-                  }
-                />
-                {/* <Tab
-                  heading="Tab3"
-                  onPress={() => {
-                    this.setState({ view: 'SelfieFeed' });
-                  }}
-                >
-                  <SelfieFeed />
-                </Tab> */}
-              </Tabs>
-            </View>
+                      <SelfieFeed />
+                    </Tab>
+                    <Tab
+                      heading={
+                        <TabHeading style={{ backgroundColor: '#242424' }}>
+                          <Icon
+                            name="plus"
+                            style={{ color: 'white' }}
+                            type="Feather"
+                          />
+                          <Text
+                            style={{ fontFamily: 'poppins', color: 'white' }}
+                          >
+                            Submit
+                          </Text>
+                        </TabHeading>
+                      }
+                    />
+                  </Tabs>
+                </View>
+              </View>
+              <View>
+                <Card style={{ padding: 3 }}>
+                  <CardItem cardBody>
+                    <Image
+                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
+                      style={{ height: 300, width: null, flex: 1 }}
+                    />
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        bottom: 8,
+                        left: 16,
+                        fontFamily: 'poppins',
+                        color: 'white'
+                      }}
+                    >
+                      {' '}
+                      testing{' '}
+                    </Text>
+                  </CardItem>
+                </Card>
+                <Card style={{ padding: 3 }}>
+                  <CardItem cardBody>
+                    <Image
+                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
+                      style={{ height: 300, width: null, flex: 1 }}
+                    />
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        bottom: 8,
+                        left: 16,
+                        fontFamily: 'poppins',
+                        color: 'white'
+                      }}
+                    >
+                      {' '}
+                      testing title on image 2
+                    </Text>
+                  </CardItem>
+                </Card>
+                <Card style={{ padding: 3 }}>
+                  <CardItem cardBody>
+                    <Image
+                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
+                      style={{ height: 300, width: null, flex: 1 }}
+                    />
+                    <Text
+                      style={{
+                        position: 'absolute',
+                        bottom: 8,
+                        left: 16,
+                        fontFamily: 'poppins',
+                        color: 'white'
+                      }}
+                    >
+                      {' '}
+                      testing title on image 3
+                    </Text>
+                  </CardItem>
+                </Card>
+              </View>
+            </ScrollView>
           </View>
         ) : (
           <Spinner color="blue" />

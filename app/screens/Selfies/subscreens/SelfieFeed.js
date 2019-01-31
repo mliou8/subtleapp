@@ -8,8 +8,6 @@ import {
   Image
 } from 'react-native';
 
-import Badge from 'app/components/common/Badge';
-
 import {
   Container,
   Header,
