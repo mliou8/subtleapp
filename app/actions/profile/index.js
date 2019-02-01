@@ -58,7 +58,7 @@ export const profileAddFollower = profileUserInfo => {
     const userData = {
       uid: user.uid,
       displayName: user.providerData[0].displayName,
-      photoURL: user.providerData[0].photoURL
+      pic_small: user.providerData[0].pic_small
     };
     const followersListUpdated = profileUserInfo.followers.concat(userData);
     const updatedProfileInfo = profileUserInfo;
@@ -81,7 +81,7 @@ export const profileRemoveFollower = profileUserInfo => {
     const userData = {
       uid: user.uid,
       displayName: user.providerData[0].displayName,
-      photoURL: user.providerData[0].photoURL
+      pic_small: user.providerData[0].pic_small
     };
 
     const followersListUpdated = profileUserInfo.followers.filter(

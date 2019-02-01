@@ -23,7 +23,7 @@ export function fetchNetworks(user) {
   userRef.get()
     .then(function(user) {
       if (user.exists) {
-        return user.socialNetworks; 
+        return user.social; 
       } else {
         console.log("No such document!");
       }

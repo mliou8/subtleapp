@@ -57,7 +57,7 @@ export default class GenericProfile extends React.Component {
     super(props);
     this.state = {
       displayAdd: false,
-      socialNetworks: this.props.user.socialNetworks
+      social: this.props.user.social
     };
     this._editProfile = this._editProfile.bind(this);
     this._saveProfile = this._saveProfile.bind(this);

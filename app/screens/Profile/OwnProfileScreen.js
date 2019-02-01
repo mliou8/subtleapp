@@ -90,12 +90,12 @@ export default class OwnProfileScreen extends React.Component {
   };
 
   renderSocialBadges = () => {
-    return this.props.userInfo.socialNetworks.map((badge, idx) => {
+    return this.props.userInfo.social.map((badge, idx) => {
       return (
         <Badge
           key={idx}
-          badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          badgeType={badge.type}
+          sourceName={badge.url}
         />
       );
     });
@@ -115,31 +115,31 @@ export default class OwnProfileScreen extends React.Component {
                   <Left>
                     <ProfilePortrait
                       style={styles.profile}
-                      imageSrc={this.props.userInfo.photoURL}
+                      imageSrc={this.props.userInfo.pic_small}
                     />
                     <Body>
                       <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'following',
-                            userList: this.props.userInfo.following
+                            userList: []
                           })
                         }
                       >
                         <Text>
-                          Following: {this.props.userInfo.following.length}
+                          Following: {0}
                         </Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'followers',
-                            userList: this.props.userInfo.followers
+                            userList: []
                           })
                         }
                       >
                         <Text>
-                          Followers: {this.props.userInfo.followers.length}
+                          Followers: {0}
                         </Text>
                       </TouchableOpacity>
                     </Body>

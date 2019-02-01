@@ -79,7 +79,7 @@ class FollowersListScreen extends React.Component {
       return (
         <ListItem avatar key={idx}>
           <Left>
-            <Thumbnail source={{ uri: user.photoURL }} />
+            <Thumbnail source={{ uri: user.pic_small }} />
           </Left>
           <Body>
             <Text> {user.displayName}</Text>

@@ -64,7 +64,7 @@ class OtherUsersProfileScreen extends React.Component {
     super(props);
     this.state = {
       userOnDisplay: {},
-      socialNetworks: this.props.profile.userProfile.socialNetworks,
+      social: this.props.profile.userProfile.social,
       badges: []
     };
     this._mounted = false;
@@ -89,12 +89,12 @@ class OtherUsersProfileScreen extends React.Component {
   };
 
   renderSocialBadges = () => {
-    return this.props.profile.userProfile.socialNetworks.map((badge, idx) => {
+    return this.props.profile.userProfile.social.map((badge, idx) => {
       return (
         <Badge
           key={idx}
-          badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          badgeType={badge.type}
+          sourceName={badge.url}
         />
       );
     });
@@ -117,7 +117,7 @@ class OtherUsersProfileScreen extends React.Component {
                   <Left>
                     <ProfilePortrait
                       style={styles.profile}
-                      imageSrc={this.props.profile.userProfile.photoURL}
+                      imageSrc={this.props.profile.userProfile.pic_small}
                     />
                     <Body>
                       <TouchableOpacity

@@ -86,7 +86,7 @@ class Conversation extends React.Component {
           user={{
             _id: this.props.userInfo.uid,
             name: this.props.userInfo.displayName,
-            avatar: this.props.userInfo.photoURL
+            avatar: this.props.userInfo.pic_small
           }}
           showUserAvatar={true}
           isLoadingEarlier={true}

@@ -76,7 +76,7 @@ class Followers extends React.Component {
       const userData = {
         uid: userInfo.uid,
         userName: userInfo.displayName,
-        avatar: userInfo.photoURL,
+        avatar: userInfo.pic_small,
         convoID: newMsgID,
         lastMessageTime: messageTime
       };
@@ -85,7 +85,7 @@ class Followers extends React.Component {
       const userToMsgData = {
         uid: userToMsg.uid,
         userName: userToMsg.displayName,
-        avatar: userToMsg.photoURL,
+        avatar: userToMsg.pic_small,
         convoID: newMsgID,
         lastMessageTime: messageTime
       };
@@ -100,8 +100,8 @@ class Followers extends React.Component {
   followCurrentUser() {
     const currUserInfo = this.props.userInfo;
     const userOnDisplayProfile = this.props.profile.userProfile;
-    const { displayName, uid, photoURL } = this.props.profile.userProfile;
-    const userOnDisplay = { displayName, uid, photoURL };
+    const { displayName, uid, pic_small } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, pic_small };
 
     this.props.followUser(userOnDisplay, currUserInfo);
     this.props.profileAddFollower(userOnDisplayProfile);
@@ -110,8 +110,8 @@ class Followers extends React.Component {
 
   unfollowCurrentUser() {
     const currUserInfo = this.props.userInfo;
-    const { displayName, uid, photoURL } = this.props.profile.userProfile;
-    const userOnDisplay = { displayName, uid, photoURL };
+    const { displayName, uid, pic_small } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, pic_small };
     const userOnDisplayProfile = this.props.profile.userProfile;
 
     this.props.unfollowUser(userOnDisplay, currUserInfo);
@@ -122,8 +122,8 @@ class Followers extends React.Component {
   render() {
     const currUserInfo = this.props.userInfo;
     const userOnDisplayProfile = this.props.profile.userProfile;
-    const { displayName, uid, photoURL } = this.props.profile.userProfile;
-    const userOnDisplay = { displayName, uid, photoURL };
+    const { displayName, uid, pic_small } = this.props.profile.userProfile;
+    const userOnDisplay = { displayName, uid, pic_small };
 
     return (
       <View style={styles.container}>
