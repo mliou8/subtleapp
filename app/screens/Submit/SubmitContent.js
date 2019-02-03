@@ -134,8 +134,8 @@ class SubmitContent extends Component {
     const author = this.props.userInfo.displayName;
     const currentTime = Date.now();
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.text)
-    console.log("TexttoSend ", textToSend);
+    const textToSend = JSON.stringify(this.state.text);
+    console.log('TexttoSend ', textToSend);
     const addPostRef = await db.collection('posts').add({
       photoRef: downloadURL,
       datePosted,
