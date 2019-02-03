@@ -13,16 +13,16 @@ import {
   Alert
 } from 'react-native';
 import Modal from 'react-native-modal';
-import SelfieFeed from './subscreens/SelfieFeed';
+
 import { ImagePicker, Permissions } from 'expo';
 import timeout from '../../util/timeout';
-// import styles from './SubmitContent.styles';
+
 import { newGeneralPost } from 'actions/posts/index';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { connect } from 'react-redux';
-import SingleInput from 'app/components/form/SingleInput';
+
 import {
   Container,
   Header,
@@ -37,9 +37,6 @@ import {
   Body,
   Right,
   Spinner,
-  Tab,
-  Tabs,
-  TabHeading,
   Form,
   Item,
   Input,
@@ -104,21 +101,24 @@ class SelfiesScreen extends React.Component {
     const downloadURL = await snapshot.ref.getDownloadURL();
     this.createPost(downloadURL);
     this.props.navigation.navigate('Home');
+    //once we have the selfies fetching from the database,
+    //we will change the redirect back to the selfies page
+    //it should update and user should see their own photo in the feed
     // this.props.navigation.navigate('Selfies');
   }
 
-  updateSize = height => {
-    let newHeight = height < 250 ? 250 : height;
-    this.setState({
-      height: newHeight
-    });
+  toggleModal = visible => {
+    this.setState({ modalVisible: visible });
   };
 
   updateCaptionInput(caption) {
     this.setState({ caption });
   }
-  toggleModal = visible => {
-    this.setState({ modalVisible: visible });
+  updateSize = height => {
+    let newHeight = height < 250 ? 250 : height;
+    this.setState({
+      height: newHeight
+    });
   };
   async createPost(downloadURL) {
     const expiryDate = new Date(
@@ -129,7 +129,7 @@ class SelfiesScreen extends React.Component {
     const currentTime = Date.now();
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
     const textToSend = JSON.stringify(this.state.caption);
-    console.log('TexttoSend ', textToSend);
+
     const addPostRef = await db.collection('posts').add({
       photoRef: downloadURL,
       datePosted,
@@ -144,25 +144,18 @@ class SelfiesScreen extends React.Component {
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'selfie' };
-    this.addPostToUser(postData, currUserInfo);
+    this.addPostToUser(postData);
   }
-  updateSize = height => {
-    let newHeight = height < 250 ? 250 : height;
-    this.setState({
-      height: newHeight
-    });
-  };
 
   addPostToUser(postData) {
     const currUserInfo = this.props.userInfo;
     this.props.newGeneralPost(postData, currUserInfo);
   }
+
   pickImageFromCameraRoll = async () => {
     this.toggleModal(false);
     await timeout(500); // let modal transition complete
-
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
-
     try {
       let { uri, cancelled } = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -202,10 +195,10 @@ class SelfiesScreen extends React.Component {
       ]
     );
   };
+
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        {/* <ScrollView style={styles.container}> */}
         <View style={{ backgroundColor: '#242424' }}>
           {/* {this.props.userInfo.uid ? ( */}
           <View>
@@ -216,11 +209,7 @@ class SelfiesScreen extends React.Component {
                 display: 'flex'
               }}
             >
-              <Thumbnail
-                //   large
-                source={{ uri: this.props.userInfo.photoURL }}
-              />
-
+              <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
               <Form>
                 <Item
                   style={{

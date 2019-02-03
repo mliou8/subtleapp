@@ -7,16 +7,13 @@ import DatingFullScreen from 'app/screens/Dating/DatingFullScreen';
 import MainTabNavigator from './MainTabNavigator';
 import SideMenu from 'app/components/sidemenu/SideMenu';
 import SelfiesScreen from '../screens/Selfies/SelfiesScreen';
-import SelfieFeed from '../screens/Selfies/subscreens/SelfieFeed';
 
 const DatingStack = createStackNavigator({
   Dating: DatingScreen,
   DatingFullScreen: DatingFullScreen
 });
 const SelfieStack = createStackNavigator({
-  SelfiesScreen: SelfiesScreen,
-  SelfieFeed: SelfieFeed
-  // SubmitSelfie: SubmitSelfie:
+  SelfiesScreen: SelfiesScreen
 });
 
 const DrawerNavigator = createDrawerNavigator(
