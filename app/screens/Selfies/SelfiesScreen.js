@@ -350,26 +350,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SelfiesScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 7.6,
-    backgroundColor: '#fff',
-    flexDirection: 'column'
-  },
-  divider: {
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    paddingLeft: 10,
-    marginTop: 7,
-    marginBottom: 7,
-    justifyContent: 'flex-end',
-    width: '100%'
-  },
-  profile: {
-    display: 'flex',
-    alignContent: 'flex-start',
-    flex: 1
-  }
-});
