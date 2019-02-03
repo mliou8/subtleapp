@@ -13,16 +13,13 @@ import {
   Alert
 } from 'react-native';
 import Modal from 'react-native-modal';
-
 import { ImagePicker, Permissions } from 'expo';
 import timeout from '../../util/timeout';
-
-import { newGeneralPost } from 'actions/posts/index';
-import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
+import { newGeneralPost } from 'actions/posts/index';
+import moment from 'moment';
 import { connect } from 'react-redux';
-
 import {
   Container,
   Header,
@@ -72,7 +69,6 @@ class SelfiesScreen extends React.Component {
   }
   async uploadPhoto() {
     const uri = this.state.uploads[0];
-
     this.uploadImageAsync(uri);
   }
   async uploadImageAsync(uri) {
@@ -134,8 +130,7 @@ class SelfiesScreen extends React.Component {
       photoRef: downloadURL,
       datePosted,
       expiryDate,
-      title: this.state.title,
-      text: textToSend,
+      caption: textToSend,
       author,
       location: { city: '', country: '' },
       comments: [],
@@ -144,11 +139,10 @@ class SelfiesScreen extends React.Component {
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'selfie' };
-    this.addPostToUser(postData);
+    this.addPostToUser(postData, currUserInfo);
   }
 
-  addPostToUser(postData) {
-    const currUserInfo = this.props.userInfo;
+  addPostToUser(postData, currUserInfo) {
     this.props.newGeneralPost(postData, currUserInfo);
   }
 
