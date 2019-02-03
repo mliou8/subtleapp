@@ -12,6 +12,11 @@ const DatingStack = createStackNavigator({
   Dating: DatingScreen,
   DatingFullScreen: DatingFullScreen
 });
+
+//originally I wasnt sure if tehre would be nav from this location or not
+//like a fullscreen view of selfie or something
+//or selfies near you?
+//it can just be thrown in drawer nav if there wont be.
 const SelfieStack = createStackNavigator({
   SelfiesScreen: SelfiesScreen
 });

@@ -24,21 +24,17 @@ import {
   Container,
   Header,
   Content,
-  Card,
-  CardItem,
   Thumbnail,
   Text,
   Button,
   Icon,
-  Left,
-  Body,
-  Right,
-  Spinner,
   Form,
   Item,
   Input,
   Label
 } from 'native-base';
+import SelfiePost from 'app/components/board/SelfiePost';
+import SelfieFeed from './SelfieFeed';
 
 class SelfiesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -192,133 +188,68 @@ class SelfiesScreen extends React.Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View style={{ backgroundColor: '#242424' }}>
-          {/* {this.props.userInfo.uid ? ( */}
-          <View>
-            <View
-              style={{
-                height: 150,
-                backgroundColor: '#242424',
-                display: 'flex'
-              }}
-            >
-              <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
-              <Form>
-                <Item
-                  style={{
-                    borderColor: 'transparent'
-                  }}
-                  floatingLabel
-                >
-                  <Label style={{ fontFamily: 'poppins', color: 'white' }}>
-                    Appeal yourself
-                  </Label>
-                  <Input
-                    style={{ fontFamily: 'poppins', color: 'white' }}
-                    onChangeText={caption => this.updateCaptionInput(caption)}
-                    value={this.state.caption}
-                  />
-                </Item>
-              </Form>
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignContent: 'center',
-                justifyContent: 'space-around'
-              }}
-            >
-              <Button
-                iconLeft
-                style={{ backgroundColor: '#242424' }}
-                onPress={this.pickImageFromCameraRoll}
+      <View style={{ backgroundColor: '#242424' }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View
+            style={{
+              height: 150,
+              backgroundColor: '#242424',
+              display: 'flex'
+            }}
+          >
+            <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
+            <Form>
+              <Item
+                style={{
+                  borderColor: 'transparent'
+                }}
+                floatingLabel
               >
-                <Icon name="ios-camera" style={{ color: 'white' }} />
-                <Text>Photos</Text>
-              </Button>
-              <Button
-                iconLeft
-                style={{ backgroundColor: '#242424' }}
-                onPress={() => this.uploadPhoto()}
-              >
-                <Icon name="plus" type="Feather" style={{ color: 'white' }} />
-                <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                  Submit
-                </Text>
-              </Button>
-            </View>
-            <ScrollView>
-              <View>
-                <Card style={{ padding: 3 }}>
-                  <CardItem cardBody>
-                    <Image
-                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
-                      style={{ height: 300, width: null, flex: 1 }}
-                    />
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        bottom: 8,
-                        left: 16,
-                        fontFamily: 'poppins',
-                        color: 'white'
-                      }}
-                    >
-                      {' '}
-                      testing{' '}
-                    </Text>
-                  </CardItem>
-                </Card>
-                <Card style={{ padding: 3 }}>
-                  <CardItem cardBody>
-                    <Image
-                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
-                      style={{ height: 300, width: null, flex: 1 }}
-                    />
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        bottom: 8,
-                        left: 16,
-                        fontFamily: 'poppins',
-                        color: 'white'
-                      }}
-                    >
-                      {' '}
-                      testing title on image 2
-                    </Text>
-                  </CardItem>
-                </Card>
-                <Card style={{ padding: 3 }}>
-                  <CardItem cardBody>
-                    <Image
-                      source={{ uri: 'https://loremflickr.com/176/230/cat' }}
-                      style={{ height: 300, width: null, flex: 1 }}
-                    />
-                    <Text
-                      style={{
-                        position: 'absolute',
-                        bottom: 8,
-                        left: 16,
-                        fontFamily: 'poppins',
-                        color: 'white'
-                      }}
-                    >
-                      {' '}
-                      testing title on image 3
-                    </Text>
-                  </CardItem>
-                </Card>
-              </View>
-            </ScrollView>
+                <Label style={{ fontFamily: 'poppins', color: 'white' }}>
+                  Appeal yourself
+                </Label>
+                <Input
+                  style={{ fontFamily: 'poppins', color: 'white' }}
+                  onChangeText={caption => this.updateCaptionInput(caption)}
+                  value={this.state.caption}
+                />
+              </Item>
+            </Form>
           </View>
-          {/* ) : (
-            <Spinner color="blue" />
-          )} */}
+        </TouchableWithoutFeedback>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignContent: 'center',
+            justifyContent: 'space-around'
+          }}
+        >
+          <Button
+            iconLeft
+            style={{ backgroundColor: '#242424' }}
+            onPress={this.pickImageFromCameraRoll}
+          >
+            <Icon name="ios-camera" style={{ color: 'white' }} />
+            <Text>Photos</Text>
+          </Button>
+          <Button
+            iconLeft
+            style={{ backgroundColor: '#242424' }}
+            onPress={() => this.uploadPhoto()}
+          >
+            <Icon name="plus" type="Feather" style={{ color: 'white' }} />
+            <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+              Submit
+            </Text>
+          </Button>
         </View>
-      </TouchableWithoutFeedback>
+        <ScrollView>
+          <View>
+            <SelfieFeed />
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }

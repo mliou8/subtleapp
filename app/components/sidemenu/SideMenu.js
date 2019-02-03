@@ -21,7 +21,6 @@ const height = Dimensions.get('window').height;
 const menuChoices = [
   { icon: 'bank', text: 'Board', screen: 'Home' },
   { icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating' },
-  { icon: 'money', text: 'Raves', screen: 'Rave' },
   { icon: 'comment-o', text: 'Bulletin', screen: 'Bulletin' },
   { icon: 'photo', text: 'Selfies', screen: 'Selfies' }
 ];
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
   },
   menu: {
     flex: 1,
-    // backgroundColor: '#FFF',
     backgroundColor: '#242424',
     position: 'absolute',
     left: 0,
