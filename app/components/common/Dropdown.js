@@ -12,10 +12,6 @@ import {
 
 import ModalDropdown from 'react-native-modal-dropdown';
 
-const DEMO_OPTIONS_2 = [
-  'General',
-  'Dating',
-];
 
 export default class Dropdown extends Component {
   constructor(props) {
@@ -34,7 +30,7 @@ export default class Dropdown extends Component {
                            style={styles.dropdown_2}
                            textStyle={styles.dropdown_2_text}
                            dropdownStyle={styles.dropdown_2_dropdown}
-                           options={DEMO_OPTIONS_2}
+                           options={this.props.options}
                            renderRow={this._dropdown_2_renderRow.bind(this)}
                            renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
             />
@@ -104,8 +100,7 @@ const styles = StyleSheet.create({
     left: 8,
   },
   dropdown_2: {
-    alignSelf: 'flex-end',
-    width: 150,
+    width: 180,
     marginTop: 32,
     right: 8,
     borderWidth: 0,
@@ -122,7 +117,7 @@ const styles = StyleSheet.create({
   },
   dropdown_2_dropdown: {
     width: 180,
-    height: 50,
+    height: 110,
     borderColor: 'cornflowerblue',
     borderWidth: 2,
     borderRadius: 3,
