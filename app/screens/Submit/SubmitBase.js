@@ -53,7 +53,7 @@ export default class SubmitBase extends Component {
     this.setPostType = this.setPostType.bind(this);
   }
 
-  setPostType (value) {
+  setPostType (idx, value) {
     this.setState({ postType: value })
   }
 

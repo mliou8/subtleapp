@@ -100,7 +100,7 @@ SubmitStack.navigationOptions = ({ navigation }) => ({
         borderRadius: 10,
         alignContent: 'center',
         position: 'absolute',
-        bottom: 10,
+        bottom: 0,
         right: 20
       }}
       position="bottomRight"

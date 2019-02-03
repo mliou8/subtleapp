@@ -1,96 +1,61 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
 import { Avatar, Image } from 'app/components/image';
-import Dropdown from 'react-native-dropdown';
-
-const {
-  Select,
-  Option,
-  OptionList,
-  updatePosition
-} = DropDown;
-
-//Options for dropdowns
-const data = [
-  { value: "bulletin" },
-  { value: "dating" },
-];
+import ModalDropdown from 'react-native-modal-dropdown';
 
 export default class SubmitHeader extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      view: 'Recent'
-    }
   }
 
   render() {
     return (
       <View style={styles.container}>
-      <Select
-        width={250}
-        ref="SELECT1"
-        optionListRef={data}
-        defaultValue="Select a Province in Canada ..."
-        onSelect={this.props.setPostType(value)}>
-         <Option>Alberta</Option>
-         <Option>British Columbia</Option>
-         <Option>Manitoba</Option>
-         <Option>New Brunswick</Option>
-         <Option>Newfoundland and Labrador</Option>
-         <Option>Northwest Territories</Option>
-         <Option>Nova Scotia</Option>
-         <Option>Nunavut</Option>
-         <Option>Ontario</Option>
-         <Option>Prince Edward Island</Option>
-         <Option>Quebec</Option>
-         <Option>Saskatchewan</Option>
-         <Option>Yukon</Option>
-      </Select>
-
+        <View style={styles.dropdownContainer}>
+          <ModalDropdown
+            options={['bulletin', 'dating']}
+            style={styles.pickerStyle}
+            textStyle={styles.textStyle}
+            dropdownStyle={styles.dropdownStyle}
+            onSelect={(idx, value) => this.props.setType(idx, value)}
+          />
+        </View>
         <View style={styles.profile}>
           <Avatar
             size={65}
             styles={styles.avatar}
             src={'http://i.pravatar.cc/100'}
           />
-          <Text style={styles.name}>
-            {'You'}
-          </Text>
         </View>
       </View>
     );
   }
 }
-
+//
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 150,
-    backgroundColor: 'black',
+    backgroundColor: 'white',
     marginBottom: 20,
   },
   pickerStyle: {
-    backgroundColor: 'grey',
-    width: 300,
-    borderRadius: 12.5,
-    color: 'white',
-    marginLeft: 50,
+    backgroundColor: '#708090',
+    width: 240,
+    height: 35,
+    borderRadius: 2,
   },
-  headerBar: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 20,
-    justifyContent: 'space-evenly',
+  textStyle: {
+    color: 'white',
+    alignContent: 'flex-start',
+  },
+  dropdownStyle: {
+    backgroundColor: 'white',
   },
   profile: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 20,
-  },
-  name: {
-    fontSize: 22,
-    marginHorizontal: 15,
+    alignContent: 'center',
+    position: 'absolute',
+    bottom: -20,
+    left: 20,
   },
 });
