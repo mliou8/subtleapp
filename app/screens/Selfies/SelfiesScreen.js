@@ -65,7 +65,14 @@ class SelfiesScreen extends React.Component {
   }
   async uploadPhoto() {
     const uri = this.state.uploads[0];
-    this.uploadImageAsync(uri);
+    if (this.state.caption.length > 50) {
+      Alert.alert(`Captions must be 50 characters or less`);
+    }
+    if (!this.state.uploads.length) {
+      Alert.alert(`Oops! Did you forget to select a photo?`);
+    } else {
+      this.uploadImageAsync(uri);
+    }
   }
   async uploadImageAsync(uri) {
     // Why are we using XMLHttpRequest? See:
