@@ -37,13 +37,28 @@ class FollowersListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Following @User',
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
 
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            style={{ color: 'black', fontSize: 30 }}
+            type="Octicons"
+            name="mail-read"
+            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
+          />
+        </Button>
+      ),
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon
+            name="chevron-left"
+            type="FontAwesome"
+            style={{ color: 'white', fontSize: 25 }}
           />
         </Button>
       )
@@ -82,7 +97,7 @@ class FollowersListScreen extends React.Component {
             <Thumbnail source={{ uri: user.photoURL }} />
           </Left>
           <Body>
-            <Text> {user.displayName}</Text>
+            <Text style={{ fontFamily: 'poppins' }}> {user.displayName}</Text>
           </Body>
           <Right>
             <Button
@@ -94,7 +109,10 @@ class FollowersListScreen extends React.Component {
                 })
               }
             >
-              <Icon name="ios-arrow-forward" />
+              <Icon
+                name="ios-arrow-forward"
+                style={{ color: 'black', fontSize: 25 }}
+              />
             </Button>
           </Right>
         </ListItem>
@@ -106,7 +124,7 @@ class FollowersListScreen extends React.Component {
     const listType = this.props.navigation.state.params.type;
     const listContent = this.state.userList;
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: 'white' }}>
         <View>
           <Content>
             <List>{this.renderFollowerslist(listContent)}</List>

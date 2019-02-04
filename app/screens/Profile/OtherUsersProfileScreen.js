@@ -37,23 +37,27 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-      //headerLeft: (
-      // <Button transparent onPress={() => navigation.goBack()}>
-      // .pop({ n: 1, }
-      //   <Button transparent onPress={() => navigation.nav({ n: 1 })}>
-      //     <Icon
-      //       type="Ionicons"
-      //       name="ios-arrow-back"
-      //       style={{ color: 'black', fontSize: 28 }}
-      //     />
-      //   </Button>
-      // ),
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
-            type="Entypo"
-            name="mail-with-circle"
-            style={{ color: 'black', fontSize: 30 }}
+            type="Octicons"
+            name="mail-read"
+            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
+          />
+        </Button>
+      ),
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon
+            name="chevron-left"
+            type="FontAwesome"
+            style={{ color: 'white', fontSize: 25 }}
           />
         </Button>
       )
