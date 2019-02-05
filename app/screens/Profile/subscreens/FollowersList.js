@@ -36,12 +36,12 @@ const avatarImgSrc = 'https://loremflickr.com/225/225/cat';
 class FollowersListScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Following @User',
+      title: 'Following @' + navigation.getParam('userName'),
       headerStyle: { backgroundColor: '#242424', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20
+        fontSize: 12
       },
 
       headerRight: (
@@ -105,7 +105,8 @@ class FollowersListScreen extends React.Component {
               transparent
               onPress={() =>
                 this.props.navigation.navigate('OtherUsersProfile', {
-                  userToDisplay: user
+                  userToDisplay: user,
+                  name: user.displayName
                 })
               }
             >

@@ -36,12 +36,12 @@ import {
 class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'User Profile',
+      title: navigation.getParam('name') + "'s Profile",
       headerStyle: { backgroundColor: '#242424', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20
+        fontSize: 16
       },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
@@ -128,7 +128,8 @@ class OtherUsersProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'following',
-                            userList: this.props.profile.userProfile.following
+                            userList: this.props.profile.userProfile.following,
+                            userName: this.props.profile.userProfile.displayName
                           })
                         }
                       >
@@ -141,7 +142,8 @@ class OtherUsersProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'followers',
-                            userList: this.props.profile.userProfile.followers
+                            userList: this.props.profile.userProfile.followers,
+                            userName: this.props.profile.userProfile.displayName
                           })
                         }
                       >
