@@ -3,11 +3,10 @@ import { ScrollView, StyleSheet, Text, View, Button, SafeAreaView } from 'react-
 import { Avatar, Image } from 'app/components/image';
 import Dropdown from 'app/components/common/Dropdown';
 
-const DEMO_OPTIONS_2 = [
+const dropdownOptions = [
   'General',
   'Dating',
 ];
-
 
 export default class SubmitHeader extends React.Component {
   constructor(props) {
@@ -16,14 +15,13 @@ export default class SubmitHeader extends React.Component {
 
   render() {
     return (
-      //onSelect={(idx, value) => this.props.setType(idx, value)
       <View style={styles.container}>
         <View style={styles.dropdownContainer}>
           <Dropdown
-            options={DEMO_OPTIONS_2}
+            options={dropdownOptions}
+            setType={this.props.setType}
             />
         </View>
-        <Text>Hey Test</Text>
         <View style={styles.profile}>
           <Avatar
             size={65}
@@ -40,12 +38,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 150,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     marginBottom: 20,
   },
   dropdownContainer: {
     display: 'flex',
     alignSelf: 'flex-start',
+    marginLeft: 85,
   },
   pickerStyle: {
     backgroundColor: '#708090',

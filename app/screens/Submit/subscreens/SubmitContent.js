@@ -231,6 +231,7 @@ export default class SubmitContent extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
+            <View style={styles.overlay} />
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.toggleModal(false)}

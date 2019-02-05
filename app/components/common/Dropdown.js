@@ -16,7 +16,6 @@ import ModalDropdown from 'react-native-modal-dropdown';
 export default class Dropdown extends Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
@@ -32,6 +31,7 @@ export default class Dropdown extends Component {
                            dropdownStyle={styles.dropdown_2_dropdown}
                            options={this.props.options}
                            renderRow={this._dropdown_2_renderRow.bind(this)}
+                           onSelect={(index, value) => this.props.setType(index, value)}
                            renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
             />
           </View>
@@ -45,11 +45,7 @@ export default class Dropdown extends Component {
     let evenRow = rowID % 2;
     return (
       <TouchableHighlight underlayColor='cornflowerblue'>
-        <View style={[styles.dropdown_2_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
-          <Image style={styles.dropdown_2_image}
-                 mode='stretch'
-                 source={icon}
-          />
+        <View style={[styles.dropdown_2_row, {backgroundColor: 'white'}]}>
           <Text style={[styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
             {rowData}
           </Text>
@@ -88,37 +84,32 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   textButton: {
-    color: 'deepskyblue',
+    color: 'dimgray',
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'deepskyblue',
+    borderColor: 'dimgray',
     margin: 2,
   },
-
-  dropdown_1: {
-    flex: 1,
-    top: 32,
-    left: 8,
-  },
   dropdown_2: {
-    width: 180,
+    width: 260,
     marginTop: 32,
+    marginLeft: 20,
     right: 8,
     borderWidth: 0,
     borderRadius: 3,
-    backgroundColor: 'cornflowerblue',
+    backgroundColor: 'dimgray',
   },
   dropdown_2_text: {
     marginVertical: 10,
     marginHorizontal: 6,
-    fontSize: 18,
+    fontSize: 14,
     color: 'white',
-    textAlign: 'center',
+    textAlign: 'left',
     textAlignVertical: 'center',
   },
   dropdown_2_dropdown: {
-    width: 180,
-    height: 110,
-    borderColor: 'cornflowerblue',
+    width: 260,
+    height: 90,
+    borderColor: 'dimgray',
     borderWidth: 2,
     borderRadius: 3,
   },
@@ -141,42 +132,5 @@ const styles = StyleSheet.create({
   dropdown_2_separator: {
     height: 1,
     backgroundColor: 'cornflowerblue',
-  },
-  dropdown_3: {
-    width: 150,
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 1,
-  },
-  dropdown_3_dropdownTextStyle: {
-    backgroundColor: '#000',
-    color: '#fff'
-  },
-  dropdown_3_dropdownTextHighlightStyle: {
-    backgroundColor: '#fff',
-    color: '#000'
-  },
-  dropdown_4: {
-    margin: 8,
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 1,
-  },
-  dropdown_4_dropdown: {
-    width: 100,
-  },
-  dropdown_5: {
-    margin: 8,
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 1,
-  },
-  dropdown_6: {
-    flex: 1,
-    left: 8,
-  },
-  dropdown_6_image: {
-    width: 40,
-    height: 40,
   },
 });

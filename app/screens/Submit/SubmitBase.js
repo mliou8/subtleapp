@@ -45,7 +45,7 @@ export default class SubmitBase extends Component {
       height: 250,
       uploads: [],
       postAuthor: {},
-      postType: "bulletin"
+      postType: "initial"
     };
 
     this.submitPost = this.submitPost.bind(this);
@@ -54,26 +54,32 @@ export default class SubmitBase extends Component {
   }
 
   setPostType (idx, value) {
-    this.setState({ postType: value })
+    const lowerCase = value.toLowerCase();
+    this.setState({ postType: lowerCase })
   }
 
   submitPost() {
 
   }
 
-  renderForm () {
+  renderForm() {
+    console.log("This.state.postType")
     if (this.state.postType === "dating") {
       return (
         <SubmitDating/>
       )
     } else {
-      return (
-        <SubmitContent/>
-      )
+        return (
+          <SubmitContent/>
+        )
     }
+  }
+  renderOverlay() {
+    console.log("This.state.postType ", )
   }
 
   render() {
+    const overlay = <View style={styles.overlay} />;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
@@ -81,7 +87,8 @@ export default class SubmitBase extends Component {
             <SubmitHeader
               setType={this.setPostType}
               />
-            { this.renderForm() }
+              { this.state.postStyle === "initial" ? overlay : null }
+              { this.renderForm() }
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
