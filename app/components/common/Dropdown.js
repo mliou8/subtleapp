@@ -17,25 +17,41 @@ export default class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.dropdownStyle = this.dropdownStyle.bind(this);
+    this.buttonStyle = this.buttonStyle.bind(this);
   }
 
+  dropdownStyle = (height) => ({
+    width: 260,
+    height: height || 100,
+    borderColor: 'dimgray',
+    borderWidth: 2,
+    borderRadius: 3,
+  });
+
+  buttonStyle = (margin) => ({
+    width: 260,
+    marginTop: 32,
+    marginLeft: 20,
+    right: 8,
+    borderWidth: 0,
+    borderRadius: 3,
+    backgroundColor: 'dimgray',
+    marginBottom: margin || 0,
+  });
+
   render() {
-    const dropdown_6_icon = this.state.dropdown_6_icon_heart ? require('./images/heart.png') : require('./images/flower.png');
     return (
       <View style={styles.container}>
-        <View style={styles.row}>
-          <View style={styles.cell}>
-            <ModalDropdown ref="dropdown_2"
-                           style={styles.dropdown_2}
-                           textStyle={styles.dropdown_2_text}
-                           dropdownStyle={styles.dropdown_2_dropdown}
-                           options={this.props.options}
-                           renderRow={this._dropdown_2_renderRow.bind(this)}
-                           onSelect={(index, value) => this.props.setType(index, value)}
-                           renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this._dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-            />
-          </View>
-        </View>
+        <ModalDropdown ref="dropdown_2"
+                       style={this.buttonStyle(this.props.marginBottom)}
+                       textStyle={styles.dropdown_2_text}
+                       dropdownStyle={this.dropdownStyle(this.props.height)}
+                       options={this.props.options}
+                       renderRow={this._dropdown_2_renderRow.bind(this)}
+                       onSelect={(index, value) => this.props.setType(index, value)}
+        />
       </View>
     );
   }
@@ -53,14 +69,6 @@ export default class Dropdown extends Component {
       </TouchableHighlight>
     );
   }
-
-  _dropdown_2_renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-    if (rowID == 2 - 1) return;
-    let key = `spr_${rowID}`;
-    return (<View style={styles.dropdown_2_separator}
-                  key={key}
-    />);
-  }
 }
 
 const styles = StyleSheet.create({
@@ -77,11 +85,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-  },
-  contentContainer: {
-    height: 500,
-    paddingVertical: 100,
-    paddingLeft: 20,
   },
   textButton: {
     color: 'dimgray',
@@ -106,13 +109,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     textAlignVertical: 'center',
   },
-  dropdown_2_dropdown: {
-    width: 260,
-    height: 90,
-    borderColor: 'dimgray',
-    borderWidth: 2,
-    borderRadius: 3,
-  },
   dropdown_2_row: {
     flexDirection: 'row',
     height: 40,
@@ -125,12 +121,8 @@ const styles = StyleSheet.create({
   },
   dropdown_2_row_text: {
     marginHorizontal: 4,
-    fontSize: 16,
+    fontSize: 14,
     color: 'navy',
     textAlignVertical: 'center',
-  },
-  dropdown_2_separator: {
-    height: 1,
-    backgroundColor: 'cornflowerblue',
   },
 });

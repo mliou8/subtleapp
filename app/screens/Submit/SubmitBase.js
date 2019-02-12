@@ -29,12 +29,12 @@ import SubmitHeader from 'app/components/submit/SubmitHeader';
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Create Post',
-      headerStyle: { backgroundColor: 'black', height: 80 },
+      title: 'Create a New Post',
+      headerStyle: { backgroundColor: 'black', height: 80, borderBottomColor: 'black' },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 18,
+        fontSize: 20,
       },
     };
   };
@@ -45,25 +45,31 @@ export default class SubmitBase extends Component {
       height: 250,
       uploads: [],
       postAuthor: {},
-      postType: "initial"
+      postType: "initial",
+      topic: "offtopic",
     };
 
     this.submitPost = this.submitPost.bind(this);
     this.renderForm = this.renderForm.bind(this);
     this.setPostType = this.setPostType.bind(this);
+    this.setTopic = this.setTopic.bind(this);
+  }
+
+  submitPost() {
+    console.log("This will submit a post");
   }
 
   setPostType (idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase })
+    this.setState({ postType: lowerCase });
   }
 
-  submitPost() {
-
+  setTopic(idx, value) {
+    const lowerCase = value.toLowerCase();
+    this.setState({ topic: value });
   }
 
   renderForm() {
-    console.log("This.state.postType")
     if (this.state.postType === "dating") {
       return (
         <SubmitDating/>
@@ -74,9 +80,6 @@ export default class SubmitBase extends Component {
         )
     }
   }
-  renderOverlay() {
-    console.log("This.state.postType ", )
-  }
 
   render() {
     const overlay = <View style={styles.overlay} />;
@@ -86,8 +89,10 @@ export default class SubmitBase extends Component {
           <View style={styles.container}>
             <SubmitHeader
               setType={this.setPostType}
+              setTopic={this.setTopic}
+              postType={this.state.postType}
               />
-              { this.state.postStyle === "initial" ? overlay : null }
+              { /*this.state.postType === "initial" ? overlay : null */ }
               { this.renderForm() }
           </View>
         </ScrollView>

@@ -18,7 +18,7 @@ export default (styles = StyleSheet.create({
         opacity: 0.5,
         backgroundColor: 'black',
         width: width,
-        zIndex: 1,
+        zIndex: 10,
     },
     input: {
         fontSize: 24,

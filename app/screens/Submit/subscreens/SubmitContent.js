@@ -12,9 +12,9 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ImagePicker, Permissions } from 'expo';
 import {
+  Button,
   Container,
   Header,
-  Button,
   Content,
   Form,
   Item,
@@ -25,39 +25,13 @@ import {
 import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
 import timeout from 'app/util/timeout';
-import styles from './SubmitContent.styles';
+import styles from './Submit.styles';
 import { newGeneralPost } from 'actions/posts/index';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
 export default class SubmitContent extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Create Post',
-      headerStyle: { backgroundColor: '#242424', height: 120 },
-      headerTitleStyle: {
-        fontFamily: 'poppinsBold',
-        color: 'white',
-        fontSize: 20
-      },
-      headerRight: (
-        <Button
-          rounded
-          style={{ backgroundColor: 'white' }}
-          onPress={() => this.uploadPhoto()}
-        >
-          <Text style={{ color: 'black', fontFamily: 'poppins' }}>POST</Text>
-        </Button>
-      ),
-      headerLeft: (
-        <Button transparent onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" style={{ color: 'white', fontSize: 25 }} />
-        </Button>
-      )
-    };
-  };
-
   constructor() {
     super();
     this.state = {
@@ -231,7 +205,6 @@ export default class SubmitContent extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
-            <View style={styles.overlay} />
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.toggleModal(false)}
@@ -312,8 +285,9 @@ export default class SubmitContent extends Component {
 
             <Button
               block
-              style={{ backgroundColor: 'black' }}
+              dark
               onPress={() => this.uploadPhoto()}
+              style={{marginLeft: 10, marginRight: 10, marginTop: 35,}}
             >
               <Text
                 color="white"

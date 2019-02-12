@@ -8,19 +8,46 @@ const dropdownOptions = [
   'Dating',
 ];
 
+const submenuOptions = [
+  'Off Topic',
+  'Raves',
+  'Food',
+  'Dating',
+  'Looking for Friends',
+  'Art/Media',
+];
+
 export default class SubmitHeader extends React.Component {
   constructor(props) {
     super(props)
+
+    this.renderSubDropdown = this.renderSubDropdown.bind(this);
+  }
+
+  renderSubDropdown(type) {
+    if (type === 'general') {
+      return (
+        <Dropdown
+          options={submenuOptions}
+          setType={this.props.setTopic}
+          height={175}
+          />
+      )
+    }
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.dropdownContainer}>
-          <Dropdown
-            options={dropdownOptions}
-            setType={this.props.setType}
-            />
+            <Dropdown
+              options={dropdownOptions}
+              setType={this.props.setType}
+              height={87}
+              />
+        </View>
+        <View style={styles.subTopic}>
+          { this.renderSubDropdown(this.props.postType) }
         </View>
         <View style={styles.profile}>
           <Avatar
@@ -33,18 +60,26 @@ export default class SubmitHeader extends React.Component {
     );
   }
 }
-//
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: 150,
+    height: 120,
     backgroundColor: 'black',
+    borderColor: 'black',
     marginBottom: 20,
   },
   dropdownContainer: {
     display: 'flex',
     alignSelf: 'flex-start',
-    marginLeft: 85,
+    marginLeft: 90,
+    marginTop: -20,
+  },
+  subTopic: {
+    display: 'flex',
+    alignSelf: 'flex-start',
+    marginLeft: 90,
+    marginTop: -85,
   },
   pickerStyle: {
     backgroundColor: '#708090',
@@ -64,5 +99,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -20,
     left: 20,
+    borderColor: 'black',
   },
 });

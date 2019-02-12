@@ -37,7 +37,7 @@ export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'User Profile',
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: { backgroundColor: 'black', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
