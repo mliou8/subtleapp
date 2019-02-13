@@ -178,6 +178,7 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
+    console.log("downloadURL is ", downloadURL)
     this.setState({downloadURL: downloadURL});
   }
 
@@ -209,7 +210,7 @@ export default class SubmitBase extends Component {
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
     const textToSend = JSON.stringify(this.state.text)
     const addPostRef = await db.collection('posts').add({
-      photoRef: this.state.downloadUrl,
+      photoRef: this.state.downloadURL,
       datePosted,
       expiryDate,
       title: this.state.title,
@@ -223,12 +224,14 @@ export default class SubmitBase extends Component {
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'general' };
-    this.addPostToUser(postData, currUserInfo);
+    this.addPostToUser(postData);
   }
 
   addPostToUser(postData) {
+    console.log("postData ", postData)
+    console.log("currUserInfo ", this.props.userInfo)
     const currUserInfo = this.props.userInfo;
-    this.props.newGeneralPost(postData, currUserInfo);
+    newGeneralPost(postData, currUserInfo);
   }
 
   takePicture = async () => {

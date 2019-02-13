@@ -123,6 +123,21 @@ export default class SubmitContent extends Component {
                   fontFamily: 'poppinsBold'
                 }}
               >
+                Upload Photos
+              </Text>
+            </Button>
+            <Button
+              block
+              primary
+              onPress={() => this.props.submitPost()}
+              style={{marginLeft: 10, marginRight: 10, marginTop: 35,}}
+            >
+              <Text
+                color="white"
+                style={{
+                  fontFamily: 'poppinsBold'
+                }}
+              >
                 Submit
               </Text>
             </Button>
