@@ -7,19 +7,18 @@ export default (styles = StyleSheet.create({
         display: 'flex',
         flex: 1,
     },
-    profile: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 20,
-        maxHeight: height * 0.1,
-    },
-    name: {
-        fontSize: 22,
-        marginHorizontal: 15,
-    },
     form: {
         marginHorizontal: 20,
+    },
+    overlay: {
+        flex: 1,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        opacity: 0.5,
+        backgroundColor: 'black',
+        width: width,
+        zIndex: 10,
     },
     input: {
         fontSize: 24,
