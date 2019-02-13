@@ -25,6 +25,12 @@ import SubmitContent from './subscreens/SubmitContent';
 import SubmitDating from './subscreens/SubmitDating';
 import SubmitHeader from 'app/components/submit/SubmitHeader';
 import { newGeneralPost } from 'actions/posts/index';
+import timeout from 'app/util/timeout';
+import moment from 'moment';
+import firebase from 'db/firebase';
+import db from 'db/firestore';
+import { ImagePicker, Permissions } from 'expo';
+
 
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,6 +48,7 @@ export default class SubmitBase extends Component {
   constructor() {
     super();
     this.state = {
+      downloadURL: '',
       height: 250,
       uploads: [],
       postAuthor: {},
@@ -50,7 +57,7 @@ export default class SubmitBase extends Component {
       postType: "initial",
       topic: "offtopic",
       duration: 'infinite',
-      modalVisible: "false",
+      modalVisible: false,
     };
 
     this.submitPost = this.submitPost.bind(this);
@@ -72,7 +79,7 @@ export default class SubmitBase extends Component {
   }
 
   submitPost() {
-    console.log("This will submit a post");
+    this.createPost();
   }
 
   setPostType (idx, value) {
@@ -112,6 +119,7 @@ export default class SubmitBase extends Component {
           removeImage={this.removeImage}
           uploadPhoto={this.uploadPhoto}
           height={this.state.height}
+          submitPost={this.submitPost}
         />
       )
     } else {
@@ -129,6 +137,7 @@ export default class SubmitBase extends Component {
             removeImage={this.removeImage}
             uploadPhoto={this.uploadPhoto}
             height={this.state.height}
+            submitPost={this.submitPost}
           />
         )
     }
@@ -169,9 +178,7 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-
-    this.createPost(downloadURL);
-    this.props.navigation.navigate('Home');
+    this.setState({downloadURL: downloadURL});
   }
 
   updateSize = height => {
@@ -192,7 +199,7 @@ export default class SubmitBase extends Component {
     this.setState({ modalVisible: visible });
   };
 
-  async createPost(downloadURL) {
+  async createPost() {
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
@@ -202,7 +209,7 @@ export default class SubmitBase extends Component {
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
     const textToSend = JSON.stringify(this.state.text)
     const addPostRef = await db.collection('posts').add({
-      photoRef: downloadURL,
+      photoRef: this.state.downloadUrl,
       datePosted,
       expiryDate,
       title: this.state.title,
@@ -211,7 +218,8 @@ export default class SubmitBase extends Component {
       location: { city: '', country: '' },
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
-      type: 'general'
+      type: this.state.postType,
+      topic: this.state.topic,
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'general' };

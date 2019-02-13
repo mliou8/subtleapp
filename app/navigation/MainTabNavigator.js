@@ -13,7 +13,7 @@ import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
 
-import SubmitBase from 'app/containers/Submit/SubmitContentContainer';
+import SubmitBase from 'app/containers/Submit/SubmitBaseContainer';
 
 import MessageScreen from 'app/screens/Messages/MessageScreen';
 import Conversation from 'app/screens/Messages/FullConversation';

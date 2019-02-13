@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImagePicker, Permissions } from 'expo';
 import {
   Container,
   Header,
@@ -24,11 +23,7 @@ import {
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
-import timeout from 'app/util/timeout';
 import styles from './Submit.styles';
-import moment from 'moment';
-import firebase from 'db/firebase';
-import db from 'db/firestore';
 
 export default class SubmitDating extends Component {
   constructor() {
@@ -76,7 +71,7 @@ export default class SubmitDating extends Component {
               <SingleInput
                 multiline
                 placeholder="What's up?"
-                style={[styles.input, { height: this.state.height }]}
+                style={[styles.input, { height: this.props.height }]}
                 onContentSizeChange={e =>
                   this.props.updateSize(e.nativeEvent.contentSize.height)
                 }
@@ -121,6 +116,21 @@ export default class SubmitDating extends Component {
               block
               dark
               onPress={() => this.props.uploadPhoto()}
+              style={{marginLeft: 10, marginRight: 10, marginTop: 35,}}
+            >
+              <Text
+                color="white"
+                style={{
+                  fontFamily: 'poppinsBold'
+                }}
+              >
+                Upload Photos
+              </Text>
+            </Button>
+            <Button
+              block
+              primary
+              onPress={() => this.props.submitPost()}
               style={{marginLeft: 10, marginRight: 10, marginTop: 35,}}
             >
               <Text

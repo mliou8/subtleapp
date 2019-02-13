@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ImagePicker, Permissions } from 'expo';
 import {
   Button,
   Container,
@@ -23,12 +22,7 @@ import {
   Text
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
-import { connect } from 'react-redux';
-import timeout from 'app/util/timeout';
 import styles from './Submit.styles';
-import moment from 'moment';
-import firebase from 'db/firebase';
-import db from 'db/firestore';
 
 export default class SubmitContent extends Component {
   constructor() {

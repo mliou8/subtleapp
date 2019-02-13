@@ -44,7 +44,7 @@ export default class SubmitHeader extends React.Component {
           options={timeOptions}
           setType={this.props.setDuration}
           height={120}
-          width={80}
+          width={150}
           />
       )
     }
