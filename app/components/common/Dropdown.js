@@ -30,22 +30,21 @@ export default class Dropdown extends Component {
     borderRadius: 3,
   });
 
-  buttonStyle = (margin) => ({
-    width: 260,
+  buttonStyle = (width) => ({
+    width: width || 260,
     marginTop: 32,
     marginLeft: 20,
     right: 8,
     borderWidth: 0,
     borderRadius: 3,
     backgroundColor: 'dimgray',
-    marginBottom: margin || 0,
   });
 
   render() {
     return (
       <View style={styles.container}>
         <ModalDropdown ref="dropdown_2"
-                       style={this.buttonStyle(this.props.marginBottom)}
+                       style={this.buttonStyle(this.props.width)}
                        textStyle={styles.dropdown_2_text}
                        dropdownStyle={this.dropdownStyle(this.props.height)}
                        options={this.props.options}

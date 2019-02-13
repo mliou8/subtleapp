@@ -17,6 +17,11 @@ const submenuOptions = [
   'Art/Media',
 ];
 
+const timeOptions = [
+  'Disappear in 3 days',
+  'Disappear in 5 days',
+  'Disappear in 7 days',
+]
 export default class SubmitHeader extends React.Component {
   constructor(props) {
     super(props)
@@ -33,10 +38,20 @@ export default class SubmitHeader extends React.Component {
           height={175}
           />
       )
+    } else if (type === 'dating') {
+      return (
+        <Dropdown
+          options={timeOptions}
+          setType={this.props.setDuration}
+          height={120}
+          width={80}
+          />
+      )
     }
   }
 
   render() {
+    console.log("post type is now ", this.props.postType);
     return (
       <View style={styles.container}>
         <View style={styles.dropdownContainer}>
