@@ -3,7 +3,7 @@ import SubmitBase from '../../screens/Submit/SubmitBase';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    userInfo: state.login.userInfo, 
+    userInfo: state.login.userInfo,
   };
 };
 
