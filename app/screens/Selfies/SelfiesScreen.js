@@ -204,7 +204,11 @@ class SelfiesScreen extends React.Component {
               display: 'flex'
             }}
           >
-            <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
+            <Thumbnail
+              large
+              style={{ borderWidth: 3, borderColor: 'white' }}
+              source={{ uri: this.props.userInfo.photoURL }}
+            />
             <Form>
               <Item
                 style={{

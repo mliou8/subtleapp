@@ -108,54 +108,79 @@ export default class OwnProfileScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
         {this.props.userInfo.uid ? (
-          <View>
+          <View style={{ backgroundColor: '#242424' }}>
             <Content>
-              <Card style={{ height: '45 %' }} transparent>
-                <CardItem>
+              <Card
+                style={{ height: '45 %', backgroundColor: '#242424' }}
+                transparent
+              >
+                <CardItem style={{ backgroundColor: '#242424' }}>
                   <Left>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('FollowersList', {
+                          type: 'following',
+                          userList: this.props.userInfo.following,
+                          userName: this.props.userInfo.displayName
+                        })
+                      }
+                    >
+                      <Text
+                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
+                      >
+                        {this.props.userInfo.following.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWING
+                      </Text>
+                    </TouchableOpacity>
+                  </Left>
+                  <Body>
                     <ProfilePortrait
                       style={styles.profile}
                       imageSrc={this.props.userInfo.photoURL}
                     />
-                    <Body>
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate('FollowersList', {
-                            type: 'following',
-                            userList: this.props.userInfo.following,
-                            userName: this.props.userInfo.displayName
-                          })
-                        }
+                  </Body>
+                  <Right>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('FollowersList', {
+                          type: 'followers',
+                          userList: this.props.userInfo.followers,
+                          userName: this.props.userInfo.displayName
+                        })
+                      }
+                    >
+                      <Text
+                        style={{
+                          fontFamily: 'poppinsBold',
+                          color: 'white'
+                        }}
                       >
-                        <Text>
-                          Following: {this.props.userInfo.following.length}
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate('FollowersList', {
-                            type: 'followers',
-                            userList: this.props.userInfo.followers,
-                            userName: this.props.userInfo.displayName
-                          })
-                        }
-                      >
-                        <Text>
-                          Followers: {this.props.userInfo.followers.length}
-                        </Text>
-                      </TouchableOpacity>
-                    </Body>
-                    <Right>{this.renderSocialBadges()}</Right>
-                  </Left>
+                        {this.props.userInfo.followers.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWERS
+                      </Text>
+                    </TouchableOpacity>
+                  </Right>
+                </CardItem>
+                <CardItem
+                  style={{
+                    justifyContent: 'center',
+                    backgroundColor: '#242424'
+                  }}
+                >
+                  <Text style={{ fontFamily: 'poppinsBold', color: 'white' }}>
+                    {this.props.userInfo.displayName}
+                  </Text>
                 </CardItem>
               </Card>
             </Content>
-            <View>
-              {this.state.displayAdd ? <AddSocialNetworkTag /> : null}
-            </View>
-            <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-              <Text>{this.props.userInfo.displayName}</Text>
-            </View>
+            <Card transparent style={{ display: 'flex', flexDirection: 'row' }}>
+              {this.renderSocialBadges()}
+            </Card>
+            <View />
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
@@ -171,7 +196,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 7.6,
-    backgroundColor: '#fff',
+    backgroundColor: '#242424',
     flexDirection: 'column'
   },
   divider: {

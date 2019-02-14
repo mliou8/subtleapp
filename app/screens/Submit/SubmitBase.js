@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
-  Alert,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './SubmitBase.styles';
@@ -31,17 +31,20 @@ import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { ImagePicker, Permissions } from 'expo';
 
-
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create a New Post',
-      headerStyle: { backgroundColor: 'black', height: 80, borderBottomColor: 'black' },
+      headerStyle: {
+        backgroundColor: 'black',
+        height: 80,
+        borderBottomColor: 'black'
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     };
   };
 
@@ -54,10 +57,10 @@ export default class SubmitBase extends Component {
       postAuthor: {},
       title: '',
       text: '',
-      postType: "initial",
-      topic: "offtopic",
+      postType: 'initial',
+      topic: 'offtopic',
       duration: 'infinite',
-      modalVisible: false,
+      modalVisible: false
     };
 
     this.submitPost = this.submitPost.bind(this);
@@ -82,7 +85,7 @@ export default class SubmitBase extends Component {
     this.createPost();
   }
 
-  setPostType (idx, value) {
+  setPostType(idx, value) {
     const lowerCase = value.toLowerCase();
     this.setState({ postType: lowerCase });
   }
@@ -93,17 +96,17 @@ export default class SubmitBase extends Component {
   }
 
   setDuration(idx, value) {
-    if (value === "Disappear in 3 days") {
-      this.setState({ duration: 3})
-    } else if (value === "Disappear in 5 days") {
-      this.setState({ duration: 5})
+    if (value === 'Disappear in 3 days') {
+      this.setState({ duration: 3 });
+    } else if (value === 'Disappear in 5 days') {
+      this.setState({ duration: 5 });
     } else {
-      this.setState({ duration: 7})
+      this.setState({ duration: 7 });
     }
   }
 
   renderForm() {
-    if (this.state.postType === "dating") {
+    if (this.state.postType === 'dating') {
       return (
         <SubmitDating
           toggleModal={this.toggleModal}
@@ -121,25 +124,25 @@ export default class SubmitBase extends Component {
           height={this.state.height}
           submitPost={this.submitPost}
         />
-      )
+      );
     } else {
-        return (
-          <SubmitContent
-            toggleModal={this.toggleModal}
-            modalVisible={this.state.modalVisible}
-            takePicture={this.takePicture}
-            pickImageFromCameraRoll={this.pickImageFromCameraRoll}
-            updateTitleInput={this.updateTitleInput}
-            updateSize={this.updateSize}
-            text={this.state.text}
-            updateTextInput={this.updateTextInput}
-            uploads={this.state.uploads}
-            removeImage={this.removeImage}
-            uploadPhoto={this.uploadPhoto}
-            height={this.state.height}
-            submitPost={this.submitPost}
-          />
-        )
+      return (
+        <SubmitContent
+          toggleModal={this.toggleModal}
+          modalVisible={this.state.modalVisible}
+          takePicture={this.takePicture}
+          pickImageFromCameraRoll={this.pickImageFromCameraRoll}
+          updateTitleInput={this.updateTitleInput}
+          updateSize={this.updateSize}
+          text={this.state.text}
+          updateTextInput={this.updateTextInput}
+          uploads={this.state.uploads}
+          removeImage={this.removeImage}
+          uploadPhoto={this.uploadPhoto}
+          height={this.state.height}
+          submitPost={this.submitPost}
+        />
+      );
     }
   }
 
@@ -178,8 +181,9 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    console.log("downloadURL is ", downloadURL)
-    this.setState({downloadURL: downloadURL});
+    console.log('downloadURL is ', downloadURL);
+    this.setState({ downloadURL: downloadURL });
+    // this.props.navigation.navigate('Home');
   }
 
   updateSize = height => {
@@ -208,7 +212,7 @@ export default class SubmitBase extends Component {
     const author = this.props.userInfo.displayName;
     const currentTime = Date.now();
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.text)
+    const textToSend = JSON.stringify(this.state.text);
     const addPostRef = await db.collection('posts').add({
       photoRef: this.state.downloadURL,
       datePosted,
@@ -220,7 +224,7 @@ export default class SubmitBase extends Component {
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: this.state.postType,
-      topic: this.state.topic,
+      topic: this.state.topic
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'general' };
@@ -228,8 +232,8 @@ export default class SubmitBase extends Component {
   }
 
   addPostToUser(postData) {
-    console.log("postData ", postData)
-    console.log("currUserInfo ", this.props.userInfo)
+    console.log('postData ', postData);
+    console.log('currUserInfo ', this.props.userInfo);
     const currUserInfo = this.props.userInfo;
     newGeneralPost(postData, currUserInfo);
   }
@@ -315,8 +319,8 @@ export default class SubmitBase extends Component {
               setDuration={this.setDuration}
               postType={this.state.postType}
             />
-              { /*this.state.postType === "initial" ? overlay : null */ }
-              { this.renderForm() }
+            {/*this.state.postType === "initial" ? overlay : null */}
+            {this.renderForm()}
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
