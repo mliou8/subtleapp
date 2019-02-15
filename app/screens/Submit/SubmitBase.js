@@ -48,7 +48,7 @@ export default class SubmitBase extends Component {
   constructor() {
     super();
     this.state = {
-      downloadURL: '',
+      downloadURL: [],
       height: 250,
       uploads: [],
       postAuthor: {},
@@ -144,9 +144,9 @@ export default class SubmitBase extends Component {
   }
 
   async uploadPhoto() {
-    const uri = this.state.uploads[0];
-
-    this.uploadImageAsync(uri);
+    this.state.uploads.forEach((upload) => {
+      this.uploadImageAsync(upload);
+    })
   }
 
   async uploadImageAsync(uri) {
@@ -178,8 +178,8 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    console.log("downloadURL is ", downloadURL)
-    this.setState({downloadURL: downloadURL});
+    const newArray = this.state.downloadURL.concat(downloadURL)
+    this.setState({downloadURL: newArray});
   }
 
   updateSize = height => {
@@ -228,10 +228,9 @@ export default class SubmitBase extends Component {
   }
 
   addPostToUser(postData) {
-    console.log("postData ", postData)
-    console.log("currUserInfo ", this.props.userInfo)
     const currUserInfo = this.props.userInfo;
     newGeneralPost(postData, currUserInfo);
+    this.props.navigation.navigate('Home');
   }
 
   takePicture = async () => {

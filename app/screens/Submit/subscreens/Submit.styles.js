@@ -64,6 +64,7 @@ export default (styles = StyleSheet.create({
         marginVertical: 10,
         width: 280,
         height: 210,
+        alignSelf: 'center',
     },
     delete: {
         color: 'white',
