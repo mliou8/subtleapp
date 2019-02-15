@@ -98,7 +98,7 @@ class OtherUsersProfileScreen extends React.Component {
         <Badge
           key={idx}
           badgeType={badge.type}
-          sourceName={badge.url}
+          sourceName={badge.handle}
         />
       );
     });

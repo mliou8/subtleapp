@@ -12,7 +12,7 @@ const qs = require("qs");
   * @property {String} location
   * @property {Object[]} social
   * @property {String} social.type
-  * @property {String} social.url
+  * @property {String} social.handle
   * @property {String} user_created_time
   * @property {Post[]} recent_posts
   */
@@ -67,8 +67,11 @@ const qs = require("qs");
   * @property {String} created_time
   * Time created - date string
   * 
+  * @property {String} type
+  * Post type: e.g. 'meme' or 'dating'
+  * 
   * @property {String} topic
-  * Post topic: e.g. 'meme' or 'dating'
+  * Post topic (any string; no validation)
   * 
   * @property {String} caption
   * Text of post
@@ -102,8 +105,15 @@ const qs = require("qs");
   * 
   */
 
- 
+let currentClient = null;
+
 class Client {
+    /**
+     * @returns {Client} last created client instance
+     */
+    static current() {
+        return currentClient;
+    }
 
     /**
      * Call if you have a jwt token saved already
@@ -111,6 +121,7 @@ class Client {
      */
     constructor(endpoint) {
         this.endpoint = endpoint;
+        currentClient = this;
     }
 
     /**
@@ -288,17 +299,17 @@ class Client {
 
     /**
      * Gets rising posts
-     * @param {String} topic post topic (e.g. meme)
+     * @param {String} type post type (e.g. meme)
      * @param {Number} offset offset for paging
      * @returns {Promise<Post[]>} 
      */
-    async getRisingPosts(topic, offset) {
+    async getRisingPosts(type, offset) {
         return await request({
             uri: this.endpoint + "/posts/rising",
             method: "GET",
             qs: {
                 token: this.token,
-                topic: topic,
+                type: type,
                 offset: offset
             }
         });
@@ -306,18 +317,18 @@ class Client {
 
     /**
      * Gets top posts for a set timespan in hours
-     * @param {String} topic post topic (e.g. meme)
+     * @param {String} type post type (e.g. meme)
      * @param {String} timespan span of time for top (day, week, year, all)
      * @param {Number} offset offset for paging
      * @returns {Promise<Post[]>} 
      */
-    async getTopPosts(topic, timespan, offset) {
+    async getTopPosts(type, timespan, offset) {
         return await request({
             uri: this.endpoint + "/posts/top",
             method: "GET",
             qs: {
                 token: this.token,
-                topic: topic,
+                type: type,
                 offset: offset,
                 timespan: timespan
             }
@@ -326,17 +337,17 @@ class Client {
 
     /**
      * Gets newest post
-     * @param {String} topic post topic (e.g. meme)
+     * @param {String} type post type (e.g. meme)
      * @param {String} created_before when paging, pass the creation date of the last post you have, otherwise leave undefined
      * @returns {Promise<Post[]>}
      */
-    async getNewestPosts(topic, created_before) {
+    async getNewestPosts(type, created_before) {
         return await request({
             uri: this.endpoint + "/posts/new",
             method: "GET",
             qs: {
                 token: this.token,
-                topic: topic,
+                type: type,
                 created_before: created_before
             }
         });

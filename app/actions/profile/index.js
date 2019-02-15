@@ -4,6 +4,7 @@ import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
+import {Client} from '../../../client/Client.js';
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
@@ -32,28 +33,18 @@ export const profileNotFound = errorMsg => {
 
 export const fetchUserProfileInfo = userID => {
   return async dispatch => {
-    var docRef = db.collection('users').doc(userID);
-
-    docRef
-      .get()
-      .then(function(doc) {
-        if (doc.exists) {
-          const profile = doc.data();
-          dispatch(profileFetched(profile));
-        } else {
-          const msg = 'No such user with that uid';
-          dispatch(profileNotFound(msg));
-        }
-      })
-      .catch(function(error) {
-        const msg2 = 'Error Retrieving User Document';
-        dispatch(profileNotFound(msg2));
-      });
+    try {
+      dispatch(profileFetched(await Client.current().getUserDetails(userID)));
+    } catch (error) {
+      const msg2 = 'Error Retrieving User Document';
+      dispatch(profileNotFound(msg2));
+    }
   };
 };
 
 export const profileAddFollower = profileUserInfo => {
   return async dispatch => {
+    /*
     const user = firebase.auth().currentUser;
     const userData = {
       uid: user.uid,
@@ -72,11 +63,13 @@ export const profileAddFollower = profileUserInfo => {
       .then(function() {
         dispatch(profileUpdated(updatedProfileInfo));
       });
+    */
   };
 };
 
 export const profileRemoveFollower = profileUserInfo => {
   return async dispatch => {
+    /*
     var user = firebase.auth().currentUser;
     const userData = {
       uid: user.uid,
@@ -98,6 +91,8 @@ export const profileRemoveFollower = profileUserInfo => {
       .then(function() {
         dispatch(profileUpdated(updatedProfileInfo));
       });
+
+    */
   };
 };
 

@@ -90,12 +90,13 @@ export default class OwnProfileScreen extends React.Component {
   };
 
   renderSocialBadges = () => {
+    console.log(this.props.userInfo.social);
     return this.props.userInfo.social.map((badge, idx) => {
       return (
         <Badge
           key={idx}
           badgeType={badge.type}
-          sourceName={badge.url}
+          sourceName={badge.handle}
         />
       );
     });

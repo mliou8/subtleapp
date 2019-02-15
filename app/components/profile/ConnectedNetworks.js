@@ -23,12 +23,12 @@ export default class ConnectedNetworks extends React.Component {
   }
   
   handleSubmit = () => {
-    this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}, this.props.userInfo); 
+    this.props.onPressToAdd({type: this.props.iconType, handle: this.state.text}, this.props.userInfo); 
     this.setState({edit: false})
   }
   
   handleRemove = () => {
-    this.props.onPressToRemove({source: this.props.iconType, sourceUrl: this.props.text}, this.props.userInfo);
+    this.props.onPressToRemove({type: this.props.iconType, handle: this.props.text}, this.props.userInfo);
   }
   
   toggleEdit = () => {

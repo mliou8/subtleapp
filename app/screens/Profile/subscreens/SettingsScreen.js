@@ -39,10 +39,10 @@ export default class Settings extends React.Component {
     super(props);
     this.state = {
       social: this.props.userInfo.social,
-      instagram: { enabled: false, edit: 'false', url: '' },
-      youtube: { enabled: false, edit: 'false', url: '' },
-      facebook: { enabled: false, edit: 'false', url: '' },
-      twitch: { enabled: false, edit: 'false', url: '' },
+      instagram: { enabled: false, edit: 'false', handle: '' },
+      youtube: { enabled: false, edit: 'false', handle: '' },
+      facebook: { enabled: false, edit: 'false', handle: '' },
+      twitch: { enabled: false, edit: 'false', handle: '' },
       inviteCode: ''
     };
 
@@ -63,8 +63,8 @@ export default class Settings extends React.Component {
   updateSocialNetworks = () => {
     this.state.social.forEach(socialNetwork => {
       const type = socialNetwork.type.toLowerCase();
-      const url = socialNetwork.url;
-      this.setState({ [type]: { enabled: true, url: url } });
+      const handle = socialNetwork.handle;
+      this.setState({ [type]: { enabled: true, handle: handle } });
     });
   };
 
@@ -73,7 +73,7 @@ export default class Settings extends React.Component {
       return (
         <View style={styles.row} key={idx}>
           <ConnectedNetworks
-            text={this.state[socialNetwork.toLowerCase()].url}
+            text={this.state[socialNetwork.toLowerCase()].handle}
             iconType={socialNetwork}
             enabled={this.state[socialNetwork.toLowerCase()].enabled}
             onPressToRemove={this.onPressToRemove}
@@ -88,15 +88,15 @@ export default class Settings extends React.Component {
   onPressToRemove = (networkObj, userInfo) => {
     this.props.removeNetwork(networkObj, userInfo);
     this.setState({
-      [networkObj.type]: { enabled: false, edit: false, url: '' }
+      [networkObj.type]: { enabled: false, edit: false, handle: '' }
     });
   };
 
   onPressToAdd = (networkObj, userInfo) => {
     this.props.addNetwork(networkObj, userInfo);
-    const { type, url } = networkObj;
+    const { type, handle } = networkObj;
     this.setState({
-      [type]: { enabled: true, edit: false, url: url }
+      [type]: { enabled: true, edit: false, handle: handle }
     });
   };
 

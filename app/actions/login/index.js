@@ -189,13 +189,13 @@ export const fetchUserInfo = userID => {
 
 export const followUser = (userObj, currUserInfo) => {
   return async dispatch => {
-
+    dispatch(updateUser(userObj.uid));
   };
 };
 
 export const unfollowUser = (userObj, currUserInfo) => {
   return async dispatch => {
-    
+    dispatch(updateUser(userObj.uid));
   };
 };
 
@@ -203,9 +203,12 @@ export const addNetwork = (networkObj, currentUser) => {
   return async dispatch => {
     try {  
       const user = await client.getUserSelf();
-      const newUser = await client.updateUser({social:user.social.push(networkObj)});
+      const social = user.social.slice();
+      social.push(networkObj);
+      console.log(social);
+      await client.updateUser({social:social});
       
-      dispatch(updateUser());
+      dispatch(updateUser(user.uid));
     } catch (error) {
       console.error('Error updating document: ', error.message);
     }
@@ -216,11 +219,11 @@ export const removeNetwork = (networkObj, currentUser) => {
   return async dispatch => {
     try {  
       const user = await client.getUserSelf();
-      const newUser = await client.updateUser({
+      await client.updateUser({
         social:user.social.filter((s) => s.url !== networkObj.url)
       });
       
-      dispatch(updateUser());
+      dispatch(updateUser(user.uid));
     } catch (error) {
       console.error('Error updating document: ', error.message);
     }
