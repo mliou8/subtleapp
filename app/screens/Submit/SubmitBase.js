@@ -306,7 +306,7 @@ export default class SubmitBase extends Component {
   render() {
     const overlay = <View style={styles.overlay} />;
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} alwaysBounceVertical={false}>
             <SubmitHeader
               setType={this.setPostType}
               setTopic={this.setTopic}

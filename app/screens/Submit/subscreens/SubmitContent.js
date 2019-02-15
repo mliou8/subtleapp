@@ -31,7 +31,7 @@ export default class SubmitContent extends Component {
 
   render() {
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} alwaysBounceVertical={false}>
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.props.toggleModal(false)}
