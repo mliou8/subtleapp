@@ -36,7 +36,7 @@ const profileImgSrc = 'https://loremflickr.com/225/225/dog';
 export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'User Profile',
+      title: 'Your Profile',
       headerStyle: { backgroundColor: '#242424', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
@@ -122,8 +122,7 @@ export default class OwnProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'following',
-                            userList: this.props.userInfo.following,
-                            userName: this.props.userInfo.displayName
+                            userList: []
                           })
                         }
                       >
@@ -135,8 +134,7 @@ export default class OwnProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'followers',
-                            userList: this.props.userInfo.followers,
-                            userName: this.props.userInfo.displayName
+                            userList: []
                           })
                         }
                       >
