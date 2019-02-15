@@ -51,7 +51,6 @@ export default class SubmitHeader extends React.Component {
   }
 
   render() {
-    console.log("post type is now ", this.props.postType);
     return (
       <View style={styles.container}>
         <View style={styles.dropdownContainer}>

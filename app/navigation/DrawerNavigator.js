@@ -1,5 +1,4 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
-import RaveScreen from 'app/screens/Board/RaveScreen';
 import BulletinScreen from 'app/screens/Board/BulletinScreen';
 import { BoardScreen, BoardNavOptions } from 'app/screens/Board/BoardScreen';
 import DatingScreen from 'app/screens/Dating/DatingScreen';
@@ -13,6 +12,10 @@ const DatingStack = createStackNavigator({
   DatingFullScreen: DatingFullScreen
 });
 
+DatingStack.navigationOptions = {
+  headerVisible: false
+}
+
 //originally I wasnt sure if tehre would be nav from this location or not
 //like a fullscreen view of selfie or something
 //or selfies near you?
@@ -24,7 +27,6 @@ const SelfieStack = createStackNavigator({
 const DrawerNavigator = createDrawerNavigator(
   {
     Home: BoardScreen,
-    Rave: RaveScreen,
     Bulletin: BulletinScreen,
     Dating: { screen: DatingStack },
     Selfies: { screen: SelfiesScreen }
