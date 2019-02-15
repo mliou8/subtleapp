@@ -4,20 +4,38 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   View,
-  Button,
+  // Button,
   TouchableHighlight,
   RefreshControl
 } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { Icon, Text, Button } from 'native-base';
 
 import MessageRow from 'app/components/messages/MessageRow';
 
 class MessageScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Messages'
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Messages',
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon
+            name="chevron-left"
+            type="FontAwesome"
+            style={{ color: 'white', fontSize: 25 }}
+          />
+        </Button>
+      )
+    };
   };
   constructor(props) {
     super(props);
@@ -43,15 +61,17 @@ class MessageScreen extends React.Component {
           <TouchableHighlight
             onPress={() =>
               this.props.navigation.navigate('Conversation', {
-                convoID: message.convoID
+                convoID: message.convoID,
+                friend: message.userName
               })
             }
             underlayColor={'#999999'}
           >
             <MessageRow
+              style={{ fontFamily: 'poppins' }}
               userImageUrl={message.avatar}
               userName={message.userName}
-              userMessagePreview={'your chat with...'}
+              userMessagePreview={`your chat with ${message.userName}`}
               lastMessageTime={message.lastMessageTime}
             />
           </TouchableHighlight>
@@ -62,7 +82,7 @@ class MessageScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: 'white' }}>
         <View style={styles.container}>{this.renderMessages()}</View>
       </ScrollView>
     );

@@ -4,12 +4,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
+  // Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { Spinner } from 'native-base';
+import { Spinner, Button, Text, Icon } from 'native-base';
 import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
@@ -20,6 +20,26 @@ import db from 'db/firestore';
 import { connect } from 'react-redux';
 
 class Conversation extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'You + ' + navigation.getParam('friend'),
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 18
+      },
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon
+            name="chevron-left"
+            type="FontAwesome"
+            style={{ color: 'white', fontSize: 25 }}
+          />
+        </Button>
+      )
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {

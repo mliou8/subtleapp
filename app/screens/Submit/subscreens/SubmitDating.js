@@ -24,41 +24,14 @@ import {
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
 import { connect } from 'react-redux';
-import { Avatar, Image } from 'app/components/image';
-import timeout from '../../util/timeout';
-import styles from './SubmitContent.styles';
+import timeout from 'app/util/timeout';
+import styles from './Submit.styles';
 import { newGeneralPost } from 'actions/posts/index';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-class SubmitContent extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Create Post',
-      headerStyle: { backgroundColor: '#242424', height: 120 },
-      headerTitleStyle: {
-        fontFamily: 'poppinsBold',
-        color: 'white',
-        fontSize: 20
-      },
-      headerRight: (
-        <Button
-          rounded
-          style={{ backgroundColor: 'white' }}
-          onPress={() => this.uploadPhoto()}
-        >
-          <Text style={{ color: 'black', fontFamily: 'poppins' }}>POST</Text>
-        </Button>
-      ),
-      headerLeft: (
-        <Button transparent onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" style={{ color: 'white', fontSize: 25 }} />
-        </Button>
-      )
-    };
-  };
-
+export default class SubmitDating extends Component {
   constructor() {
     super();
     this.state = {
@@ -232,6 +205,7 @@ class SubmitContent extends Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <ScrollView style={{ backgroundColor: 'white' }}>
           <View style={styles.container}>
+            <View style={styles.overlay} />
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.toggleModal(false)}
@@ -255,16 +229,6 @@ class SubmitContent extends Component {
                 </TouchableOpacity>
               </View>
             </Modal>
-            <View style={styles.profile}>
-              <Avatar
-                size={65}
-                styles={styles.avatar}
-                src={this.props.user.pic_small || 'http://i.pravatar.cc/100'}
-              />
-              <Text style={styles.name}>
-                {this.props.user.displayName || 'You'}
-              </Text>
-            </View>
             <View style={styles.form}>
               <Form>
                 <Item floatingLabel>
@@ -340,24 +304,3 @@ class SubmitContent extends Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newGeneralPost: (postData, currUserInfo) => {
-      dispatch(newGeneralPost(postData, currUserInfo));
-    }
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SubmitContent);

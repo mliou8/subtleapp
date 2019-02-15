@@ -1,16 +1,40 @@
 import React from 'react';
-import { ScrollView, View, TouchableOpacity, StyleSheet, Clipboard, Alert } from 'react-native';
+import {
+  ScrollView,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Clipboard,
+  Alert
+} from 'react-native';
 import { RkText, RkStyleSheet, RkTheme } from 'react-native-ui-kitten';
 import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
 import { createCode } from 'db/profile/index';
+import { Text, Button, Icon } from 'native-base';
 
 const socialNetworkOptions = ['instagram', 'youtube', 'twitch', 'facebook'];
 
 export default class Settings extends React.Component {
-  static navigationOptions = {
-    title: 'Settings'.toUpperCase()
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'SETTINGS',
+      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerTitleStyle: {
+        fontFamily: 'poppinsBold',
+        color: 'white',
+        fontSize: 20
+      },
+      headerLeft: (
+        <Button transparent onPress={() => navigation.goBack()}>
+          <Icon
+            name="chevron-left"
+            type="FontAwesome"
+            style={{ color: 'white', fontSize: 25 }}
+          />
+        </Button>
+      )
+    };
   };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +43,7 @@ export default class Settings extends React.Component {
       youtube: { enabled: false, edit: 'false', url: '' },
       facebook: { enabled: false, edit: 'false', url: '' },
       twitch: { enabled: false, edit: 'false', url: '' },
-      inviteCode: "",
+      inviteCode: ''
     };
 
     this.renderSocialNetworks = this.renderSocialNetworks.bind(this);
@@ -75,42 +99,55 @@ export default class Settings extends React.Component {
       [type]: { enabled: true, edit: false, url: url }
     });
   };
-  
+
   //Press to copy
-  onPressToCopy = (str) => {
+  onPressToCopy = str => {
     Clipboard.setString(str);
-    Alert.alert(
-      'Text Copied!',
-      str,
-      [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-    )
-  }
-  
+    Alert.alert('Text Copied!', str, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel'
+      },
+      { text: 'OK', onPress: () => console.log('OK Pressed') }
+    ]);
+  };
+
   //Press to generate invite code
   onPressToGenerate = () => {
-    createCode(this.props.userInfo).then((code) => {
-      this.setState({inviteCode: code})
+    createCode(this.props.userInfo).then(code => {
+      this.setState({ inviteCode: code });
     });
-  }
-  
-  renderInviteCode = () => { //1945*
+  };
+
+  renderInviteCode = () => {
+    //1945*
     if (!this.state.inviteCode) {
       return (
         <TouchableOpacity>
-          <RkText rkType="awesome medium" style={{ color: 'blue' }} onPress={() => this.onPressToGenerate()}>Generate Code</RkText>
-        </TouchableOpacity>  
-      )
+          <RkText
+            rkType="awesome medium"
+            style={{ color: 'blue' }}
+            onPress={() => this.onPressToGenerate()}
+          >
+            Generate Code
+          </RkText>
+        </TouchableOpacity>
+      );
     } else {
-        return (
-          <TouchableOpacity>
-            <RkText rkType="awesome medium" style={{ color: 'blue' }} onPress={() => this.onPressToCopy(this.state.inviteCode)}>{this.state.inviteCode}</RkText>
-          </TouchableOpacity>
-        )
+      return (
+        <TouchableOpacity>
+          <RkText
+            rkType="awesome medium"
+            style={{ color: 'blue' }}
+            onPress={() => this.onPressToCopy(this.state.inviteCode)}
+          >
+            {this.state.inviteCode}
+          </RkText>
+        </TouchableOpacity>
+      );
     }
-  }
+  };
 
   render = () => (
     <ScrollView style={styles.container}>
@@ -120,11 +157,18 @@ export default class Settings extends React.Component {
         </View>
         <View style={styles.row}>
           <RkText rkType="header6">Link to the app</RkText>
-          <RkText rkType="awesome medium" style={{ color: 'blue' }} onPress={() => this.onPressToCopy()}>Copy Link</RkText>
+
+          <RkText
+            rkType="awesome medium"
+            style={{ color: 'blue' }}
+            onPress={() => this.onPressToCopy()}
+          >
+            Copy Link
+          </RkText>
         </View>
         <View style={styles.row}>
           <RkText rkType="header6">Your Invite Code</RkText>
-          { this.renderInviteCode() }
+          {this.renderInviteCode()}
         </View>
       </View>
       <View style={styles.section}>
@@ -153,11 +197,13 @@ export default class Settings extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton} 
+          <TouchableOpacity
+            style={styles.rowButton}
             onPress={() => {
-              this.props.logOut()
+              this.props.logOut();
               this.props.navigation.navigate('LandingPage');
-            }}>
+            }}
+          >
             <RkText rkType="header6">Logout</RkText>
           </TouchableOpacity>
         </View>
@@ -186,10 +232,10 @@ const styles = RkStyleSheet.create(theme => ({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: theme.colors.border.base,
     alignItems: 'center',
-    paddingVertical: 18,
+    paddingVertical: 18
   },
   rowButton: {
-    flex: 1,
+    flex: 1
   },
   switch: {
     marginVertical: 14

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform } from 'react-native';
-import { Button, Text } from 'native-base';
+import { Button, Text, View } from 'native-base';
 import {
   createStackNavigator,
   createBottomTabNavigator
@@ -13,9 +13,7 @@ import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
 
-import SubmitContentContainer from '../containers/Submit/SubmitContentContainer';
-import SubmitSelectionScreen from '../screens/Submit/SubmitSelectionScreen';
-import SubmitDatingScreen from '../screens/Submit/SubmitDating';
+import SubmitBase from 'app/containers/Submit/SubmitBaseContainer';
 
 import MessageScreen from 'app/screens/Messages/MessageScreen';
 import Conversation from 'app/screens/Messages/FullConversation';
@@ -30,7 +28,7 @@ const HomeStack = createStackNavigator({
     screen: DrawerNavigator,
     navigationOptions: ({ navigation }) => ({
       title: 'Subtle Asian App',
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: { backgroundColor: 'black', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -60,7 +58,7 @@ const HomeStack = createStackNavigator({
   Conversation: Conversation,
   FullPost: FullPost,
   GenericProfileScreen: GenericProfileScreen,
-  OtherUsersProfile: OtherUsersProfileScreen
+  OtherUsersProfile: OtherUsersProfileScreen,
 });
 
 HomeStack.navigationOptions = {
@@ -88,21 +86,25 @@ ProfileStack.navigationOptions = {
 };
 
 const SubmitStack = createStackNavigator({
-  SubmitSelection: SubmitSelectionScreen,
-  SubmitContent: SubmitContentContainer,
-  SubmitDating: SubmitDatingScreen,
+  SubmitBase: SubmitBase,
   Home: BoardScreen
 });
 
 SubmitStack.navigationOptions = ({ navigation }) => ({
-  tabBarLabel: 'Submit',
+  tabBarLabel: <View />,
   tabBarIcon: (
     <Fab
       direction="up"
-      containerStyle={{ borderRadius: 10 }}
-      style={{ backgroundColor: '#242424', borderRadius: 10 }}
-      position="bottomLeft"
-      onPress={() => navigation.navigate('SubmitSelection')}
+      style={{
+        backgroundColor: '#242424',
+        borderRadius: 10,
+        alignContent: 'center',
+        position: 'absolute',
+        bottom: 0,
+        right: 20
+      }}
+      position="bottomRight"
+      onPress={() => navigation.navigate('SubmitBase')}
     >
       <Icon name="plus" type="Feather" size={30} color="white" />
     </Fab>

@@ -122,7 +122,8 @@ export default class OwnProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'following',
-                            userList: []
+                            userList: this.props.userInfo.following,
+                            userName: this.props.userInfo.displayName
                           })
                         }
                       >
@@ -134,7 +135,8 @@ export default class OwnProfileScreen extends React.Component {
                         onPress={() =>
                           this.props.navigation.navigate('FollowersList', {
                             type: 'followers',
-                            userList: []
+                            userList: this.props.userInfo.followers,
+                            userName: this.props.userInfo.displayName
                           })
                         }
                       >
