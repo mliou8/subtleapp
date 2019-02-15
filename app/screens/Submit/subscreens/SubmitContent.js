@@ -31,9 +31,7 @@ export default class SubmitContent extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView style={{ backgroundColor: 'white' }}>
-          <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.props.toggleModal(false)}
@@ -141,9 +139,7 @@ export default class SubmitContent extends Component {
                 Submit
               </Text>
             </Button>
-          </View>
         </ScrollView>
-      </TouchableWithoutFeedback>
     );
   }
 }

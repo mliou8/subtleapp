@@ -202,10 +202,7 @@ export default class SubmitDating extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView style={{ backgroundColor: 'white' }}>
-          <View style={styles.container}>
-            <View style={styles.overlay} />
+        <ScrollView style={styles.container}>
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.toggleModal(false)}
@@ -298,9 +295,7 @@ export default class SubmitDating extends Component {
                 Submit
               </Text>
             </Button>
-          </View>
         </ScrollView>
-      </TouchableWithoutFeedback>
     );
   }
 }

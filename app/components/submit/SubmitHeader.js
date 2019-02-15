@@ -51,7 +51,6 @@ export default class SubmitHeader extends React.Component {
   }
 
   render() {
-    console.log("post type is now ", this.props.postType);
     return (
       <View style={styles.container}>
         <View style={styles.dropdownContainer}>
@@ -68,7 +67,7 @@ export default class SubmitHeader extends React.Component {
           <Avatar
             size={65}
             styles={styles.avatar}
-            src={'http://i.pravatar.cc/100'}
+            src={this.props.userInfo.photoURL}
           />
         </View>
       </View>

@@ -306,20 +306,17 @@ export default class SubmitBase extends Component {
   render() {
     const overlay = <View style={styles.overlay} />;
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <ScrollView style={{ backgroundColor: 'white' }}>
-          <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <SubmitHeader
               setType={this.setPostType}
               setTopic={this.setTopic}
               setDuration={this.setDuration}
               postType={this.state.postType}
+              userInfo={this.props.userInfo}
             />
               { /*this.state.postType === "initial" ? overlay : null */ }
               { this.renderForm() }
-          </View>
         </ScrollView>
-      </TouchableWithoutFeedback>
     );
   }
 }
