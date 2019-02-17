@@ -19,9 +19,8 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const menuChoices = [
-  { icon: 'bank', text: 'Board', screen: 'Home' },
+  { icon: 'comment-o', text: 'Home', screen: 'Home' },
   { icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating' },
-  { icon: 'comment-o', text: 'Bulletin', screen: 'Bulletin' },
   { icon: 'photo', text: 'Selfies', screen: 'Selfies' }
 ];
 

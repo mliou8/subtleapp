@@ -23,8 +23,7 @@ const SelfieStack = createStackNavigator({
 
 const DrawerNavigator = createDrawerNavigator(
   {
-    Home: BoardScreen,
-    Rave: RaveScreen,
+    Home: BulletinScreen,
     Bulletin: BulletinScreen,
     Dating: { screen: DatingStack },
     Selfies: { screen: SelfiesScreen }
