@@ -12,15 +12,13 @@ import GenericProfileScreen from 'app/screens/Profile/GenericProfileScreen';
 import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen';
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
-
+import BulletinScreen from 'app/screens/Board/BulletinScreen';
 import SubmitBase from 'app/containers/Submit/SubmitBaseContainer';
-
 import MessageScreen from 'app/screens/Messages/MessageScreen';
 import Conversation from 'app/screens/Messages/FullConversation';
 import AddSocialNetworkTag from 'app/screens/Profile/AddSocialNetwork';
 import FullPost from 'app/components/board/FullPost';
 import SettingsScreen from 'app/containers/Profile/SettingsContainer';
-import { BoardScreen } from 'app/screens/Board/BoardScreen';
 import DrawerNavigator from './DrawerNavigator';
 
 const HomeStack = createStackNavigator({
@@ -87,7 +85,7 @@ ProfileStack.navigationOptions = {
 
 const SubmitStack = createStackNavigator({
   SubmitBase: SubmitBase,
-  Home: BoardScreen
+  Home: BulletinScreen,
 });
 
 SubmitStack.navigationOptions = ({ navigation }) => ({
