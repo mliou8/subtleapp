@@ -17,11 +17,21 @@ import {
   Text,
   Button
 } from 'native-base';
+import { fetchPosts } from 'db/selfies/index';
 
 export default class SelfieFeed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      posts: ''
+    };
+  }
+
+  componentDidMount() {
+    fetchPosts().then((posts) => {
+      this.setState({posts: posts})
+      console.log("This state is ", this.state.posts)
+    })
   }
 
   render() {

@@ -21,11 +21,18 @@ import {
 } from 'native-base';
 
 import Post from 'app/components/dating/Post';
+import { fetchPosts } from 'db/dating/index';
 
 export default class DatingScreen extends React.Component {
+  static navigationOptions = {
+       header: null
+   }
+
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      posts: ''
+    };
 
     this.handlePress = this.handlePress.bind(this)
   }
@@ -42,19 +49,39 @@ export default class DatingScreen extends React.Component {
     console.log("this.props ", this.props.navigation)
   }
 
+  componentDidMount() {
+    fetchPosts().then((posts) => {
+      this.setState({posts: posts})
+      console.log("This state is ", this.state.posts)
+    })
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <ScrollView>
         <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('DatingFullScreen')
-          }
-          >
+          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+          style={styles.post}>
           <Post/>
         </TouchableOpacity>
-          <Post></Post>
-          <Post></Post>
-          <Post></Post>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+          style={styles.post}>
+          <Post/>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+          style={styles.post}>
+          <Post/>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+          style={styles.post}>
+          <Post/>
+        </TouchableOpacity>
+        </ScrollView>
       </View>
     );
   }
@@ -66,6 +93,12 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
+      paddingLeft: 3,
+      paddingRight: 3,
+    },
+    post: {
+      display: "flex",
+      width: 174,
+      height: 225,
     }
 });
