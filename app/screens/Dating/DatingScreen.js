@@ -20,7 +20,7 @@ import {
   Left,
 } from 'native-base';
 
-import Post from 'app/components/dating/Post';
+import Post from 'app/components/dating/DatingPost';
 import { fetchPosts } from 'db/dating/index';
 
 export default class DatingScreen extends React.Component {
@@ -91,14 +91,7 @@ const styles = StyleSheet.create({
     container: {
       display: 'flex',
       flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
       paddingLeft: 3,
       paddingRight: 3,
     },
-    post: {
-      display: "flex",
-      width: 174,
-      height: 225,
-    }
 });

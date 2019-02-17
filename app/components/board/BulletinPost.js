@@ -42,7 +42,6 @@ export default class BulletinPost extends React.Component {
                 @postAuthor
               </Text>
             </Left>
-
             <Right>
               <Button rounded light onPress={() => this.toggleReactions()}>
                 <Text style={{ fontFamily: 'poppins' }}>location</Text>

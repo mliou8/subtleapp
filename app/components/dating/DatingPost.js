@@ -25,16 +25,18 @@ export default class Post extends React.Component {
   }
   render() {
     return (
-        <Card
-          style={styles.post}
-          transparent
+      <View>
+        <Card>
+          <CardItem
+            style={{
+              display: 'flex',
+              flex: 1,
+            }}
           >
-          <CardItem cardBody style={styles.cardItem}>
             <Image
-              source={{uri: 'https://placeimg.com/180/200/people'}}
+              source={{uri: 'https://loremflickr.com/160/180/cat'}}
               style={styles.cardImage}
             />
-            <CardItem style={styles.cardText}>
                 <Text style={styles.handle}>Title</Text>
                 <Text
                   style={styles.caption}
@@ -42,8 +44,12 @@ export default class Post extends React.Component {
                   Caption and text / OK ATTENTION everyone this is a
                   beautiful person and blah blah blah blah blah
                 </Text>
-            </CardItem>
-          <CardItem style={styles.actionIcons}>
+          </CardItem>
+          <CardItem
+              style={{
+                display: 'flex',
+                flex: 1,
+              }}>
             <Button small transparent style={{paddingBottom: 0}}>
               <MaterialIcons
                 style={styles.icon}
@@ -59,8 +65,8 @@ export default class Post extends React.Component {
                 />
             </Button>
           </CardItem>
-        </CardItem>
-      </Card>
+        </Card>
+      </View>
     );
   }
 }
@@ -69,13 +75,14 @@ const styles = StyleSheet.create({
   post: {
     display: "flex",
     flexDirection: "column",
-    width: 185,
+    width: 160,
+    height: 200,
     marginBottom: 20,
     paddingBottom: 5,
   },
   cardImage: {
-    height: 160,
-    width: 185,
+    height: 180,
+    width: 160,
     resizeMode: "stretch"
   },
   cardItem: {

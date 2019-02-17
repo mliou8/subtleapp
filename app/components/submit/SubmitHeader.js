@@ -25,7 +25,6 @@ const timeOptions = [
 export default class SubmitHeader extends React.Component {
   constructor(props) {
     super(props)
-
     this.renderSubDropdown = this.renderSubDropdown.bind(this);
   }
 
