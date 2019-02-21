@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  Button
-} from 'react-native';
-import { Icon } from 'expo';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+
 import { connect } from 'react-redux';
 import {
   unfollowUser,
@@ -19,6 +12,21 @@ import {
   profileRemoveFollower,
   addNewChatToOtherUser
 } from 'actions/profile/index';
+import {
+  Container,
+  Header,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+  Spinner
+} from 'native-base';
 import db from 'db/firestore';
 import firebase from 'db/firebase';
 import { withNavigation } from 'react-navigation';
@@ -126,64 +134,86 @@ class Followers extends React.Component {
     const userOnDisplay = { displayName, uid, photoURL };
 
     return (
-      <View style={styles.container}>
-        <View style={{ justifyContent: 'center' }}>
-          {this.state.following ? (
-            <TouchableOpacity
-              onPress={() => this.unfollowCurrentUser()}
+      <View
+        style={{
+          backgroundColor: '#242424',
+          display: 'flex',
+          flexDirection: 'row'
+        }}
+      >
+        {this.state.following ? (
+          <Left>
+            <Button
+              iconLeft
               style={{
-                borderRadius: 8,
-                flexDirection: 'row',
-                padding: 1
+                backgroundColor: '#242424'
               }}
+              onPress={() => this.unfollowCurrentUser()}
             >
-              <Text> Following: </Text>
-              <Icon.FontAwesome
+              <Text
+                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
+              >
+                Following
+              </Text>
+              <Icon
+                type="FontAwesome"
                 name={'check-circle'}
-                size={15}
                 title="messages"
                 style={{ color: 'dodgerblue' }}
               />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              onPress={() => this.followCurrentUser()}
+            </Button>
+          </Left>
+        ) : (
+          <Left>
+            <Button
+              iconRight
               style={{
-                borderRadius: 8,
-                flexDirection: 'row',
-                padding: 1
+                backgroundColor: '#242424'
               }}
+              onPress={() => this.followCurrentUser()}
             >
-              <Text> Following: </Text>
-              <Icon.MaterialIcons
+              <Text
+                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
+              >
+                Following
+              </Text>
+              <Icon
+                type="MaterialIcons"
                 name={'check-box-outline-blank'}
-                size={15}
                 title="messages"
-                style={{ color: 'grey' }}
+                style={{ color: 'white' }}
               />
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={{ justifyContent: 'space-between' }}>
-          <TouchableOpacity
-            style={{ paddingLeft: 4 }}
+            </Button>
+          </Left>
+        )}
+
+        <Right>
+          <Button
+            iconLeft
+            style={{
+              backgroundColor: '#242424'
+            }}
             onPress={() => this.alreadyChatting()}
           >
-            <Icon.Ionicons name={'ios-send'} size={15} title="messages">
-              <Text> Message User </Text>
-            </Icon.Ionicons>
-          </TouchableOpacity>
-        </View>
+            <Icon
+              type="Ionicons"
+              name={'ios-send'}
+              title="messages"
+              style={{ color: 'white' }}
+            />
+            <Text
+              style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
+            >
+              Message User
+            </Text>
+          </Button>
+        </Right>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row'
-  },
   button: {
     borderRadius: 8,
     padding: 8,
