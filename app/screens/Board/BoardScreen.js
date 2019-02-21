@@ -12,7 +12,7 @@ import {
 import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 import BoardHeader from 'app/components/board/BoardHeader';
-import LandingPage from 'app/screens/Login/LandingPage';
+import LoginPage from 'app/screens/Login/LoginPage';
 
 import {
   Container,

@@ -201,7 +201,7 @@ export default class Settings extends React.Component {
             style={styles.rowButton}
             onPress={() => {
               this.props.logOut();
-              this.props.navigation.navigate('LandingPage');
+              this.props.navigation.navigate('LoginPage');
             }}
           >
             <RkText rkType="header6">Logout</RkText>

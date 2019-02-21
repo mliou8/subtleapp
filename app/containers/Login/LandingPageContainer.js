@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
 import { facebookLogin, checkCode } from 'actions/login/index';
-import LandingPage from 'screens/Login/LandingPage';
+import LoginPage from 'screens/Login/LoginPage';
 
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    ready : state.login.ready,
     authenticated: state.login.authenticated,
     userRegistered: state.login.userRegistered,
     userInfo: state.login.userInfo,
@@ -27,6 +28,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const LandingPageContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(LandingPage)
+)(LoginPage)
 
 export default LandingPageContainer
