@@ -23,62 +23,60 @@ export default class Post extends React.Component {
   constructor() {
     super();
   }
+
   render() {
     return (
-      <View>
-        <Card>
-          <CardItem
-            style={{
-              display: 'flex',
-              flex: 1,
-            }}
-          >
-            <Image
-              source={{uri: 'https://loremflickr.com/160/180/cat'}}
-              style={styles.cardImage}
-            />
-                <Text style={styles.handle}>Title</Text>
-                <Text
-                  style={styles.caption}
-                  numberOfLines={3}>
-                  Caption and text / OK ATTENTION everyone this is a
-                  beautiful person and blah blah blah blah blah
-                </Text>
-          </CardItem>
-          <CardItem
+        <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+            style={styles.post}>
+          <Card>
+            <CardItem
               style={{
                 display: 'flex',
-                flex: 1,
+                flexDirection: 'column',
               }}>
-            <Button small transparent style={{paddingBottom: 0}}>
-              <MaterialIcons
-                style={styles.icon}
-                color="black"
-                name="chat"
-                />
-            </Button>
-            <Button small transparent style={{paddingBottom: 0}}>
-              <Icon
-                style={styles.icon}
-                type="FontAwesome"
-                name="heart-o"
-                />
-            </Button>
-          </CardItem>
-        </Card>
-      </View>
+              <Image
+                source={{uri: 'https://loremflickr.com/160/180/cat'}}
+                style={styles.cardImage}
+              />
+                  <Text style={styles.handle}>Title</Text>
+                  <Text
+                    style={styles.caption}
+                    numberOfLines={3}>
+                    Caption and text / OK ATTENTION everyone this is a
+                    beautiful person and blah blah blah blah blah
+                  </Text>
+            </CardItem>
+            <CardItem
+                style={{
+                  display: 'flex',
+                  flex: 1,
+                }}>
+              <Button small transparent style={{paddingBottom: 0}}>
+                <MaterialIcons
+                  style={styles.icon}
+                  color="black"
+                  name="chat"
+                  />
+              </Button>
+              <Button small transparent style={{paddingBottom: 0}}>
+                <Icon
+                  style={styles.icon}
+                  type="FontAwesome"
+                  name="heart-o"
+                  />
+              </Button>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
     );
   }
 }
 
 const styles = StyleSheet.create({
   post: {
-    display: "flex",
     flexDirection: "column",
-    width: 160,
-    height: 200,
-    marginBottom: 20,
-    paddingBottom: 5,
+    width: 170,
   },
   cardImage: {
     height: 180,

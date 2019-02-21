@@ -61,26 +61,14 @@ export default class DatingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
-          style={styles.post}>
-          <Post/>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
-          style={styles.post}>
-          <Post/>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
-          style={styles.post}>
-          <Post/>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('DatingFullScreen') }
-          style={styles.post}>
-          <Post/>
-        </TouchableOpacity>
+          <View style={styles.container}>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post styles={styles.post} navigation={this.props.navigation}/>
+          </View>
         </ScrollView>
       </View>
     );
@@ -91,7 +79,17 @@ const styles = StyleSheet.create({
     container: {
       display: 'flex',
       flex: 1,
-      paddingLeft: 3,
-      paddingRight: 3,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingLeft: 7,
+      paddingRight: 7,
     },
+    post: {
+      padding: 10,
+      backgroundColor: 'white',
+      borderWidth:0,
+      borderColor:'#808080',
+      marginTop:50,
+      elevation: 10
+   }
 });
