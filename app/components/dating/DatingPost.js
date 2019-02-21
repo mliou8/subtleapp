@@ -29,7 +29,7 @@ export default class Post extends React.Component {
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen') }
             style={styles.post}>
-          <Card>
+          <Card style={{paddingTop: 0}}>
             <CardItem
               style={{
                 display: 'flex',
@@ -39,7 +39,7 @@ export default class Post extends React.Component {
                 source={{uri: 'https://loremflickr.com/160/180/cat'}}
                 style={styles.cardImage}
               />
-                  <Text style={styles.handle}>Title</Text>
+                  <Text style={styles.title}>Title</Text>
                   <Text
                     style={styles.caption}
                     numberOfLines={3}>
@@ -47,11 +47,7 @@ export default class Post extends React.Component {
                     beautiful person and blah blah blah blah blah
                   </Text>
             </CardItem>
-            <CardItem
-                style={{
-                  display: 'flex',
-                  flex: 1,
-                }}>
+            <CardItem style={styles.actionIcons}>
               <Button small transparent style={{paddingBottom: 0}}>
                 <MaterialIcons
                   style={styles.icon}
@@ -77,11 +73,12 @@ const styles = StyleSheet.create({
   post: {
     flexDirection: "column",
     width: 170,
+    paddingTop: 0,
   },
   cardImage: {
     height: 180,
     width: 160,
-    resizeMode: "stretch"
+    resizeMode: "stretch",
   },
   cardItem: {
     display: "flex",
@@ -101,21 +98,21 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderTopWidth: .5,
     borderTopColor: 'lightgrey',
+    paddingTop: 5,
     paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 0,
-    paddingBottom: 0,
+    paddingBottom: 10,
   },
   icon: {
     fontSize: 20,
     color: "black",
     margin: 0,
   },
-  handle: {
+  title: {
     fontSize: 12,
     alignSelf: "flex-start",
     fontWeight: "bold",
-    marginBottom: 2,
+    marginBottom: 5,
+    marginTop: 5,
   },
   caption: {
     fontSize: 12,

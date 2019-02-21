@@ -62,12 +62,12 @@ export default class DatingScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.container}>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
-            <Post styles={styles.post} navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
+            <Post navigation={this.props.navigation}/>
           </View>
         </ScrollView>
       </View>
@@ -83,13 +83,6 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap',
       paddingLeft: 7,
       paddingRight: 7,
+      justifyContent: 'space-between',
     },
-    post: {
-      padding: 10,
-      backgroundColor: 'white',
-      borderWidth:0,
-      borderColor:'#808080',
-      marginTop:50,
-      elevation: 10
-   }
 });
