@@ -229,7 +229,11 @@ export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Your Profile',
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        borderBottomWidth: 0
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -333,7 +337,7 @@ export default class OwnProfileScreen extends React.Component {
                       imageSrc={this.props.userInfo.photoURL}
                     />
                   </Body>
-                  <Right>
+                  <Right style={{ justifyContent: 'center' }}>
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {

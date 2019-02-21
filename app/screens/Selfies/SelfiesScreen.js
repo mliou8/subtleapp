@@ -40,7 +40,11 @@ class SelfiesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Selfies',
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        shadowColor: 'transparent'
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -189,7 +193,11 @@ class SelfiesScreen extends React.Component {
               display: 'flex'
             }}
           >
-            <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
+            <Thumbnail
+              style={{ borderWidth: 3, borderColor: 'white' }}
+              large
+              source={{ uri: this.props.userInfo.photoURL }}
+            />
             <Form>
               <Item
                 style={{

@@ -37,7 +37,11 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('name') + "'s Profile",
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        borderBottomWidth: 0
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -130,13 +134,13 @@ class OtherUsersProfileScreen extends React.Component {
                         })
                       }
                     >
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWING
-                      </Text>
                       <Text
                         style={{ fontFamily: 'poppinsBold', color: 'white' }}
                       >
                         {this.props.profile.userProfile.following.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWING
                       </Text>
                     </TouchableOpacity>
                   </Left>
@@ -156,14 +160,14 @@ class OtherUsersProfileScreen extends React.Component {
                         })
                       }
                     >
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWERS
-                      </Text>
                       <Text
                         style={{ fontFamily: 'poppinsBold', color: 'white' }}
                         center
                       >
                         {this.props.profile.userProfile.followers.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWERS
                       </Text>
                     </TouchableOpacity>
                   </Right>
@@ -211,7 +215,6 @@ class OtherUsersProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 7.6,
     backgroundColor: '#242424'
   },
   divider: {

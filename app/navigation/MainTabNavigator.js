@@ -26,7 +26,11 @@ const HomeStack = createStackNavigator({
     screen: DrawerNavigator,
     navigationOptions: ({ navigation }) => ({
       title: 'Subtle Asian App',
-      headerStyle: { backgroundColor: 'black', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        borderBottomWidth: 0
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -56,7 +60,7 @@ const HomeStack = createStackNavigator({
   Conversation: Conversation,
   FullPost: FullPost,
   GenericProfileScreen: GenericProfileScreen,
-  OtherUsersProfile: OtherUsersProfileScreen,
+  OtherUsersProfile: OtherUsersProfileScreen
 });
 
 HomeStack.navigationOptions = {
@@ -85,7 +89,7 @@ ProfileStack.navigationOptions = {
 
 const SubmitStack = createStackNavigator({
   SubmitBase: SubmitBase,
-  Home: BulletinScreen,
+  Home: BulletinScreen
 });
 
 SubmitStack.navigationOptions = ({ navigation }) => ({
