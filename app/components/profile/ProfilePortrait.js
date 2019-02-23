@@ -1,11 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default class ProfilePortrait extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Image style={styles.portrait} source={{uri:this.props.imageSrc}} alt="Avatar"/>
+        <Image
+          style={styles.portrait}
+          source={{ uri: this.props.imageSrc }}
+          alt="Avatar"
+        />
       </View>
     );
   }
@@ -17,7 +21,9 @@ const styles = StyleSheet.create({
   },
   portrait: {
     borderRadius: 47,
+    borderWidth: 3,
+    borderColor: 'white',
     width: 94,
-    height: 94,
+    height: 94
   }
-})
+});
