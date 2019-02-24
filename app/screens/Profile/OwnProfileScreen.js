@@ -99,7 +99,7 @@ export default class OwnProfileScreen extends React.Component {
         <Badge
           key={idx}
           badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          sourceName={badge.sourceUrl}
         />
       );
     });
@@ -129,14 +129,10 @@ export default class OwnProfileScreen extends React.Component {
                         })
                       }
                     >
-                      <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
-                      >
+                      <Text style={styles.cardTextBold}>
                         {this.props.userInfo.following.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWING
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Left>
                   <Body>
@@ -145,7 +141,7 @@ export default class OwnProfileScreen extends React.Component {
                       imageSrc={this.props.userInfo.photoURL}
                     />
                   </Body>
-                  <Right style={{ justifyContent: 'center' }}>
+                  <Right>
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
@@ -157,15 +153,14 @@ export default class OwnProfileScreen extends React.Component {
                     >
                       <Text
                         style={{
+                          paddingLeft: 30,
                           fontFamily: 'poppinsBold',
                           color: 'white'
                         }}
                       >
                         {this.props.userInfo.followers.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWERS
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
@@ -175,7 +170,7 @@ export default class OwnProfileScreen extends React.Component {
                     backgroundColor: '#242424'
                   }}
                 >
-                  <Text style={{ fontFamily: 'poppinsBold', color: 'white' }}>
+                  <Text style={styles.cardTextBold}>
                     {this.props.userInfo.displayName}
                   </Text>
                 </CardItem>
@@ -189,7 +184,7 @@ export default class OwnProfileScreen extends React.Component {
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
-          <Spinner color="blue" />
+          <Spinner color="white" />
         )}
       </ScrollView>
     );
@@ -216,5 +211,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignContent: 'flex-start',
     flex: 1
+  },
+  cardTextRegular: {
+    fontFamily: 'poppins',
+    color: 'white'
+  },
+  cardTextBold: {
+    fontFamily: 'poppinsBold',
+    color: 'white'
   }
 });

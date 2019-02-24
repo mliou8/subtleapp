@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import socialImages from 'assets/images/social/exports.js';
 import { WebBrowser } from 'expo';
 
-import { Button, Icon } from 'native-base';
+import { Button, Icon, Text } from 'native-base';
 
 export default class Badge extends React.Component {
   constructor(props) {
@@ -24,29 +24,20 @@ export default class Badge extends React.Component {
   badgeTypePicker = (source, sourceUrl) => {
     return (
       <Button
-        small
         iconLeft
         light
-        style={{
-          marginTop: 2,
-          paddingLeft: 0,
-          paddingRight: 3,
-          paddingBottom: 3
-        }}
+        style={styles.badgeButton}
         onPress={() => {
-          this._handleBadgePress(source, sourceURL);
+          this._handleBadgePress(source, sourceUrl);
         }}
       >
         <Icon
           type="FontAwesome"
           name={source.toLowerCase()}
-          style={{
-            marginLeft: 3,
-            paddingLeft: 3,
-            paddingBottom: 3
-          }}
-        />
-        <Text> {sourceUrl} </Text>
+          style={styles.badgeIcon}
+        >
+          <Text style={styles.badgeButtonText}> {sourceUrl}</Text>
+        </Icon>
       </Button>
     );
   };
@@ -60,29 +51,23 @@ export default class Badge extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  badgeContainer: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    borderRadius: 6,
-    backgroundColor: '#F0F0F0',
-    marginRight: 4,
-    paddingRight: 5,
-    alignContent: 'center',
-    height: '10%',
-    width: '28%'
+  badgeButton: {
+    marginTop: 2,
+    paddingLeft: 0,
+    paddingRight: 3,
+    paddingBottom: 3,
+    backgroundColor: '#242424'
   },
-  badgeText: {
-    display: 'flex',
-    fontSize: 12,
-    includeFontPadding: false,
-    lineHeight: 20,
-    paddingBottom: 0,
-    height: 20
+  badgeIcon: {
+    marginLeft: 3,
+    paddingLeft: 3,
+    paddingBottom: 3,
+    color: 'white'
   },
-  badge: {
-    borderRadius: 12.5,
-    width: 25,
-    height: 25
+  badgeButtonText: {
+    fontFamily: 'poppins',
+    color: 'white',
+    fontSize: 15,
+    paddingLeft: 10
   }
 });

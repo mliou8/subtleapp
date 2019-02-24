@@ -102,7 +102,7 @@ class OtherUsersProfileScreen extends React.Component {
         <Badge
           key={idx}
           badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          sourceName={badge.sourceUrl}
         />
       );
     });
@@ -134,14 +134,10 @@ class OtherUsersProfileScreen extends React.Component {
                         })
                       }
                     >
-                      <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
-                      >
+                      <Text style={styles.cardTextBold}>
                         {this.props.profile.userProfile.following.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWING
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Left>
                   <Body>
@@ -161,14 +157,16 @@ class OtherUsersProfileScreen extends React.Component {
                       }
                     >
                       <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
+                        style={{
+                          fontFamily: 'poppinsBold',
+                          color: 'white',
+                          paddingLeft: 30
+                        }}
                         center
                       >
                         {this.props.profile.userProfile.followers.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWERS
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
@@ -198,14 +196,14 @@ class OtherUsersProfileScreen extends React.Component {
               }}
               transparent
             >
-              <Right>{this.renderSocialBadges()}</Right>
+              {this.renderSocialBadges()}
             </Card>
 
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
-          <Spinner color="blue" />
+          <Spinner color="white" />
         )}
       </ScrollView>
     );
@@ -230,6 +228,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignContent: 'flex-start',
     flex: 1
+  },
+  cardTextRegular: {
+    fontFamily: 'poppins',
+    color: 'white'
+  },
+  cardTextBold: {
+    fontFamily: 'poppinsBold',
+    color: 'white'
   }
 });
 

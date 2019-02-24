@@ -144,14 +144,21 @@ class Followers extends React.Component {
         {this.state.following ? (
           <Left>
             <Button
-              iconLeft
+              iconRight
+              // bordered
+              // light
+              small
               style={{
                 backgroundColor: '#242424'
               }}
               onPress={() => this.unfollowCurrentUser()}
             >
               <Text
-                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
+                style={{
+                  fontFamily: 'poppins',
+                  color: 'white',
+                  fontSize: 12
+                }}
               >
                 Following
               </Text>
@@ -159,13 +166,16 @@ class Followers extends React.Component {
                 type="FontAwesome"
                 name={'check-circle'}
                 title="messages"
-                style={{ color: 'dodgerblue' }}
+                style={{ color: 'dodgerblue', fontSize: 18 }}
               />
             </Button>
           </Left>
         ) : (
           <Left>
             <Button
+              small
+              // bordered
+              // light
               iconRight
               style={{
                 backgroundColor: '#242424'
@@ -173,7 +183,11 @@ class Followers extends React.Component {
               onPress={() => this.followCurrentUser()}
             >
               <Text
-                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
+                style={{
+                  fontFamily: 'poppins',
+                  color: 'white',
+                  fontSize: 12
+                }}
               >
                 Following
               </Text>
@@ -181,7 +195,7 @@ class Followers extends React.Component {
                 type="MaterialIcons"
                 name={'check-box-outline-blank'}
                 title="messages"
-                style={{ color: 'white' }}
+                style={{ color: 'white', fontSize: 18 }}
               />
             </Button>
           </Left>
@@ -189,23 +203,26 @@ class Followers extends React.Component {
 
         <Right>
           <Button
-            iconLeft
+            // bordered
+            // light
+            small
+            iconRight
             style={{
               backgroundColor: '#242424'
             }}
             onPress={() => this.alreadyChatting()}
           >
+            <Text
+              style={{ fontFamily: 'poppins', color: 'white', fontSize: 12 }}
+            >
+              Message User
+            </Text>
             <Icon
               type="Ionicons"
               name={'ios-send'}
               title="messages"
-              style={{ color: 'white' }}
+              style={{ color: 'white', fontSize: 18 }}
             />
-            <Text
-              style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
-            >
-              Message User
-            </Text>
           </Button>
         </Right>
       </View>
@@ -219,6 +236,11 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#D3D3D3',
     marginRight: 8
+  },
+  buttonText: {
+    fontFamily: 'poppins',
+    color: 'white',
+    fontSize: 12
   }
 });
 const mapStateToProps = (state, ownProps) => {
