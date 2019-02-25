@@ -25,10 +25,10 @@ export default class Post extends React.Component {
   }
 
   render() {
-    const { title = '', text = '', expiryDate = ''} = this.props.data;
+    const { title = '', text = '', expiryDate = '', photoRef = ''} = this.props.data;
     return (
         <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('DatingFullScreen') }
+            onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
             style={styles.post}>
           <Card style={{paddingTop: 0}}>
             <CardItem
@@ -39,12 +39,12 @@ export default class Post extends React.Component {
                 height: 250,
               }}>
               <Image
-                source={{uri: 'https://loremflickr.com/165/180/cat'}}
+                source={{uri: photoRef[0]}}
                 style={styles.cardImage}
               />
                   <Text style={styles.title}>{title}</Text>
-                  <Text numberOfLines={3}>
-                    {text}
+                  <Text numberOfLines={3} style={styles.text}>
+                    {text.replace(/"/g,"")}
                   </Text>
             </CardItem>
             <CardItem style={styles.actionIcons}>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     width: 170,
     paddingTop: 0,
     height: 280,
-    marginRight: 5
+    marginRight: 5,
   },
   cardImage: {
     height: 180,
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
     marginTop: 5,
+  },
+  text: {
+    fontSize: 11,
+    alignSelf: "flex-start"
   },
   caption: {
     fontSize: 12,

@@ -6,7 +6,7 @@ export default class DatingRow extends Component {
   render () {
     const {posts, navigation} = this.props;
     return (
-      <View style={{display: 'flex', flexDirection: 'row', marginTop: 25}}>
+      <View style={{display: 'flex', flexDirection: 'row', marginTop: 25, paddingLeft: 7, paddingRight: 7}}>
         <Post
           navigation={navigation}
           data={posts[0]}

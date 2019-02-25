@@ -56,10 +56,10 @@ export default class DatingScreen extends React.Component {
   }
 
   renderPosts(postArr) {
-    return postArr.map((posts) => {
-      console.log("what is posts ", posts)
+    return postArr.map((posts, idx) => {
       return (
         <DatingRow
+          key={idx}
           posts={posts}
           navigation={this.props.navigation}
         />);
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
       flexWrap: 'wrap',
       paddingLeft: 7,
       paddingRight: 7,
-      justifyContent: 'space-between',
+      justifyContent: 'space-around',
     },
     row: {
       display: 'flex',
