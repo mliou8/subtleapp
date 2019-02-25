@@ -1,10 +1,10 @@
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
-import LandingPage from 'containers/Login/LandingPageContainer';
+import LoginPage from 'containers/Login/LandingPageContainer';
 
 const LoginNavigator = createStackNavigator(
     {
-        LandingPage: LandingPage,
+        LoginPage: LoginPage,
         MainScreen: { screen: MainTabNavigator },
     },
     {

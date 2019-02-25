@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
 import firebase from 'db/firebase';
 import { Provider } from 'react-redux';
-import { doesUserExist, logUserIn, openModal } from 'app/actions/login';
+import { doesUserExist, logUserIn, openModal, authReady } from 'app/actions/login';
 import store from 'app/redux/';
 
 export default class App extends React.Component {
@@ -25,12 +25,15 @@ export default class App extends React.Component {
             store.dispatch(openModal());
           }
         });
+      } else {
+        console.log("Dispatching auth ready state");
+        store.dispatch(authReady());
       }
     });
   }
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
+    if (!this.state.isLoadingComplete) {
       return (
         <AppLoading
           startAsync={this._loadResourcesAsync}

@@ -65,7 +65,7 @@ class SelfiesScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { height: 250, modalVisible: false, uploads: [], post: {} };
+    this.state = { height: 250, modalVisible: false, uploads: [], post: {}, caption: "" };
   }
   async uploadPhoto() {
     const uri = this.state.uploads[0];
@@ -175,26 +175,11 @@ class SelfiesScreen extends React.Component {
     }
   };
   removeImage = uri => {
-    Alert.alert(
-      '',
-      'Are you sure you want to remove this picture from your post?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            this.setState(state => {
-              return {
-                uploads: state.uploads.filter(upload => upload !== uri)
-              };
-            });
-          }
-        }
-      ]
-    );
+    this.setState(state => {
+      return {
+        uploads: state.uploads.filter(upload => upload !== uri)
+      };
+    });
   };
 
   render() {

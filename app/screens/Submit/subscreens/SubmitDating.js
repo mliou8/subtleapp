@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Keyboard,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-  Alert
+  ImageBackground
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -32,7 +28,7 @@ export default class SubmitDating extends Component {
 
   render() {
     return (
-        <ScrollView style={styles.container} alwaysBounceVertical={false}>
+        <View style={styles.container}>
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.props.toggleModal(false)}
@@ -110,22 +106,7 @@ export default class SubmitDating extends Component {
                   : null}
               </View>
             </View>
-            <Button
-              block
-              dark
-              onPress={() => this.props.uploadPhoto()}
-              style={{marginLeft: 10, marginRight: 10, marginTop: 35,}}
-            >
-              <Text
-                color="white"
-                style={{
-                  fontFamily: 'poppinsBold'
-                }}
-              >
-                Upload Photos
-              </Text>
-            </Button>
-            <Button
+        <Button
               block
               primary
               onPress={() => this.props.submitPost()}
@@ -140,7 +121,7 @@ export default class SubmitDating extends Component {
                 Submit
               </Text>
             </Button>
-        </ScrollView>
+        </View>
     );
   }
 }
