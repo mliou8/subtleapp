@@ -91,13 +91,9 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      paddingLeft: 7,
-      paddingRight: 7,
+      paddingLeft: 3,
+      paddingRight: 3,
       justifyContent: 'space-around',
-    },
-    row: {
-      display: 'flex',
-      flexDirection: 'row',
-      marginTop: 25,
+      alignItems:'stretch'
     },
 });

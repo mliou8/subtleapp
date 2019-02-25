@@ -26,10 +26,11 @@ export default class Post extends React.Component {
 
   render() {
     const { title = '', text = '', expiryDate = '', photoRef = ''} = this.props.data;
+    const { propStyles = {} } = this.props;
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
-            style={styles.post}>
+            style={{ propStyles, ...styles.post }}>
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={{
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     width: 170,
     paddingTop: 0,
     height: 280,
-    marginRight: 5,
+    marginRight: 10,
   },
   cardImage: {
     height: 180,
