@@ -36,7 +36,7 @@ import {
 class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('name') + "'s Profile",
+      title: navigation.getParam('name'),
       headerStyle: {
         backgroundColor: '#242424',
         height: 80,
@@ -45,7 +45,7 @@ class OtherUsersProfileScreen extends React.Component {
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 16
+        fontSize: 18
       },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
@@ -170,7 +170,7 @@ class OtherUsersProfileScreen extends React.Component {
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
-                <CardItem
+                {/* <CardItem
                   style={{
                     justifyContent: 'center',
                     backgroundColor: '#242424'
@@ -185,17 +185,10 @@ class OtherUsersProfileScreen extends React.Component {
                   >
                     {this.props.profile.userProfile.displayName}
                   </Text>
-                </CardItem>
+                </CardItem> */}
               </Card>
             </Content>
-            <Card
-              style={{
-                backgroundColor: '#242424',
-                display: 'flex',
-                flexDirection: 'row'
-              }}
-              transparent
-            >
+            <Card style={styles.socialBadgesContainer} transparent>
               {this.renderSocialBadges()}
             </Card>
 
@@ -236,6 +229,13 @@ const styles = StyleSheet.create({
   cardTextBold: {
     fontFamily: 'poppinsBold',
     color: 'white'
+  },
+  socialBadgesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    justifyContent: 'space-around'
   }
 });
 

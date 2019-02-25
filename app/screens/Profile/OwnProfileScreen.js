@@ -98,6 +98,7 @@ export default class OwnProfileScreen extends React.Component {
       return (
         <Badge
           key={idx}
+          count={idx}
           badgeType={badge.source}
           sourceName={badge.sourceUrl}
         />
@@ -176,7 +177,7 @@ export default class OwnProfileScreen extends React.Component {
                 </CardItem>
               </Card>
             </Content>
-            <Card transparent style={{ display: 'flex', flexDirection: 'row' }}>
+            <Card transparent style={styles.socialBadgesContainer}>
               {this.renderSocialBadges()}
             </Card>
             <View />
@@ -219,5 +220,12 @@ const styles = StyleSheet.create({
   cardTextBold: {
     fontFamily: 'poppinsBold',
     color: 'white'
+  },
+  socialBadgesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    justifyContent: 'space-around'
   }
 });

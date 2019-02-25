@@ -145,8 +145,6 @@ class Followers extends React.Component {
           <Left>
             <Button
               iconRight
-              // bordered
-              // light
               small
               style={{
                 backgroundColor: '#242424'
@@ -174,8 +172,6 @@ class Followers extends React.Component {
           <Left>
             <Button
               small
-              // bordered
-              // light
               iconRight
               style={{
                 backgroundColor: '#242424'
@@ -203,8 +199,6 @@ class Followers extends React.Component {
 
         <Right>
           <Button
-            // bordered
-            // light
             small
             iconRight
             style={{
