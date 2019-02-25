@@ -44,66 +44,66 @@ class Followers extends React.Component {
   }
   componentDidMount() {
     const currView = this.props.profile.userProfile;
-    const currUsersConversations = this.props.userInfo.conversations;
+    //   const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
     const amFollowing = this.props.userInfo.following.filter(
       item => item.uid === currView.uid
     );
-    const chatting = currUsersConversations.filter(item => {
-      if (item.userName === currView.displayName) {
-        return item;
-      }
-    });
+    //   const chatting = currUsersConversations.filter(item => {
+    //     if (item.userName === currView.displayName) {
+    //       return item;
+    //     }
+    //   });
     if (amFollowing.length) {
       this.setState({ following: true });
     } else {
       this.setState({ following: false });
     }
-    if (chatting.length) {
-      this.setState({ existingConvoId: chatting[0].convoID });
-    }
+    //   if (chatting.length) {
+    //     this.setState({ existingConvoId: chatting[0].convoID });
+    //   }
   }
 
-  async alreadyChatting() {
-    const { navigate } = this.props.navigation;
-    const self = this;
-    const currUsersConversations = this.props.userInfo.conversations;
-    const userToMsg = this.state.userOnDisplay;
-    const userInfo = this.props.userInfo;
-    const currTime = Date.now();
-    const messageTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-    if (this.state.existingConvoId) {
-      navigate('Conversation', {
-        convoID: this.state.existingConvoId
-      });
-    } else {
-      const addMsgRef = await db
-        .collection('conversations')
-        .add({ messages: [] });
-      const newMsgID = addMsgRef.id;
-      const userData = {
-        uid: userInfo.uid,
-        userName: userInfo.displayName,
-        avatar: userInfo.photoURL,
-        convoID: newMsgID,
-        lastMessageTime: messageTime
-      };
+  // async alreadyChatting() {
+  //   const { navigate } = this.props.navigation;
+  //   const self = this;
+  //   const currUsersConversations = this.props.userInfo.conversations;
+  //   const userToMsg = this.state.userOnDisplay;
+  //   const userInfo = this.props.userInfo;
+  //   const currTime = Date.now();
+  //   const messageTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+  //   if (this.state.existingConvoId) {
+  //     navigate('Conversation', {
+  //       convoID: this.state.existingConvoId
+  //     });
+  //   } else {
+  //     const addMsgRef = await db
+  //       .collection('conversations')
+  //       .add({ messages: [] });
+  //     const newMsgID = addMsgRef.id;
+  //     const userData = {
+  //       uid: userInfo.uid,
+  //       userName: userInfo.displayName,
+  //       avatar: userInfo.photoURL,
+  //       convoID: newMsgID,
+  //       lastMessageTime: messageTime
+  //     };
 
-      this.props.addNewChatToOtherUser(userData, userToMsg);
-      const userToMsgData = {
-        uid: userToMsg.uid,
-        userName: userToMsg.displayName,
-        avatar: userToMsg.photoURL,
-        convoID: newMsgID,
-        lastMessageTime: messageTime
-      };
-      this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
-      self.setState({ existingConvoId: newMsgID });
-      navigate('Conversation', {
-        convoID: this.state.existingConvoId
-      });
-    }
-  }
+  //     this.props.addNewChatToOtherUser(userData, userToMsg);
+  //     const userToMsgData = {
+  //       uid: userToMsg.uid,
+  //       userName: userToMsg.displayName,
+  //       avatar: userToMsg.photoURL,
+  //       convoID: newMsgID,
+  //       lastMessageTime: messageTime
+  //     };
+  //     this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
+  //     self.setState({ existingConvoId: newMsgID });
+  //     navigate('Conversation', {
+  //       convoID: this.state.existingConvoId
+  //     });
+  //   }
+  // }
 
   followCurrentUser() {
     const currUserInfo = this.props.userInfo;
@@ -142,10 +142,10 @@ class Followers extends React.Component {
         }}
       >
         {this.state.following ? (
-          <Left>
+          <Right>
             <Button
               iconRight
-              small
+              // small
               style={{
                 backgroundColor: '#242424'
               }}
@@ -155,7 +155,7 @@ class Followers extends React.Component {
                 style={{
                   fontFamily: 'poppins',
                   color: 'white',
-                  fontSize: 12
+                  fontSize: 15
                 }}
               >
                 Following
@@ -167,11 +167,11 @@ class Followers extends React.Component {
                 style={{ color: 'dodgerblue', fontSize: 18 }}
               />
             </Button>
-          </Left>
+          </Right>
         ) : (
-          <Left>
+          <Right>
             <Button
-              small
+              // small
               iconRight
               style={{
                 backgroundColor: '#242424'
@@ -182,7 +182,7 @@ class Followers extends React.Component {
                 style={{
                   fontFamily: 'poppins',
                   color: 'white',
-                  fontSize: 12
+                  fontSize: 15
                 }}
               >
                 Following
@@ -194,10 +194,10 @@ class Followers extends React.Component {
                 style={{ color: 'white', fontSize: 18 }}
               />
             </Button>
-          </Left>
+          </Right>
         )}
 
-        <Right>
+        {/* <Right>
           <Button
             small
             iconRight
@@ -218,7 +218,7 @@ class Followers extends React.Component {
               style={{ color: 'white', fontSize: 18 }}
             />
           </Button>
-        </Right>
+        </Right> */}
       </View>
     );
   }

@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   badgeButtonText: {
     fontFamily: 'poppins',
     color: 'white',
-    fontSize: 15,
+    fontSize: 12,
     paddingLeft: 10
   }
 });

@@ -39,7 +39,7 @@ export default class OwnProfileScreen extends React.Component {
       title: 'Your Profile',
       headerStyle: {
         backgroundColor: '#242424',
-        height: 80,
+        height: 60,
         borderBottomWidth: 0
       },
       headerTitleStyle: {
@@ -124,16 +124,16 @@ export default class OwnProfileScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'following',
-                          userList: this.props.userInfo.following,
+                          type: 'followers',
+                          userList: this.props.userInfo.followers,
                           userName: this.props.userInfo.displayName
                         })
                       }
                     >
                       <Text style={styles.cardTextBold}>
-                        {this.props.userInfo.following.length}
+                        {this.props.userInfo.followers.length}
                       </Text>
-                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
                   </Left>
                   <Body>
@@ -146,8 +146,8 @@ export default class OwnProfileScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'followers',
-                          userList: this.props.userInfo.followers,
+                          type: 'following',
+                          userList: this.props.userInfo.following,
                           userName: this.props.userInfo.displayName
                         })
                       }
@@ -159,9 +159,9 @@ export default class OwnProfileScreen extends React.Component {
                           color: 'white'
                         }}
                       >
-                        {this.props.userInfo.followers.length}
+                        {this.props.userInfo.following.length}
                       </Text>
-                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
