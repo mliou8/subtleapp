@@ -20,11 +20,12 @@ import {
 
 
 export default class Post extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {
+    const { title = '', text = '', expiryDate = ''} = this.props.data;
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen') }
@@ -34,17 +35,16 @@ export default class Post extends React.Component {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
+                paddingTop: 0,
+                height: 250,
               }}>
               <Image
-                source={{uri: 'https://loremflickr.com/160/180/cat'}}
+                source={{uri: 'https://loremflickr.com/165/180/cat'}}
                 style={styles.cardImage}
               />
-                  <Text style={styles.title}>Title</Text>
-                  <Text
-                    style={styles.caption}
-                    numberOfLines={3}>
-                    Caption and text / OK ATTENTION everyone this is a
-                    beautiful person and blah blah blah blah blah
+                  <Text style={styles.title}>{title}</Text>
+                  <Text numberOfLines={3}>
+                    {text}
                   </Text>
             </CardItem>
             <CardItem style={styles.actionIcons}>
@@ -74,11 +74,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: 170,
     paddingTop: 0,
+    height: 280,
+    marginRight: 5
   },
   cardImage: {
     height: 180,
-    width: 160,
-    resizeMode: "stretch",
+    width: 165,
   },
   cardItem: {
     display: "flex",

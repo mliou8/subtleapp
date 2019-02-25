@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Video from 'app/components/common/media/Video';
 import {
@@ -41,11 +42,11 @@ export default class LandingPage extends React.Component {
       this.setState({inviteError: this.props.inviteError});
     }
   }
-  
+
   submitInput(input) {
     this.props.checkCode(input);
   }
-  
+
   closeModal() {
     this.setState({modalOpen: false});
   }

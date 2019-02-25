@@ -21,40 +21,55 @@ import {
 } from 'native-base';
 
 import Post from 'app/components/dating/DatingPost';
+import DatingRow from 'app/components/dating/DatingRow';
+
 import { fetchPosts } from 'db/dating/index';
 
 export default class DatingScreen extends React.Component {
   static navigationOptions = {
-       header: null
+      header: null
    }
 
   constructor(props) {
     super(props);
     this.state = {
-      posts: ''
+      posts: []
     };
-
-    this.handlePress = this.handlePress.bind(this)
+    this.renderPosts = this.renderPosts.bind(this);
+    this.constructPosts = this.constructPosts.bind(this);
   }
 
-  fetchDatingStuff() {
-    // url
-    // ig handle
-    // Text
-    // like count
-    // comments and comment count
+  constructPosts() {
+    if (this.state.posts.length > 0) {
+      const posts = this.state.posts;
+      let arr = []
+      for (let i = 0; i < posts.length; i += 2) {
+        if (i == posts.length - 1) {
+          arr.push([posts[i]]);
+        } else {
+          let postRow = [posts[i], posts[i + 1]];
+          arr.push(postRow);
+       }
+     }
+     return this.renderPosts(arr);
+   }
   }
 
-  handlePress() {
-    console.log("this.props ", this.props.navigation)
+  renderPosts(postArr) {
+    return postArr.map((posts) => {
+      console.log("what is posts ", posts)
+      return (
+        <DatingRow
+          posts={posts}
+          navigation={this.props.navigation}
+        />);
+    })
   }
 
   componentDidMount() {
     fetchPosts().then((posts) => {
       this.setState({posts: posts})
-      console.log("This state is ", this.state.posts)
     })
-
   }
 
   render() {
@@ -62,12 +77,7 @@ export default class DatingScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.container}>
-            <Post navigation={this.props.navigation}/>
-            <Post navigation={this.props.navigation}/>
-            <Post navigation={this.props.navigation}/>
-            <Post navigation={this.props.navigation}/>
-            <Post navigation={this.props.navigation}/>
-            <Post navigation={this.props.navigation}/>
+            {this.constructPosts()}
           </View>
         </ScrollView>
       </View>
@@ -84,5 +94,10 @@ const styles = StyleSheet.create({
       paddingLeft: 7,
       paddingRight: 7,
       justifyContent: 'space-between',
+    },
+    row: {
+      display: 'flex',
+      flexDirection: 'row',
+      marginTop: 25,
     },
 });
