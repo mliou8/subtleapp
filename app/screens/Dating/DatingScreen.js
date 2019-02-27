@@ -62,6 +62,7 @@ export default class DatingScreen extends React.Component {
           key={idx}
           posts={posts}
           navigation={this.props.navigation}
+          style={{alignSelf: 'stretch'}}
         />);
     })
   }
@@ -74,7 +75,7 @@ export default class DatingScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <ScrollView>
           <View style={styles.container}>
             {this.constructPosts()}
@@ -91,8 +92,8 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      paddingLeft: 3,
-      paddingRight: 3,
+      paddingLeft: 4,
+      paddingRight: 4,
       justifyContent: 'space-around',
       alignItems:'stretch'
     },

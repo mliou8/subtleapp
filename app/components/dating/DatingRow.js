@@ -7,11 +7,11 @@ export default class DatingRow extends Component {
     const {posts, navigation} = this.props;
     const singleisTrue = (posts.length === 1);
     return (
-      <View style={{display: 'flex', flexDirection: 'row', marginTop: 5, marginBottom: 20}}>
+      <View style={{marginTop: 10, marginBottom: 10}}>
         <Post
           navigation={navigation}
           data={posts[0]}
-          propStyles={{ alignSelf: 'flex-start'}}
+          propStyles={{ backgroundColor: 'red'}}
         />
         {posts.length > 1 &&
               <Post

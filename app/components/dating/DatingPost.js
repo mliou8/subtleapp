@@ -30,7 +30,7 @@ export default class Post extends React.Component {
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
-            style={{ propStyles, ...styles.post }}>
+            >
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={{
