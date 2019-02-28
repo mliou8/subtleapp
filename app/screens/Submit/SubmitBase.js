@@ -15,6 +15,7 @@ import timeout from 'app/util/timeout';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo';
 
 
@@ -63,6 +64,18 @@ export default class SubmitBase extends Component {
     this.takePicture = this.takePicture.bind(this);
     this.pickImageFromCameraRoll = this.pickImageFromCameraRoll.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.validatePost = this.validatePost.bind(this);
+  }
+
+  validatePost() {
+    if (this.state.text.length < 1 || this.state.text.length < 1) {
+      Alert.alert("Title or Text is empty.");
+      return false;
+    } else if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
+      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+      return false;
+    }
+    return true;
   }
 
   async submitPost() {
@@ -189,6 +202,7 @@ export default class SubmitBase extends Component {
   };
 
   async createPost() {
+    this.validatePost();
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
@@ -218,7 +232,15 @@ export default class SubmitBase extends Component {
   addPostToUser(postData) {
     const currUserInfo = this.props.userInfo;
     newGeneralPost(postData, currUserInfo);
-    this.props.navigation.navigate('Home');
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home'})
+      ]
+    })
+
+    this.props.navigation.dispatch(resetAction);
   }
 
   takePicture = async () => {

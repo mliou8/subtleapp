@@ -11,7 +11,6 @@ export default class DatingRow extends Component {
         <Post
           navigation={navigation}
           data={posts[0]}
-          propStyles={{ backgroundColor: 'red'}}
         />
         {posts.length > 1 &&
               <Post

@@ -33,12 +33,7 @@ export default class Post extends React.Component {
             >
           <Card style={{paddingTop: 0}}>
             <CardItem
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                paddingTop: 0,
-                height: 250,
-              }}>
+              style={styles.post}>
               <Image
                 source={{uri: photoRef[0]}}
                 style={styles.cardImage}
@@ -76,11 +71,11 @@ const styles = StyleSheet.create({
     width: 170,
     paddingTop: 0,
     height: 280,
-    marginRight: 10,
   },
   cardImage: {
     height: 180,
     width: 165,
+    resizeMode: "contain",
   },
   cardItem: {
     display: "flex",
