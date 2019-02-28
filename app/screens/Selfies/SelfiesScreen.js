@@ -40,7 +40,11 @@ class SelfiesScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Selfies',
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        shadowColor: 'transparent'
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -61,7 +65,7 @@ class SelfiesScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { height: 250, modalVisible: false, uploads: [], post: {} };
+    this.state = { height: 250, modalVisible: false, uploads: [], post: {}, caption: "" };
   }
   async uploadPhoto() {
     const uri = this.state.uploads[0];
@@ -171,26 +175,11 @@ class SelfiesScreen extends React.Component {
     }
   };
   removeImage = uri => {
-    Alert.alert(
-      '',
-      'Are you sure you want to remove this picture from your post?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            this.setState(state => {
-              return {
-                uploads: state.uploads.filter(upload => upload !== uri)
-              };
-            });
-          }
-        }
-      ]
-    );
+    this.setState(state => {
+      return {
+        uploads: state.uploads.filter(upload => upload !== uri)
+      };
+    });
   };
 
   render() {
@@ -204,7 +193,11 @@ class SelfiesScreen extends React.Component {
               display: 'flex'
             }}
           >
-            <Thumbnail large source={{ uri: this.props.userInfo.photoURL }} />
+            <Thumbnail
+              style={{ borderWidth: 3, borderColor: 'white' }}
+              large
+              source={{ uri: this.props.userInfo.photoURL }}
+            />
             <Form>
               <Item
                 style={{

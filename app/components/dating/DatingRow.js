@@ -7,7 +7,7 @@ export default class DatingRow extends Component {
     const {posts, navigation} = this.props;
     const singleisTrue = (posts.length === 1);
     return (
-      <View style={{marginTop: 10, marginBottom: 10}}>
+      <View>
         <Post
           navigation={navigation}
           data={posts[0]}

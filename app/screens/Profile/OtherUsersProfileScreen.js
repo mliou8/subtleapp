@@ -37,7 +37,11 @@ class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('name') + "'s Profile",
-      headerStyle: { backgroundColor: '#242424', height: 80 },
+      headerStyle: {
+        backgroundColor: '#242424',
+        height: 80,
+        borderBottomWidth: 0
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -108,60 +112,95 @@ class OtherUsersProfileScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
         {this.props.profile.userProfile.uid ? (
-          <View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ backgroundColor: '#242424' }}>
+            <Content>
               <Followers
                 navigation={this.props.navigation}
                 userOnDisplay={this.props.profile.userProfile}
               />
-            </View>
-            <Content>
-              <Card style={{ height: '45 %' }} transparent>
-                <CardItem>
+
+              <Card
+                style={{ height: '45 %', backgroundColor: '#242424' }}
+                transparent
+              >
+                <CardItem style={{ backgroundColor: '#242424' }}>
                   <Left>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('FollowersList', {
+                          type: 'following',
+                          userList: this.props.profile.userProfile.following,
+                          userName: this.props.profile.userProfile.displayName
+                        })
+                      }
+                    >
+                      <Text
+                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
+                      >
+                        {this.props.profile.userProfile.following.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWING
+                      </Text>
+                    </TouchableOpacity>
+                  </Left>
+                  <Body>
                     <ProfilePortrait
                       style={styles.profile}
                       imageSrc={this.props.profile.userProfile.photoURL}
                     />
-                    <Body>
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate('FollowersList', {
-                            type: 'following',
-                            userList: this.props.profile.userProfile.following,
-                            userName: this.props.profile.userProfile.displayName
-                          })
-                        }
+                  </Body>
+                  <Right>
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.navigate('FollowersList', {
+                          type: 'followers',
+                          userList: this.props.profile.userProfile.followers,
+                          userName: this.props.profile.userProfile.displayName
+                        })
+                      }
+                    >
+                      <Text
+                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
+                        center
                       >
-                        <Text>
-                          Following:{' '}
-                          {this.props.profile.userProfile.following.length}
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate('FollowersList', {
-                            type: 'followers',
-                            userList: this.props.profile.userProfile.followers,
-                            userName: this.props.profile.userProfile.displayName
-                          })
-                        }
-                      >
-                        <Text>
-                          Followers:{' '}
-                          {this.props.profile.userProfile.followers.length}
-                        </Text>
-                      </TouchableOpacity>
-                    </Body>
-                    <Right>{this.renderSocialBadges()}</Right>
-                  </Left>
+                        {this.props.profile.userProfile.followers.length}
+                      </Text>
+                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                        FOLLOWERS
+                      </Text>
+                    </TouchableOpacity>
+                  </Right>
+                </CardItem>
+                <CardItem
+                  style={{
+                    justifyContent: 'center',
+                    backgroundColor: '#242424'
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: 'poppinsBold',
+                      color: 'white',
+                      fontSize: 20
+                    }}
+                  >
+                    {this.props.profile.userProfile.displayName}
+                  </Text>
                 </CardItem>
               </Card>
             </Content>
+            <Card
+              style={{
+                backgroundColor: '#242424',
+                display: 'flex',
+                flexDirection: 'row'
+              }}
+              transparent
+            >
+              <Right>{this.renderSocialBadges()}</Right>
+            </Card>
 
-            <View style={{ flex: 1, marginTop: 15, paddingLeft: 15 }}>
-              <Text>{this.props.profile.userProfile.displayName}</Text>
-            </View>
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
@@ -176,9 +215,7 @@ class OtherUsersProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 7.6,
-    backgroundColor: '#fff',
-    flexDirection: 'column'
+    backgroundColor: '#242424'
   },
   divider: {
     borderBottomColor: 'black',

@@ -5,6 +5,7 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
+export const AUTH_READY = 'AUTH_READY';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -36,6 +37,12 @@ export const createProfileError = errorMsg => {
   return {
     type: CREATE_PROFILE_ERROR,
     errorMsg
+  };
+};
+
+export const authReady = () => {
+  return {
+    type: AUTH_READY
   };
 };
 
@@ -128,7 +135,7 @@ export function logUserIn(user) {
         dispatch(userUpdated(dbUser.data()));
         dispatch(authSuccess());
       } else {
-        return false;
+        dispatch(authReady());
       }
     });
   };

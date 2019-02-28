@@ -16,12 +16,13 @@ import { Button, Icon, Text } from 'native-base';
 import { connect } from 'react-redux';
 import db from 'db/firestore';
 
-export default class LandingPage extends React.Component {
+export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modalOpen: this.props.modalOpen,
       inviteError: this.props.inviteError,
+      ready: this.props.ready 
     };
     this.closeModal = this.closeModal.bind(this);
     this.submitInput = this.submitInput.bind(this);
@@ -29,7 +30,6 @@ export default class LandingPage extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.authenticated) {
-      Alert.alert(`Welcome back!`);
       this.props.navigation.navigate('MainScreen');
     }
     if (this.props.modalOpen === true && !prevProps.modalOpen) {
@@ -52,50 +52,54 @@ export default class LandingPage extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Video
-          videoSrc={VideoUrl}
-          loop={true}
-          videoStyle={styles.backgroundVideo}
-          muted={true}
-        />
-        <Button
-          rounded
-          iconLeft
-          bordered
-          light
-          color="white"
-          onPress={() => this.props.facebookLogin()}
-        >
-          <Icon
-            name="facebook-with-circle"
-            type="Entypo"
-            style={{ color: 'white', fontSize: 30 }}
+    if (!this.state.ready) {
+      return <View></View>
+    } else {
+      return (
+        <View style={styles.container}>
+          <Video
+            videoSrc={VideoUrl}
+            loop={true}
+            videoStyle={styles.backgroundVideo}
+            muted={true}
           />
-        <Text>Login with Facebook</Text>
-        </Button>
-        <DialogInput isDialogVisible={this.state.modalOpen}
-          title={"Please Enter Invite Code"}
-          hintInput={this.state.inviteError ? 'Please Try Again' : 'Invite Code'}
-          submitInput={(inputText) => {this.submitInput(inputText)}}
-          closeDialog={() => {this.closeModal()}}>
-        </DialogInput>
-        <Button
-          rounded
-          iconLeft
-          bordered
-          light
-          title={'Just take me in with no sign in'}
-          onPress={() => {
-            this.props.navigation.navigate('MainScreen');
-          }}
-          style={{ backgroundColor: 'white', marginTop: 10 }}
-        >
-          <Text style={{ color: 'black' }}>take me in without signing in </Text>
-        </Button>
-      </View>
-    );
+          <Button
+            rounded
+            iconLeft
+            bordered
+            light
+            color="white"
+            onPress={() => this.props.facebookLogin()}
+          >
+            <Icon
+              name="facebook-with-circle"
+              type="Entypo"
+              style={{ color: 'white', fontSize: 30 }}
+            />
+          <Text>Login with Facebook</Text>
+          </Button>
+          <DialogInput isDialogVisible={this.state.modalOpen}
+            title={"Please Enter Invite Code"}
+            hintInput={this.state.inviteError ? 'Please Try Again' : 'Invite Code'}
+            submitInput={(inputText) => {this.submitInput(inputText)}}
+            closeDialog={() => {this.closeModal()}}>
+          </DialogInput>
+          <Button
+            rounded
+            iconLeft
+            bordered
+            light
+            title={'Just take me in with no sign in'}
+            onPress={() => {
+              this.props.navigation.navigate('MainScreen');
+            }}
+            style={{ backgroundColor: 'white', marginTop: 10 }}
+          >
+            <Text style={{ color: 'black' }}>take me in without signing in </Text>
+          </Button>
+        </View>
+      );
+    }
   }
 }
 

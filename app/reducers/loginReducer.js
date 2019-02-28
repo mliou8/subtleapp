@@ -1,5 +1,6 @@
 import {
   FACEBOOK_LOGIN_SUCCESS,
+  AUTH_READY,
   AUTH_SUCCESS,
   AUTH_FAIL,
   LOGOUT_SUCCESS,
@@ -15,6 +16,7 @@ import {
 } from 'actions/login/index';
 
 const initialState = {
+  ready: false,
   authenticated: false,
   userInfo: {},
   errorMsg: '',
@@ -27,8 +29,13 @@ export default function(state = initialState, action) {
     case AUTH_SUCCESS:
       return {
         ...state,
-        authenticated: true
+        authenticated: true,
       };
+    case AUTH_READY:
+      return {
+        ...state,
+        ready: true
+      }
     case AUTH_FAIL:
       return {
         ...state,
@@ -49,7 +56,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         authenticated: false,
+        auth_needed: true,
         userInfo: {},
+        ready: true
       };
     case USER_INFO_FETCHED:
       return {

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Keyboard,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-  Alert
+  ImageBackground
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -32,7 +28,7 @@ export default class SubmitDating extends Component {
 
   render() {
     return (
-        <ScrollView style={styles.container} alwaysBounceVertical={false}>
+        <View style={styles.container}>
             <Modal
               avoidKeyboard
               onBackdropPress={() => this.props.toggleModal(false)}
@@ -125,7 +121,7 @@ export default class SubmitDating extends Component {
                 Submit
               </Text>
             </Button>
-        </ScrollView>
+        </View>
     );
   }
 }

@@ -1,26 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Keyboard,
   View,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
   ScrollView,
-  ImageBackground,
+  KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './SubmitBase.styles';
-import {
-  Container,
-  Header,
-  Button,
-  Content,
-  Form,
-  Item,
-  Input,
-  Label,
-  Text
-} from 'native-base';
+
 import SubmitContent from './subscreens/SubmitContent';
 import SubmitDating from './subscreens/SubmitDating';
 import SubmitHeader from 'app/components/submit/SubmitHeader';
@@ -30,6 +16,8 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { ImagePicker, Permissions } from 'expo';
+
+
 
 
 export default class SubmitBase extends Component {
@@ -65,7 +53,6 @@ export default class SubmitBase extends Component {
     this.setPostType = this.setPostType.bind(this);
     this.setDuration = this.setDuration.bind(this);
     this.setTopic = this.setTopic.bind(this);
-    this.uploadPhoto = this.uploadPhoto.bind(this);
     this.uploadImageAsync = this.uploadImageAsync.bind(this);
     this.updateSize = this.updateSize.bind(this);
     this.updateTextInput = this.updateTextInput.bind(this);
@@ -78,8 +65,12 @@ export default class SubmitBase extends Component {
     this.removeImage = this.removeImage.bind(this);
   }
 
-  submitPost() {
-    this.createPost();
+  async submitPost() {
+    for (let upload of this.state.uploads) {
+      await this.uploadImageAsync(upload);
+    }
+
+    await this.createPost();
   }
 
   setPostType (idx, value) {
@@ -105,25 +96,8 @@ export default class SubmitBase extends Component {
   renderForm() {
     if (this.state.postType === "dating") {
       return (
-        <SubmitDating
-          toggleModal={this.toggleModal}
-          modalVisible={this.state.modalVisible}
-          takePicture={this.takePicture}
-          pickImageFromCameraRoll={this.pickImageFromCameraRoll}
-          updateTitleInput={this.updateTitleInput}
-          updateSize={this.updateSize}
-          text={this.state.text}
-          title={this.state.title}
-          updateTextInput={this.updateTextInput}
-          uploads={this.state.uploads}
-          removeImage={this.removeImage}
-          height={this.state.height}
-          submitPost={this.submitPost}
-        />
-      )
-    } else {
-        return (
-          <SubmitContent
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <SubmitDating
             toggleModal={this.toggleModal}
             modalVisible={this.state.modalVisible}
             takePicture={this.takePicture}
@@ -131,20 +105,35 @@ export default class SubmitBase extends Component {
             updateTitleInput={this.updateTitleInput}
             updateSize={this.updateSize}
             text={this.state.text}
+            title={this.state.title}
             updateTextInput={this.updateTextInput}
             uploads={this.state.uploads}
             removeImage={this.removeImage}
             height={this.state.height}
             submitPost={this.submitPost}
           />
+        </KeyboardAvoidingView>
+      )
+    } else {
+        return (
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <SubmitContent
+              toggleModal={this.toggleModal}
+              modalVisible={this.state.modalVisible}
+              takePicture={this.takePicture}
+              pickImageFromCameraRoll={this.pickImageFromCameraRoll}
+              updateTitleInput={this.updateTitleInput}
+              updateSize={this.updateSize}
+              text={this.state.text}
+              updateTextInput={this.updateTextInput}
+              uploads={this.state.uploads}
+              removeImage={this.removeImage}
+              height={this.state.height}
+              submitPost={this.submitPost}
+            />
+          </KeyboardAvoidingView>
         )
     }
-  }
-
-  async uploadPhoto() {
-    this.state.uploads.forEach((upload) => {
-      this.uploadImageAsync(upload);
-    })
   }
 
   async uploadImageAsync(uri) {
@@ -306,7 +295,7 @@ export default class SubmitBase extends Component {
   render() {
     const overlay = <View style={styles.overlay} />;
     return (
-        <ScrollView style={styles.container} alwaysBounceVertical={false}>
+        <ScrollView style={styles.container} bounces={false}>
             <SubmitHeader
               setType={this.setPostType}
               setTopic={this.setTopic}
