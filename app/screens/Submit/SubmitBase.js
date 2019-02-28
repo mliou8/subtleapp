@@ -54,9 +54,9 @@ export default class SubmitBase extends Component {
       postAuthor: {},
       title: '',
       text: '',
-      postType: "initial",
+      postType: "general",
       topic: "offtopic",
-      duration: 'infinite',
+      duration: 3,
       modalVisible: false,
     };
 
@@ -84,7 +84,7 @@ export default class SubmitBase extends Component {
 
   setPostType (idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase });
+    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', height: 250, downloadUrl: [], duration: 3 });
   }
 
   setTopic(idx, value) {
@@ -117,7 +117,6 @@ export default class SubmitBase extends Component {
           updateTextInput={this.updateTextInput}
           uploads={this.state.uploads}
           removeImage={this.removeImage}
-          uploadPhoto={this.uploadPhoto}
           height={this.state.height}
           submitPost={this.submitPost}
         />
@@ -135,7 +134,6 @@ export default class SubmitBase extends Component {
             updateTextInput={this.updateTextInput}
             uploads={this.state.uploads}
             removeImage={this.removeImage}
-            uploadPhoto={this.uploadPhoto}
             height={this.state.height}
             submitPost={this.submitPost}
           />
@@ -169,7 +167,7 @@ export default class SubmitBase extends Component {
 
     const ref = firebase
       .storage()
-      .ref('test/')
+      .ref('images/')
       .child(`${filename}`);
 
     const snapshot = await ref.put(blob);
@@ -180,6 +178,7 @@ export default class SubmitBase extends Component {
     const downloadURL = await snapshot.ref.getDownloadURL();
     const newArray = this.state.downloadURL.concat(downloadURL)
     this.setState({downloadURL: newArray});
+    console.log("this.state currently is ", this.state);
   }
 
   updateSize = height => {
@@ -249,6 +248,7 @@ export default class SubmitBase extends Component {
             uploads: [...state.uploads, uri]
           };
         });
+        this.uploadImageAsync(uri);
       }
     } catch (e) {
       console.error('Could not take picture', e);
@@ -273,6 +273,7 @@ export default class SubmitBase extends Component {
             uploads: [...state.uploads, uri]
           };
         });
+        this.uploadImageAsync(uri);
       }
     } catch (e) {
       console.error('Could not get image from camera roll', e);
