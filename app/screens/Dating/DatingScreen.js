@@ -56,15 +56,20 @@ export default class DatingScreen extends React.Component {
   }
 
   renderPosts(postArr) {
-    return postArr.map((posts, idx) => {
-      return (
-        <DatingRow
-          key={idx}
-          posts={posts}
-          navigation={this.props.navigation}
-          style={{alignSelf: 'stretch'}}
-        />);
-    })
+    if (!this.state.posts) {
+        return <View />
+    } else {
+        return postArr.map((posts, idx) => {
+          console.log("posts ", posts);
+          return (
+            <DatingRow
+              key={idx}
+              posts={posts}
+              navigation={this.props.navigation}
+              style={{alignSelf: 'stretch'}}
+              />);
+            })
+    }
   }
 
   componentDidMount() {

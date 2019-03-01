@@ -27,6 +27,8 @@ export default class Post extends React.Component {
   render() {
     const { title = '', text = '', expiryDate = '', photoRef = ''} = this.props.data;
     const { propStyles = {} } = this.props;
+    const photoUrl = photoRef[0];
+    console.log("photoUrl ", photoUrl)
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
@@ -34,15 +36,16 @@ export default class Post extends React.Component {
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={styles.post}>
-              <Image
-                source={{uri: photoRef[0]}}
-                style={styles.cardImage}
-              />
-                  <Text style={styles.title}>{title}</Text>
-                  <Text numberOfLines={3} style={styles.text}>
-                    {text.replace(/"/g,"")}
-                  </Text>
-            </CardItem>
+                {photoRef && <Image
+                  source={{uri: photoUrl}}
+                  style={styles.cardImage}
+                  />
+                 }
+                    <Text style={styles.title}>{title}</Text>
+                    <Text numberOfLines={3} style={styles.text}>
+                      {text.replace(/"/g,"")}
+                    </Text>
+             </CardItem>
             <CardItem style={styles.actionIcons}>
               <Button small transparent style={{paddingBottom: 0}}>
                 <MaterialIcons
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   cardImage: {
     height: 180,
     width: 165,
-    resizeMode: "contain",
+    zIndex: 5,
   },
   cardItem: {
     display: "flex",
