@@ -90,10 +90,7 @@ export default class BulletinPost extends React.Component {
                   name="heart-o"
                   type="FontAwesome"
                 >
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    {' '}
-                    0{' '}
-                  </Text>
+                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>0</Text>
                 </Icon>
               </Button>
             </Left>
@@ -117,8 +114,7 @@ export default class BulletinPost extends React.Component {
                     type="Ionicons"
                   />
                   <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    {' '}
-                    12{' '}
+                    12
                   </Text>
                 </Icon>
               </Button>
@@ -132,8 +128,7 @@ export default class BulletinPost extends React.Component {
                   type="FontAwesome"
                 >
                   <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    {' '}
-                    12{' '}
+                    12
                   </Text>
                 </Icon>
               </Button>

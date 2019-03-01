@@ -28,10 +28,15 @@ export default class SelfieFeed extends React.Component {
   }
 
   componentDidMount() {
-    fetchPosts().then((posts) => {
-      this.setState({posts: posts})
-      console.log("This state is ", this.state.posts)
-    })
+    fetchPosts().then(posts => {
+      this.setState({ posts: posts });
+      console.log('This state is ', this.state.posts);
+    });
+  }
+  renderPosts() {
+    this.state.posts.map(item => {
+      <SelfiePost imageSrc={item.url} caption={item.caption} />;
+    });
   }
 
   render() {

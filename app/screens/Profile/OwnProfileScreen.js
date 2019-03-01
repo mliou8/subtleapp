@@ -80,18 +80,18 @@ export default class OwnProfileScreen extends React.Component {
     this.state = {
       displayAdd: false
     };
-    this.renderSocialMenu = this.renderSocialMenu.bind(this);
+    // this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
-    this.addSocialBadge = this.addSocialBadge.bind(this);
+    // this.addSocialBadge = this.addSocialBadge.bind(this);
   }
 
   componentDidMount() {
     this.props.navigation.setParams({ userInfo: this.props.userInfo });
   }
 
-  renderSocialMenu = () => {
-    return <AddSocialNetworkTag />;
-  };
+  // renderSocialMenu = () => {
+  //   return <AddSocialNetworkTag />;
+  // };
 
   renderSocialBadges = () => {
     return this.props.userInfo.socialNetworks.map((badge, idx) => {
@@ -106,9 +106,9 @@ export default class OwnProfileScreen extends React.Component {
     });
   };
 
-  addSocialBadge = () => {
-    this.setState({ displayAdd: !this.state.displayAdd });
-  };
+  // addSocialBadge = () => {
+  //   this.setState({ displayAdd: !this.state.displayAdd });
+  // };
   render() {
     return (
       <ScrollView style={styles.container}>

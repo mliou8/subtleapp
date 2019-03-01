@@ -51,16 +51,7 @@ class OtherUsersProfileScreen extends React.Component {
         color: 'white',
         fontSize: 18
       },
-      headerRight: (
-        <Button transparent onPress={() => this.alreadyChatting()}>
-          <Icon
-            type="Ionicons"
-            name={'ios-send'}
-            title="messages"
-            style={{ color: 'white', fontSize: 25, marginRight: 20 }}
-          />
-        </Button>
-      ),
+
       headerLeft: (
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon
@@ -85,11 +76,9 @@ class OtherUsersProfileScreen extends React.Component {
 
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
-    this.alreadyChatting = this.alreadyChatting.bind(this);
   }
 
   async componentDidMount() {
-    this._mounted = true;
     const { userToDisplay } = this.props.navigation.state.params;
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userToDisplay });
@@ -110,57 +99,6 @@ class OtherUsersProfileScreen extends React.Component {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  alreadyChatting() {
-    const { navigate } = this.props.navigation;
-    const self = this;
-
-    if (this.state.existingConvoId) {
-      navigate('Conversation', {
-        convoID: this.state.existingConvoId
-      });
-    } else {
-      this.startNewChat();
-    }
-  }
-  async startNewChat() {
-    const { navigate } = this.props.navigation;
-    const self = this;
-    const currUsersConversations = this.props.userInfo.conversations;
-    const userToMsg = this.state.userToDisplay;
-    const userInfo = this.props.userInfo;
-    const currTime = Date.now();
-    const messageTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
-    const addMsgRef = await db
-      .collection('conversations')
-      .add({ messages: [] });
-    const newMsgID = addMsgRef.id;
-    const userData = {
-      uid: userInfo.uid,
-      userName: userInfo.displayName,
-      avatar: userInfo.photoURL,
-      convoID: newMsgID,
-      lastMessageTime: messageTime
-    };
-
-    this.props.addNewChatToOtherUser(userData, userToMsg);
-    const userToMsgData = {
-      uid: userToMsg.uid,
-      userName: userToMsg.displayName,
-      avatar: userToMsg.photoURL,
-      convoID: newMsgID,
-      lastMessageTime: messageTime
-    };
-    this.props.addNewChatToCurrentUser(userToMsgData, userInfo);
-    self.setState({ existingConvoId: newMsgID });
-    navigate('Conversation', {
-      convoID: this.state.existingConvoId
-    });
   }
 
   renderSocialMenu = () => {

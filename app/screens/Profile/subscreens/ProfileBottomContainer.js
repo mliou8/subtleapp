@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import RecentPostScreen from './RecentPostScreen';
+import BookmarkedPostScreen from './BookmarkedPostScreen';
 import AchievementScreen from './AchievementScreen';
 import Badge from 'app/components/common/Badge';
 
@@ -70,7 +71,8 @@ export default class ProfileBottomScreen extends React.Component {
                 this.setState({ view: 'Achievements' });
               }}
             >
-              <AchievementScreen />
+              {/* <AchievementScreen /> */}
+              <BookmarkedPostScreen />
             </Tab>
           </Tabs>
         </View>
