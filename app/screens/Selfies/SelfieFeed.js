@@ -15,7 +15,8 @@ import {
   Card,
   CardItem,
   Text,
-  Button
+  Button,
+  Spinner
 } from 'native-base';
 import { fetchPosts } from 'db/selfies/index';
 
@@ -30,39 +31,29 @@ export default class SelfieFeed extends React.Component {
   componentDidMount() {
     fetchPosts().then(posts => {
       this.setState({ posts: posts });
-      console.log('This state is ', this.state.posts);
+      // console.log('This state is ', this.state.posts[0].photoRef);
     });
   }
   renderPosts() {
-    this.state.posts.map(item => {
-      <SelfiePost imageSrc={item.url} caption={item.caption} />;
-    });
+    let counter = 1;
+    return this.state.posts.map(item => (
+      <SelfiePost
+        key={counter++}
+        imageSrc={`${item.photoRef}`}
+        caption={item.caption}
+      />
+    ));
   }
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <SelfiePost
-            imageSrc={'https://loremflickr.com/176/230/cat'}
-            caption={'testing'}
-          />
-          <SelfiePost
-            imageSrc={'https://loremflickr.com/176/230/cat'}
-            caption={'testing'}
-          />
-          <SelfiePost
-            imageSrc={'https://loremflickr.com/176/230/cat'}
-            caption={'testing'}
-          />
-          <SelfiePost
-            imageSrc={'https://loremflickr.com/176/230/cat'}
-            caption={'testing'}
-          />
-          <SelfiePost
-            imageSrc={'https://loremflickr.com/176/230/cat'}
-            caption={'testing'}
-          />
+          {this.state.posts.length >= 1 ? (
+            this.renderPosts()
+          ) : (
+            <Spinner color="white" />
+          )}
         </ScrollView>
       </View>
     );

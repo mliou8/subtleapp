@@ -142,10 +142,8 @@ class Followers extends React.Component {
         }}
       >
         {this.state.following ? (
-          // <Right>
           <Button
             iconRight
-            // small
             style={{
               backgroundColor: '#242424'
             }}
@@ -168,10 +166,7 @@ class Followers extends React.Component {
             />
           </Button>
         ) : (
-          // </Right>
-          // <Right>
           <Button
-            // small
             iconRight
             style={{
               backgroundColor: '#242424'
@@ -194,7 +189,6 @@ class Followers extends React.Component {
               style={{ color: 'white', fontSize: 18 }}
             />
           </Button>
-          // </Right>
         )}
 
         <Right>

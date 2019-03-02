@@ -12,11 +12,8 @@ import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Followers from './subscreens/Followers';
-import { addNewChatToCurrentUser } from 'actions/login/index';
-import {
-  fetchUserProfileInfo,
-  addNewChatToOtherUser
-} from 'actions/profile/index';
+
+import { fetchUserProfileInfo } from 'actions/profile/index';
 
 import { connect } from 'react-redux';
 import db from 'db/firestore';
@@ -178,22 +175,6 @@ class OtherUsersProfileScreen extends React.Component {
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
-                {/* <CardItem
-                  style={{
-                    justifyContent: 'center',
-                    backgroundColor: '#242424'
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: 'poppinsBold',
-                      color: 'white',
-                      fontSize: 20
-                    }}
-                  >
-                    {this.props.profile.userProfile.displayName}
-                  </Text>
-                </CardItem> */}
               </Card>
             </Content>
             <Card style={styles.socialBadgesContainer} transparent>
@@ -264,12 +245,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchUserProfileInfo: uid => {
       dispatch(fetchUserProfileInfo(uid));
-    },
-    addNewChatToCurrentUser: (userToMsgData, userInfo) => {
-      dispatch(addNewChatToCurrentUser(userToMsgData, userInfo));
-    },
-    addNewChatToOtherUser: (userInfo, profileUserInfo) => {
-      dispatch(addNewChatToOtherUser(userInfo, profileUserInfo));
     }
   };
 };
