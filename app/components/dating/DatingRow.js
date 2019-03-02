@@ -5,7 +5,6 @@ import Post from 'app/components/dating/DatingPost';
 export default class DatingRow extends Component {
   render () {
     const {posts, navigation} = this.props;
-    console.log("posts[0] ", posts[0]);
     return (
       <View>
         <Post

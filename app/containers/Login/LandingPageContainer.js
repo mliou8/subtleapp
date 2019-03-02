@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { facebookLogin, checkCode } from 'actions/login/index';
 import LoginPage from 'screens/Login/LoginPage';
+import { fetchPosts } from 'app/actions/posts/index';
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -21,7 +22,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     checkCode: (code) => {
       dispatch(checkCode(code));
-    }
+    },
+    fetchPosts: (postType, postArr) => {
+      dispatch(fetchPosts(postType, postArr));
+    },
   };
 };
 

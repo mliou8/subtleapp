@@ -23,8 +23,6 @@ import {
 import Post from 'app/components/dating/DatingPost';
 import DatingRow from 'app/components/dating/DatingRow';
 
-import { fetchPosts } from 'db/dating/index';
-
 export default class DatingScreen extends React.Component {
   static navigationOptions = {
       header: null
@@ -40,8 +38,8 @@ export default class DatingScreen extends React.Component {
   }
 
   constructPosts() {
-    if (this.state.posts.length > 0) {
-      const posts = this.state.posts;
+    if (this.props.posts) {
+      const posts = this.props.posts;
       let arr = []
       for (let i = 0; i < posts.length; i += 2) {
         if (i == posts.length - 1) {
@@ -56,7 +54,7 @@ export default class DatingScreen extends React.Component {
   }
 
   renderPosts(postArr) {
-    if (!this.state.posts) {
+    if (!this.props.posts) {
         return <View />
     } else {
         return postArr.map((posts, idx) => {
@@ -72,10 +70,9 @@ export default class DatingScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
-    fetchPosts().then((posts) => {
-      this.setState({posts: posts})
-    })
+  async componentDidMount() {
+    const dating = 'dating';
+    await this.props.fetchPosts(dating);
   }
 
   render() {

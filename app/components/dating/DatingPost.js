@@ -36,10 +36,10 @@ export default class Post extends React.Component {
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={styles.post}>
-                {photoRef && <Image
+                {photoUrl && (<Image
                   source={{uri: photoUrl}}
                   style={styles.cardImage}
-                  />
+                  />)
                  }
                     <Text style={styles.title}>{title}</Text>
                     <Text numberOfLines={3} style={styles.text}>
