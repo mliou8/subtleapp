@@ -36,15 +36,14 @@ export default class Post extends React.Component {
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={styles.post}>
-                {photoUrl && (<Image
+                <Image
                   source={{uri: photoUrl}}
                   style={styles.cardImage}
-                  />)
-                 }
-                    <Text style={styles.title}>{title}</Text>
-                    <Text numberOfLines={3} style={styles.text}>
-                      {text.replace(/"/g,"")}
-                    </Text>
+                  />
+                <Text style={styles.title}>{title}</Text>
+                <Text numberOfLines={3} style={styles.text}>
+                  {text.replace(/"/g,"")}
+                </Text>
              </CardItem>
             <CardItem style={styles.actionIcons}>
               <Button small transparent style={{paddingBottom: 0}}>
@@ -76,9 +75,10 @@ const styles = StyleSheet.create({
     height: 280,
   },
   cardImage: {
-    height: 180,
-    width: 165,
-    zIndex: 5,
+    resizeMode: 'cover',
+    height: 210,
+    width: 170,
+    flex: 1
   },
   cardItem: {
     display: "flex",
