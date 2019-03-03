@@ -4,7 +4,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from 'app/navigation/AppNavigator';
 import firebase from 'db/firebase';
 import { Provider } from 'react-redux';
-import { doesUserExist, logUserIn, openModal, authReady } from 'app/actions/login';
+
 import store from 'app/redux/';
 
 export default class App extends React.Component {
@@ -16,20 +16,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
-        doesUserExist(user).then(exists => {
-          if (exists) {
-            store.dispatch(logUserIn(user));
-          } else {
-            store.dispatch(openModal());
-          }
-        });
-      } else {
-        console.log("Dispatching auth ready state");
-        store.dispatch(authReady());
-      }
-    });
+    
   }
 
   render() {
