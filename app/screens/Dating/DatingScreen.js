@@ -76,7 +76,7 @@ export default class DatingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <ScrollView contentContainerStyle={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'space-between'}}>
           {this.constructPosts()}
         </ScrollView>
       </View>
