@@ -54,7 +54,7 @@ export default class Post extends React.Component {
               style={styles.post}>
                 { this.renderImage() }
                 <Text style={styles.title}>{title}</Text>
-                <Text numberOfLines={3} style={styles.text}>
+                <Text numberOfLines={2} style={styles.text}>
                   {text.replace(/"/g,"")}
                 </Text>
              </CardItem>
