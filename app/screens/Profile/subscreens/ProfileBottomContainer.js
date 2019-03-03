@@ -71,7 +71,6 @@ export default class ProfileBottomScreen extends React.Component {
                 this.setState({ view: 'Achievements' });
               }}
             >
-              {/* <AchievementScreen /> */}
               <BookmarkedPostScreen />
             </Tab>
           </Tabs>

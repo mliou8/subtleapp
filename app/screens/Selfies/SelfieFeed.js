@@ -48,7 +48,7 @@ export default class SelfieFeed extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView style={{ flex: 1 }}>
           {this.state.posts.length >= 1 ? (
             this.renderPosts()
           ) : (
