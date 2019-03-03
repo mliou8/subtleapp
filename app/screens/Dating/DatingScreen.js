@@ -58,13 +58,11 @@ export default class DatingScreen extends React.Component {
         return <View />
     } else {
         return postArr.map((posts, idx) => {
-          console.log("posts ", posts);
           return (
             <DatingRow
               key={idx}
               posts={posts}
               navigation={this.props.navigation}
-              style={{alignSelf: 'stretch'}}
               />);
             })
     }
@@ -77,11 +75,9 @@ export default class DatingScreen extends React.Component {
 
   render() {
     return (
-      <View>
-        <ScrollView>
-          <View style={styles.container}>
-            {this.constructPosts()}
-          </View>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-start'}}>
+          {this.constructPosts()}
         </ScrollView>
       </View>
     );
@@ -90,13 +86,7 @@ export default class DatingScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      paddingLeft: 4,
-      paddingRight: 4,
-      justifyContent: 'space-around',
-      alignItems:'stretch'
+      paddingLeft: 6,
+      paddingRight: 6,
     },
 });

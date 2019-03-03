@@ -25,10 +25,10 @@ export default class Post extends React.Component {
     this.renderImage = this.renderImage.bind(this)
   }
 
+  //Oh the workarounds we come up with
   renderImage () {
     if (this.props.data.photoRef) {
       return this.props.data.photoRef.map((photo, idx) => {
-        console.log("IDX is ", idx)
         if (idx === 1) {
         return (
           <Image
@@ -43,10 +43,8 @@ export default class Post extends React.Component {
   }
 
   render() {
-    const { title = '', text = '', expiryDate = '', photoRef = ''} = this.props.data;
+    const { title = '', text = '', expiryDate = ''} = this.props.data;
     const { propStyles = {} } = this.props;
-    const photoUrl = photoRef[0];
-    console.log("this image has trouble rendering !", photoUrl);
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }

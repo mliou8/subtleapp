@@ -59,7 +59,6 @@ export default class SubmitBase extends Component {
     this.updateTextInput = this.updateTextInput.bind(this);
     this.updateTitleInput = this.updateTitleInput.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.createPost = this.createPost.bind(this);
     this.addPostToUser = this.addPostToUser.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.pickImageFromCameraRoll = this.pickImageFromCameraRoll.bind(this);
@@ -76,10 +75,6 @@ export default class SubmitBase extends Component {
       return false;
     }
     return true;
-  }
-
-  async submitPost() {
-    await this.createPost();
   }
 
   setPostType (idx, value) {
@@ -203,7 +198,7 @@ export default class SubmitBase extends Component {
     this.setState({ modalVisible: visible });
   };
 
-  async createPost() {
+  async submitPost() {
     this.validatePost();
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
