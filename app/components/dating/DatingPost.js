@@ -22,13 +22,31 @@ import {
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
+    this.renderImage = this.renderImage.bind(this)
+  }
+
+  renderImage () {
+    if (this.props.data.photoRef) {
+      return this.props.data.photoRef.map((photo, idx) => {
+        console.log("IDX is ", idx)
+        if (idx === 1) {
+        return (
+          <Image
+            key={idx}
+            source={{uri: photo}}
+            style={styles.cardImage}
+            />
+        )
+        }
+      })
+    }
   }
 
   render() {
     const { title = '', text = '', expiryDate = '', photoRef = ''} = this.props.data;
     const { propStyles = {} } = this.props;
     const photoUrl = photoRef[0];
-    console.log("photoUrl ", photoUrl)
+    console.log("this image has trouble rendering !", photoUrl);
     return (
         <TouchableOpacity
             onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
@@ -36,10 +54,7 @@ export default class Post extends React.Component {
           <Card style={{paddingTop: 0}}>
             <CardItem
               style={styles.post}>
-                <Image
-                  source={{uri: photoUrl}}
-                  style={styles.cardImage}
-                  />
+                { this.renderImage() }
                 <Text style={styles.title}>{title}</Text>
                 <Text numberOfLines={3} style={styles.text}>
                   {text.replace(/"/g,"")}

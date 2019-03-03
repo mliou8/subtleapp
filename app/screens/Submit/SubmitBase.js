@@ -79,16 +79,17 @@ export default class SubmitBase extends Component {
   }
 
   async submitPost() {
-    for (let upload of this.state.uploads) {
-      await this.uploadImageAsync(upload);
-    }
-
     await this.createPost();
   }
 
   setPostType (idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', height: 250, downloadUrl: [], duration: 3 });
+    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', height: 250, downloadURL: [], duration: 3 });
+    if (value === 'dating') {
+      this.setState({topic: ''});
+    } else if (value === 'general') {
+      this.setState({ duration: 3})
+    }
   }
 
   setTopic(idx, value) {
@@ -178,8 +179,9 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    const newArray = this.state.downloadURL.concat(downloadURL)
-    this.setState({downloadURL: newArray});
+    const newArr = this.state.downloadURL;
+    newArr.push(downloadURL);
+    this.setState({downloadURL: newArr});
     console.log("this.state currently is ", this.state);
   }
 
