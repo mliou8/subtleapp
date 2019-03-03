@@ -31,7 +31,6 @@ export default class SelfieFeed extends React.Component {
   componentDidMount() {
     fetchPosts().then(posts => {
       this.setState({ posts: posts });
-      // console.log('This state is ', this.state.posts[0].photoRef);
     });
   }
   renderPosts() {
@@ -48,7 +47,7 @@ export default class SelfieFeed extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView>
           {this.state.posts.length >= 1 ? (
             this.renderPosts()
           ) : (
@@ -65,13 +64,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around'
-  },
-  postContainer: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around'
   }

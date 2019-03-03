@@ -251,9 +251,7 @@ class SelfiesScreen extends React.Component {
           </Button>
         </View>
         <ScrollView>
-          <View>
-            <SelfieFeed />
-          </View>
+          <SelfieFeed />
         </ScrollView>
       </View>
     );
