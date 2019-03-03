@@ -47,7 +47,7 @@ export default class Post extends React.Component {
     const { propStyles = {} } = this.props;
     return (
         <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data}) }
+            onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data})}
             >
           <Card style={{paddingTop: 0}}>
             <CardItem
