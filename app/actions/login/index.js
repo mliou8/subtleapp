@@ -5,19 +5,14 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-export const AUTH_READY = 'AUTH_READY';
+
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-export const AUTH_FAIL = 'AUTH_FAIL';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const USER_PROFILE_CREATED = 'USER_PROFILE_CREATED';
 export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
 export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
 export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
-export const OPEN_MODAL = 'OPEN_MODAL';
-export const CLOSE_MODAL = 'CLOSE_MODAL';
-export const INVITE_ERROR = 'INVITE_ERROR';
 
 export const userInfoFetched = userProfile => {
   return {
@@ -40,22 +35,9 @@ export const createProfileError = errorMsg => {
   };
 };
 
-export const authReady = () => {
-  return {
-    type: AUTH_READY
-  };
-};
-
 export const authSuccess = () => {
   return {
     type: AUTH_SUCCESS
-  };
-};
-
-export const authFail = errorMsg => {
-  return {
-    type: AUTH_FAIL,
-    errorMsg
   };
 };
 
@@ -79,17 +61,7 @@ export const editUserFail = errorMsg => {
   };
 };
 
-export const openModal = () => {
-  return {
-    type: OPEN_MODAL
-  };
-};
 
-export const closeModal = () => {
-  return {
-    type: CLOSE_MODAL
-  };
-};
 
 export const inviteError = () => {
   return {
@@ -97,24 +69,7 @@ export const inviteError = () => {
   };
 };
 
-export function facebookLogin() {
-  return async dispatch => {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      config.fbAppID,
-      {
-        permissions: ['public_profile', 'email']
-      }
-    );
 
-    if (type === 'success') {
-      const credential = firebase.auth.FacebookAuthProvider.credential(token);
-      await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    } else {
-      const errorMsg = 'Facebook Login Failed.';
-      dispatch(authFail(errorMsg));
-    }
-  };
-}
 
 export function doesUserExist(user) {
   const userRef = db.collection('users').doc(user.uid);
@@ -141,7 +96,7 @@ export function logUserIn(user) {
   };
 }
 
-function createUser(user) {
+export function createUser(user) {
   return async dispatch => {
     const currTime = Date.now();
     const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
@@ -168,24 +123,6 @@ function createUser(user) {
         console.error('Error adding document: ', error);
         dispatch(createProfileError(error));
       });
-  };
-}
-
-export function checkCode(code) {
-  return async dispatch => {
-    const inviteRef = db.collection('codes').doc(code);
-    const user = firebase.auth().currentUser;
-    inviteRef.get().then(dbCode => {
-      if (dbCode.exists) {
-        dispatch(createUser(user));
-        dispatch(closeModal());
-        inviteRef.update({
-          usersUsed: firebase.firestore.FieldValue.arrayUnion(user.uid)
-        });
-      } else {
-        dispatch(inviteError());
-      }
-    });
   };
 }
 

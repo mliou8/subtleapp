@@ -1,27 +1,18 @@
 import {
-  FACEBOOK_LOGIN_SUCCESS,
-  AUTH_READY,
   AUTH_SUCCESS,
   AUTH_FAIL,
   LOGOUT_SUCCESS,
-  USER_PROFILE_CREATED,
   CREATE_PROFILE_ERROR,
   USER_INFO_FETCHED,
   USER_INFO_NOT_FOUND,
   USER_UPDATED,
-  EDIT_USER_FAIL,
-  OPEN_MODAL,
-  CLOSE_MODAL,
-  INVITE_ERROR,
+  EDIT_USER_FAIL
 } from 'actions/login/index';
 
 const initialState = {
-  ready: false,
   authenticated: false,
   userInfo: {},
-  errorMsg: '',
-  modalOpen: false,
-  inviteError: false,
+  errorMsg: ''
 };
 
 export default function(state = initialState, action) {
@@ -31,21 +22,11 @@ export default function(state = initialState, action) {
         ...state,
         authenticated: true,
       };
-    case AUTH_READY:
-      return {
-        ...state,
-        ready: true
-      }
     case AUTH_FAIL:
       return {
         ...state,
         authenticated: false,
         errorMsg: action.errorMsg
-      };
-    case USER_PROFILE_CREATED:
-      return {
-        ...state,
-        userRegistered: true,
       };
     case CREATE_PROFILE_ERROR:
       return {
@@ -56,9 +37,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         authenticated: false,
-        auth_needed: true,
-        userInfo: {},
-        ready: true
+        userInfo: {}
       };
     case USER_INFO_FETCHED:
       return {
@@ -75,21 +54,6 @@ export default function(state = initialState, action) {
         ...state,
         userInfo: action.userInfo
       };
-    case OPEN_MODAL:
-      return {
-        ...state,
-        modalOpen: true
-      }
-    case CLOSE_MODAL:
-      return {
-        ...state,
-        modalOpen: false
-      }
-    case INVITE_ERROR:
-      return {
-        ...state,
-        inviteError: true
-      }
     case EDIT_USER_FAIL:
       return { 
         ...state,
