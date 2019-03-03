@@ -5973,6 +5973,14 @@ react-native-dialog-input@^1.0.7:
   resolved "https://registry.yarnpkg.com/react-native-dialog-input/-/react-native-dialog-input-1.0.7.tgz#b2fefb4193d1784b3ae78c4a18d8fd6759466009"
   integrity sha512-boi++dT2tzV8eCZud5Qe3LY/cdTGfgf93Vy4MFxq3O/4rBehllwCfBn5fhWMuf3JcVlzrk0fBsv/Ny766BiyVA==
 
+react-native-dialog@^5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-dialog/-/react-native-dialog-5.5.0.tgz#09d13e23264f820d6308b5f93e1f03606f97dee3"
+  integrity sha512-pHijXodWoXcuGD2GHRnYDcZDrptFKZMRbEKhAxAxFtxR1fF/UBNkBNSQnfw+KVvQp6lMqJQEWK/N+Sn9YpUkAQ==
+  dependencies:
+    prop-types "^15.6.0"
+    react-native-modal "^6.4.0"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -6053,6 +6061,11 @@ react-native-keyboard-aware-scroll-view@0.5.0:
     prop-types "^15.6.0"
     react-native-iphone-x-helper "^1.0.1"
 
+react-native-keyboard-spacer@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz#46f18a320432098a25ea9fa89f5143dd254d332d"
+  integrity sha1-RvGKMgQyCYol6p+on1FD3SVNMy0=
+
 react-native-lightbox@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/react-native-lightbox/-/react-native-lightbox-0.7.0.tgz#e52b4d7fcc141f59d7b23f0180de535e35b20ec9"
@@ -6070,6 +6083,14 @@ react-native-modal-dropdown@^0.6.2:
   integrity sha512-1jzByA+ME+q0mZJ2rZrLsf6jVwJhNxNHdg7I50xYZ9oYJsmmKwF9r/ks95tZxxks4Zvd7/FnaveNtyd+uevXAw==
   dependencies:
     prop-types "^15.6.0"
+
+react-native-modal@^6.4.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-6.5.0.tgz#46220b2289a41597d344c1db17454611b426a758"
+  integrity sha512-ewchdETAGd32xLGLK93NETEGkRcePtN7ZwjmLSQnNW1Zd0SRUYE8NqftjamPyfKvK0i2DZjX4YAghGZTqaRUbA==
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-animatable "^1.2.4"
 
 react-native-modal@^7.0.2:
   version "7.0.2"
