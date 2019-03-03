@@ -25,8 +25,6 @@ import {
   Content
 } from 'native-base';
 
-const profileImgSrc = 'https://loremflickr.com/225/225/dog';
-
 export default class ProfileBottomScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -39,16 +37,23 @@ export default class ProfileBottomScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerBar}>
-          <Tabs>
+          <Tabs tabBarUnderlineStyle={{ backgroundColor: 'white' }}>
             <Tab
-              tabBarUnderlineStyle={{ backgroundColor: 'pink' }}
               heading={
-                <TabHeading style={{ backgroundColor: '#FFFFFF' }}>
+                <TabHeading style={{ backgroundColor: '#242424' }}>
                   <Icon
                     name="dashboard"
                     type="MaterialIcons"
-                    style={{ fontSize: 25 }}
+                    style={{ fontSize: 25, color: 'white' }}
                   />
+                  <Text
+                    style={{
+                      fontFamily: 'poppins',
+                      color: 'white'
+                    }}
+                  >
+                    Recent Posts
+                  </Text>
                 </TabHeading>
               }
               onPress={() => {
@@ -57,22 +62,19 @@ export default class ProfileBottomScreen extends React.Component {
             >
               <RecentPostScreen />
             </Tab>
-            <Tab
+            {/* <Tab
               heading={
                 <TabHeading style={{ backgroundColor: '#FFFFFF' }}>
                   <Icon
                     name="bookmark"
                     type="FontAwesome"
-                    style={{ fontSize: 20 }}
+                    style={{ fontSize: 20 ,color:'white'}}
                   />
                 </TabHeading>
               }
-              onPress={() => {
-                this.setState({ view: 'Achievements' });
-              }}
             >
               <BookmarkedPostScreen />
-            </Tab>
+            </Tab> */}
           </Tabs>
         </View>
       </View>
