@@ -4,9 +4,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  // Text,
   View,
-  // Button,
   TouchableHighlight,
   RefreshControl
 } from 'react-native';

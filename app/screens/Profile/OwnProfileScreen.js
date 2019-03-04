@@ -39,7 +39,7 @@ export default class OwnProfileScreen extends React.Component {
       title: 'Your Profile',
       headerStyle: {
         backgroundColor: '#242424',
-        height: 80,
+        height: 60,
         borderBottomWidth: 0
       },
       headerTitleStyle: {
@@ -80,34 +80,27 @@ export default class OwnProfileScreen extends React.Component {
     this.state = {
       displayAdd: false
     };
-    this.renderSocialMenu = this.renderSocialMenu.bind(this);
+
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
-    this.addSocialBadge = this.addSocialBadge.bind(this);
   }
 
   componentDidMount() {
     this.props.navigation.setParams({ userInfo: this.props.userInfo });
   }
 
-  renderSocialMenu = () => {
-    return <AddSocialNetworkTag />;
-  };
-
   renderSocialBadges = () => {
     return this.props.userInfo.socialNetworks.map((badge, idx) => {
       return (
         <Badge
           key={idx}
+          count={idx}
           badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          sourceName={badge.sourceUrl}
         />
       );
     });
   };
 
-  addSocialBadge = () => {
-    this.setState({ displayAdd: !this.state.displayAdd });
-  };
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -123,20 +116,16 @@ export default class OwnProfileScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'following',
-                          userList: this.props.userInfo.following,
+                          type: 'followers',
+                          userList: this.props.userInfo.followers,
                           userName: this.props.userInfo.displayName
                         })
                       }
                     >
-                      <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
-                      >
-                        {this.props.userInfo.following.length}
+                      <Text style={styles.cardTextBold}>
+                        {this.props.userInfo.followers.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWING
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
                   </Left>
                   <Body>
@@ -145,27 +134,26 @@ export default class OwnProfileScreen extends React.Component {
                       imageSrc={this.props.userInfo.photoURL}
                     />
                   </Body>
-                  <Right style={{ justifyContent: 'center' }}>
+                  <Right>
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'followers',
-                          userList: this.props.userInfo.followers,
+                          type: 'following',
+                          userList: this.props.userInfo.following,
                           userName: this.props.userInfo.displayName
                         })
                       }
                     >
                       <Text
                         style={{
+                          paddingLeft: 30,
                           fontFamily: 'poppinsBold',
                           color: 'white'
                         }}
                       >
-                        {this.props.userInfo.followers.length}
+                        {this.props.userInfo.following.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWERS
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
@@ -175,13 +163,13 @@ export default class OwnProfileScreen extends React.Component {
                     backgroundColor: '#242424'
                   }}
                 >
-                  <Text style={{ fontFamily: 'poppinsBold', color: 'white' }}>
+                  <Text style={styles.cardTextBold}>
                     {this.props.userInfo.displayName}
                   </Text>
                 </CardItem>
               </Card>
             </Content>
-            <Card transparent style={{ display: 'flex', flexDirection: 'row' }}>
+            <Card transparent style={styles.socialBadgesContainer}>
               {this.renderSocialBadges()}
             </Card>
             <View />
@@ -189,7 +177,7 @@ export default class OwnProfileScreen extends React.Component {
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
-          <Spinner color="blue" />
+          <Spinner color="white" />
         )}
       </ScrollView>
     );
@@ -216,5 +204,20 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignContent: 'flex-start',
     flex: 1
+  },
+  cardTextRegular: {
+    fontFamily: 'poppins',
+    color: 'white'
+  },
+  cardTextBold: {
+    fontFamily: 'poppinsBold',
+    color: 'white'
+  },
+  socialBadgesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    justifyContent: 'space-around'
   }
 });

@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Clipboard,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 import { RkText, RkStyleSheet, RkTheme } from 'react-native-ui-kitten';
 import ConnectedNetworks from 'app/components/profile/ConnectedNetworks';
@@ -150,65 +151,67 @@ export default class Settings extends React.Component {
   };
 
   render = () => (
-    <ScrollView style={styles.container}>
-      <View style={styles.section}>
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType="primary header6">Profile Settings</RkText>
-        </View>
-        <View style={styles.row}>
-          <RkText rkType="header6">Link to the app</RkText>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <ScrollView style={styles.container}>
+        <View style={styles.section}>
+          <View style={[styles.row, styles.heading]}>
+            <RkText rkType="primary header6">Profile Settings</RkText>
+          </View>
+          <View style={styles.row}>
+            <RkText rkType="header6">Link to the app</RkText>
 
-          <RkText
-            rkType="awesome medium"
-            style={{ color: 'blue' }}
-            onPress={() => this.onPressToCopy()}
-          >
-            Copy Link
-          </RkText>
+            <RkText
+              rkType="awesome medium"
+              style={{ color: 'blue' }}
+              onPress={() => this.onPressToCopy()}
+            >
+              Copy Link
+            </RkText>
+          </View>
+          <View style={styles.row}>
+            <RkText rkType="header6">Your Invite Code</RkText>
+            {this.renderInviteCode()}
+          </View>
         </View>
-        <View style={styles.row}>
-          <RkText rkType="header6">Your Invite Code</RkText>
-          {this.renderInviteCode()}
+        <View style={styles.section}>
+          <View style={[styles.row, styles.heading]}>
+            <RkText rkType="primary header6">Connected Networks</RkText>
+          </View>
+          {this.renderSocialNetworks()}
         </View>
-      </View>
-      <View style={styles.section}>
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType="primary header6">Connected Networks</RkText>
+        <View style={styles.section}>
+          <View style={[styles.row, styles.heading]}>
+            <RkText rkType="primary header6">SUPPORT</RkText>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.rowButton}>
+              <RkText rkType="header6">Help</RkText>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.rowButton}>
+              <RkText rkType="header6">Privacy Policy</RkText>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.rowButton}>
+              <RkText rkType="header6">Terms & Conditions</RkText>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={styles.rowButton}
+              onPress={() => {
+                this.props.logOut();
+                this.props.navigation.navigate('LoginPage');
+              }}
+            >
+              <RkText rkType="header6">Logout</RkText>
+            </TouchableOpacity>
+          </View>
         </View>
-        {this.renderSocialNetworks()}
-      </View>
-      <View style={styles.section}>
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType="primary header6">SUPPORT</RkText>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType="header6">Help</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType="header6">Privacy Policy</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity style={styles.rowButton}>
-            <RkText rkType="header6">Terms & Conditions</RkText>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.row}>
-          <TouchableOpacity
-            style={styles.rowButton}
-            onPress={() => {
-              this.props.logOut();
-              this.props.navigation.navigate('LoginPage');
-            }}
-          >
-            <RkText rkType="header6">Logout</RkText>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

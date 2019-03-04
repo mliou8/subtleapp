@@ -4,7 +4,6 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  // Text,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -44,7 +43,6 @@ class Conversation extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      convoID: null,
       convoLoaded: false
     };
 

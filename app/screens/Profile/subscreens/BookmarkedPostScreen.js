@@ -11,7 +11,7 @@ import {
 import Post from 'app/components/board/Post';
 import FullPost from 'app/components/board/FullPost';
 
-export default class RecentPostsScreen extends React.Component {
+export default class BookmarkedPostScreen extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -19,12 +19,11 @@ export default class RecentPostsScreen extends React.Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
-        <Post imageSrc={'https://loremflickr.com/176/230/cat'} />
+        <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+        <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+        <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+        <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+        <FullPost imageSrc={'https://loremflickr.com/176/230/cat'} />
       </ScrollView>
     );
   }
@@ -34,10 +33,11 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     justifyContent: 'space-around'
   },
+
   divider: {
     borderBottomColor: 'black',
     borderBottomWidth: StyleSheet.hairlineWidth,

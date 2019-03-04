@@ -142,70 +142,75 @@ class Followers extends React.Component {
         }}
       >
         {this.state.following ? (
-          <Left>
-            <Button
-              iconLeft
+          <Button
+            iconRight
+            style={{
+              backgroundColor: '#242424'
+            }}
+            onPress={() => this.unfollowCurrentUser()}
+          >
+            <Text
               style={{
-                backgroundColor: '#242424'
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15
               }}
-              onPress={() => this.unfollowCurrentUser()}
             >
-              <Text
-                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
-              >
-                Following
-              </Text>
-              <Icon
-                type="FontAwesome"
-                name={'check-circle'}
-                title="messages"
-                style={{ color: 'dodgerblue' }}
-              />
-            </Button>
-          </Left>
+              Following
+            </Text>
+            <Icon
+              type="FontAwesome"
+              name={'check-circle'}
+              title="messages"
+              style={{ color: 'dodgerblue', fontSize: 18 }}
+            />
+          </Button>
         ) : (
-          <Left>
-            <Button
-              iconRight
+          <Button
+            iconRight
+            style={{
+              backgroundColor: '#242424'
+            }}
+            onPress={() => this.followCurrentUser()}
+          >
+            <Text
               style={{
-                backgroundColor: '#242424'
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15
               }}
-              onPress={() => this.followCurrentUser()}
             >
-              <Text
-                style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
-              >
-                Following
-              </Text>
-              <Icon
-                type="MaterialIcons"
-                name={'check-box-outline-blank'}
-                title="messages"
-                style={{ color: 'white' }}
-              />
-            </Button>
-          </Left>
+              Following
+            </Text>
+            <Icon
+              type="MaterialIcons"
+              name={'check-box-outline-blank'}
+              title="messages"
+              style={{ color: 'white', fontSize: 18 }}
+            />
+          </Button>
         )}
 
         <Right>
           <Button
-            iconLeft
+            small
+            iconRight
             style={{
               backgroundColor: '#242424'
             }}
             onPress={() => this.alreadyChatting()}
           >
+            <Text
+              style={{ fontFamily: 'poppins', color: 'white', fontSize: 12 }}
+            >
+              Message User
+            </Text>
             <Icon
               type="Ionicons"
               name={'ios-send'}
               title="messages"
-              style={{ color: 'white' }}
+              style={{ color: 'white', fontSize: 18 }}
             />
-            <Text
-              style={{ fontFamily: 'poppins', color: 'white', fontSize: 15 }}
-            >
-              Message User
-            </Text>
           </Button>
         </Right>
       </View>
@@ -219,6 +224,11 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#D3D3D3',
     marginRight: 8
+  },
+  buttonText: {
+    fontFamily: 'poppins',
+    color: 'white',
+    fontSize: 12
   }
 });
 const mapStateToProps = (state, ownProps) => {

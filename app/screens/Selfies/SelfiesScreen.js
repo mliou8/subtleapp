@@ -65,7 +65,13 @@ class SelfiesScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { height: 250, modalVisible: false, uploads: [], post: {}, caption: "" };
+    this.state = {
+      height: 250,
+      modalVisible: false,
+      uploads: [],
+      post: {},
+      caption: ''
+    };
   }
   async uploadPhoto() {
     const uri = this.state.uploads[0];
@@ -245,9 +251,7 @@ class SelfiesScreen extends React.Component {
           </Button>
         </View>
         <ScrollView>
-          <View>
-            <SelfieFeed />
-          </View>
+          <SelfieFeed />
         </ScrollView>
       </View>
     );

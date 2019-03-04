@@ -13,9 +13,10 @@ import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Followers from './subscreens/Followers';
 
+import { fetchUserProfileInfo } from 'actions/profile/index';
+
 import { connect } from 'react-redux';
 import db from 'db/firestore';
-import { fetchUserProfileInfo } from 'actions/profile/index';
 
 import {
   Container,
@@ -36,26 +37,18 @@ import {
 class OtherUsersProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('name') + "'s Profile",
+      title: navigation.getParam('name'),
       headerStyle: {
         backgroundColor: '#242424',
-        height: 80,
+        height: 60,
         borderBottomWidth: 0
       },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 16
+        fontSize: 18
       },
-      headerRight: (
-        <Button transparent onPress={() => navigation.navigate('Messages')}>
-          <Icon
-            type="Octicons"
-            name="mail-read"
-            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
-          />
-        </Button>
-      ),
+
       headerLeft: (
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon
@@ -71,9 +64,10 @@ class OtherUsersProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userOnDisplay: {},
+      userToDisplay: {},
       socialNetworks: this.props.profile.userProfile.socialNetworks,
-      badges: []
+      badges: [],
+      existingConvoId: null
     };
     this._mounted = false;
 
@@ -82,14 +76,26 @@ class OtherUsersProfileScreen extends React.Component {
   }
 
   async componentDidMount() {
-    this._mounted = true;
     const { userToDisplay } = this.props.navigation.state.params;
+    const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userToDisplay });
-
+    const amFollowing = this.props.userInfo.following.filter(
+      item => item.uid === userToDisplay.uid
+    );
+    const chatting = currUsersConversations.filter(item => {
+      if (item.userName === userToDisplay.displayName) {
+        return item;
+      }
+    });
+    if (amFollowing.length) {
+      this.setState({ following: true });
+    } else {
+      this.setState({ following: false });
+    }
+    if (chatting.length) {
+      this.setState({ existingConvoId: chatting[0].convoID });
+    }
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
-  }
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   renderSocialMenu = () => {
@@ -102,7 +108,7 @@ class OtherUsersProfileScreen extends React.Component {
         <Badge
           key={idx}
           badgeType={badge.source}
-          sourceName={badge.sourceURL}
+          sourceName={badge.sourceUrl}
         />
       );
     });
@@ -128,20 +134,16 @@ class OtherUsersProfileScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'following',
-                          userList: this.props.profile.userProfile.following,
+                          type: 'followers',
+                          userList: this.props.profile.userProfile.followers,
                           userName: this.props.profile.userProfile.displayName
                         })
                       }
                     >
-                      <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
-                      >
-                        {this.props.profile.userProfile.following.length}
+                      <Text style={styles.cardTextBold} center>
+                        {this.props.profile.userProfile.followers.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWING
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
                   </Left>
                   <Body>
@@ -154,58 +156,36 @@ class OtherUsersProfileScreen extends React.Component {
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
-                          type: 'followers',
-                          userList: this.props.profile.userProfile.followers,
+                          type: 'following',
+                          userList: this.props.profile.userProfile.following,
                           userName: this.props.profile.userProfile.displayName
                         })
                       }
                     >
                       <Text
-                        style={{ fontFamily: 'poppinsBold', color: 'white' }}
-                        center
+                        style={{
+                          fontFamily: 'poppinsBold',
+                          color: 'white',
+                          paddingLeft: 30
+                        }}
                       >
-                        {this.props.profile.userProfile.followers.length}
+                        {this.props.profile.userProfile.following.length}
                       </Text>
-                      <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                        FOLLOWERS
-                      </Text>
+                      <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
-                <CardItem
-                  style={{
-                    justifyContent: 'center',
-                    backgroundColor: '#242424'
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontFamily: 'poppinsBold',
-                      color: 'white',
-                      fontSize: 20
-                    }}
-                  >
-                    {this.props.profile.userProfile.displayName}
-                  </Text>
-                </CardItem>
               </Card>
             </Content>
-            <Card
-              style={{
-                backgroundColor: '#242424',
-                display: 'flex',
-                flexDirection: 'row'
-              }}
-              transparent
-            >
-              <Right>{this.renderSocialBadges()}</Right>
+            <Card style={styles.socialBadgesContainer} transparent>
+              {this.renderSocialBadges()}
             </Card>
 
             <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
-          <Spinner color="blue" />
+          <Spinner color="white" />
         )}
       </ScrollView>
     );
@@ -230,6 +210,21 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignContent: 'flex-start',
     flex: 1
+  },
+  cardTextRegular: {
+    fontFamily: 'poppins',
+    color: 'white'
+  },
+  cardTextBold: {
+    fontFamily: 'poppinsBold',
+    color: 'white'
+  },
+  socialBadgesContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    justifyContent: 'space-around'
   }
 });
 
@@ -253,6 +248,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
   };
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
