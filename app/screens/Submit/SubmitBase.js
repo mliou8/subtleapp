@@ -18,9 +18,6 @@ import db from 'db/firestore';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo';
 
-
-
-
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

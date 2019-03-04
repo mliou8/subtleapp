@@ -45,7 +45,6 @@ export default class DatingFullScreen extends React.Component {
     const post = this.props.navigation.getParam('post');
     if (post.photoRef) {
       return post.photoRef.map((photo, idx) => {
-        console.log("this image is rendering! ", photo);
         return (
           <Image
             key={idx}

@@ -41,7 +41,7 @@ const HomeStack = createStackNavigator({
           <Icon
             type="Octicons"
             name="mail-read"
-            style={{ color: 'white', fontSize: 30, marginRight: 20 }}
+            style={{ color: 'white', fontSize: 30, marginRight: 20, top: 10 }}
           />
         </Button>
       ),
@@ -49,7 +49,7 @@ const HomeStack = createStackNavigator({
         <Icon
           type="FontAwesome"
           name="align-left"
-          style={{ marginLeft: 10, color: 'white' }}
+          style={{ marginLeft: 10, marginBottom: 8, color: 'white' }}
           onPress={() => navigation.toggleDrawer()}
         />
       )
