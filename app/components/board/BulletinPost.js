@@ -22,10 +22,34 @@ import ReactionsBar from './ReactionsBar';
 export default class BulletinPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { active: false, showReactions: false };
+    this.state = {
+      active: false,
+      showReactions: false,
+      showComments: false,
+      likes: 0,
+      LOLs: 0,
+      comments: 10,
+      userLiked: false,
+      userLOLed: false
+    };
   }
   toggleReactions() {
     this.setState({ showReactions: !this.state.showReactions });
+  }
+  toggleComments() {
+    this.setState({ showComments: !this.state.showCommments });
+  }
+  incrementLike() {
+    this.setState({ userLiked: true, Likes: this.state.Likes++ });
+  }
+  decrementLike() {
+    this.setState({ userLiked: false, Likes: this.state.Likes-- });
+  }
+  incrementLOL() {
+    this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
+  }
+  decrementLOL() {
+    this.setState({ userLOLed: false, LOLs: this.state.LOLs-- });
   }
   render() {
     return (
@@ -83,44 +107,89 @@ export default class BulletinPost extends React.Component {
 
           <CardItem bordered footer>
             <Left>
-              <Button light>
-                <Icon
-                  style={{ fontSize: 20 }}
-                  active={true}
-                  name="heart-o"
-                  type="FontAwesome"
-                >
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>0</Text>
-                </Icon>
-              </Button>
+              {this.state.userLike ? (
+                <Button light onClick={this.decrementLike}>
+                  <Icon
+                    style={{ fontSize: 20 }}
+                    active={true}
+                    name="heart"
+                    type="FontAwesome"
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.likes}
+                    </Text>
+                  </Icon>
+                </Button>
+              ) : (
+                <Button light onClick={this.incrementLike}>
+                  <Icon
+                    style={{ fontSize: 20 }}
+                    active={true}
+                    name="heart-o"
+                    type="FontAwesome"
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.likes}
+                    </Text>
+                  </Icon>
+                </Button>
+              )}
             </Left>
             <Body>
-              <Button
-                light
-                onPress={() =>
-                  this.setState({ showReactions: !this.state.showReactions })
-                }
-              >
-                <Icon
-                  style={{ color: '#fcc21b', fontSize: 20 }}
-                  active
-                  name="smiley"
-                  type="Octicons"
+              {this.state.userLOLed ? (
+                <Button
+                  light
+                  // onPress={() =>
+                  //   this.setState({ showReactions: !this.state.showReactions })
+                  // }
+                  onPress={this.state.decrementLOL}
+                >
+                  <Icon
+                    style={{ backgroundColor: '#fcc21b', fontSize: 20 }}
+                    active
+                    name="smiley"
+                    type="Octicons"
+                  >
+                    {/* <Icon
+                      style={{ color: '#fcc21b', fontSize: 20 }}
+                      active
+                      name="ios-add"
+                      type="Ionicons"
+                    /> */}
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.LOLs}
+                    </Text>
+                  </Icon>
+                </Button>
+              ) : (
+                <Button
+                  light
+                  // onPress={() =>
+                  //   this.setState({ showReactions: !this.state.showReactions })
+                  // }
+                  onPress={this.state.incrementLOL}
                 >
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 20 }}
                     active
-                    name="ios-add"
-                    type="Ionicons"
-                  />
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    12
-                  </Text>
-                </Icon>
-              </Button>
+                    name="smiley"
+                    type="Octicons"
+                  >
+                    <Icon
+                      style={{ color: '#fcc21b', fontSize: 20 }}
+                      active
+                      name="ios-add"
+                      type="Ionicons"
+                    />
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.LOLs}
+                    </Text>
+                  </Icon>
+                </Button>
+              )}
             </Body>
             <Right>
-              <Button light>
+              <Button light onPress={this.state.toggleComments}>
                 <Icon
                   style={{ fontSize: 20 }}
                   active
@@ -128,7 +197,7 @@ export default class BulletinPost extends React.Component {
                   type="FontAwesome"
                 >
                   <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    12
+                    {this.state.comments}
                   </Text>
                 </Icon>
               </Button>
@@ -137,6 +206,7 @@ export default class BulletinPost extends React.Component {
           <CardItem>
             {this.state.showReactions ? <ReactionsBar /> : null}
           </CardItem>
+          {this.state.showComments ? <BulletinComments /> : null}
         </Card>
       </View>
     );
