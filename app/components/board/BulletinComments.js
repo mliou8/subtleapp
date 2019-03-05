@@ -17,6 +17,8 @@ import {
   Text
 } from 'native-base';
 import { Avatar } from '../../components/image';
+import moment from 'moment';
+import AddCommentForm from './AddCommentForm';
 
 import Emoji from 'react-native-emoji';
 
@@ -33,26 +35,30 @@ export default class BulletinComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = { comments: [], total: 0 };
+    this.renderComments = this.renderComments.bind(this);
   }
 
   renderComments() {
     return testComments.map((item, index) => (
       <Card key={index}>
-        <CardItem>
+        <CardItem fullWidth>
           <Left>
-            <Avatar
-              size={30}
-              // styles={styles.avatar}
-              src={item.avatar}
-            />
-            <Text> item.author</Text>
+            <Avatar size={35} styles={styles.avatar} src={item.avatar} />
+            <Text style={{ fontFamily: 'poppins', fontSize: 15 }}>
+              @{item.author}
+            </Text>
           </Left>
-          <Right>
-            <Text>item.date</Text>
+
+          <Right style={{ flexWrap: 'wrap' }}>
+            <Text style={{ fontFamily: 'poppins', fontSize: 10 }}>
+              {moment(item.date).format('MMMM Do YYYY, h:mm:ss a')}
+            </Text>
           </Right>
         </CardItem>
         <CardItem>
-          <Text>item.content</Text>
+          <Text style={{ fontFamily: 'poppins', fontSize: 15 }}>
+            {item.content}
+          </Text>
         </CardItem>
       </Card>
     ));
@@ -60,40 +66,32 @@ export default class BulletinComments extends React.Component {
 
   render() {
     return (
-      <View>
-        <ScrollView horizontal={true} c>
-          <View>
-            <Card
-              fullWidth
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-evenly'
-              }}
-              transparent
-            >
-              {this.renderComments}
-              <CardItem>
-                <Button light>
+      <ScrollView>
+        <View>
+          {this.renderComments()}
+
+          <Card>
+            {/* <CardItem>
+              <Button light>
+                <Icon
+                  style={{ color: '#fcc21b', fontSize: 20 }}
+                  active
+                  name="commenting"
+                  type="FontAwesome"
+                >
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 20 }}
                     active
-                    name="commenting"
-                    type="FontAwesome"
-                  >
-                    <Icon
-                      style={{ color: '#fcc21b', fontSize: 20 }}
-                      active
-                      name="ios-add"
-                      type="Ionicons"
-                    />
-                  </Icon>
-                </Button>
-              </CardItem>
-            </Card>
-          </View>
-        </ScrollView>
-      </View>
+                    name="ios-add"
+                    type="Ionicons"
+                  />
+                </Icon>
+              </Button>
+            </CardItem> */}
+            <AddCommentForm />
+          </Card>
+        </View>
+      </ScrollView>
     );
   }
 }

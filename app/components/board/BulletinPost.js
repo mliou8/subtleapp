@@ -17,7 +17,9 @@ import {
   Fab
 } from 'native-base';
 import { Avatar } from '../../components/image';
+import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
+import BulletinComments from './BulletinComments';
 
 export default class BulletinPost extends React.Component {
   constructor(props) {
@@ -32,18 +34,28 @@ export default class BulletinPost extends React.Component {
       userLiked: false,
       userLOLed: false
     };
+    this.toggleComments = this.toggleComments.bind(this);
+    this.toggleReactions = this.toggleReactions.bind(this);
+    this.incrementLike = this.incrementLike.bind(this);
+    this.decrementLike = this.decrementLike.bind(this);
+    this.incrementLOL = this.incrementLOL.bind(this);
+    this.decrementLOL = this.decrementLOL.bind(this);
   }
   toggleReactions() {
-    this.setState({ showReactions: !this.state.showReactions });
+    const prevState = this.state.showReactions;
+    this.setState({ showReactions: !prevState });
   }
   toggleComments() {
-    this.setState({ showComments: !this.state.showCommments });
+    const prevState = this.state.showComments;
+    this.setState({ showComments: !prevState });
   }
   incrementLike() {
-    this.setState({ userLiked: true, Likes: this.state.Likes++ });
+    const prevLikes = this.state.likes++;
+    this.setState({ userLiked: true, likes: this.state.likes++ });
   }
   decrementLike() {
-    this.setState({ userLiked: false, Likes: this.state.Likes-- });
+    const prevLiked = this.state.likes--;
+    this.setState({ userLiked: false, likes: this.state.likes-- });
   }
   incrementLOL() {
     this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
@@ -107,8 +119,8 @@ export default class BulletinPost extends React.Component {
 
           <CardItem bordered footer>
             <Left>
-              {this.state.userLike ? (
-                <Button light onClick={this.decrementLike}>
+              {this.state.userLiked ? (
+                <Button light onPress={this.decrementLike}>
                   <Icon
                     style={{ fontSize: 20 }}
                     active={true}
@@ -121,7 +133,7 @@ export default class BulletinPost extends React.Component {
                   </Icon>
                 </Button>
               ) : (
-                <Button light onClick={this.incrementLike}>
+                <Button light onPress={this.incrementLike}>
                   <Icon
                     style={{ fontSize: 20 }}
                     active={true}
@@ -142,20 +154,14 @@ export default class BulletinPost extends React.Component {
                   // onPress={() =>
                   //   this.setState({ showReactions: !this.state.showReactions })
                   // }
-                  onPress={this.state.decrementLOL}
+                  onPress={this.decrementLOL}
                 >
                   <Icon
-                    style={{ backgroundColor: '#fcc21b', fontSize: 20 }}
+                    style={{ color: '#fcc21b', fontSize: 25 }}
                     active
-                    name="smiley"
-                    type="Octicons"
+                    name="ios-happy"
+                    type="Ionicons"
                   >
-                    {/* <Icon
-                      style={{ color: '#fcc21b', fontSize: 20 }}
-                      active
-                      name="ios-add"
-                      type="Ionicons"
-                    /> */}
                     <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                       {this.state.LOLs}
                     </Text>
@@ -167,7 +173,7 @@ export default class BulletinPost extends React.Component {
                   // onPress={() =>
                   //   this.setState({ showReactions: !this.state.showReactions })
                   // }
-                  onPress={this.state.incrementLOL}
+                  onPress={this.incrementLOL}
                 >
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 20 }}
@@ -189,7 +195,7 @@ export default class BulletinPost extends React.Component {
               )}
             </Body>
             <Right>
-              <Button light onPress={this.state.toggleComments}>
+              <Button light onPress={this.toggleComments}>
                 <Icon
                   style={{ fontSize: 20 }}
                   active
@@ -206,7 +212,9 @@ export default class BulletinPost extends React.Component {
           <CardItem>
             {this.state.showReactions ? <ReactionsBar /> : null}
           </CardItem>
-          {this.state.showComments ? <BulletinComments /> : null}
+          <CardItem>
+            {this.state.showComments ? <BulletinComments /> : null}
+          </CardItem>
         </Card>
       </View>
     );
