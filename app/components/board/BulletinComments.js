@@ -17,6 +17,7 @@ import {
   Text
 } from 'native-base';
 import { Avatar } from '../../components/image';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import AddCommentForm from './AddCommentForm';
 
@@ -31,10 +32,10 @@ const testComments = [
   }
 ];
 
-export default class BulletinComments extends React.Component {
+class BulletinComments extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], total: 0 };
+    this.state = { comments: [], total: 0, openForm: false, showForm: false };
     this.renderComments = this.renderComments.bind(this);
   }
 
@@ -69,29 +70,67 @@ export default class BulletinComments extends React.Component {
       <ScrollView>
         <View>
           {this.renderComments()}
-
-          <Card>
-            {/* <CardItem>
-              <Button light>
-                <Icon
-                  style={{ color: '#fcc21b', fontSize: 20 }}
-                  active
-                  name="commenting"
-                  type="FontAwesome"
+          <Card transparent>
+            <CardItem>
+              <Left>
+                <Avatar small src={this.props.userInfo.photoURL} />
+              </Left>
+              {this.state.openForm ? (
+                <Button
+                  style={{ backgroundColor: '#242424' }}
+                  rounded
+                  onPress={() =>
+                    this.setState({ openForm: false, showForm: false })
+                  }
                 >
                   <Icon
-                    style={{ color: '#fcc21b', fontSize: 20 }}
-                    active
+                    style={{ color: 'white', fontSize: 20 }}
+                    name="ios-remove"
+                    type="Ionicons"
+                  />
+                </Button>
+              ) : (
+                <Button
+                  style={{ backgroundColor: '#242424' }}
+                  onPress={() =>
+                    this.setState({ openForm: true, showForm: true })
+                  }
+                  rounded
+                >
+                  <Icon
+                    style={{ color: 'white', fontSize: 20 }}
                     name="ios-add"
                     type="Ionicons"
                   />
-                </Icon>
-              </Button>
-            </CardItem> */}
-            <AddCommentForm />
+                </Button>
+              )}
+            </CardItem>
           </Card>
+          {this.state.showForm ? <AddCommentForm /> : null}
         </View>
       </ScrollView>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo,
+    profile: state.profile,
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    newComment: (postData, currUserInfo) => {
+      dispatch(newComment(postData, currUserInfo));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BulletinComments);

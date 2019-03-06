@@ -58,9 +58,11 @@ export default class BulletinPost extends React.Component {
     this.setState({ userLiked: false, likes: this.state.likes-- });
   }
   incrementLOL() {
+    const prevLOL = this.state.LOLs++;
     this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
   }
   decrementLOL() {
+    const newLOL = this.state.LOLs--;
     this.setState({ userLOLed: false, LOLs: this.state.LOLs-- });
   }
   render() {

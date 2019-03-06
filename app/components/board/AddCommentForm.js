@@ -6,7 +6,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  TextInput
 } from 'react-native';
 import {
   Container,
@@ -21,6 +22,7 @@ import {
   Body,
   Footer,
   Right,
+  Textarea,
   Fab,
   Text,
   Form,
@@ -46,52 +48,60 @@ const testComments = [
 class AddCommentForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = { text: '', openForm: false, showForm: true };
     this.addComment = this.addComment.bind(this);
     this.updateTextInput = this.updateTextInput.bind(this);
   }
 
-  addComment() {}
+  addComment() {
+    const author = this.props.userInfo.displayName;
+    const avatar = this.props.userInfo.photoURL;
+    const datePosted = Date.now();
+    const content = this.state.text;
+    const postDetails = { author, avatar, datePosted, content };
+    //postID needs to be on here too!
+    //pass in as params?
+    // this.props.newComment(postDetails,postId);
+    //add this function to store.
+    //redirect nav to ? post?
+  }
   updateTextInput(input) {
     this.setState({ text: input });
+    console.log('this state is after updated', this.state);
   }
 
   render() {
     return (
-      <ScrollView>
-        <View>
-          <KeyboardAvoidingView behavior="padding" enabled>
-            <Card>
-              <Avatar small src={this.props.userInfo.photoURL} />
-              {/* <Form> */}
-              {/* <Item
-                  style={{
-                    borderColor: 'transparent'
-                  }}
-                  floatingLabel
-                > */}
-              <Input
+      <KeyboardAvoidingView behavior="padding" enabled>
+        <ScrollView>
+          <View>
+            <Card transparent>
+              <Textarea
                 style={{ fontFamily: 'poppins' }}
-                onChangeText={text => this.updateTextInput(text)}
-                value={this.state.text}
+                bordered
+                placeholder="...."
               />
-              {/* </Item> */}
-              {/* </Form> */}
+              {/* <TextInput multiline editable={true} maxLength={80} /> */}
 
-              <CardItem>
-                <Button light>
+              <CardItem style={{ justifyContent: 'center' }}>
+                <Button style={{ backgroundColor: '#242424' }} rounded>
                   <Icon
-                    style={{ color: '#fcc21b', fontSize: 20 }}
+                    style={{ color: 'white', fontSize: 20 }}
                     active
                     name="ios-add"
                     type="Ionicons"
-                  />
+                  >
+                    <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                      {' '}
+                      send{' '}
+                    </Text>
+                  </Icon>
                 </Button>
               </CardItem>
             </Card>
-          </KeyboardAvoidingView>
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -107,8 +117,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    newComment: (postData, currUserInfo) => {
-      dispatch(newComment(postData, currUserInfo));
+    newComment: (postData, postId) => {
+      dispatch(newComment(postData, PostId));
     }
   };
 };
