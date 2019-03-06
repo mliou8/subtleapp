@@ -123,6 +123,7 @@ export default class BulletinPost extends React.Component {
             <Left>
               {this.state.userLiked ? (
                 <Button light onPress={this.decrementLike}>
+                  {/* <Button bordered onPress={this.decrementLike}> */}
                   <Icon
                     style={{ fontSize: 20 }}
                     active={true}
