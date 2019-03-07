@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import socialImages from 'assets/images/social/exports.js';
-import { WebBrowser } from 'expo';
+import { Linking } from 'react-native';
 
 import { Button, Icon, Text } from 'native-base';
 
@@ -13,9 +13,9 @@ export default class Badge extends React.Component {
   }
   _handleBadgePress = (source, sourceUrl) => {
     if (source === 'twitch') {
-      return WebBrowser.openBrowserAsync(`https://www.twitch.tv/${sourceUrl}/`);
+      return Linking.openURL(`https://www.twitch.tv/${sourceUrl}/`);
     } else {
-      return WebBrowser.openBrowserAsync(
+      return Linking.openURL(
         `https://www.${source}.com/${sourceUrl}/`
       );
     }
