@@ -31,12 +31,10 @@ export default class BulletinPost extends React.Component {
       showReactions: false,
       showComments: false,
       comments: 10,
+      like: 0
     };
     this.toggleComments = this.toggleComments.bind(this);
-    this.incrementLike = this.incrementLike.bind(this);
-    this.decrementLike = this.decrementLike.bind(this);
-    this.incrementPika = this.incrementPika.bind(this);
-    this.decrementPika = this.decrementPika.bind(this);
+    this.toggleReaction = this.toggleReaction.bind(this);
   }
 
   toggleComments() {
@@ -44,16 +42,17 @@ export default class BulletinPost extends React.Component {
     this.setState({ showComments: !prevState });
   }
 
-  incrementReaction(reaction) {
-    const newReaction = {[reaction]: this.state[reaction]++}
-    const userReacted = {[`user${reaction}`]: !this.state[reaction]}
-    this.setState(newReaction, userReacted);
-  }
-
-  decrementReaction (reaction) {
-    const newReaction = {[reaction]: this.state[reaction]--}
-    const userReacted = {[`user${reaction}`]: !this.state[reaction]}
-    this.setState(newReaction, userReacted);
+  toggleReaction = (reaction) => {
+    if (!this.state[`user${reaction}`]) {
+      if (!this.state[reaction]) {
+        this.setState({[reaction]: 1})
+      } else {
+        this.setState({[reaction]: this.state[reaction] + 1});
+      }
+    } else {
+      this.setState({[reaction]: this.state[reaction] - 1});
+    }
+    this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
   }
 
   render() {
@@ -108,18 +107,15 @@ export default class BulletinPost extends React.Component {
               the title? I don't know!
             </Text>
           </CardItem>
-          <CardItem bordered footer>
-            <Button light onPress={this.state.userLiked ? this.decrementReaction('like') : this.incrementReaction('like')}>
-              <Icon
-                style={{ fontSize: 20 }}
-                active={true}
-                name={`${this.state.userLiked ? heart : heart-o}`}
-                type="FontAwesome"
-              >
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                  {this.state.likes}
-                </Text>
-              </Icon>
+          <CardItem header>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: -5}}>
+                <Icon
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active={true}
+                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
+                  type="FontAwesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
             </Button>
             <Right>
               <Button light onPress={this.toggleComments}>
@@ -136,13 +132,15 @@ export default class BulletinPost extends React.Component {
               </Button>
             </Right>
           </CardItem>
-          <CardItem>
-            {this.state.showReactions ? <ReactionsBar /> : null}
-          </CardItem>
-          <CardItem>
-            {this.state.showComments ? <BulletinComments /> : null}
-          </CardItem>
-        </Card>
+          {this.state.showReactions ? 
+          (<CardItem>
+            <ReactionsBar /> 
+          </CardItem>) : null}
+          {this.state.showComments ?
+          (<CardItem>
+             <BulletinComments /> 
+          </CardItem>) : null}        
+          </Card>
       </View>
     );
   }
