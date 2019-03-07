@@ -20,8 +20,8 @@ import { Avatar } from '../../components/image';
 import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
-import PikaSrc from 'assets/images/reactions/pika.png';
-import UwuSrc from 'assets/images/reactions/uwu.png';
+const PikaSrc = 'assets/images/reactions/pika.png';
+const UwuSrc = 'assets/images/reactions/uwu.png';
 
 export default class BulletinPost extends React.Component {
   constructor(props) {
@@ -31,7 +31,9 @@ export default class BulletinPost extends React.Component {
       showReactions: false,
       showComments: false,
       comments: 10,
-      like: 0
+      like: 0,
+      pika: 0,
+      uwu: 0
     };
     this.toggleComments = this.toggleComments.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
@@ -107,8 +109,8 @@ export default class BulletinPost extends React.Component {
               the title? I don't know!
             </Text>
           </CardItem>
-          <CardItem header>
-            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', padding: -5}}>
+          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
                 <Icon
                   style={{ fontSize: 18, marginRight: -5 }}
                   active={true}
@@ -117,20 +119,29 @@ export default class BulletinPost extends React.Component {
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
             </Button>
-            <Right>
-              <Button light onPress={this.toggleComments}>
-                <Icon
-                  style={{ fontSize: 20 }}
+            <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
+                  source={require(PikaSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.pika} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(UwuSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={this.toggleComments} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Icon
+                  style={{ fontSize: 18, marginRight: -5 }}
                   active
-                  name="commenting"
+                  name="comment"
                   type="FontAwesome"
-                >
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    {this.state.comments}
-                  </Text>
-                </Icon>
-              </Button>
-            </Right>
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.comments} </Text>
+            </Button>
           </CardItem>
           {this.state.showReactions ? 
           (<CardItem>
