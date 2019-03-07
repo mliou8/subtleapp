@@ -110,6 +110,7 @@ export function createUser(user) {
       lastLoginAt: currentTime,
       followers: [],
       following: [],
+      conversations: [],
       socialNetworks: [{ source: 'facebook', sourceUrl: 'facebookprofileurl' }]
     };
     db.collection('users')

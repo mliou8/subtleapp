@@ -1,6 +1,6 @@
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
-import LoginPage from 'containers/Login/LandingPageContainer';
+import LoginPage from 'containers/Login/LoginPageContainer';
 import InviteCodePage from 'containers/Login/InviteCodePageContainer';
 
 
