@@ -17,6 +17,12 @@ export default class RaveScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Subtle Asian App',
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 15
+      },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon

@@ -28,6 +28,9 @@ class Conversation extends React.Component {
         color: 'white',
         fontSize: 18
       },
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
       headerLeft: (
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon

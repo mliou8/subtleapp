@@ -36,12 +36,19 @@ const HomeStack = createStackNavigator({
         color: 'white',
         fontSize: 20
       },
+
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 15
+      },
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 3
+      },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
-            type="Octicons"
-            name="mail-read"
-            style={{ color: 'white', fontSize: 30, marginRight: 20, top: 10 }}
+            type="FontAwesome"
+            name="envelope-open"
+            style={{ color: 'white', fontSize:26 }}
           />
         </Button>
       ),
@@ -49,7 +56,7 @@ const HomeStack = createStackNavigator({
         <Icon
           type="FontAwesome"
           name="align-left"
-          style={{ marginLeft: 10, marginBottom: 8, color: 'white' }}
+          style={{  fontSize:26, color: 'white' }}
           onPress={() => navigation.toggleDrawer()}
         />
       )

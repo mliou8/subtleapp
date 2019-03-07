@@ -18,7 +18,11 @@ class MessageScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Messages',
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
       headerStyle: { backgroundColor: '#242424', height: 80 },
+
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
@@ -29,7 +33,7 @@ class MessageScreen extends React.Component {
           <Icon
             name="chevron-left"
             type="FontAwesome"
-            style={{ color: 'white', fontSize: 25 }}
+            style={{ color: 'white', fontSize: 25}}
           />
         </Button>
       )

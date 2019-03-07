@@ -25,6 +25,13 @@ export default class Settings extends React.Component {
         color: 'white',
         fontSize: 20
       },
+
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 15
+      },
       headerLeft: (
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon
