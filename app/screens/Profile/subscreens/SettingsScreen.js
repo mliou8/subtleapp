@@ -96,7 +96,7 @@ export default class Settings extends React.Component {
   onPressToRemove = (networkObj, userInfo) => {
     this.props.removeNetwork(networkObj, userInfo);
     this.setState({
-      [networkObj.source]: { enabled: false, edit: false, sourceUrl: '' }
+      [networkObj.source]: { enabled: false, edit: false, sourceUrl: undefined }
     });
   };
 

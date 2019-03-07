@@ -15,15 +15,24 @@ import { Icon } from 'native-base';
 export default class ConnectedNetworks extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: 'Social Handle', edit: false };
+    this.state = {};
+    this.state.text = this.props.text ? this.props.text : "";
+    this.state.edit = false;
     this.buttonToggle = this.buttonToggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
   }
   
+  componentDidUpdate(prevProps) {
+    if (prevProps.text !== this.props.text) {
+      this.setState({text: this.props.text});
+    }
+  }
   handleSubmit = () => {
-    this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}, this.props.userInfo); 
+    if (this.state.text !== "") {
+      this.props.onPressToAdd({source: this.props.iconType, sourceUrl: this.state.text}, this.props.userInfo); 
+    }
     this.setState({edit: false})
   }
   
@@ -32,9 +41,11 @@ export default class ConnectedNetworks extends React.Component {
   }
   
   toggleEdit = () => {
+    
     if (this.state.edit === false) {
+      const displayText = this.props.enabled ? this.state.text : "Not connected";
       return (
-        <RkText rkType='header6' style={{ marginTop: 5, marginLeft: 5, color: 'black' }}>{this.props.text}</RkText>
+        <RkText rkType='header6' style={{ marginTop: 5, marginLeft: 5, color: 'black' }}>{displayText}</RkText>
       )
     } else {
       return (
@@ -42,6 +53,8 @@ export default class ConnectedNetworks extends React.Component {
           style={{height: 20, marginTop: 5, marginLeft: 6, borderColor: 'gray', borderWidth: .7}}
           onChangeText={(text) => this.setState({text})}
           value={this.state.text}
+          placeholder="Your handle"
+          autoFocus={true}
           />
       )
     }
