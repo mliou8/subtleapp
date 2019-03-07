@@ -110,6 +110,7 @@ export function createUser(user) {
       lastLoginAt: currentTime,
       followers: [],
       following: [],
+      conversations: [],
       socialNetworks: [{ source: 'facebook', sourceUrl: 'facebookprofileurl' }]
     };
     db.collection('users')
@@ -237,9 +238,6 @@ export const removeNetwork = (networkObj, currentUser) => {
           const filteredNetworks = currentNetworks.filter(networks => {
             return networks.source !== networkObj.source;
           });
-          if (filteredNetworks.length === 0) {
-            filteredNetworks = [{}];
-          }
           // currentUser.socialNetworks = filteredNetworks;
           transaction.update(userRef, { socialNetworks: filteredNetworks });
           return user.data().uid;

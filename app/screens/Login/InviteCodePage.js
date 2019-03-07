@@ -1,13 +1,9 @@
 import React from 'react';
-import Video from 'app/components/common/media/Video';
 import {
-    StyleSheet,
     View,
     KeyboardAvoidingView,
     SafeAreaView
 } from 'react-native';
-import VideoUrl from 'assets/videos/video.mp4';
-import Dialog from "react-native-dialog";
 import firebase from 'db/firebase';
 import { Button, Text, H1, Input, Item, Container, Content } from 'native-base';
 import db from 'db/firestore';
@@ -118,7 +114,7 @@ export default class InviteCodePage extends React.Component {
                                 transparent
                                 style={{alignSelf:'center' }}
                                 onPress={() => this.signOut()}
-                            ><Text style={{color: 'red'}}>Sign Out</Text></Button>
+                            ><Text style={this.state.isLoading ? {color: '#9B9B9B'} : {color: '#3F57D3'}}>Cancel</Text></Button>
                         </View>
                         <View style={{ flexGrow: 1 }}>
                             <Button

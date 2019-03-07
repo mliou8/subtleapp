@@ -44,6 +44,13 @@ class FollowersListScreen extends React.Component {
         fontSize: 12
       },
 
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 15
+      },
+
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon

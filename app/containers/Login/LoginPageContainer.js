@@ -1,7 +1,5 @@
-import { connect } from 'react-redux'
-import { facebookLogin, checkCode } from 'actions/login/index';
+import { connect } from 'react-redux';
 import LoginPage from 'screens/Login/LoginPage';
-import { fetchPosts } from 'app/actions/posts/index';
 
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,9 +14,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-const LandingPageContainer = connect(
+const LoginPageContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(LoginPage)
 
-export default LandingPageContainer
+export default LoginPageContainer
