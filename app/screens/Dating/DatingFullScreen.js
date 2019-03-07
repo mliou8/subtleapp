@@ -14,38 +14,43 @@ import {
   Left,
 } from "native-base";
 
-import { fetchPost } from 'db/dating/index';
-
-
 import {
   MaterialIcons,
 } from '@expo/vector-icons';
 
 
 export default class DatingFullScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      post: {}
-    }
+  constructor(props) {
+    super(props);
     this.renderTextPost = this.renderTextPost.bind(this);
-  }
-
-  componentDidMount() {
-    const hardCodedID = "JvDf92I7AbkQEt4MXLxe";
-    fetchPost(hardCodedID).then((post) => {
-      this.setState({post: post});
-    })
+    this.renderImages = this.renderImages.bind(this);
   }
 
   renderTextPost() {
-    if (this.state.post.text) {
-      const splitString = this.state.post.text.split('\\n');
+    const post = this.props.navigation.getParam('post');
+    if (post.text) {
+      const formatStr = post.text.slice(1, post.text.length - 1);
+      const splitString = formatStr.split('\\n');
       return splitString.map(function(item, idx) {
         return (
           <Text key={idx}>
             {item}{"\n"}
           </Text>
+        )
+      })
+    }
+  }
+
+  renderImages() {
+    const post = this.props.navigation.getParam('post');
+    if (post.photoRef) {
+      return post.photoRef.map((photo, idx) => {
+        return (
+          <Image
+            key={idx}
+            source={{uri: photo}}
+            style={styles.cardImage}
+            />
         )
       })
     }
@@ -59,22 +64,7 @@ export default class DatingFullScreen extends React.Component {
             { this.renderTextPost() }
           </Text>
           <View style={styles.imageContainer}>
-            <Image
-              source={{uri: 'https://placeimg.com/100/100/people'}}
-              style={styles.cardImage}
-            />
-            <Image
-              source={{uri: 'https://placeimg.com/100/100/people'}}
-              style={styles.cardImage}
-            />
-            <Image
-              source={{uri: 'https://placeimg.com/100/100/people'}}
-              style={styles.cardImage}
-            />
-            <Image
-              source={{uri: 'https://placeimg.com/100/100/people'}}
-              style={styles.cardImage}
-            />
+            { this.renderImages() }
           </View>
         </ScrollView>
       </View>

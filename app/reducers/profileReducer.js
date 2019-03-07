@@ -1,8 +1,6 @@
 import {
   PROFILE_FETCHED,
   PROFILE_NOT_FOUND,
-  // PROFILE_ADD_FOLLOWER,
-  // PROFILE_REMOVE_FOLLOWER,
   PROFILE_UPDATED
 } from 'actions/profile/index';
 
@@ -24,19 +22,6 @@ export default function(state = initialState, action) {
         ...state,
         userProfile: action.updatedProfileInfo
       };
-    // case PROFILE_ADD_FOLLOWER:
-    //   return {
-    //     ...state,
-    //     userProfile: { ...state.userProfile, followers: action.userToFollowID }
-    //   };
-    // case PROFILE_REMOVE_FOLLOWER:
-    //   return {
-    //     ...state,
-    //     userProfile: {
-    //       ...state.userProfile,
-    //       followers: [state.userProfile.followers, action.userToUnfollowID]
-    //     }
-    //   };
     case PROFILE_NOT_FOUND:
       return {
         ...state,

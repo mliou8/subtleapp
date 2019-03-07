@@ -1,7 +1,7 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import BulletinScreen from 'app/screens/Board/BulletinScreen';
 import { BoardScreen, BoardNavOptions } from 'app/screens/Board/BoardScreen';
-import DatingScreen from 'app/screens/Dating/DatingScreen';
+import DatingScreen from 'app/containers/Board/DatingScreenContainer';
 import DatingFullScreen from 'app/screens/Dating/DatingFullScreen';
 import MainTabNavigator from './MainTabNavigator';
 import SideMenu from 'app/components/sidemenu/SideMenu';
@@ -12,14 +12,6 @@ const DatingStack = createStackNavigator({
   DatingFullScreen: DatingFullScreen
 });
 
-DatingStack.navigationOptions = {
-  headerVisible: false
-}
-
-//originally I wasnt sure if tehre would be nav from this location or not
-//like a fullscreen view of selfie or something
-//or selfies near you?
-//it can just be thrown in drawer nav if there wont be.
 const SelfieStack = createStackNavigator({
   SelfiesScreen: SelfiesScreen
 });

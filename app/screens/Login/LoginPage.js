@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Video from 'app/components/common/media/Video';
 import {
@@ -103,7 +104,7 @@ export default class LoginPage extends React.Component {
             videoStyle={styles.backgroundVideo}
             muted={true}
           />
-          {/* 
+          {/*
           <KeyboardAvoidingView behavior="padding">
             <Dialog.Container visible={this.state.modalOpen}>
               <Dialog.Title>Please Enter Invite Code</Dialog.Title>
@@ -117,7 +118,7 @@ export default class LoginPage extends React.Component {
           </KeyboardAvoidingView>
           */}
           <View style={{flex:1, flexDirection:'column'}}>
-            <View style={{flexGrow: 1}}></View> 
+            <View style={{flexGrow: 1}}></View>
             <Button
               rounded
               iconLeft
@@ -134,7 +135,7 @@ export default class LoginPage extends React.Component {
               <Text style={styles.loginButtonText}>Sign in with Facebook</Text>
             </Button>
 
-            {/* 
+            {/*
             <Button
               rounded
               block

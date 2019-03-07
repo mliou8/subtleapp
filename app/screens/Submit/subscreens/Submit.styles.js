@@ -21,7 +21,7 @@ export default (styles = StyleSheet.create({
         zIndex: 10,
     },
     input: {
-        fontSize: 24,
+        fontSize: 18,
         marginTop: 10,
         marginBottom: 20,
         borderColor: 'transparent',

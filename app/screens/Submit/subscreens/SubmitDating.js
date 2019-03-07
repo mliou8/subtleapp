@@ -106,7 +106,7 @@ export default class SubmitDating extends Component {
                   : null}
               </View>
             </View>
-        <Button
+            <Button
               block
               primary
               onPress={() => this.props.submitPost()}

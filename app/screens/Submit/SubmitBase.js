@@ -15,10 +15,8 @@ import timeout from 'app/util/timeout';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
+import { StackActions, NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo';
-
-
-
 
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,9 +40,9 @@ export default class SubmitBase extends Component {
       postAuthor: {},
       title: '',
       text: '',
-      postType: "initial",
+      postType: "general",
       topic: "offtopic",
-      duration: 'infinite',
+      duration: 3,
       modalVisible: false,
     };
 
@@ -58,24 +56,32 @@ export default class SubmitBase extends Component {
     this.updateTextInput = this.updateTextInput.bind(this);
     this.updateTitleInput = this.updateTitleInput.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    this.createPost = this.createPost.bind(this);
     this.addPostToUser = this.addPostToUser.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.pickImageFromCameraRoll = this.pickImageFromCameraRoll.bind(this);
     this.removeImage = this.removeImage.bind(this);
+    this.validatePost = this.validatePost.bind(this);
   }
 
-  async submitPost() {
-    for (let upload of this.state.uploads) {
-      await this.uploadImageAsync(upload);
+  validatePost() {
+    if (this.state.text.length < 1 || this.state.text.length < 1) {
+      Alert.alert("Title or Text is empty.");
+      return false;
+    } else if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
+      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+      return false;
     }
-
-    await this.createPost();
+    return true;
   }
 
   setPostType (idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase });
+    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', height: 250, downloadURL: [], duration: 3 });
+    if (value === 'dating') {
+      this.setState({topic: ''});
+    } else if (value === 'general') {
+      this.setState({ duration: 3})
+    }
   }
 
   setTopic(idx, value) {
@@ -156,7 +162,7 @@ export default class SubmitBase extends Component {
 
     const ref = firebase
       .storage()
-      .ref('test/')
+      .ref('images/')
       .child(`${filename}`);
 
     const snapshot = await ref.put(blob);
@@ -165,8 +171,10 @@ export default class SubmitBase extends Component {
     blob.close();
 
     const downloadURL = await snapshot.ref.getDownloadURL();
-    const newArray = this.state.downloadURL.concat(downloadURL)
-    this.setState({downloadURL: newArray});
+    const newArr = this.state.downloadURL;
+    newArr.push(downloadURL);
+    this.setState({downloadURL: newArr});
+    console.log("this.state currently is ", this.state);
   }
 
   updateSize = height => {
@@ -187,7 +195,8 @@ export default class SubmitBase extends Component {
     this.setState({ modalVisible: visible });
   };
 
-  async createPost() {
+  async submitPost() {
+    this.validatePost();
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
@@ -217,7 +226,15 @@ export default class SubmitBase extends Component {
   addPostToUser(postData) {
     const currUserInfo = this.props.userInfo;
     newGeneralPost(postData, currUserInfo);
-    this.props.navigation.navigate('Home');
+
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home'})
+      ]
+    })
+
+    this.props.navigation.dispatch(resetAction);
   }
 
   takePicture = async () => {
@@ -236,6 +253,7 @@ export default class SubmitBase extends Component {
             uploads: [...state.uploads, uri]
           };
         });
+        this.uploadImageAsync(uri);
       }
     } catch (e) {
       console.error('Could not take picture', e);
@@ -260,6 +278,7 @@ export default class SubmitBase extends Component {
             uploads: [...state.uploads, uri]
           };
         });
+        this.uploadImageAsync(uri);
       }
     } catch (e) {
       console.error('Could not get image from camera roll', e);
