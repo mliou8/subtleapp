@@ -123,7 +123,6 @@ export default class BulletinPost extends React.Component {
             <Left>
               {this.state.userLiked ? (
                 <Button light onPress={this.decrementLike}>
-                  {/* <Button bordered onPress={this.decrementLike}> */}
                   <Icon
                     style={{ fontSize: 20 }}
                     active={true}
@@ -152,13 +151,7 @@ export default class BulletinPost extends React.Component {
             </Left>
             <Body>
               {this.state.userLOLed ? (
-                <Button
-                  light
-                  // onPress={() =>
-                  //   this.setState({ showReactions: !this.state.showReactions })
-                  // }
-                  onPress={this.decrementLOL}
-                >
+                <Button light onPress={this.decrementLOL}>
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 25 }}
                     active
@@ -171,13 +164,7 @@ export default class BulletinPost extends React.Component {
                   </Icon>
                 </Button>
               ) : (
-                <Button
-                  light
-                  // onPress={() =>
-                  //   this.setState({ showReactions: !this.state.showReactions })
-                  // }
-                  onPress={this.incrementLOL}
-                >
+                <Button light onPress={this.incrementLOL}>
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 20 }}
                     active

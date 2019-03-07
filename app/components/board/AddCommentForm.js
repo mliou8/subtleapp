@@ -81,7 +81,6 @@ class AddCommentForm extends React.Component {
                 bordered
                 placeholder="...."
               />
-              {/* <TextInput multiline editable={true} maxLength={80} /> */}
 
               <CardItem style={{ justifyContent: 'center' }}>
                 <Button style={{ backgroundColor: '#242424' }} rounded>
