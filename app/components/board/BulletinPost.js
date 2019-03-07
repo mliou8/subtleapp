@@ -17,15 +17,53 @@ import {
   Fab
 } from 'native-base';
 import { Avatar } from '../../components/image';
+import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
+import BulletinComments from './BulletinComments';
 
 export default class BulletinPost extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { active: false, showReactions: false };
+    this.state = {
+      active: false,
+      showReactions: false,
+      showComments: false,
+      likes: 0,
+      LOLs: 0,
+      comments: 10,
+      userLiked: false,
+      userLOLed: false
+    };
+    this.toggleComments = this.toggleComments.bind(this);
+    this.toggleReactions = this.toggleReactions.bind(this);
+    this.incrementLike = this.incrementLike.bind(this);
+    this.decrementLike = this.decrementLike.bind(this);
+    this.incrementLOL = this.incrementLOL.bind(this);
+    this.decrementLOL = this.decrementLOL.bind(this);
   }
   toggleReactions() {
-    this.setState({ showReactions: !this.state.showReactions });
+    const prevState = this.state.showReactions;
+    this.setState({ showReactions: !prevState });
+  }
+  toggleComments() {
+    const prevState = this.state.showComments;
+    this.setState({ showComments: !prevState });
+  }
+  incrementLike() {
+    const prevLikes = this.state.likes++;
+    this.setState({ userLiked: true, likes: this.state.likes++ });
+  }
+  decrementLike() {
+    const prevLiked = this.state.likes--;
+    this.setState({ userLiked: false, likes: this.state.likes-- });
+  }
+  incrementLOL() {
+    const prevLOL = this.state.LOLs++;
+    this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
+  }
+  decrementLOL() {
+    const newLOL = this.state.LOLs--;
+    this.setState({ userLOLed: false, LOLs: this.state.LOLs-- });
   }
   render() {
     return (
@@ -82,44 +120,71 @@ export default class BulletinPost extends React.Component {
 
           <CardItem bordered footer>
             <Left>
-              <Button light>
-                <Icon
-                  style={{ fontSize: 20 }}
-                  active={true}
-                  name="heart-o"
-                  type="FontAwesome"
-                >
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>0</Text>
-                </Icon>
-              </Button>
+              {this.state.userLiked ? (
+                <Button light onPress={this.decrementLike}>
+                  <Icon
+                    style={{ fontSize: 20 }}
+                    active={true}
+                    name="heart"
+                    type="FontAwesome"
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.likes}
+                    </Text>
+                  </Icon>
+                </Button>
+              ) : (
+                <Button light onPress={this.incrementLike}>
+                  <Icon
+                    style={{ fontSize: 20 }}
+                    active={true}
+                    name="heart-o"
+                    type="FontAwesome"
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.likes}
+                    </Text>
+                  </Icon>
+                </Button>
+              )}
             </Left>
             <Body>
-              <Button
-                light
-                onPress={() =>
-                  this.setState({ showReactions: !this.state.showReactions })
-                }
-              >
-                <Icon
-                  style={{ color: '#fcc21b', fontSize: 20 }}
-                  active
-                  name="smiley"
-                  type="Octicons"
-                >
+              {this.state.userLOLed ? (
+                <Button light onPress={this.decrementLOL}>
+                  <Icon
+                    style={{ color: '#fcc21b', fontSize: 25 }}
+                    active
+                    name="ios-happy"
+                    type="Ionicons"
+                  >
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.LOLs}
+                    </Text>
+                  </Icon>
+                </Button>
+              ) : (
+                <Button light onPress={this.incrementLOL}>
                   <Icon
                     style={{ color: '#fcc21b', fontSize: 20 }}
                     active
-                    name="ios-add"
-                    type="Ionicons"
-                  />
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    12
-                  </Text>
-                </Icon>
-              </Button>
+                    name="smiley"
+                    type="Octicons"
+                  >
+                    <Icon
+                      style={{ color: '#fcc21b', fontSize: 20 }}
+                      active
+                      name="ios-add"
+                      type="Ionicons"
+                    />
+                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                      {this.state.LOLs}
+                    </Text>
+                  </Icon>
+                </Button>
+              )}
             </Body>
             <Right>
-              <Button light>
+              <Button light onPress={this.toggleComments}>
                 <Icon
                   style={{ fontSize: 20 }}
                   active
@@ -127,7 +192,7 @@ export default class BulletinPost extends React.Component {
                   type="FontAwesome"
                 >
                   <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    12
+                    {this.state.comments}
                   </Text>
                 </Icon>
               </Button>
@@ -135,6 +200,9 @@ export default class BulletinPost extends React.Component {
           </CardItem>
           <CardItem>
             {this.state.showReactions ? <ReactionsBar /> : null}
+          </CardItem>
+          <CardItem>
+            {this.state.showComments ? <BulletinComments /> : null}
           </CardItem>
         </Card>
       </View>

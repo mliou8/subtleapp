@@ -24,9 +24,9 @@ export default class BulletinScreen extends React.Component {
   }
 
   componentDidMount() {
-    fetchPosts().then((posts) => {
-      this.setState({posts: posts})
-    })
+    fetchPosts().then(posts => {
+      this.setState({ posts: posts });
+    });
   }
 
   render() {
@@ -49,5 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 3,
     paddingRight: 3,
+    backgroundColor: '#242424'
   }
 });
