@@ -20,6 +20,8 @@ import { Avatar } from '../../components/image';
 import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
+import PikaSrc from 'assets/images/reactions/pika.png';
+import UwuSrc from 'assets/images/reactions/uwu.png';
 
 export default class BulletinPost extends React.Component {
   constructor(props) {
@@ -28,43 +30,32 @@ export default class BulletinPost extends React.Component {
       active: false,
       showReactions: false,
       showComments: false,
-      likes: 0,
-      LOLs: 0,
       comments: 10,
-      userLiked: false,
-      userLOLed: false
     };
     this.toggleComments = this.toggleComments.bind(this);
-    this.toggleReactions = this.toggleReactions.bind(this);
     this.incrementLike = this.incrementLike.bind(this);
     this.decrementLike = this.decrementLike.bind(this);
-    this.incrementLOL = this.incrementLOL.bind(this);
-    this.decrementLOL = this.decrementLOL.bind(this);
+    this.incrementPika = this.incrementPika.bind(this);
+    this.decrementPika = this.decrementPika.bind(this);
   }
-  toggleReactions() {
-    const prevState = this.state.showReactions;
-    this.setState({ showReactions: !prevState });
-  }
+
   toggleComments() {
     const prevState = this.state.showComments;
     this.setState({ showComments: !prevState });
   }
-  incrementLike() {
-    const prevLikes = this.state.likes++;
-    this.setState({ userLiked: true, likes: this.state.likes++ });
+
+  incrementReaction(reaction) {
+    const newReaction = {[reaction]: this.state[reaction]++}
+    const userReacted = {[`user${reaction}`]: !this.state[reaction]}
+    this.setState(newReaction, userReacted);
   }
-  decrementLike() {
-    const prevLiked = this.state.likes--;
-    this.setState({ userLiked: false, likes: this.state.likes-- });
+
+  decrementReaction (reaction) {
+    const newReaction = {[reaction]: this.state[reaction]--}
+    const userReacted = {[`user${reaction}`]: !this.state[reaction]}
+    this.setState(newReaction, userReacted);
   }
-  incrementLOL() {
-    const prevLOL = this.state.LOLs++;
-    this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
-  }
-  decrementLOL() {
-    const newLOL = this.state.LOLs--;
-    this.setState({ userLOLed: false, LOLs: this.state.LOLs-- });
-  }
+
   render() {
     return (
       <View>
@@ -81,7 +72,7 @@ export default class BulletinPost extends React.Component {
               </Text>
             </Left>
             <Right>
-              <Button rounded light onPress={() => this.toggleReactions()}>
+              <Button rounded light>
                 <Text style={{ fontFamily: 'poppins' }}>location</Text>
               </Button>
             </Right>
@@ -117,72 +108,19 @@ export default class BulletinPost extends React.Component {
               the title? I don't know!
             </Text>
           </CardItem>
-
           <CardItem bordered footer>
-            <Left>
-              {this.state.userLiked ? (
-                <Button light onPress={this.decrementLike}>
-                  <Icon
-                    style={{ fontSize: 20 }}
-                    active={true}
-                    name="heart"
-                    type="FontAwesome"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.likes}
-                    </Text>
-                  </Icon>
-                </Button>
-              ) : (
-                <Button light onPress={this.incrementLike}>
-                  <Icon
-                    style={{ fontSize: 20 }}
-                    active={true}
-                    name="heart-o"
-                    type="FontAwesome"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.likes}
-                    </Text>
-                  </Icon>
-                </Button>
-              )}
-            </Left>
-            <Body>
-              {this.state.userLOLed ? (
-                <Button light onPress={this.decrementLOL}>
-                  <Icon
-                    style={{ color: '#fcc21b', fontSize: 25 }}
-                    active
-                    name="ios-happy"
-                    type="Ionicons"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.LOLs}
-                    </Text>
-                  </Icon>
-                </Button>
-              ) : (
-                <Button light onPress={this.incrementLOL}>
-                  <Icon
-                    style={{ color: '#fcc21b', fontSize: 20 }}
-                    active
-                    name="smiley"
-                    type="Octicons"
-                  >
-                    <Icon
-                      style={{ color: '#fcc21b', fontSize: 20 }}
-                      active
-                      name="ios-add"
-                      type="Ionicons"
-                    />
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.LOLs}
-                    </Text>
-                  </Icon>
-                </Button>
-              )}
-            </Body>
+            <Button light onPress={this.state.userLiked ? this.decrementReaction('like') : this.incrementReaction('like')}>
+              <Icon
+                style={{ fontSize: 20 }}
+                active={true}
+                name={`${this.state.userLiked ? heart : heart-o}`}
+                type="FontAwesome"
+              >
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                  {this.state.likes}
+                </Text>
+              </Icon>
+            </Button>
             <Right>
               <Button light onPress={this.toggleComments}>
                 <Icon

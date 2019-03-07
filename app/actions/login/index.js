@@ -279,7 +279,6 @@ const updateUser = uid => {
       .then(function(user) {
         if (user.exists) {
           const profile = user.data();
-
           dispatch(userUpdated(profile));
         } else {
           const msg = 'No such user with that uid';
