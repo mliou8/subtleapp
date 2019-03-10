@@ -2,18 +2,10 @@ import firebase from "db/firebase";
 import db from "../db";
 
 export async function sendReaction(postID, reaction) {
-  var postRef = db.collection("posts").where("type", "==", "general");
-
+  const postRef = db.collection("posts").doc(postID);
+  const reactiontoAdd = {reaction: reaction};
   try {
-    const post = await postRef.get()
-     .then(function(posts) {
-       const postArr = []
-       posts.forEach((post) => {
-         postArr.push(post.data());
-       })
-       return postArr;
-      })
-    return post;
+    await postRef.update(reactiontoAdd);
   } catch (err) {
     console.log("Error in sending reaction: ", err)
   };

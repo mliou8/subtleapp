@@ -16,7 +16,8 @@ import {
   Right,
   Fab
 } from 'native-base';
-import { Avatar } from '../../components/image';
+import { Avatar } from 'app/components/image';
+import { sendReaction } from 'db/common/index';
 import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
@@ -45,14 +46,17 @@ export default class BulletinPost extends React.Component {
   }
 
   toggleReaction = (reaction) => {
+    const hardCodedPostID = "21432";
     if (!this.state[`user${reaction}`]) {
       if (!this.state[reaction]) {
         this.setState({[reaction]: 1})
       } else {
-        this.setState({[reaction]: this.state[reaction] + 1});
+        this.setState({[reaction]: this.state[reaction] + 1},
+          () => sendReaction(hardCodedPostID, reaction));
       }
     } else {
-      this.setState({[reaction]: this.state[reaction] - 1});
+      this.setState({[reaction]: this.state[reaction] - 1},
+        () => sendReaction(hardCodedPostID, reaction));
     }
     this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
   }

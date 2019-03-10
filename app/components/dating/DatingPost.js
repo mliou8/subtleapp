@@ -13,6 +13,9 @@ import {
   Icon,
   Left,
 } from "native-base";
+const UwuSrc = 'assets/images/reactions/uwu.png';
+const KissSrc = 'assets/images/reactions/kissface.png';
+
 
 import {
   MaterialIcons,
@@ -22,10 +25,14 @@ import {
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.renderImage = this.renderImage.bind(this)
+    this.state = {
+      like: 0,
+      uwu: 0,
+    }
+    this.renderImage = this.renderImage.bind(this);
+    this.toggleReaction = this.toggleReaction.bind(this);
   }
 
-  //Oh the workarounds we come up with
   renderImage () {
     if (this.props.data.photoRef) {
       return this.props.data.photoRef.map((photo, idx) => {
@@ -41,6 +48,24 @@ export default class Post extends React.Component {
       })
     }
   }
+
+  toggleReaction = (reaction) => {
+    console.log("this.props.data ", this.props.data);
+    const hardCodedPostID = "ee";
+    if (!this.state[`user${reaction}`]) {
+      if (!this.state[reaction]) {
+        this.setState({[reaction]: 1})
+      } else {
+        this.setState({[reaction]: this.state[reaction] + 1},
+          () => sendReaction(hardCodedPostID, reaction));
+      }
+    } else {
+      this.setState({[reaction]: this.state[reaction] - 1},
+        () => sendReaction(hardCodedPostID, reaction));
+    }
+    this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
+  }
+
 
   render() {
     const { title = '', text = '', expiryDate = ''} = this.props.data;
@@ -59,20 +84,22 @@ export default class Post extends React.Component {
                 </Text>
              </CardItem>
             <CardItem style={styles.actionIcons}>
-              <Button small transparent style={{paddingBottom: 0}}>
-                <MaterialIcons
-                  style={styles.icon}
-                  color="black"
-                  name="chat"
+              <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 30, height: 25}}>
+                <Image
+                    style={{ resizeMode:"contain", width: 20, height: 25, marginLeft: 10 }}
+                    source={require(UwuSrc)}
                   />
+                  <Text style={{ fontSize: 8, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
               </Button>
-              <Button small transparent style={{paddingBottom: 0}}>
-                <Icon
-                  style={styles.icon}
-                  type="FontAwesome"
-                  name="heart-o"
+              <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 30, height: 25}}>
+                  <Icon
+                    style={{ fontSize: 18, marginRight: -5 }}
+                    active={true}
+                    name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
+                    type="FontAwesome"
                   />
-              </Button>
+                  <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
+                </Button>
             </CardItem>
           </Card>
         </TouchableOpacity>
@@ -106,14 +133,10 @@ const styles = StyleSheet.create({
   actionIcons: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignSelf: 'stretch',
+    justifyContent: "space-around",
     borderStyle: 'solid',
     borderTopWidth: .5,
     borderTopColor: 'lightgrey',
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingBottom: 10,
   },
   icon: {
     fontSize: 20,
