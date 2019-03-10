@@ -18,7 +18,6 @@ import {
 } from 'native-base';
 import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
-import Emoji from 'react-native-emoji';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
 const PikaSrc = 'assets/images/reactions/pika.png';
@@ -114,15 +113,6 @@ export default class BulletinPost extends React.Component {
             </Text>
           </CardItem>
           <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
-                <Icon
-                  style={{ fontSize: 18, marginRight: -5 }}
-                  active={true}
-                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                  type="FontAwesome"
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
-            </Button>
             <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
               <Image
                   style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
@@ -136,6 +126,15 @@ export default class BulletinPost extends React.Component {
                   source={require(UwuSrc)}
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+                <Icon
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active={true}
+                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
+                  type="FontAwesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
             </Button>
             <Button light onPress={this.toggleComments} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
               <Icon

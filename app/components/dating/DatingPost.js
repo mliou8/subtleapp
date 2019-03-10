@@ -15,12 +15,7 @@ import {
 } from "native-base";
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
-
-
-import {
-  MaterialIcons,
-} from '@expo/vector-icons';
-
+const PikaSrc = 'assets/images/reactions/pika.png';
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -43,7 +38,7 @@ export default class Post extends React.Component {
             source={{uri: photo}}
             style={styles.cardImage}
             />
-        )
+          )
         }
       })
     }
@@ -71,92 +66,100 @@ export default class Post extends React.Component {
     const { title = '', text = '', expiryDate = ''} = this.props.data;
     const { propStyles = {} } = this.props;
     return (
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data})}
-            >
-          <Card style={{paddingTop: 0}}>
-            <CardItem
-              style={styles.post}>
-                { this.renderImage() }
-                <Text style={styles.title}>{title}</Text>
-                <Text numberOfLines={2} style={styles.text}>
-                  {text.replace(/"/g,"")}
-                </Text>
-             </CardItem>
-            <CardItem style={styles.actionIcons}>
-              <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 30, height: 25}}>
-                <Image
-                    style={{ resizeMode:"contain", width: 20, height: 25, marginLeft: 10 }}
-                    source={require(UwuSrc)}
-                  />
-                  <Text style={{ fontSize: 8, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+      <View>
+        <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
+          <CardItem>
+            <Left>
+              <Avatar
+                size={50}
+                styles={styles.avatar}
+                src={'https://loremflickr.com/176/230/cat'}
+              />
+              <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
+                @postAuthor
+              </Text>
+            </Left>
+            <Right>
+              <Button rounded light>
+                <Text style={{ fontFamily: 'poppins' }}>location</Text>
               </Button>
-              <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 30, height: 25}}>
-                  <Icon
-                    style={{ fontSize: 18, marginRight: -5 }}
-                    active={true}
-                    name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                    type="FontAwesome"
-                  />
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
-                </Button>
-            </CardItem>
+            </Right>
+          </CardItem>
+          <CardItem
+            style={{
+              display: 'flex',
+              width: null,
+              flex: 1,
+              justifyContent: 'center'
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: 'poppins',
+                justifyContent: 'center'
+              }}
+            >
+              Title: This is where the title of the bulletin post would go
+            </Text>
+          </CardItem>
+          <CardItem
+            style={{
+              display: 'flex',
+              width: null,
+              flex: 1,
+              alignContent: 'center'
+            }}
+          >
+            <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
+              some text that they'd enter. For people to read. Maybe related to
+              the title? I don't know!
+            </Text>
+          </CardItem>
+          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
+                  source={require(PikaSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.pika} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(UwuSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+                <Icon
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active={true}
+                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
+                  type="FontAwesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(KissSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+          </CardItem>    
           </Card>
-        </TouchableOpacity>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   post: {
-    flexDirection: "column",
-    width: 170,
-    paddingTop: 0,
-    height: 280,
-  },
-  cardImage: {
-    resizeMode: 'cover',
-    height: 210,
-    width: 170,
-    flex: 1
-  },
-  cardItem: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardText: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    textAlign: "left",
-  },
-  actionIcons: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderStyle: 'solid',
-    borderTopWidth: .5,
-    borderTopColor: 'lightgrey',
-  },
-  icon: {
-    fontSize: 20,
-    color: "black",
-    margin: 0,
-  },
-  title: {
-    fontSize: 12,
-    alignSelf: "flex-start",
-    fontWeight: "bold",
-    marginBottom: 5,
-    marginTop: 5,
-  },
-  text: {
-    fontSize: 11,
-    alignSelf: "flex-start"
-  },
-  caption: {
-    fontSize: 12,
-    overflow: "hidden",
-    marginBottom: 10,
+    display: 'flex',
+    width: 174,
+    height: 225,
+    borderRadius: 7,
+    marginBottom: 10
   }
 });
