@@ -24,7 +24,7 @@ export default GooglePlacesInput = () => {
 
       query={{
         // available options: https://developers.google.com/places/web-service/autocomplete
-        key: 'AIzaSyDis6b7g796J_gKYIHdVWnzLw07k4BDOHI',
+        key: '',
         language: 'en', // language of the results
         types: '(cities)' // default: 'geocode'
       }}

@@ -7,10 +7,7 @@ import {
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  Container,
-  Header,
   Button,
-  Content,
   Form,
   Item,
   Input,
@@ -18,7 +15,6 @@ import {
   Text
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
-import { connect } from 'react-redux';
 import styles from './Submit.styles';
 
 export default class SubmitDating extends Component {
@@ -63,10 +59,7 @@ export default class SubmitDating extends Component {
                 </Item>
                 <Item floatingLabel>
                   <Label>Location</Label>
-                  <Input
-                    onChangeText={text => this.props.updateLocationInput(text)}
-                    value={this.props.location}
-                  />
+                  
                 </Item>
               </Form>
               <SingleInput
