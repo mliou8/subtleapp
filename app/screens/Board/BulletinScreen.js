@@ -10,7 +10,8 @@ import {
   Text,
   Button,
   Icon,
-  Left
+  Left,
+  Spinner
 } from 'native-base';
 import BulletinPost from 'app/components/board/BulletinPost';
 import { fetchPosts } from 'db/bulletin/index';
@@ -28,15 +29,32 @@ export default class BulletinScreen extends React.Component {
       this.setState({ posts: posts });
     });
   }
+  renderPosts() {
+    let counter = 1;
+    return this.state.posts.map(item => (
+      <BulletinPost
+        key={counter++}
+        postInfo={item}
+        // imageSrc={`${item.photoRef}`}
+        // caption={item.caption}
+      />
+    ));
+  }
 
   render() {
+    console.log('this state bullet posts', this.state);
     return (
       <View style={styles.container}>
         <ScrollView>
-          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          {this.state.posts.length >= 1 ? (
+            this.renderPosts()
+          ) : (
+            <Spinner color="white" />
+          )}
+          {/* <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
           <BulletinPost imageSrc={'https://loremflickr.com/176/230/dog'} />
           <BulletinPost imageSrc={'https://loremflickr.com/176/230/bunny'} />
-          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
+          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} /> */}
         </ScrollView>
       </View>
     );

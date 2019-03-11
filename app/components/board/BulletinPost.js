@@ -39,27 +39,49 @@ export default class BulletinPost extends React.Component {
     this.toggleReaction = this.toggleReaction.bind(this);
   }
 
+  componentDidMount() {
+    const infoPost = this.props.postInfo;
+    this.setState({
+      author: infoPost.author,
+      comments: infoPost.comments.length,
+      like: infoPost.reactions.likes,
+      title: infoPost.title,
+      text: infoPost.text,
+      datePosted: infoPost.datePosted
+    });
+    console.log('info posts -------', infoPost);
+  }
+
   toggleComments() {
     const prevState = this.state.showComments;
     this.setState({ showComments: !prevState });
   }
 
-  toggleReaction = (reaction) => {
-    const hardCodedPostID = "21432";
-    this.setState({userpika: false, useruwu: false, userlike: false, like: 0, pika: 0, uwu: 0})
+  toggleReaction = reaction => {
+    const hardCodedPostID = '21432';
+    this.setState({
+      userpika: false,
+      useruwu: false,
+      userlike: false,
+      like: 0,
+      pika: 0,
+      uwu: 0
+    });
     if (!this.state[`user${reaction}`]) {
       if (!this.state[reaction]) {
-        this.setState({[reaction]: 1})
+        this.setState({ [reaction]: 1 });
       } else {
-        this.setState({[reaction]: this.state[reaction] + 1},
-          () => sendReaction(hardCodedPostID, reaction));
+        this.setState({ [reaction]: this.state[reaction] + 1 }, () =>
+          sendReaction(hardCodedPostID, reaction)
+        );
       }
     } else {
-      this.setState({[reaction]: this.state[reaction] - 1},
-        () => sendReaction(hardCodedPostID, reaction));
+      this.setState({ [reaction]: this.state[reaction] - 1 }, () =>
+        sendReaction(hardCodedPostID, reaction)
+      );
     }
-    this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
-  }
+    this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
+  };
 
   render() {
     return (
@@ -73,7 +95,7 @@ export default class BulletinPost extends React.Component {
                 src={'https://loremflickr.com/176/230/cat'}
               />
               <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
-                @postAuthor
+                @{this.state.author}
               </Text>
             </Left>
             <Right>
@@ -81,6 +103,11 @@ export default class BulletinPost extends React.Component {
                 <Text style={{ fontFamily: 'poppins' }}>location</Text>
               </Button>
             </Right>
+          </CardItem>
+          <CardItem>
+            <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>
+              {this.state.datePosted}
+            </Text>
           </CardItem>
           <CardItem
             style={{
@@ -97,7 +124,7 @@ export default class BulletinPost extends React.Component {
                 justifyContent: 'center'
               }}
             >
-              Title: This is where the title of the bulletin post would go
+              {this.state.title}
             </Text>
           </CardItem>
           <CardItem
@@ -109,53 +136,118 @@ export default class BulletinPost extends React.Component {
             }}
           >
             <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
-              some text that they'd enter. For people to read. Maybe related to
-              the title? I don't know!
+              {this.state.text}
             </Text>
           </CardItem>
-          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+          <CardItem
+            header
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-around'
+            }}
+          >
+            <Button
+              light
+              onPress={() => this.toggleReaction('pika')}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 75
+              }}
+            >
               <Image
-                  style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
-                  source={require(PikaSrc)}
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.pika} </Text>
+                style={{
+                  resizeMode: 'contain',
+                  width: 35,
+                  height: 38,
+                  marginLeft: 10
+                }}
+                source={require(PikaSrc)}
+              />
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                {' '}
+                {this.state.pika}{' '}
+              </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button
+              light
+              onPress={() => this.toggleReaction('uwu')}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 75
+              }}
+            >
               <Image
-                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
-                  source={require(UwuSrc)}
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+                style={{
+                  resizeMode: 'contain',
+                  width: 30,
+                  height: 38,
+                  marginLeft: 5
+                }}
+                source={require(UwuSrc)}
+              />
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                {' '}
+                {this.state.uwu}{' '}
+              </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
-                <Icon
-                  style={{ fontSize: 18, marginRight: -5 }}
-                  active={true}
-                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                  type="FontAwesome"
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
-            </Button>
-            <Button light onPress={this.toggleComments} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button
+              light
+              onPress={() => this.toggleReaction('like')}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 75
+              }}
+            >
               <Icon
-                  style={{ fontSize: 18, marginRight: -5 }}
-                  active
-                  name="comment"
-                  type="FontAwesome"
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.comments} </Text>
+                style={{ fontSize: 18, marginRight: -5 }}
+                active={true}
+                name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
+                type="FontAwesome"
+              />
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                {this.state.like}
+              </Text>
+            </Button>
+            <Button
+              light
+              onPress={this.toggleComments}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 75
+              }}
+            >
+              <Icon
+                style={{ fontSize: 18, marginRight: -5 }}
+                active
+                name="comment"
+                type="FontAwesome"
+              />
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                {' '}
+                {this.state.comments}{' '}
+              </Text>
             </Button>
           </CardItem>
-          {this.state.showReactions ? 
-          (<CardItem>
-            <ReactionsBar /> 
-          </CardItem>) : null}
-          {this.state.showComments ?
-          (<CardItem>
-             <BulletinComments /> 
-          </CardItem>) : null}        
-          </Card>
+          {this.state.showReactions ? (
+            <CardItem>
+              <ReactionsBar />
+            </CardItem>
+          ) : null}
+          {this.state.showComments ? (
+            <CardItem>
+              <BulletinComments />
+            </CardItem>
+          ) : null}
+        </Card>
       </View>
     );
   }
