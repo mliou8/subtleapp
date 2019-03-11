@@ -47,6 +47,12 @@ export default class OwnProfileScreen extends React.Component {
         color: 'white',
         fontSize: 20
       },
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 3
+      },
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 3
+      },
       headerLeft: (
         <Button
           transparent

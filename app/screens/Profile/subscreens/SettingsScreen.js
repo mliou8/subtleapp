@@ -25,6 +25,13 @@ export default class Settings extends React.Component {
         color: 'white',
         fontSize: 20
       },
+
+      headerLeftContainerStyle: {
+        marginLeft: 10, marginTop: 15
+      },
+      headerRightContainerStyle: {
+        marginRight: 10, marginTop: 15
+      },
       headerLeft: (
         <Button transparent onPress={() => navigation.goBack()}>
           <Icon
@@ -89,7 +96,7 @@ export default class Settings extends React.Component {
   onPressToRemove = (networkObj, userInfo) => {
     this.props.removeNetwork(networkObj, userInfo);
     this.setState({
-      [networkObj.source]: { enabled: false, edit: false, sourceUrl: '' }
+      [networkObj.source]: { enabled: false, edit: false, sourceUrl: undefined }
     });
   };
 
