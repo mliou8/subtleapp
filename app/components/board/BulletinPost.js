@@ -46,6 +46,7 @@ export default class BulletinPost extends React.Component {
 
   toggleReaction = (reaction) => {
     const hardCodedPostID = "21432";
+    this.setState({userpika: false, useruwu: false, userlike: false, like: 0, pika: 0, uwu: 0})
     if (!this.state[`user${reaction}`]) {
       if (!this.state[reaction]) {
         this.setState({[reaction]: 1})

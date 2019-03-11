@@ -12,10 +12,13 @@ import {
   Body,
   Icon,
   Left,
+  Right,
 } from "native-base";
+import { Avatar } from 'app/components/image';
+import { sendReaction } from 'db/common/index';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
-const PikaSrc = 'assets/images/reactions/pika.png';
+const FireSrc = 'assets/images/reactions/fire.png';
 
 export default class Post extends React.Component {
   constructor(props) {
@@ -23,6 +26,8 @@ export default class Post extends React.Component {
     this.state = {
       like: 0,
       uwu: 0,
+      kiss: 0,
+      fire: 0,
     }
     this.renderImage = this.renderImage.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
@@ -37,7 +42,7 @@ export default class Post extends React.Component {
             key={idx}
             source={{uri: photo}}
             style={styles.cardImage}
-            />
+          />
           )
         }
       })
@@ -45,8 +50,8 @@ export default class Post extends React.Component {
   }
 
   toggleReaction = (reaction) => {
-    console.log("this.props.data ", this.props.data);
     const hardCodedPostID = "ee";
+    this.setState({userfire: false, useruwu: false, userkiss: false, userlike: false, fire: 0, uwu: 0, kiss: 0, like: 0})
     if (!this.state[`user${reaction}`]) {
       if (!this.state[reaction]) {
         this.setState({[reaction]: 1})
@@ -60,11 +65,26 @@ export default class Post extends React.Component {
     }
     this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
   }
+  
+  renderImage () {
+    if (this.props.data.photoRef) {
+      return this.props.data.photoRef.map((photo, idx) => {
+        if (idx === 1) {
+        return (
+          <Image
+            key={idx}
+            source={{uri: photo}}
+            style={styles.cardImage}
+            />
+        )
+        }
+      })
+    }
+  }
 
 
   render() {
-    const { title = '', text = '', expiryDate = ''} = this.props.data;
-    const { propStyles = {} } = this.props;
+    const { title = '', location = {}, text = ''} = this.props.data
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
@@ -76,14 +96,9 @@ export default class Post extends React.Component {
                 src={'https://loremflickr.com/176/230/cat'}
               />
               <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
-                @postAuthor
+                {title}
               </Text>
             </Left>
-            <Right>
-              <Button rounded light>
-                <Text style={{ fontFamily: 'poppins' }}>location</Text>
-              </Button>
-            </Right>
           </CardItem>
           <CardItem
             style={{
@@ -93,15 +108,16 @@ export default class Post extends React.Component {
               justifyContent: 'center'
             }}
           >
-            <Text
-              style={{
-                fontSize: 15,
-                fontFamily: 'poppins',
-                justifyContent: 'center'
-              }}
-            >
-              Title: This is where the title of the bulletin post would go
-            </Text>
+            <Image
+              source={{uri: this.props.data.photoRef[0]}}
+              style={styles.cardImage}
+              />
+            <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Seattle, WA</Text>
+            </Button>
+            <Button light rounded style={{position: 'absolute', top: 20, right: 18, height: 28, backgroundColor: '#FFD700'}}>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>4 days</Text>
+            </Button>
           </CardItem>
           <CardItem
             style={{
@@ -111,18 +127,17 @@ export default class Post extends React.Component {
               alignContent: 'center'
             }}
           >
-            <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
-              some text that they'd enter. For people to read. Maybe related to
-              the title? I don't know!
+            <Text numberOfLines={2} style={{fontSize: 15, fontFamily: 'poppinsLight'}}>
+              {text.replace(/"/g,"")}
             </Text>
           </CardItem>
           <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button light onPress={() => this.toggleReaction('fire')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
               <Image
                   style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
-                  source={require(PikaSrc)}
+                  source={require(FireSrc)}
                 />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.pika} </Text>
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.fire} </Text>
             </Button>
             <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
               <Image
@@ -130,6 +145,13 @@ export default class Post extends React.Component {
                   source={require(UwuSrc)}
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(KissSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.kiss} </Text>
             </Button>
             <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
                 <Icon
@@ -139,13 +161,6 @@ export default class Post extends React.Component {
                   type="FontAwesome"
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
-            </Button>
-            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
-              <Image
-                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
-                  source={require(KissSrc)}
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
             </Button>
           </CardItem>    
           </Card>
@@ -161,5 +176,11 @@ const styles = StyleSheet.create({
     height: 225,
     borderRadius: 7,
     marginBottom: 10
-  }
+  },
+  cardImage: {
+    resizeMode: 'cover',
+    height: 210,
+    width: 170,
+    flex: 1
+  },
 });

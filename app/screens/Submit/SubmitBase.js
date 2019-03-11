@@ -40,8 +40,9 @@ export default class SubmitBase extends Component {
       postAuthor: {},
       title: '',
       text: '',
-      postType: "general",
-      topic: "offtopic",
+      location: '',
+      postType: 'general',
+      topic: 'offtopic',
       duration: 3,
       modalVisible: false,
     };
@@ -55,6 +56,7 @@ export default class SubmitBase extends Component {
     this.updateSize = this.updateSize.bind(this);
     this.updateTextInput = this.updateTextInput.bind(this);
     this.updateTitleInput = this.updateTitleInput.bind(this);
+    this.updateLocationInput = this.updateLocationInput.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.addPostToUser = this.addPostToUser.bind(this);
     this.takePicture = this.takePicture.bind(this);
@@ -76,7 +78,7 @@ export default class SubmitBase extends Component {
 
   setPostType (idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', height: 250, downloadURL: [], duration: 3 });
+    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', location: '', height: 250, downloadURL: [], duration: 3 });
     if (value === 'dating') {
       this.setState({topic: ''});
     } else if (value === 'general') {
@@ -117,6 +119,9 @@ export default class SubmitBase extends Component {
             removeImage={this.removeImage}
             height={this.state.height}
             submitPost={this.submitPost}
+            updateLocationInput={this.updateLocationInput}
+            location={this.state.location}
+
           />
         </KeyboardAvoidingView>
       )
@@ -187,8 +192,13 @@ export default class SubmitBase extends Component {
   updateTextInput(text) {
     this.setState({ text });
   }
+
   updateTitleInput(title) {
     this.setState({ title });
+  }
+
+  updateLocationInput(location) {
+    this.setState({ location });
   }
 
   toggleModal = visible => {
@@ -212,7 +222,7 @@ export default class SubmitBase extends Component {
       title: this.state.title,
       text: textToSend,
       author,
-      location: { city: '', country: '' },
+      location: { city: this.state.location, country: '' },
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: this.state.postType,
@@ -319,7 +329,6 @@ export default class SubmitBase extends Component {
               postType={this.state.postType}
               userInfo={this.props.userInfo}
             />
-              { /*this.state.postType === "initial" ? overlay : null */ }
               { this.renderForm() }
         </ScrollView>
     );

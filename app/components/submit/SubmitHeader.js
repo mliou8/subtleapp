@@ -42,7 +42,7 @@ export default class SubmitHeader extends React.Component {
         <Dropdown
           options={timeOptions}
           setType={this.props.setDuration}
-          height={120}
+          height={124}
           width={150}
           />
       )

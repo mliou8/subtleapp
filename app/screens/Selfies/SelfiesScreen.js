@@ -190,7 +190,7 @@ class SelfiesScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: '#242424' }}>
+      <View style={{ backgroundColor: '#242424', flex: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View
             style={{

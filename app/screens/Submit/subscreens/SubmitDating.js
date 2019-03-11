@@ -61,11 +61,18 @@ export default class SubmitDating extends Component {
                     value={this.props.title}
                   />
                 </Item>
+                <Item floatingLabel>
+                  <Label>Location</Label>
+                  <Input
+                    onChangeText={text => this.props.updateLocationInput(text)}
+                    value={this.props.location}
+                  />
+                </Item>
               </Form>
               <SingleInput
                 multiline
-                placeholder="What's up?"
-                style={[styles.input, { height: this.props.height }]}
+                placeholder="Tell us about your friend"
+                style={[styles.input, { height: this.props.height, marginTop: 10}]}
                 onContentSizeChange={e =>
                   this.props.updateSize(e.nativeEvent.contentSize.height)
                 }
@@ -89,7 +96,7 @@ export default class SubmitDating extends Component {
                         <ImageBackground
                           key={uri}
                           style={styles.upload}
-                          source={{ uri }}
+                          source={{uri}}
                         >
                           <TouchableOpacity
                             onPress={() => this.props.removeImage(uri)}
