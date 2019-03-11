@@ -16,10 +16,12 @@ import {
   Right,
   Fab
 } from 'native-base';
-import { Avatar } from '../../components/image';
-import Emoji from 'react-native-emoji';
+import { Avatar } from 'app/components/image';
+import { sendReaction } from 'db/common/index';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
+const PikaSrc = 'assets/images/reactions/pika.png';
+const UwuSrc = 'assets/images/reactions/uwu.png';
 
 export default class BulletinPost extends React.Component {
   constructor(props) {
@@ -28,43 +30,37 @@ export default class BulletinPost extends React.Component {
       active: false,
       showReactions: false,
       showComments: false,
-      likes: 0,
-      LOLs: 0,
       comments: 10,
-      userLiked: false,
-      userLOLed: false
+      like: 0,
+      pika: 0,
+      uwu: 0
     };
     this.toggleComments = this.toggleComments.bind(this);
-    this.toggleReactions = this.toggleReactions.bind(this);
-    this.incrementLike = this.incrementLike.bind(this);
-    this.decrementLike = this.decrementLike.bind(this);
-    this.incrementLOL = this.incrementLOL.bind(this);
-    this.decrementLOL = this.decrementLOL.bind(this);
+    this.toggleReaction = this.toggleReaction.bind(this);
   }
-  toggleReactions() {
-    const prevState = this.state.showReactions;
-    this.setState({ showReactions: !prevState });
-  }
+
   toggleComments() {
     const prevState = this.state.showComments;
     this.setState({ showComments: !prevState });
   }
-  incrementLike() {
-    const prevLikes = this.state.likes++;
-    this.setState({ userLiked: true, likes: this.state.likes++ });
+
+  toggleReaction = (reaction) => {
+    const hardCodedPostID = "21432";
+    this.setState({userpika: false, useruwu: false, userlike: false, like: 0, pika: 0, uwu: 0})
+    if (!this.state[`user${reaction}`]) {
+      if (!this.state[reaction]) {
+        this.setState({[reaction]: 1})
+      } else {
+        this.setState({[reaction]: this.state[reaction] + 1},
+          () => sendReaction(hardCodedPostID, reaction));
+      }
+    } else {
+      this.setState({[reaction]: this.state[reaction] - 1},
+        () => sendReaction(hardCodedPostID, reaction));
+    }
+    this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
   }
-  decrementLike() {
-    const prevLiked = this.state.likes--;
-    this.setState({ userLiked: false, likes: this.state.likes-- });
-  }
-  incrementLOL() {
-    const prevLOL = this.state.LOLs++;
-    this.setState({ userLOLed: true, LOLs: this.state.LOLs++ });
-  }
-  decrementLOL() {
-    const newLOL = this.state.LOLs--;
-    this.setState({ userLOLed: false, LOLs: this.state.LOLs-- });
-  }
+
   render() {
     return (
       <View>
@@ -81,7 +77,7 @@ export default class BulletinPost extends React.Component {
               </Text>
             </Left>
             <Right>
-              <Button rounded light onPress={() => this.toggleReactions()}>
+              <Button rounded light>
                 <Text style={{ fontFamily: 'poppins' }}>location</Text>
               </Button>
             </Right>
@@ -117,94 +113,49 @@ export default class BulletinPost extends React.Component {
               the title? I don't know!
             </Text>
           </CardItem>
-
-          <CardItem bordered footer>
-            <Left>
-              {this.state.userLiked ? (
-                <Button light onPress={this.decrementLike}>
-                  <Icon
-                    style={{ fontSize: 20 }}
-                    active={true}
-                    name="heart"
-                    type="FontAwesome"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.likes}
-                    </Text>
-                  </Icon>
-                </Button>
-              ) : (
-                <Button light onPress={this.incrementLike}>
-                  <Icon
-                    style={{ fontSize: 20 }}
-                    active={true}
-                    name="heart-o"
-                    type="FontAwesome"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.likes}
-                    </Text>
-                  </Icon>
-                </Button>
-              )}
-            </Left>
-            <Body>
-              {this.state.userLOLed ? (
-                <Button light onPress={this.decrementLOL}>
-                  <Icon
-                    style={{ color: '#fcc21b', fontSize: 25 }}
-                    active
-                    name="ios-happy"
-                    type="Ionicons"
-                  >
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.LOLs}
-                    </Text>
-                  </Icon>
-                </Button>
-              ) : (
-                <Button light onPress={this.incrementLOL}>
-                  <Icon
-                    style={{ color: '#fcc21b', fontSize: 20 }}
-                    active
-                    name="smiley"
-                    type="Octicons"
-                  >
-                    <Icon
-                      style={{ color: '#fcc21b', fontSize: 20 }}
-                      active
-                      name="ios-add"
-                      type="Ionicons"
-                    />
-                    <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                      {this.state.LOLs}
-                    </Text>
-                  </Icon>
-                </Button>
-              )}
-            </Body>
-            <Right>
-              <Button light onPress={this.toggleComments}>
+          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Button light onPress={() => this.toggleReaction('pika')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
+                  source={require(PikaSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.pika} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(UwuSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
                 <Icon
-                  style={{ fontSize: 20 }}
-                  active
-                  name="commenting"
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active={true}
+                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
                   type="FontAwesome"
-                >
-                  <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                    {this.state.comments}
-                  </Text>
-                </Icon>
-              </Button>
-            </Right>
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
+            </Button>
+            <Button light onPress={this.toggleComments} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Icon
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active
+                  name="comment"
+                  type="FontAwesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.comments} </Text>
+            </Button>
           </CardItem>
-          <CardItem>
-            {this.state.showReactions ? <ReactionsBar /> : null}
-          </CardItem>
-          <CardItem>
-            {this.state.showComments ? <BulletinComments /> : null}
-          </CardItem>
-        </Card>
+          {this.state.showReactions ? 
+          (<CardItem>
+            <ReactionsBar /> 
+          </CardItem>) : null}
+          {this.state.showComments ?
+          (<CardItem>
+             <BulletinComments /> 
+          </CardItem>) : null}        
+          </Card>
       </View>
     );
   }

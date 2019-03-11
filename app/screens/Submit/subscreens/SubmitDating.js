@@ -7,10 +7,7 @@ import {
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
-  Container,
-  Header,
   Button,
-  Content,
   Form,
   Item,
   Input,
@@ -18,7 +15,6 @@ import {
   Text
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
-import { connect } from 'react-redux';
 import styles from './Submit.styles';
 
 export default class SubmitDating extends Component {
@@ -61,11 +57,15 @@ export default class SubmitDating extends Component {
                     value={this.props.title}
                   />
                 </Item>
+                <Item floatingLabel>
+                  <Label>Location</Label>
+                  
+                </Item>
               </Form>
               <SingleInput
                 multiline
-                placeholder="What's up?"
-                style={[styles.input, { height: this.props.height }]}
+                placeholder="Tell us about your friend"
+                style={[styles.input, { height: this.props.height, marginTop: 10}]}
                 onContentSizeChange={e =>
                   this.props.updateSize(e.nativeEvent.contentSize.height)
                 }
@@ -89,7 +89,7 @@ export default class SubmitDating extends Component {
                         <ImageBackground
                           key={uri}
                           style={styles.upload}
-                          source={{ uri }}
+                          source={{uri}}
                         >
                           <TouchableOpacity
                             onPress={() => this.props.removeImage(uri)}

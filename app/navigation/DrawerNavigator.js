@@ -1,7 +1,6 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import BulletinScreen from 'app/screens/Board/BulletinScreen';
-import { BoardScreen, BoardNavOptions } from 'app/screens/Board/BoardScreen';
-import DatingScreen from 'app/containers/Board/DatingScreenContainer';
+import DatingScreen from 'app/containers/Dating/DatingScreenContainer';
 import DatingFullScreen from 'app/screens/Dating/DatingFullScreen';
 import MainTabNavigator from './MainTabNavigator';
 import SideMenu from 'app/components/sidemenu/SideMenu';

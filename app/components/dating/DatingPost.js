@@ -12,20 +12,60 @@ import {
   Body,
   Icon,
   Left,
+  Right,
 } from "native-base";
-
-import {
-  MaterialIcons,
-} from '@expo/vector-icons';
-
+import { Avatar } from 'app/components/image';
+import { sendReaction } from 'db/common/index';
+const UwuSrc = 'assets/images/reactions/uwu.png';
+const KissSrc = 'assets/images/reactions/kissface.png';
+const FireSrc = 'assets/images/reactions/fire.png';
 
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
-    this.renderImage = this.renderImage.bind(this)
+    this.state = {
+      like: 0,
+      uwu: 0,
+      kiss: 0,
+      fire: 0,
+    }
+    this.renderImage = this.renderImage.bind(this);
+    this.toggleReaction = this.toggleReaction.bind(this);
   }
 
-  //Oh the workarounds we come up with
+  renderImage () {
+    if (this.props.data.photoRef) {
+      return this.props.data.photoRef.map((photo, idx) => {
+        if (idx === 1) {
+        return (
+          <Image
+            key={idx}
+            source={{uri: photo}}
+            style={styles.cardImage}
+          />
+          )
+        }
+      })
+    }
+  }
+
+  toggleReaction = (reaction) => {
+    const hardCodedPostID = "ee";
+    this.setState({userfire: false, useruwu: false, userkiss: false, userlike: false, fire: 0, uwu: 0, kiss: 0, like: 0})
+    if (!this.state[`user${reaction}`]) {
+      if (!this.state[reaction]) {
+        this.setState({[reaction]: 1})
+      } else {
+        this.setState({[reaction]: this.state[reaction] + 1},
+          () => sendReaction(hardCodedPostID, reaction));
+      }
+    } else {
+      this.setState({[reaction]: this.state[reaction] - 1},
+        () => sendReaction(hardCodedPostID, reaction));
+    }
+    this.setState({[`user${reaction}`]: !this.state[`user${reaction}`]});
+  }
+  
   renderImage () {
     if (this.props.data.photoRef) {
       return this.props.data.photoRef.map((photo, idx) => {
@@ -42,50 +82,100 @@ export default class Post extends React.Component {
     }
   }
 
+
   render() {
-    const { title = '', text = '', expiryDate = ''} = this.props.data;
-    const { propStyles = {} } = this.props;
+    const { title = '', location = {}, text = ''} = this.props.data
     return (
-        <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('DatingFullScreen', {post: this.props.data})}
-            >
-          <Card style={{paddingTop: 0}}>
-            <CardItem
-              style={styles.post}>
-                { this.renderImage() }
-                <Text style={styles.title}>{title}</Text>
-                <Text numberOfLines={2} style={styles.text}>
-                  {text.replace(/"/g,"")}
-                </Text>
-             </CardItem>
-            <CardItem style={styles.actionIcons}>
-              <Button small transparent style={{paddingBottom: 0}}>
-                <MaterialIcons
-                  style={styles.icon}
-                  color="black"
-                  name="chat"
-                  />
-              </Button>
-              <Button small transparent style={{paddingBottom: 0}}>
+      <View>
+        <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
+          <CardItem>
+            <Left>
+              <Avatar
+                size={50}
+                styles={styles.avatar}
+                src={'https://loremflickr.com/176/230/cat'}
+              />
+              <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
+                {title}
+              </Text>
+            </Left>
+          </CardItem>
+          <CardItem
+            style={{
+              display: 'flex',
+              width: null,
+              flex: 1,
+              justifyContent: 'center'
+            }}
+          >
+            <Image
+              source={{uri: this.props.data.photoRef[0]}}
+              style={styles.cardImage}
+              />
+            <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Seattle, WA</Text>
+            </Button>
+            <Button light rounded style={{position: 'absolute', top: 20, right: 18, height: 28, backgroundColor: '#FFD700'}}>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>4 days</Text>
+            </Button>
+          </CardItem>
+          <CardItem
+            style={{
+              display: 'flex',
+              width: null,
+              flex: 1,
+              alignContent: 'center'
+            }}
+          >
+            <Text numberOfLines={2} style={{fontSize: 15, fontFamily: 'poppinsLight'}}>
+              {text.replace(/"/g,"")}
+            </Text>
+          </CardItem>
+          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Button light onPress={() => this.toggleReaction('fire')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
+                  source={require(FireSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.fire} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(UwuSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+              <Image
+                  style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
+                  source={require(KissSrc)}
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.kiss} </Text>
+            </Button>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
                 <Icon
-                  style={styles.icon}
+                  style={{ fontSize: 18, marginRight: -5 }}
+                  active={true}
+                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
                   type="FontAwesome"
-                  name="heart-o"
-                  />
-              </Button>
-            </CardItem>
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
+            </Button>
+          </CardItem>    
           </Card>
-        </TouchableOpacity>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   post: {
-    flexDirection: "column",
-    width: 170,
-    paddingTop: 0,
-    height: 280,
+    display: 'flex',
+    width: 174,
+    height: 225,
+    borderRadius: 7,
+    marginBottom: 10
   },
   cardImage: {
     resizeMode: 'cover',
@@ -93,47 +183,4 @@ const styles = StyleSheet.create({
     width: 170,
     flex: 1
   },
-  cardItem: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  cardText: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    textAlign: "left",
-  },
-  actionIcons: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignSelf: 'stretch',
-    borderStyle: 'solid',
-    borderTopWidth: .5,
-    borderTopColor: 'lightgrey',
-    paddingTop: 5,
-    paddingLeft: 20,
-    paddingBottom: 10,
-  },
-  icon: {
-    fontSize: 20,
-    color: "black",
-    margin: 0,
-  },
-  title: {
-    fontSize: 12,
-    alignSelf: "flex-start",
-    fontWeight: "bold",
-    marginBottom: 5,
-    marginTop: 5,
-  },
-  text: {
-    fontSize: 11,
-    alignSelf: "flex-start"
-  },
-  caption: {
-    fontSize: 12,
-    overflow: "hidden",
-    marginBottom: 10,
-  }
 });
