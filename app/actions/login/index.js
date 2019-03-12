@@ -1,6 +1,3 @@
-import config from '../../../config.js';
-import DialogInput from 'react-native-dialog-input';
-import { AuthSession } from 'expo';
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';

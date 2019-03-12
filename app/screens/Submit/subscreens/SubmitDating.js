@@ -15,6 +15,7 @@ import {
   Text
 } from 'native-base';
 import SingleInput from 'app/components/form/SingleInput';
+import LocationInput from 'app/components/common/LocationInput';
 import styles from './Submit.styles';
 
 export default class SubmitDating extends Component {
@@ -57,10 +58,7 @@ export default class SubmitDating extends Component {
                     value={this.props.title}
                   />
                 </Item>
-                <Item floatingLabel>
-                  <Label>Location</Label>
-                  
-                </Item>
+                <LocationInput/>
               </Form>
               <SingleInput
                 multiline

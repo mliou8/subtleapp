@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Spinner, Button, Text, Icon } from 'native-base';
-import config from '../../../config.js';
 import { Alert } from 'react-native';
 import { AuthSession } from 'expo';
 import firebase from 'db/firebase';

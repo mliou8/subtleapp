@@ -1,14 +1,15 @@
 import React from 'react';
 import { Image, Text } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-
+import config from '../../../config.js';
 const homePlace = { description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
 const workPlace = { description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
+const apiKey = process.env.googleapikey || config.googleAPIKey;
 
 export default GooglePlacesInput = () => {
   return (
     <GooglePlacesAutocomplete
-      placeholder='Search'
+      placeholder='Location (Optional)'
       minLength={2} // minimum length of text to search
       autoFocus={false}
       returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -24,7 +25,7 @@ export default GooglePlacesInput = () => {
 
       query={{
         // available options: https://developers.google.com/places/web-service/autocomplete
-        key: '',
+        key: apiKey,
         language: 'en', // language of the results
         types: '(cities)' // default: 'geocode'
       }}
@@ -59,11 +60,8 @@ export default GooglePlacesInput = () => {
       }}
 
       filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-      predefinedPlaces={[homePlace, workPlace]}
-
       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-      renderLeftButton={()  => <Image source={require('path/custom/left-icon')} />}
-      renderRightButton={() => <Text>Custom text after the input</Text>}
+      renderLeftButton={() => <Text>Location (Optional)</Text>}
     />
   );
 }
