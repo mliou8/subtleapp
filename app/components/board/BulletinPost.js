@@ -47,7 +47,9 @@ export default class BulletinPost extends React.Component {
       like: infoPost.reactions.likes,
       title: infoPost.title,
       text: infoPost.text,
-      datePosted: infoPost.datePosted
+      datePosted: infoPost.datePosted,
+      topic: infoPost.topic,
+      userAvatar: infoPost.avatar
     });
     console.log('info posts -------', infoPost);
   }
@@ -92,23 +94,26 @@ export default class BulletinPost extends React.Component {
               <Avatar
                 size={50}
                 styles={styles.avatar}
-                src={'https://loremflickr.com/176/230/cat'}
+                src={this.state.userAvatar}
               />
-              <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
-                @{this.state.author}
-              </Text>
+              <Body>
+                <Text style={{ fontFamily: 'poppins' }}>
+                  @{this.state.author}
+                </Text>
+                <Text note style={{ fontFamily: 'poppins', fontSize: 12 }}>
+                  {this.state.datePosted}
+                </Text>
+              </Body>
             </Left>
             <Right>
               <Button rounded light>
-                <Text style={{ fontFamily: 'poppins' }}>location</Text>
+                <Text style={{ fontFamily: 'poppins' }}>
+                  {this.state.topic}
+                </Text>
               </Button>
             </Right>
           </CardItem>
-          <CardItem>
-            <Text style={{ fontSize: 10, fontFamily: 'poppins' }}>
-              {this.state.datePosted}
-            </Text>
-          </CardItem>
+
           <CardItem
             style={{
               display: 'flex',
@@ -119,7 +124,6 @@ export default class BulletinPost extends React.Component {
           >
             <Text
               style={{
-                fontSize: 15,
                 fontFamily: 'poppins',
                 justifyContent: 'center'
               }}

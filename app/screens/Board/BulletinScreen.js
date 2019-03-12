@@ -14,6 +14,7 @@ import {
   Spinner
 } from 'native-base';
 import BulletinPost from 'app/components/board/BulletinPost';
+import FullPost from 'app/components/board/FullPost';
 import { fetchPosts } from 'db/bulletin/index';
 
 export default class BulletinScreen extends React.Component {
@@ -31,14 +32,13 @@ export default class BulletinScreen extends React.Component {
   }
   renderPosts() {
     let counter = 1;
-    return this.state.posts.map(item => (
-      <BulletinPost
-        key={counter++}
-        postInfo={item}
-        // imageSrc={`${item.photoRef}`}
-        // caption={item.caption}
-      />
-    ));
+    return this.state.posts.map(item => {
+      if (item.photoRef.length) {
+        return <FullPost key={counter++} postInfo={item} />;
+      } else {
+        return <BulletinPost key={counter++} postInfo={item} />;
+      }
+    });
   }
 
   render() {

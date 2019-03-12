@@ -14,7 +14,7 @@ import {
   Body,
   Right
 } from 'native-base';
-
+import { Avatar } from 'app/components/image';
 import ReactionsBar from './ReactionsBar';
 
 export default class FullPost extends React.Component {
@@ -22,16 +22,68 @@ export default class FullPost extends React.Component {
     super(props);
     this.state = { active: false, showReactions: false };
   }
+
+  componentDidMount() {
+    const infoPost = this.props.postInfo;
+    this.setState({
+      author: infoPost.author,
+      comments: infoPost.comments.length,
+      like: infoPost.reactions.likes,
+      title: infoPost.title,
+      text: infoPost.text,
+      datePosted: infoPost.datePosted,
+      topic: infoPost.topic,
+      photoRef: infoPost.photoRef[0],
+      userAvatar: infoPost.avatar
+    });
+  }
   toggleReactions() {
     this.setState({ showReactions: !this.state.showReactions });
   }
   render() {
+    console.log('info posts in full post is this ---- -------', this.state);
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
+          <CardItem>
+            <Left>
+              <Avatar
+                size={50}
+                styles={styles.avatar}
+                src={this.state.userAvatar}
+              />
+              <Body>
+                <Text style={{ fontFamily: 'poppins' }}>
+                  @{this.state.author}
+                </Text>
+                <Text note style={{ fontFamily: 'poppins', fontSize: 12 }}>
+                  {this.state.datePosted}
+                </Text>
+              </Body>
+            </Left>
+            <Right>
+              <Button rounded light>
+                <Text style={{ fontFamily: 'poppins' }}>
+                  {this.state.topic}
+                </Text>
+              </Button>
+            </Right>
+          </CardItem>
+          <CardItem>
+            <Body
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{ fontSize: 18 }}>{this.state.title}</Text>
+            </Body>
+          </CardItem>
           <CardItem cardBody style={{ justifyContent: 'center' }}>
             <Image
-              source={{ uri: this.props.imageSrc }}
+              source={{ uri: this.props.postInfo.photoRef[0] }}
               style={{
                 width: 176,
                 height: 230,
@@ -39,15 +91,8 @@ export default class FullPost extends React.Component {
               }}
             />
           </CardItem>
-          <CardItem
-            style={{
-              display: 'flex',
-              height: 100,
-              width: null,
-              flex: 1,
-              alignContent: 'center'
-            }}
-          >
+
+          <CardItem>
             <Body
               style={{
                 display: 'flex',
@@ -55,10 +100,7 @@ export default class FullPost extends React.Component {
                 flexWrap: 'wrap'
               }}
             >
-              <Text style={{ fontSize: 15 }}>
-                some quote about the text above [...(clickable)]
-              </Text>
-              <Text style={{ fontSize: 20, color: 'coral' }}>@postAuthor</Text>
+              <Text style={{ fontFamily: 'poppins' }}>{this.state.text}</Text>
             </Body>
           </CardItem>
           <CardItem bordered footer>
