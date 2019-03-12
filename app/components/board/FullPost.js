@@ -56,7 +56,7 @@ export default class FullPost extends React.Component {
                 <Text style={{ fontFamily: 'poppins' }}>
                   @{this.state.author}
                 </Text>
-                <Text note style={{ fontFamily: 'poppins', fontSize: 12 }}>
+                <Text note style={{ fontFamily: 'poppins' }}>
                   {this.state.datePosted}
                 </Text>
               </Body>

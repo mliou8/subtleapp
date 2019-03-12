@@ -49,7 +49,8 @@ export default class BulletinPost extends React.Component {
       text: infoPost.text,
       datePosted: infoPost.datePosted,
       topic: infoPost.topic,
-      userAvatar: infoPost.avatar
+      userAvatar: infoPost.avatar,
+      photoRef: infoPost.photoRef[0]
     });
     console.log('info posts -------', infoPost);
   }
@@ -131,6 +132,18 @@ export default class BulletinPost extends React.Component {
               {this.state.title}
             </Text>
           </CardItem>
+          {this.state.photoRef ? (
+            <CardItem cardBody style={{ justifyContent: 'center' }}>
+              <Image
+                source={{ uri: this.props.postInfo.photoRef[0] }}
+                style={{
+                  width: 176,
+                  height: 230,
+                  resizeMode: 'contain'
+                }}
+              />
+            </CardItem>
+          ) : null}
           <CardItem
             style={{
               display: 'flex',
