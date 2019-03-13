@@ -50,9 +50,9 @@ export default class BulletinPost extends React.Component {
       datePosted: infoPost.datePosted,
       topic: infoPost.topic,
       userAvatar: infoPost.avatar,
-      photoRef: infoPost.photoRef[0]
+      photoRef: infoPost.photoRef[0],
+      id: infoPost.id
     });
-    console.log('info posts -------', infoPost);
   }
 
   toggleComments() {
@@ -260,7 +260,10 @@ export default class BulletinPost extends React.Component {
           ) : null}
           {this.state.showComments ? (
             <CardItem>
-              <BulletinComments comments={this.state.comments} />
+              <BulletinComments
+                comments={this.state.comments}
+                postId={this.state.id}
+              />
             </CardItem>
           ) : null}
         </Card>

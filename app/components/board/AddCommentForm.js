@@ -32,6 +32,7 @@ import {
 } from 'native-base';
 import { Avatar } from '../../components/image';
 import { connect } from 'react-redux';
+import { addComment } from 'db/common/index';
 import moment from 'moment';
 
 import Emoji from 'react-native-emoji';
@@ -53,12 +54,21 @@ class AddCommentForm extends React.Component {
     this.updateTextInput = this.updateTextInput.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      id: this.props.postId
+    });
+  }
   addComment() {
     const author = this.props.userInfo.displayName;
     const avatar = this.props.userInfo.photoURL;
     const datePosted = Date.now();
     const content = this.state.text;
-    const postDetails = { author, avatar, datePosted, content };
+    const commentDetails = { author, avatar, datePosted, content };
+    const postId = this.state.id;
+    addComment(postId, commentDetails);
+
+    //addComment(postID, commentInfo) {
     //postID needs to be on here too!
     //pass in as params?
     // this.props.newComment(postDetails,postId);

@@ -38,7 +38,6 @@ export default class BulletinScreen extends React.Component {
   }
 
   render() {
-    console.log('this state bullet posts', this.state);
     return (
       <View style={styles.container}>
         <ScrollView>

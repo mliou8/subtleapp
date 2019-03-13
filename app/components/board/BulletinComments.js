@@ -59,11 +59,13 @@ class BulletinComments extends React.Component {
   componentDidMount() {
     const postComments = this.props.comments;
     this.setState({
-      comments: postComments
+      comments: postComments,
+      id: this.props.id
     });
   }
 
   renderComments() {
+    // if (this.state.comments.length) {
     return this.state.comments.map((item, index) => (
       <Card key={index}>
         <CardItem fullWidth>
@@ -130,7 +132,9 @@ class BulletinComments extends React.Component {
               )}
             </CardItem>
           </Card>
-          {this.state.showForm ? <AddCommentForm /> : null}
+          {this.state.showForm ? (
+            <AddCommentForm postId={this.state.id} />
+          ) : null}
         </View>
       </ScrollView>
     );
