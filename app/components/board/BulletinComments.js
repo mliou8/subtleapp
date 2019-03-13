@@ -58,14 +58,14 @@ class BulletinComments extends React.Component {
   }
   componentDidMount() {
     const postComments = this.props.comments;
+
     this.setState({
       comments: postComments,
-      id: this.props.id
+      id: this.props.postId
     });
   }
 
   renderComments() {
-    // if (this.state.comments.length) {
     return this.state.comments.map((item, index) => (
       <Card key={index}>
         <CardItem fullWidth>

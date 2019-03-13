@@ -66,14 +66,10 @@ class AddCommentForm extends React.Component {
     const content = this.state.text;
     const commentDetails = { author, avatar, datePosted, content };
     const postId = this.state.id;
-    addComment(postId, commentDetails);
 
-    //addComment(postID, commentInfo) {
-    //postID needs to be on here too!
-    //pass in as params?
-    // this.props.newComment(postDetails,postId);
-    //add this function to store.
-    //redirect nav to ? post?
+    addComment(postId, commentDetails);
+    this.setState({ text: '', openForm: false, showForm: true });
+    // this.props.navigation.navigate('Home');
   }
   updateTextInput(input) {
     this.setState({ text: input });
@@ -90,10 +86,16 @@ class AddCommentForm extends React.Component {
                 style={{ fontFamily: 'poppins' }}
                 bordered
                 placeholder="...."
+                onChangeText={text => this.setState({ text })}
+                value={this.state.text}
               />
 
               <CardItem style={{ justifyContent: 'center' }}>
-                <Button style={{ backgroundColor: '#242424' }} rounded>
+                <Button
+                  style={{ backgroundColor: '#242424' }}
+                  rounded
+                  onPress={this.addComment}
+                >
                   <Icon
                     style={{ color: 'white', fontSize: 20 }}
                     active

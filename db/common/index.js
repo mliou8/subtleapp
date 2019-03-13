@@ -11,10 +11,14 @@ export async function sendReaction(postID, reaction) {
   }
 }
 
-export async function addComment(postID, commentInfo) {
-  const postRef = db.collection('posts').doc(postID);
+export async function addComment(postId, commentInfo) {
+  const postRef = db.collection('posts').doc(`${postId}`);
   // const reactiontoAdd = { reaction: reaction };
   //add array union .
+  console.log(
+    'this is comment Info inside of the add comment funciton',
+    commentInfo
+  );
   try {
     await postRef.update({
       comments: firebase.firestore.FieldValue.arrayUnion(commentInfo)
