@@ -56,9 +56,15 @@ class BulletinComments extends React.Component {
     this.state = { comments: [], total: 0, openForm: false, showForm: false };
     this.renderComments = this.renderComments.bind(this);
   }
+  componentDidMount() {
+    const postComments = this.props.comments;
+    this.setState({
+      comments: postComments
+    });
+  }
 
   renderComments() {
-    return testComments.map((item, index) => (
+    return this.state.comments.map((item, index) => (
       <Card key={index}>
         <CardItem fullWidth>
           <Left>
@@ -87,7 +93,7 @@ class BulletinComments extends React.Component {
     return (
       <ScrollView>
         <View>
-          {this.renderComments()}
+          {this.state.comments ? this.renderComments() : null}
           <Card transparent>
             <CardItem>
               <Left>

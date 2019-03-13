@@ -43,7 +43,7 @@ export default class BulletinPost extends React.Component {
     const infoPost = this.props.postInfo;
     this.setState({
       author: infoPost.author,
-      comments: infoPost.comments.length,
+      comments: infoPost.comments,
       like: infoPost.reactions.likes,
       title: infoPost.title,
       text: infoPost.text,
@@ -249,8 +249,7 @@ export default class BulletinPost extends React.Component {
                 type="FontAwesome"
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                {' '}
-                {this.state.comments}{' '}
+                {this.state.comments.length}
               </Text>
             </Button>
           </CardItem>
@@ -261,7 +260,7 @@ export default class BulletinPost extends React.Component {
           ) : null}
           {this.state.showComments ? (
             <CardItem>
-              <BulletinComments />
+              <BulletinComments comments={this.state.comments} />
             </CardItem>
           ) : null}
         </Card>
