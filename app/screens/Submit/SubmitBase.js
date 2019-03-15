@@ -136,10 +136,12 @@ export default class SubmitBase extends Component {
               updateTitleInput={this.updateTitleInput}
               updateSize={this.updateSize}
               text={this.state.text}
+              location={this.state.location}
               updateTextInput={this.updateTextInput}
               uploads={this.state.uploads}
               removeImage={this.removeImage}
               height={this.state.height}
+              updateLocationInput={this.updateLocationInput}
               submitPost={this.submitPost}
             />
           </KeyboardAvoidingView>
@@ -222,7 +224,7 @@ export default class SubmitBase extends Component {
       title: this.state.title,
       text: textToSend,
       author,
-      location: { city: this.state.location, country: '' },
+      location: this.state.location,
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: this.state.postType,
