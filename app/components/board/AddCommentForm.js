@@ -61,7 +61,7 @@ class AddCommentForm extends React.Component {
     addComment(postId, commentDetails);
     this.setState({ text: '', openForm: false, showForm: false });
 
-    // this.props.navigation.navigate('Home');
+    this.props.navigation.navigate('Home');
   }
   updateTextInput(input) {
     this.setState({ text: input });

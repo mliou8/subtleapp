@@ -30,11 +30,22 @@ class BulletinComments extends React.Component {
   }
   componentDidMount() {
     const postComments = this.props.comments;
-
+    console.log('this props in bulletin comments is ? ', this.props);
     this.setState({
       comments: postComments,
       id: this.props.postId
     });
+  }
+  removeComment(key) {
+    const newComments = this.state.comments.filter((item, index) => {
+      if (index !== key) {
+        return item;
+      }
+    });
+    this.setState({ comments: newComments });
+    //import   delete function first
+    //remove comments from db function
+    //firebase would be something like arrayRemove(obj/comment)
   }
 
   renderComments() {
@@ -59,6 +70,24 @@ class BulletinComments extends React.Component {
             {item.content}
           </Text>
         </CardItem>
+        {item.author === this.props.userInfo.displayName ? (
+          <CardItem style={{ justifyContent: 'flex-end' }}>
+            <Button
+              small
+              rounded
+              style={{
+                backgroundColor: '#242424'
+              }}
+              onPress={() => this.removeComment(index)}
+            >
+              <Icon
+                style={{ color: 'white', fontSize: 15 }}
+                name="remove"
+                type="FontAwesome"
+              />
+            </Button>
+          </CardItem>
+        ) : null}
       </Card>
     ));
   }
@@ -105,7 +134,10 @@ class BulletinComments extends React.Component {
             </CardItem>
           </Card>
           {this.state.showForm ? (
-            <AddCommentForm postId={this.state.id} />
+            <AddCommentForm
+              postId={this.state.id}
+              navigation={this.props.navigation}
+            />
           ) : null}
         </View>
       </ScrollView>

@@ -33,7 +33,11 @@ export default class BulletinScreen extends React.Component {
   renderPosts() {
     let counter = 1;
     return this.state.posts.map(item => (
-      <BulletinPost key={counter++} postInfo={item} />
+      <BulletinPost
+        key={counter++}
+        postInfo={item}
+        navigation={this.props.navigation}
+      />
     ));
   }
 

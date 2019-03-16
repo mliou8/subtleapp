@@ -265,6 +265,7 @@ export default class BulletinPost extends React.Component {
               <BulletinComments
                 comments={this.state.comments}
                 postId={this.state.id}
+                navigation={this.props.navigation}
               />
             </CardItem>
           ) : null}
