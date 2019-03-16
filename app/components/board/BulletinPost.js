@@ -98,20 +98,24 @@ export default class BulletinPost extends React.Component {
                 src={this.state.userAvatar}
               />
               <Body>
-                <Text style={{ fontFamily: 'poppins' }}>
+                <Text style={{ fontFamily: 'poppins', fontSize: 12 }}>
                   @{this.state.author}
-                </Text>
-                <Text note style={{ fontFamily: 'poppins', fontSize: 12 }}>
-                  {this.state.datePosted}
                 </Text>
               </Body>
             </Left>
+
             <Right>
-              <Button rounded light>
+              <Button small rounded light>
                 <Text style={{ fontFamily: 'poppins' }}>
                   {this.state.topic}
                 </Text>
               </Button>
+              <Text
+                note
+                style={{ fontFamily: 'poppins', fontSize: 10, marginTop: 5 }}
+              >
+                {this.state.datePosted}
+              </Text>
             </Right>
           </CardItem>
 
@@ -119,14 +123,12 @@ export default class BulletinPost extends React.Component {
             style={{
               display: 'flex',
               width: null,
-              flex: 1,
-              justifyContent: 'center'
+              flex: 1
             }}
           >
             <Text
               style={{
-                fontFamily: 'poppins',
-                justifyContent: 'center'
+                fontFamily: 'poppins'
               }}
             >
               {this.state.title}

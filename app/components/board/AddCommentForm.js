@@ -37,15 +37,6 @@ import moment from 'moment';
 
 import Emoji from 'react-native-emoji';
 
-const testComments = [
-  {
-    author: 'kristin',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'this is a test'
-  }
-];
-
 class AddCommentForm extends React.Component {
   constructor(props) {
     super(props);
@@ -68,12 +59,12 @@ class AddCommentForm extends React.Component {
     const postId = this.state.id;
 
     addComment(postId, commentDetails);
-    this.setState({ text: '', openForm: false, showForm: true });
+    this.setState({ text: '', openForm: false, showForm: false });
+
     // this.props.navigation.navigate('Home');
   }
   updateTextInput(input) {
     this.setState({ text: input });
-    console.log('this state is after updated', this.state);
   }
 
   render() {

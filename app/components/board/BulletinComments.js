@@ -20,35 +20,7 @@ import { Avatar } from '../../components/image';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import AddCommentForm from './AddCommentForm';
-
 import Emoji from 'react-native-emoji';
-
-const testComments = [
-  {
-    author: 'kristin',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'this is a test'
-  },
-  {
-    author: 'Bailey',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'bad human! my computer!'
-  },
-  {
-    author: 'SadCat',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'life is hard'
-  },
-  {
-    author: 'Berkley',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'i like to bite people '
-  }
-];
 
 class BulletinComments extends React.Component {
   constructor(props) {
