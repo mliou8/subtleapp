@@ -47,7 +47,7 @@ export default class SubmitHeader extends React.Component {
           options={dateOptions}
           defaultValue="Looking for Friends (3 days)"
           setType={this.props.setDuration}
-          height={140}
+          height={160}
           width={220}
           />
       )

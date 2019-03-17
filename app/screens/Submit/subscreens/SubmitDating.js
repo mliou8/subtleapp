@@ -58,7 +58,7 @@ export default class SubmitDating extends Component {
                   />
                 </Item>
                 <Item floatingLabel>
-                  <Label>Location (Optional)</Label>
+                  <Label>Location</Label>
                   <Input
                     onChangeText={text => this.props.updateLocationInput(text)}
                     value={this.props.location}

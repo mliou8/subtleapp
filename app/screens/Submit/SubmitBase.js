@@ -100,13 +100,13 @@ export default class SubmitBase extends Component {
 
   setDuration(idx, value) {
     if (value === "Looking for Friends (3 days)") {
-      this.setState({ duration: 3})
+      this.setState({ duration: 3, topic: "Looking for Friends"})
     } else if (value === "Looking for Rave Bae (5 days)") {
-      this.setState({ duration: 5})
+      this.setState({ duration: 5, topic: "Looking for Rave Bae"})
     } else if (value === "Looking for Boba Bae (7 days)") {
-      this.setState({ duration: 7})
+      this.setState({ duration: 7, topic: "Looking for Boba Bae"})
     } else {
-      this.setState({ duration: 14})
+      this.setState({ duration: 14, topic: "Looking for True Love"})
     }
   }
 
