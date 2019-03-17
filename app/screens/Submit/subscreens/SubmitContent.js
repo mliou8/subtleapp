@@ -65,7 +65,7 @@ export default class SubmitContent extends Component {
               />
             </Item>
             <Item floatingLabel>
-              <Label>Location (City)</Label>
+              <Label>Location (Optional)</Label>
               <Input
                 onChangeText={text => this.props.updateLocationInput(text)}
                 value={this.props.location}

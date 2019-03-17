@@ -36,6 +36,7 @@ export default class SubmitHeader extends React.Component {
       return (
         <Dropdown
           options={submenuOptions}
+          defaultValue="Off Topic"
           setType={this.props.setTopic}
           height={175}
           />
@@ -44,6 +45,7 @@ export default class SubmitHeader extends React.Component {
       return (
         <Dropdown
           options={dateOptions}
+          defaultValue="Looking for Friends"
           setType={this.props.setDuration}
           height={140}
           width={180}
@@ -58,6 +60,7 @@ export default class SubmitHeader extends React.Component {
         <View style={styles.dropdownContainer}>
             <Dropdown
               options={dropdownOptions}
+              defaultValue={"General"}
               setType={this.props.setType}
               height={87}
               />

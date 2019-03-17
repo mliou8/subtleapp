@@ -42,7 +42,7 @@ export default class SubmitBase extends Component {
       text: '',
       location: '',
       postType: 'general',
-      topic: 'offtopic',
+      topic: 'unset',
       duration: 3,
       modalVisible: false,
     };
@@ -69,11 +69,17 @@ export default class SubmitBase extends Component {
     if (this.state.text.length < 1 || this.state.text.length < 1) {
       Alert.alert("Title or Text is empty.");
       return false;
-    } else if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
-      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+    }
+    if (this.state.postType === 'general' && topic === 'unset') {
+      Alert.alert("Please pick a topic for your post.");
       return false;
     }
-    return true;
+    if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
+      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+      return false;
+    } else {
+      return true;  
+    }
   }
 
   setPostType (idx, value) {
@@ -208,31 +214,32 @@ export default class SubmitBase extends Component {
   };
 
   async submitPost() {
-    this.validatePost();
-    const expiryDate = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-    const currUserInfo = this.props.userInfo;
-    const author = this.props.userInfo.displayName;
-    const currentTime = Date.now();
-    const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.text)
-    const addPostRef = await db.collection('posts').add({
-      photoRef: this.state.downloadURL,
-      datePosted,
-      expiryDate,
-      title: this.state.title,
-      text: textToSend,
-      author,
-      location: this.state.location,
-      comments: [],
-      reactions: { likes: 0, LOLs: 0 },
-      type: this.state.postType,
-      topic: this.state.topic,
-    });
-    const newPostID = addPostRef.id;
-    const postData = { id: newPostID, datePosted, type: 'general' };
-    this.addPostToUser(postData);
+    if (this.validatePost()) {
+      const expiryDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      );
+      const currUserInfo = this.props.userInfo;
+      const author = this.props.userInfo.displayName;
+      const currentTime = Date.now();
+      const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
+      const textToSend = JSON.stringify(this.state.text)
+      const addPostRef = await db.collection('posts').add({
+        photoRef: this.state.downloadURL,
+        datePosted,
+        expiryDate,
+        title: this.state.title,
+        text: textToSend,
+        author,
+        location: this.state.location,
+        comments: [],
+        reactions: { likes: 0, LOLs: 0 },
+        type: this.state.postType,
+        topic: this.state.topic,
+      });
+      const newPostID = addPostRef.id;
+      const postData = { id: newPostID, datePosted, type: 'general' };
+      this.addPostToUser(postData);
+    }
   }
 
   addPostToUser(postData) {
