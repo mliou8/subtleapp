@@ -60,8 +60,7 @@ class AddCommentForm extends React.Component {
 
     addComment(postId, commentDetails);
     this.setState({ text: '', openForm: false, showForm: false });
-    this.props.updateComments(commentDetails);
-    // this.props.navigation.navigate('Home');
+    this.props.addNewComment(commentDetails);
   }
   updateTextInput(input) {
     this.setState({ text: input });
@@ -115,15 +114,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newComment: (postData, postId) => {
-      dispatch(newComment(postData, PostId));
-    }
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AddCommentForm);

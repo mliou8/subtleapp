@@ -32,7 +32,7 @@ class BulletinComments extends React.Component {
   }
   componentDidMount() {
     const postComments = this.props.comments;
-    console.log('this props in bulletin comments is ? ', this.props);
+
     this.setState({
       comments: postComments,
       id: this.props.postId
@@ -46,9 +46,7 @@ class BulletinComments extends React.Component {
     this.setState({ comments: newComments });
     const postId = this.state.id;
     deleteComment(postId, commentInfo);
-    console.log('this props update funciton', this.props);
-
-    // this.props.updateComments(newComments);
+    this.props.updateComments(newComments);
   }
 
   renderComments() {
@@ -140,7 +138,8 @@ class BulletinComments extends React.Component {
             <AddCommentForm
               postId={this.state.id}
               navigation={this.props.navigation}
-              updateComments={this.props.updateComments}
+              // updateComments={this.props.updateComments}
+              addNewComment={this.props.addNewComment}
             />
           ) : null}
         </View>
@@ -156,15 +155,16 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newComment: (postData, currUserInfo) => {
-      dispatch(newComment(postData, currUserInfo));
-    }
-  };
-};
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     newComment: (postData, currUserInfo) => {
+//       dispatch(newComment(postData, currUserInfo));
+//     }
+//   };
+// };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
+  // mapDispatchToProps
 )(BulletinComments);

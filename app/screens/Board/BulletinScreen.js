@@ -50,10 +50,6 @@ export default class BulletinScreen extends React.Component {
           ) : (
             <Spinner color="white" />
           )}
-          {/* <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} />
-          <BulletinPost imageSrc={'https://loremflickr.com/176/230/dog'} />
-          <BulletinPost imageSrc={'https://loremflickr.com/176/230/bunny'} />
-          <BulletinPost imageSrc={'https://loremflickr.com/176/230/cat'} /> */}
         </ScrollView>
       </View>
     );

@@ -8,7 +8,6 @@ export async function fetchPosts() {
     const post = await postRef.get().then(function(posts) {
       const postArr = [];
       posts.forEach(post => {
-        console.log(post.id);
         const postInfo = post.data();
         postInfo.id = post.id;
         postArr.push(postInfo);

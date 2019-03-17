@@ -13,12 +13,7 @@ export async function sendReaction(postID, reaction) {
 
 export async function addComment(postId, commentInfo) {
   const postRef = db.collection('posts').doc(`${postId}`);
-  // const reactiontoAdd = { reaction: reaction };
-  //add array union .
-  console.log(
-    'this is comment Info inside of the add comment funciton',
-    commentInfo
-  );
+
   try {
     await postRef.update({
       comments: firebase.firestore.FieldValue.arrayUnion(commentInfo)
@@ -30,12 +25,7 @@ export async function addComment(postId, commentInfo) {
 
 export async function deleteComment(postId, commentInfo) {
   const postRef = db.collection('posts').doc(`${postId}`);
-  // const reactiontoAdd = { reaction: reaction };
-  //add array union .
-  console.log(
-    'this is comment Info inside of the add comment funciton',
-    commentInfo
-  );
+
   try {
     await postRef.update({
       comments: firebase.firestore.FieldValue.arrayRemove(commentInfo)
@@ -54,19 +44,4 @@ export async function deletePost(postId) {
     .catch(function(error) {
       console.error('Error removing document: ', error);
     });
-
-  // const postRef = db.collection('posts').doc(`${postId}`);
-  // // const reactiontoAdd = { reaction: reaction };
-  // //add array union .
-  // console.log(
-  //   'this is comment Info inside of the add comment funciton',
-  //   commentInfo
-  // );
-  // try {
-  //   await postRef.update({
-  //     comments: firebase.firestore.FieldValue.arrayUnion(commentInfo)
-  //   });
-  // } catch (err) {
-  //   console.log('Error in sending reaction: ', err);
-  // }
 }

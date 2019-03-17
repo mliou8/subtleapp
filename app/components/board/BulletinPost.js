@@ -41,6 +41,7 @@ class BulletinPost extends React.Component {
     this.toggleReaction = this.toggleReaction.bind(this);
     this.removePost = this.removePost.bind(this);
     this.updateComments = this.updateComments.bind(this);
+    this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
@@ -81,8 +82,20 @@ class BulletinPost extends React.Component {
     this.props.navigation.navigate('Home');
   }
   updateComments(newComments) {
-    // const updateComments = this.state.comments.push(newComment);
     this.setState({ comments: newComments, showComments: false });
+  }
+  addNewComment(newComment) {
+    const prevComments = this.state.comments;
+    const newCommentAdded = [...prevComments, newComment];
+    console.log(
+      'new comment is ...',
+      newComment,
+      'prev comments:',
+      prevComments,
+      'updatedComments is:',
+      newCommentAdded
+    );
+    this.setState({ comments: newCommentAdded, showComments: false });
   }
 
   toggleComments() {
@@ -297,11 +310,11 @@ class BulletinPost extends React.Component {
                 postId={this.state.id}
                 navigation={this.props.navigation}
                 updateComments={this.updateComments}
+                addNewComment={this.addNewComment}
               />
             </CardItem>
           ) : null}
           {this.state.author === this.props.userInfo.displayName ? (
-            // <CardItem style={{ justifyContent: 'flex-end' }}>
             <CardItem style={{ justifyContent: 'center' }}>
               <Button
                 small
@@ -337,17 +350,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    removePost: (postData, postId) => {
-      dispatch(removePost(postData, PostId));
-    }
-  };
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(BulletinPost);
 
 const styles = StyleSheet.create({
