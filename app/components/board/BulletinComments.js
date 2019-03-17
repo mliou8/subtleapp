@@ -21,12 +21,14 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import AddCommentForm from './AddCommentForm';
 import Emoji from 'react-native-emoji';
+import { deleteComment } from 'db/common/index';
 
 class BulletinComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = { comments: [], total: 0, openForm: false, showForm: false };
     this.renderComments = this.renderComments.bind(this);
+    this.removeComment = this.removeComment.bind(this);
   }
   componentDidMount() {
     const postComments = this.props.comments;
@@ -36,16 +38,17 @@ class BulletinComments extends React.Component {
       id: this.props.postId
     });
   }
-  removeComment(key) {
-    const newComments = this.state.comments.filter((item, index) => {
-      if (index !== key) {
-        return item;
-      }
+  removeComment(commentInfo) {
+    const newComments = this.state.comments.filter(item => {
+      return item !== commentInfo;
     });
+
     this.setState({ comments: newComments });
-    //import   delete function first
-    //remove comments from db function
-    //firebase would be something like arrayRemove(obj/comment)
+    const postId = this.state.id;
+    deleteComment(postId, commentInfo);
+    console.log('this props update funciton', this.props);
+
+    // this.props.updateComments(newComments);
   }
 
   renderComments() {
@@ -78,7 +81,7 @@ class BulletinComments extends React.Component {
               style={{
                 backgroundColor: '#242424'
               }}
-              onPress={() => this.removeComment(index)}
+              onPress={() => this.removeComment(item)}
             >
               <Icon
                 style={{ color: 'white', fontSize: 15 }}
@@ -137,6 +140,7 @@ class BulletinComments extends React.Component {
             <AddCommentForm
               postId={this.state.id}
               navigation={this.props.navigation}
+              updateComments={this.props.updateComments}
             />
           ) : null}
         </View>
@@ -148,9 +152,7 @@ class BulletinComments extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
+    userInfo: state.login.userInfo
   };
 };
 

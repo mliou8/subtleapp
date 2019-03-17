@@ -60,8 +60,8 @@ class AddCommentForm extends React.Component {
 
     addComment(postId, commentDetails);
     this.setState({ text: '', openForm: false, showForm: false });
-
-    this.props.navigation.navigate('Home');
+    this.props.updateComments(commentDetails);
+    // this.props.navigation.navigate('Home');
   }
   updateTextInput(input) {
     this.setState({ text: input });
@@ -111,9 +111,7 @@ class AddCommentForm extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
+    userInfo: state.login.userInfo
   };
 };
 

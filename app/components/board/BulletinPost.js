@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View, Alert } from 'react-native';
 import {
   Container,
   Header,
@@ -17,13 +17,15 @@ import {
   Fab
 } from 'native-base';
 import { Avatar } from 'app/components/image';
+import { connect } from 'react-redux';
 import { sendReaction } from 'db/common/index';
+import { deletePost } from 'db/common/index';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
 const PikaSrc = 'assets/images/reactions/pika.png';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 
-export default class BulletinPost extends React.Component {
+class BulletinPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +39,9 @@ export default class BulletinPost extends React.Component {
     };
     this.toggleComments = this.toggleComments.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
+    this.removePost = this.removePost.bind(this);
+    this.updateComments = this.updateComments.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
   componentDidMount() {
@@ -53,6 +58,31 @@ export default class BulletinPost extends React.Component {
       photoRef: infoPost.photoRef[0],
       id: infoPost.id
     });
+  }
+
+  confirmDelete() {
+    Alert.alert(
+      ' ',
+      'are you sure you want to delete this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.removePost() }
+      ],
+      { cancelable: false }
+    );
+  }
+  removePost() {
+    const postId = this.state.id;
+    deletePost(postId);
+    this.props.navigation.navigate('Home');
+  }
+  updateComments(newComments) {
+    // const updateComments = this.state.comments.push(newComment);
+    this.setState({ comments: newComments, showComments: false });
   }
 
   toggleComments() {
@@ -266,7 +296,32 @@ export default class BulletinPost extends React.Component {
                 comments={this.state.comments}
                 postId={this.state.id}
                 navigation={this.props.navigation}
+                updateComments={this.updateComments}
               />
+            </CardItem>
+          ) : null}
+          {this.state.author === this.props.userInfo.displayName ? (
+            // <CardItem style={{ justifyContent: 'flex-end' }}>
+            <CardItem style={{ justifyContent: 'center' }}>
+              <Button
+                small
+                rounded
+                style={{
+                  backgroundColor: '#242424'
+                }}
+                onPress={this.confirmDelete}
+              >
+                <Icon
+                  style={{ color: 'white', fontSize: 15 }}
+                  name="remove"
+                  type="FontAwesome"
+                />
+                <Text
+                  style={{ marginLeft: 1, fontSize: 12, fontFamily: 'poppins' }}
+                >
+                  Remove this post
+                </Text>
+              </Button>
             </CardItem>
           ) : null}
         </Card>
@@ -274,6 +329,26 @@ export default class BulletinPost extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...state,
+    userInfo: state.login.userInfo
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    removePost: (postData, postId) => {
+      dispatch(removePost(postData, PostId));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BulletinPost);
 
 const styles = StyleSheet.create({
   post: {
