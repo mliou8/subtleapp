@@ -88,6 +88,7 @@ export default class SubmitBase extends Component {
     if (value === 'dating') {
       this.setState({topic: ''});
     } else if (value === 'general') {
+      this.setState({topic: "offtopic"})
       this.setState({ duration: 3})
     }
   }
@@ -98,12 +99,14 @@ export default class SubmitBase extends Component {
   }
 
   setDuration(idx, value) {
-    if (value === "Disappear in 3 days") {
+    if (value === "Looking for Friends (3 days)") {
       this.setState({ duration: 3})
-    } else if (value === "Disappear in 5 days") {
+    } else if (value === "Looking for Rave Bae (5 days)") {
       this.setState({ duration: 5})
-    } else {
+    } else if (value === "Looking for Boba Bae (7 days)") {
       this.setState({ duration: 7})
+    } else {
+      this.setState({ duration: 14})
     }
   }
 
@@ -187,7 +190,6 @@ export default class SubmitBase extends Component {
     const newArr = this.state.downloadURL;
     newArr.push(downloadURL);
     this.setState({downloadURL: newArr});
-    console.log("this.state currently is ", this.state);
   }
 
   updateSize = height => {

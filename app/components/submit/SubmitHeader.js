@@ -20,10 +20,10 @@ const submenuOptions = [
 ];
 
 const dateOptions = [
-  'Looking for Friends',
-  'Looking for Boba Bae',
-  'Looking for Rave Bae',
-  'Looking for True Love',
+  'Looking for Friends (3 days)',
+  'Looking for Rave Bae (5 days)',
+  'Looking for Boba Bae (7 days)',
+  'Looking for True Love (14 days)',
 ]
 export default class SubmitHeader extends React.Component {
   constructor(props) {
@@ -45,10 +45,10 @@ export default class SubmitHeader extends React.Component {
       return (
         <Dropdown
           options={dateOptions}
-          defaultValue="Looking for Friends"
+          defaultValue="Looking for Friends (3 days)"
           setType={this.props.setDuration}
           height={140}
-          width={180}
+          width={220}
           />
       )
     }
