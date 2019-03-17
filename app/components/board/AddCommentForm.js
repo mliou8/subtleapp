@@ -32,18 +32,10 @@ import {
 } from 'native-base';
 import { Avatar } from '../../components/image';
 import { connect } from 'react-redux';
+import { addComment } from 'db/common/index';
 import moment from 'moment';
 
 import Emoji from 'react-native-emoji';
-
-const testComments = [
-  {
-    author: 'kristin',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'this is a test'
-  }
-];
 
 class AddCommentForm extends React.Component {
   constructor(props) {
@@ -53,21 +45,25 @@ class AddCommentForm extends React.Component {
     this.updateTextInput = this.updateTextInput.bind(this);
   }
 
+  componentDidMount() {
+    this.setState({
+      id: this.props.postId
+    });
+  }
   addComment() {
     const author = this.props.userInfo.displayName;
     const avatar = this.props.userInfo.photoURL;
     const datePosted = Date.now();
     const content = this.state.text;
-    const postDetails = { author, avatar, datePosted, content };
-    //postID needs to be on here too!
-    //pass in as params?
-    // this.props.newComment(postDetails,postId);
-    //add this function to store.
-    //redirect nav to ? post?
+    const commentDetails = { author, avatar, datePosted, content };
+    const postId = this.state.id;
+
+    addComment(postId, commentDetails);
+    this.setState({ text: '', openForm: false, showForm: false });
+    this.props.addNewComment(commentDetails);
   }
   updateTextInput(input) {
     this.setState({ text: input });
-    console.log('this state is after updated', this.state);
   }
 
   render() {
@@ -80,10 +76,16 @@ class AddCommentForm extends React.Component {
                 style={{ fontFamily: 'poppins' }}
                 bordered
                 placeholder="...."
+                onChangeText={text => this.setState({ text })}
+                value={this.state.text}
               />
 
               <CardItem style={{ justifyContent: 'center' }}>
-                <Button style={{ backgroundColor: '#242424' }} rounded>
+                <Button
+                  style={{ backgroundColor: '#242424' }}
+                  rounded
+                  onPress={this.addComment}
+                >
                   <Icon
                     style={{ color: 'white', fontSize: 20 }}
                     active
@@ -108,21 +110,11 @@ class AddCommentForm extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newComment: (postData, postId) => {
-      dispatch(newComment(postData, PostId));
-    }
+    userInfo: state.login.userInfo
   };
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AddCommentForm);

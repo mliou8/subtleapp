@@ -38,17 +38,19 @@ const HomeStack = createStackNavigator({
       },
 
       headerRightContainerStyle: {
-        marginRight: 10, marginTop: 15
+        marginRight: 10,
+        marginTop: 15
       },
       headerLeftContainerStyle: {
-        marginLeft: 10, marginTop: 3
+        marginLeft: 10,
+        marginTop: 3
       },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
           <Icon
             type="FontAwesome"
             name="envelope-open"
-            style={{ color: 'white', fontSize:26 }}
+            style={{ color: 'white', fontSize: 26 }}
           />
         </Button>
       ),
@@ -56,7 +58,7 @@ const HomeStack = createStackNavigator({
         <Icon
           type="FontAwesome"
           name="align-left"
-          style={{  fontSize:26, color: 'white' }}
+          style={{ fontSize: 26, color: 'white' }}
           onPress={() => navigation.toggleDrawer()}
         />
       )

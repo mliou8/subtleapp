@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import styles from './SubmitBase.styles';
 
 import SubmitContent from './subscreens/SubmitContent';
@@ -22,12 +17,16 @@ export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create a New Post',
-      headerStyle: { backgroundColor: 'black', height: 80, borderBottomColor: 'black' },
+      headerStyle: {
+        backgroundColor: 'black',
+        height: 80,
+        borderBottomColor: 'black'
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     };
   };
 
@@ -44,7 +43,7 @@ export default class SubmitBase extends Component {
       postType: 'general',
       topic: 'offtopic',
       duration: 3,
-      modalVisible: false,
+      modalVisible: false
     };
 
     this.submitPost = this.submitPost.bind(this);
@@ -67,22 +66,36 @@ export default class SubmitBase extends Component {
 
   validatePost() {
     if (this.state.text.length < 1 || this.state.text.length < 1) {
-      Alert.alert("Title or Text is empty.");
+      Alert.alert('Title or Text is empty.');
       return false;
-    } else if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
-      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+    } else if (
+      this.state.downloadURL.length < 3 &&
+      this.state.postType === 'dating'
+    ) {
+      Alert.alert(
+        'Plug your friend properly! Upload at least 3 pictures of them.'
+      );
       return false;
     }
     return true;
   }
 
-  setPostType (idx, value) {
+  setPostType(idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', location: '', height: 250, downloadURL: [], duration: 3 });
+    this.setState({
+      postType: lowerCase,
+      topic: 'offtopic',
+      title: '',
+      text: '',
+      location: '',
+      height: 250,
+      downloadURL: [],
+      duration: 3
+    });
     if (value === 'dating') {
-      this.setState({topic: ''});
+      this.setState({ topic: '' });
     } else if (value === 'general') {
-      this.setState({ duration: 3})
+      this.setState({ duration: 3 });
     }
   }
 
@@ -92,17 +105,17 @@ export default class SubmitBase extends Component {
   }
 
   setDuration(idx, value) {
-    if (value === "Disappear in 3 days") {
-      this.setState({ duration: 3})
-    } else if (value === "Disappear in 5 days") {
-      this.setState({ duration: 5})
+    if (value === 'Disappear in 3 days') {
+      this.setState({ duration: 3 });
+    } else if (value === 'Disappear in 5 days') {
+      this.setState({ duration: 5 });
     } else {
-      this.setState({ duration: 7})
+      this.setState({ duration: 7 });
     }
   }
 
   renderForm() {
-    if (this.state.postType === "dating") {
+    if (this.state.postType === 'dating') {
       return (
         <KeyboardAvoidingView behavior="padding" enabled>
           <SubmitDating
@@ -121,29 +134,28 @@ export default class SubmitBase extends Component {
             submitPost={this.submitPost}
             updateLocationInput={this.updateLocationInput}
             location={this.state.location}
-
           />
         </KeyboardAvoidingView>
-      )
+      );
     } else {
-        return (
-          <KeyboardAvoidingView behavior="padding" enabled>
-            <SubmitContent
-              toggleModal={this.toggleModal}
-              modalVisible={this.state.modalVisible}
-              takePicture={this.takePicture}
-              pickImageFromCameraRoll={this.pickImageFromCameraRoll}
-              updateTitleInput={this.updateTitleInput}
-              updateSize={this.updateSize}
-              text={this.state.text}
-              updateTextInput={this.updateTextInput}
-              uploads={this.state.uploads}
-              removeImage={this.removeImage}
-              height={this.state.height}
-              submitPost={this.submitPost}
-            />
-          </KeyboardAvoidingView>
-        )
+      return (
+        <KeyboardAvoidingView behavior="padding" enabled>
+          <SubmitContent
+            toggleModal={this.toggleModal}
+            modalVisible={this.state.modalVisible}
+            takePicture={this.takePicture}
+            pickImageFromCameraRoll={this.pickImageFromCameraRoll}
+            updateTitleInput={this.updateTitleInput}
+            updateSize={this.updateSize}
+            text={this.state.text}
+            updateTextInput={this.updateTextInput}
+            uploads={this.state.uploads}
+            removeImage={this.removeImage}
+            height={this.state.height}
+            submitPost={this.submitPost}
+          />
+        </KeyboardAvoidingView>
+      );
     }
   }
 
@@ -178,8 +190,8 @@ export default class SubmitBase extends Component {
     const downloadURL = await snapshot.ref.getDownloadURL();
     const newArr = this.state.downloadURL;
     newArr.push(downloadURL);
-    this.setState({downloadURL: newArr});
-    console.log("this.state currently is ", this.state);
+    this.setState({ downloadURL: newArr });
+    console.log('this.state currently is ', this.state);
   }
 
   updateSize = height => {
@@ -212,9 +224,10 @@ export default class SubmitBase extends Component {
     );
     const currUserInfo = this.props.userInfo;
     const author = this.props.userInfo.displayName;
+    const avatar = this.props.userInfo.photoURL;
     const currentTime = Date.now();
     const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.text)
+    const textToSend = JSON.stringify(this.state.text);
     const addPostRef = await db.collection('posts').add({
       photoRef: this.state.downloadURL,
       datePosted,
@@ -222,11 +235,12 @@ export default class SubmitBase extends Component {
       title: this.state.title,
       text: textToSend,
       author,
+      avatar,
       location: { city: this.state.location, country: '' },
       comments: [],
       reactions: { likes: 0, LOLs: 0 },
       type: this.state.postType,
-      topic: this.state.topic,
+      topic: this.state.topic
     });
     const newPostID = addPostRef.id;
     const postData = { id: newPostID, datePosted, type: 'general' };
@@ -239,10 +253,8 @@ export default class SubmitBase extends Component {
 
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Home'})
-      ]
-    })
+      actions: [NavigationActions.navigate({ routeName: 'Home' })]
+    });
 
     this.props.navigation.dispatch(resetAction);
   }
@@ -321,16 +333,16 @@ export default class SubmitBase extends Component {
   render() {
     const overlay = <View style={styles.overlay} />;
     return (
-        <ScrollView style={styles.container} bounces={false}>
-            <SubmitHeader
-              setType={this.setPostType}
-              setTopic={this.setTopic}
-              setDuration={this.setDuration}
-              postType={this.state.postType}
-              userInfo={this.props.userInfo}
-            />
-              { this.renderForm() }
-        </ScrollView>
+      <ScrollView style={styles.container} bounces={false}>
+        <SubmitHeader
+          setType={this.setPostType}
+          setTopic={this.setTopic}
+          setDuration={this.setDuration}
+          postType={this.state.postType}
+          userInfo={this.props.userInfo}
+        />
+        {this.renderForm()}
+      </ScrollView>
     );
   }
 }

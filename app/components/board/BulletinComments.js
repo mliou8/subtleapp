@@ -20,45 +20,37 @@ import { Avatar } from '../../components/image';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import AddCommentForm from './AddCommentForm';
-
 import Emoji from 'react-native-emoji';
-
-const testComments = [
-  {
-    author: 'kristin',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'this is a test'
-  },
-  {
-    author: 'Bailey',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'bad human! my computer!'
-  },
-  {
-    author: 'SadCat',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'life is hard'
-  },
-  {
-    author: 'Berkley',
-    avatar: 'https://loremflickr.com/176/230/cat',
-    date: Date.now(),
-    content: 'i like to bite people '
-  }
-];
+import { deleteComment } from 'db/common/index';
 
 class BulletinComments extends React.Component {
   constructor(props) {
     super(props);
     this.state = { comments: [], total: 0, openForm: false, showForm: false };
     this.renderComments = this.renderComments.bind(this);
+    this.removeComment = this.removeComment.bind(this);
+  }
+  componentDidMount() {
+    const postComments = this.props.comments;
+
+    this.setState({
+      comments: postComments,
+      id: this.props.postId
+    });
+  }
+  removeComment(commentInfo) {
+    const newComments = this.state.comments.filter(item => {
+      return item !== commentInfo;
+    });
+
+    this.setState({ comments: newComments });
+    const postId = this.state.id;
+    deleteComment(postId, commentInfo);
+    this.props.updateComments(newComments);
   }
 
   renderComments() {
-    return testComments.map((item, index) => (
+    return this.state.comments.map((item, index) => (
       <Card key={index}>
         <CardItem fullWidth>
           <Left>
@@ -79,6 +71,24 @@ class BulletinComments extends React.Component {
             {item.content}
           </Text>
         </CardItem>
+        {item.author === this.props.userInfo.displayName ? (
+          <CardItem style={{ justifyContent: 'flex-end' }}>
+            <Button
+              small
+              rounded
+              style={{
+                backgroundColor: '#242424'
+              }}
+              onPress={() => this.removeComment(item)}
+            >
+              <Icon
+                style={{ color: 'white', fontSize: 15 }}
+                name="remove"
+                type="FontAwesome"
+              />
+            </Button>
+          </CardItem>
+        ) : null}
       </Card>
     ));
   }
@@ -87,7 +97,7 @@ class BulletinComments extends React.Component {
     return (
       <ScrollView>
         <View>
-          {this.renderComments()}
+          {this.state.comments ? this.renderComments() : null}
           <Card transparent>
             <CardItem>
               <Left>
@@ -124,7 +134,14 @@ class BulletinComments extends React.Component {
               )}
             </CardItem>
           </Card>
-          {this.state.showForm ? <AddCommentForm /> : null}
+          {this.state.showForm ? (
+            <AddCommentForm
+              postId={this.state.id}
+              navigation={this.props.navigation}
+              // updateComments={this.props.updateComments}
+              addNewComment={this.props.addNewComment}
+            />
+          ) : null}
         </View>
       </ScrollView>
     );
@@ -134,21 +151,20 @@ class BulletinComments extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
-    userInfo: state.login.userInfo,
-    profile: state.profile,
-    login: state.login
+    userInfo: state.login.userInfo
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    newComment: (postData, currUserInfo) => {
-      dispatch(newComment(postData, currUserInfo));
-    }
-  };
-};
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     newComment: (postData, currUserInfo) => {
+//       dispatch(newComment(postData, currUserInfo));
+//     }
+//   };
+// };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
+  // mapDispatchToProps
 )(BulletinComments);
