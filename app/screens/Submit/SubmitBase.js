@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Alert,
-} from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Alert } from 'react-native';
 import styles from './SubmitBase.styles';
 
 import SubmitContent from './subscreens/SubmitContent';
@@ -22,12 +17,16 @@ export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create a New Post',
-      headerStyle: { backgroundColor: 'black', height: 80, borderBottomColor: 'black' },
+      headerStyle: {
+        backgroundColor: 'black',
+        height: 80,
+        borderBottomColor: 'black'
+      },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
         color: 'white',
-        fontSize: 20,
-      },
+        fontSize: 20
+      }
     };
   };
 
@@ -44,7 +43,7 @@ export default class SubmitBase extends Component {
       postType: 'general',
       topic: 'unset',
       duration: 3,
-      modalVisible: false,
+      modalVisible: false
     };
 
     this.submitPost = this.submitPost.bind(this);
@@ -67,7 +66,7 @@ export default class SubmitBase extends Component {
 
   validatePost() {
     if (this.state.text.length < 1 || this.state.text.length < 1) {
-      Alert.alert("Title or Text is empty.");
+      Alert.alert('Title or Text is empty.');
       return false;
     }
     if (this.state.postType === 'general' && topic === 'unset') {
@@ -82,14 +81,22 @@ export default class SubmitBase extends Component {
     }
   }
 
-  setPostType (idx, value) {
+  setPostType(idx, value) {
     const lowerCase = value.toLowerCase();
-    this.setState({ postType: lowerCase, topic: "offtopic", title: '', text: '', location: '', height: 250, downloadURL: [], duration: 3 });
+    this.setState({
+      postType: lowerCase,
+      topic: 'offtopic',
+      title: '',
+      text: '',
+      location: '',
+      height: 250,
+      downloadURL: [],
+      duration: 3
+    });
     if (value === 'dating') {
-      this.setState({topic: ''});
+      this.setState({ topic: '' });
     } else if (value === 'general') {
       this.setState({topic: "offtopic"})
-      this.setState({ duration: 3})
     }
   }
 
@@ -111,7 +118,7 @@ export default class SubmitBase extends Component {
   }
 
   renderForm() {
-    if (this.state.postType === "dating") {
+    if (this.state.postType === 'dating') {
       return (
         <KeyboardAvoidingView behavior="padding" enabled>
           <SubmitDating
@@ -130,10 +137,9 @@ export default class SubmitBase extends Component {
             submitPost={this.submitPost}
             updateLocationInput={this.updateLocationInput}
             location={this.state.location}
-
           />
         </KeyboardAvoidingView>
-      )
+      );
     } else {
         return (
           <KeyboardAvoidingView behavior="padding" enabled>
@@ -250,10 +256,8 @@ export default class SubmitBase extends Component {
 
     const resetAction = StackActions.reset({
       index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Home'})
-      ]
-    })
+      actions: [NavigationActions.navigate({ routeName: 'Home' })]
+    });
 
     this.props.navigation.dispatch(resetAction);
   }
@@ -332,16 +336,16 @@ export default class SubmitBase extends Component {
   render() {
     const overlay = <View style={styles.overlay} />;
     return (
-        <ScrollView style={styles.container} bounces={false}>
-            <SubmitHeader
-              setType={this.setPostType}
-              setTopic={this.setTopic}
-              setDuration={this.setDuration}
-              postType={this.state.postType}
-              userInfo={this.props.userInfo}
-            />
-              { this.renderForm() }
-        </ScrollView>
+      <ScrollView style={styles.container} bounces={false}>
+        <SubmitHeader
+          setType={this.setPostType}
+          setTopic={this.setTopic}
+          setDuration={this.setDuration}
+          postType={this.state.postType}
+          userInfo={this.props.userInfo}
+        />
+        {this.renderForm()}
+      </ScrollView>
     );
   }
 }
