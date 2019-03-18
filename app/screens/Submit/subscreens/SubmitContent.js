@@ -64,6 +64,13 @@ export default class SubmitContent extends Component {
                 value={this.props.title}
               />
             </Item>
+            <Item floatingLabel>
+              <Label>Location (Optional)</Label>
+              <Input
+                onChangeText={text => this.props.updateLocationInput(text)}
+                value={this.props.location}
+              />
+            </Item>
           </Form>
           <SingleInput
             multiline

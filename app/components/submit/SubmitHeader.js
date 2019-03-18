@@ -10,17 +10,20 @@ const dropdownOptions = [
 
 const submenuOptions = [
   'Off Topic',
-  'Raves',
   'Food',
   'Dating',
+  'Topic Starter',
   'Looking for Friends',
   'Art/Media',
+  'Music',
+  'Raves',
 ];
 
-const timeOptions = [
-  'Disappear in 3 days',
-  'Disappear in 5 days',
-  'Disappear in 7 days',
+const dateOptions = [
+  'Looking for Friends (3 days)',
+  'Looking for Rave Bae (5 days)',
+  'Looking for Boba Bae (7 days)',
+  'Looking for True Love (14 days)',
 ]
 export default class SubmitHeader extends React.Component {
   constructor(props) {
@@ -33,6 +36,7 @@ export default class SubmitHeader extends React.Component {
       return (
         <Dropdown
           options={submenuOptions}
+          defaultValue="Off Topic"
           setType={this.props.setTopic}
           height={175}
           />
@@ -40,10 +44,11 @@ export default class SubmitHeader extends React.Component {
     } else if (type === 'dating') {
       return (
         <Dropdown
-          options={timeOptions}
+          options={dateOptions}
+          defaultValue="Looking for Friends (3 days)"
           setType={this.props.setDuration}
-          height={124}
-          width={150}
+          height={160}
+          width={220}
           />
       )
     }
@@ -55,6 +60,7 @@ export default class SubmitHeader extends React.Component {
         <View style={styles.dropdownContainer}>
             <Dropdown
               options={dropdownOptions}
+              defaultValue={"General"}
               setType={this.props.setType}
               height={87}
               />

@@ -41,7 +41,7 @@ export default class SubmitBase extends Component {
       text: '',
       location: '',
       postType: 'general',
-      topic: 'offtopic',
+      topic: 'unset',
       duration: 3,
       modalVisible: false
     };
@@ -68,16 +68,17 @@ export default class SubmitBase extends Component {
     if (this.state.text.length < 1 || this.state.text.length < 1) {
       Alert.alert('Title or Text is empty.');
       return false;
-    } else if (
-      this.state.downloadURL.length < 3 &&
-      this.state.postType === 'dating'
-    ) {
-      Alert.alert(
-        'Plug your friend properly! Upload at least 3 pictures of them.'
-      );
+    }
+    if (this.state.postType === 'general' && topic === 'unset') {
+      Alert.alert("Please pick a topic for your post.");
       return false;
     }
-    return true;
+    if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
+      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+      return false;
+    } else {
+      return true;  
+    }
   }
 
   setPostType(idx, value) {
@@ -95,7 +96,7 @@ export default class SubmitBase extends Component {
     if (value === 'dating') {
       this.setState({ topic: '' });
     } else if (value === 'general') {
-      this.setState({ duration: 3 });
+      this.setState({topic: "offtopic"})
     }
   }
 
@@ -105,12 +106,14 @@ export default class SubmitBase extends Component {
   }
 
   setDuration(idx, value) {
-    if (value === 'Disappear in 3 days') {
-      this.setState({ duration: 3 });
-    } else if (value === 'Disappear in 5 days') {
-      this.setState({ duration: 5 });
+    if (value === "Looking for Friends (3 days)") {
+      this.setState({ duration: 3, topic: "Looking for Friends"})
+    } else if (value === "Looking for Rave Bae (5 days)") {
+      this.setState({ duration: 5, topic: "Looking for Rave Bae"})
+    } else if (value === "Looking for Boba Bae (7 days)") {
+      this.setState({ duration: 7, topic: "Looking for Boba Bae"})
     } else {
-      this.setState({ duration: 7 });
+      this.setState({ duration: 14, topic: "Looking for True Love"})
     }
   }
 
@@ -138,24 +141,26 @@ export default class SubmitBase extends Component {
         </KeyboardAvoidingView>
       );
     } else {
-      return (
-        <KeyboardAvoidingView behavior="padding" enabled>
-          <SubmitContent
-            toggleModal={this.toggleModal}
-            modalVisible={this.state.modalVisible}
-            takePicture={this.takePicture}
-            pickImageFromCameraRoll={this.pickImageFromCameraRoll}
-            updateTitleInput={this.updateTitleInput}
-            updateSize={this.updateSize}
-            text={this.state.text}
-            updateTextInput={this.updateTextInput}
-            uploads={this.state.uploads}
-            removeImage={this.removeImage}
-            height={this.state.height}
-            submitPost={this.submitPost}
-          />
-        </KeyboardAvoidingView>
-      );
+        return (
+          <KeyboardAvoidingView behavior="padding" enabled>
+            <SubmitContent
+              toggleModal={this.toggleModal}
+              modalVisible={this.state.modalVisible}
+              takePicture={this.takePicture}
+              pickImageFromCameraRoll={this.pickImageFromCameraRoll}
+              updateTitleInput={this.updateTitleInput}
+              updateSize={this.updateSize}
+              text={this.state.text}
+              location={this.state.location}
+              updateTextInput={this.updateTextInput}
+              uploads={this.state.uploads}
+              removeImage={this.removeImage}
+              height={this.state.height}
+              updateLocationInput={this.updateLocationInput}
+              submitPost={this.submitPost}
+            />
+          </KeyboardAvoidingView>
+        )
     }
   }
 
@@ -190,8 +195,7 @@ export default class SubmitBase extends Component {
     const downloadURL = await snapshot.ref.getDownloadURL();
     const newArr = this.state.downloadURL;
     newArr.push(downloadURL);
-    this.setState({ downloadURL: newArr });
-    console.log('this.state currently is ', this.state);
+    this.setState({downloadURL: newArr});
   }
 
   updateSize = height => {
@@ -218,33 +222,32 @@ export default class SubmitBase extends Component {
   };
 
   async submitPost() {
-    this.validatePost();
-    const expiryDate = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-    const currUserInfo = this.props.userInfo;
-    const author = this.props.userInfo.displayName;
-    const avatar = this.props.userInfo.photoURL;
-    const currentTime = Date.now();
-    const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.text);
-    const addPostRef = await db.collection('posts').add({
-      photoRef: this.state.downloadURL,
-      datePosted,
-      expiryDate,
-      title: this.state.title,
-      text: textToSend,
-      author,
-      avatar,
-      location: { city: this.state.location, country: '' },
-      comments: [],
-      reactions: { likes: 0, LOLs: 0 },
-      type: this.state.postType,
-      topic: this.state.topic
-    });
-    const newPostID = addPostRef.id;
-    const postData = { id: newPostID, datePosted, type: 'general' };
-    this.addPostToUser(postData);
+    if (this.validatePost()) {
+      const expiryDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      );
+      const currUserInfo = this.props.userInfo;
+      const author = this.props.userInfo.displayName;
+      const currentTime = Date.now();
+      const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
+      const textToSend = JSON.stringify(this.state.text)
+      const addPostRef = await db.collection('posts').add({
+        photoRef: this.state.downloadURL,
+        datePosted,
+        expiryDate,
+        title: this.state.title,
+        text: textToSend,
+        author,
+        location: this.state.location,
+        comments: [],
+        reactions: { likes: 0, LOLs: 0 },
+        type: this.state.postType,
+        topic: this.state.topic,
+      });
+      const newPostID = addPostRef.id;
+      const postData = { id: newPostID, datePosted, type: 'general' };
+      this.addPostToUser(postData);
+    }
   }
 
   addPostToUser(postData) {

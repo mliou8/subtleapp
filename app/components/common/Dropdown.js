@@ -45,6 +45,7 @@ export default class Dropdown extends Component {
       <View style={styles.container}>
         <ModalDropdown ref="dropdown_2"
                        style={this.buttonStyle(this.props.width)}
+                       defaultValue={this.props.defaultValue}
                        textStyle={styles.dropdown_2_text}
                        dropdownStyle={this.dropdownStyle(this.props.height)}
                        options={this.props.options}

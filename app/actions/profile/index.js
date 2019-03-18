@@ -1,7 +1,3 @@
-import config from '../../../config.js';
-import { Alert } from 'react-native';
-import { AuthSession } from 'expo';
-import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
