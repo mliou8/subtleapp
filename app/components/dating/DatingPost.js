@@ -31,6 +31,7 @@ export default class Post extends React.Component {
     }
     this.renderImage = this.renderImage.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
+    this.renderText = this.renderText.bind(this);
   }
 
   renderImage () {
@@ -82,6 +83,18 @@ export default class Post extends React.Component {
     }
   }
 
+  renderText() {
+    const formatStr = this.props.data.text.slice(1, this.props.data.text.length - 1);
+    const splitString = formatStr.split('\\n');
+    return splitString.map(function(item, idx) {
+      return (
+        <Text key={idx}>
+          {item}{"\n"}
+        </Text>
+      )
+    })
+  }
+
 
   render() {
     const { title = '', location = {}, text = ''} = this.props.data
@@ -128,7 +141,7 @@ export default class Post extends React.Component {
             }}
           >
             <Text numberOfLines={2} style={{fontSize: 15, fontFamily: 'poppinsLight'}}>
-              {text.replace(/"/g,"")}
+              {this.renderText()}
             </Text>
           </CardItem>
           <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>

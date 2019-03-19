@@ -41,7 +41,7 @@ export default class SubmitBase extends Component {
       text: '',
       location: '',
       postType: 'general',
-      topic: 'unset',
+      topic: 'Off Topic',
       duration: 3,
       modalVisible: false
     };
@@ -69,12 +69,8 @@ export default class SubmitBase extends Component {
       Alert.alert('Title or Text is empty.');
       return false;
     }
-    if (this.state.postType === 'general' && topic === 'unset') {
-      Alert.alert("Please pick a topic for your post.");
-      return false;
-    }
     if (this.state.downloadURL.length < 3 && this.state.postType === 'dating') {
-      Alert.alert("Plug your friend properly! Upload at least 3 pictures of them.");
+      Alert.alert("Please create a proper post! Upload at least 3 pictures.");
       return false;
     } else {
       return true;  
@@ -231,7 +227,8 @@ export default class SubmitBase extends Component {
       const currentTime = Date.now();
       const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
       const textToSend = JSON.stringify(this.state.text)
-      const addPostRef = await db.collection('posts').add({
+      
+      const postToAdd = {
         photoRef: this.state.downloadURL,
         datePosted,
         expiryDate,
@@ -243,7 +240,8 @@ export default class SubmitBase extends Component {
         reactions: { likes: 0, LOLs: 0 },
         type: this.state.postType,
         topic: this.state.topic,
-      });
+      };
+   
       const newPostID = addPostRef.id;
       const postData = { id: newPostID, datePosted, type: 'general' };
       this.addPostToUser(postData);
