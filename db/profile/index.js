@@ -1,5 +1,6 @@
 import firebase from "db/firebase";
 import db from "../db";
+import {Client, ClientError} from '../../app/client/Client'
 import { generateInviteCode } from "util/invite";
 
 export const fetchUser = userID => {
@@ -23,7 +24,7 @@ export function fetchNetworks(user) {
   userRef.get()
     .then(function(user) {
       if (user.exists) {
-        return user.socialNetworks; 
+        return user.social; 
       } else {
         console.log("No such document!");
       }
