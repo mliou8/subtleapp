@@ -10,12 +10,12 @@ import {
   Text,
   Button,
   Body,
-  Icon,
   Left,
   Right,
 } from "native-base";
 import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
+import { Icon } from 'react-native-elements'
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
 const FireSrc = 'assets/images/reactions/fire.png';
@@ -108,7 +108,7 @@ export default class Post extends React.Component {
                 styles={styles.avatar}
                 src={'https://loremflickr.com/176/230/cat'}
               />
-              <Text style={{ fontSize: 15, fontFamily: 'poppins' }}>
+              <Text style={{ fontSize: 24, fontFamily: 'poppins' }}>
                 {title}
               </Text>
             </Left>
@@ -166,14 +166,22 @@ export default class Post extends React.Component {
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.kiss} </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
-                <Icon
-                  style={{ fontSize: 22, marginRight: -5 }}
-                  active={true}
-                  name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                  type="FontAwesome"
-                />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins'}}>{this.state.like}</Text>
+            <Button light onPress={() => this.toggleReaction('like')}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: 73
+              }}>
+               <Icon
+                size={22}
+                name='heart'
+                type='font-awesome'
+                color={`${this.state.userlike ? '#f50' : '#D3D3D3'}`}
+              />
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
+                {this.state.like}
+              </Text>
             </Button>
           </CardItem>    
           </Card>

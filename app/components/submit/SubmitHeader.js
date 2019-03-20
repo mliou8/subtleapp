@@ -12,10 +12,9 @@ const submenuOptions = [
   'Off Topic',
   'Food',
   'Dating',
-  'Topic Starter',
   'Looking for Friends',
-  'Art/Media',
   'Music',
+  'Post Fit',
   'Raves',
 ];
 

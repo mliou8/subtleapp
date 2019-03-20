@@ -9,13 +9,13 @@ import {
   Thumbnail,
   Text,
   Button,
-  Icon,
   Left,
   Body,
   Footer,
   Right,
   Fab
 } from 'native-base';
+import { Icon } from 'react-native-elements'
 import { Avatar } from 'app/components/image';
 import { connect } from 'react-redux';
 import { sendReaction } from 'db/common/index';
@@ -203,7 +203,7 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 70
+                width: 73
               }}
             >
               <Image
@@ -226,7 +226,7 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 70
+                width: 73
               }}
             >
               <Image
@@ -249,14 +249,14 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 70
+                width: 73
               }}
             >
-              <Icon
-                style={{ fontSize: 22, marginRight: -5 }}
-                active={true}
-                name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                type="FontAwesome"
+               <Icon
+                size={22}
+                name='heart'
+                type='font-awesome'
+                color={`${this.state.userlike ? '#f50' : '#D3D3D3'}`}
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                 {this.state.like}
@@ -269,11 +269,11 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 70
+                width: 73
               }}
             >
               <Icon
-                style={{ fontSize: 22, marginRight: -5 }}
+                size={22}
                 active
                 name="comment"
                 type="FontAwesome"
