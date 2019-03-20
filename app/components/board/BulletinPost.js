@@ -35,7 +35,17 @@ class BulletinPost extends React.Component {
       comments: 10,
       like: 0,
       pika: 0,
-      uwu: 0
+      uwu: 0,
+      author: this.props.postInfo.author,
+      comments: this.props.postInfo.comments,
+      like: this.props.postInfo.reactions.likes,
+      title: this.props.postInfo.title,
+      text: this.props.postInfo.text,
+      datePosted: this.props.postInfo.datePosted,
+      topic: this.props.postInfo.topic,
+      userAvatar: this.props.postInfo.avatar,
+      photoRef: this.props.postInfo.photoRef[0],
+      id: this.props.postInfo.id
     };
     this.toggleComments = this.toggleComments.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
@@ -43,22 +53,7 @@ class BulletinPost extends React.Component {
     this.updateComments = this.updateComments.bind(this);
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
-  }
-
-  componentDidMount() {
-    const infoPost = this.props.postInfo;
-    this.setState({
-      author: infoPost.author,
-      comments: infoPost.comments,
-      like: infoPost.reactions.likes,
-      title: infoPost.title,
-      text: infoPost.text,
-      datePosted: infoPost.datePosted,
-      topic: infoPost.topic,
-      userAvatar: infoPost.avatar,
-      photoRef: infoPost.photoRef[0],
-      id: infoPost.id
-    });
+    this.renderText = this.renderText.bind(this);
   }
 
   confirmDelete() {
@@ -87,14 +82,6 @@ class BulletinPost extends React.Component {
   addNewComment(newComment) {
     const prevComments = this.state.comments;
     const newCommentAdded = [...prevComments, newComment];
-    console.log(
-      'new comment is ...',
-      newComment,
-      'prev comments:',
-      prevComments,
-      'updatedComments is:',
-      newCommentAdded
-    );
     this.setState({ comments: newCommentAdded, showComments: false });
   }
 
@@ -129,6 +116,18 @@ class BulletinPost extends React.Component {
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
   };
 
+  renderText() {
+    const formatStr = this.state.text.slice(1, this.state.text.length - 1);
+    const splitString = formatStr.split('\\n');
+    return splitString.map(function(item, idx) {
+      return (
+        <Text key={idx}>
+          {item}{"\n"}
+        </Text>
+      )
+    })
+  }
+
   render() {
     return (
       <View>
@@ -141,41 +140,28 @@ class BulletinPost extends React.Component {
                 src={this.state.userAvatar}
               />
               <Body>
-                <Text style={{ fontFamily: 'poppins', fontSize: 12 }}>
-                  @{this.state.author}
+                <Text style={{ fontFamily: 'poppins', fontSize: 14, fontWeight: 'bold' }}>
+                  {this.state.author}
                 </Text>
               </Body>
             </Left>
-
-            <Right>
-              <Button small rounded light>
-                <Text style={{ fontFamily: 'poppins' }}>
+              <Button small rounded light style={{position: 'absolute', top: 19, right: 14, height: 33}}>
+                <Text style={{ fontFamily: 'poppins', fontSize: 14 }}>
                   {this.state.topic}
                 </Text>
               </Button>
-              <Text
-                note
-                style={{ fontFamily: 'poppins', fontSize: 10, marginTop: 5 }}
-              >
-                {this.state.datePosted}
-              </Text>
-            </Right>
           </CardItem>
-
-          <CardItem
-            style={{
-              display: 'flex',
-              width: null,
-              flex: 1
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: 'poppins'
-              }}
-            >
-              {this.state.title}
-            </Text>
+          <CardItem>
+            <Left>
+              <Text
+                style={{
+                  fontFamily: 'poppins',
+                  fontSize: 24,
+                }}
+              >
+                {this.state.title}
+              </Text>
+            </Left>
           </CardItem>
           {this.state.photoRef ? (
             <CardItem cardBody style={{ justifyContent: 'center' }}>
@@ -195,11 +181,12 @@ class BulletinPost extends React.Component {
               width: null,
               flex: 1,
               alignContent: 'center'
-            }}
-          >
-            <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
-              {this.state.text}
-            </Text>
+            }}>
+            <Left>
+              <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
+                {this.renderText()}
+              </Text>
+            </Left>
           </CardItem>
           <CardItem
             header
@@ -216,7 +203,7 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
               <Image
@@ -229,8 +216,7 @@ class BulletinPost extends React.Component {
                 source={require(PikaSrc)}
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                {' '}
-                {this.state.pika}{' '}
+                {this.state.pika}
               </Text>
             </Button>
             <Button
@@ -240,7 +226,7 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
               <Image
@@ -253,8 +239,7 @@ class BulletinPost extends React.Component {
                 source={require(UwuSrc)}
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                {' '}
-                {this.state.uwu}{' '}
+                {this.state.uwu}
               </Text>
             </Button>
             <Button
@@ -264,11 +249,11 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
               <Icon
-                style={{ fontSize: 18, marginRight: -5 }}
+                style={{ fontSize: 22, marginRight: -5 }}
                 active={true}
                 name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
                 type="FontAwesome"
@@ -284,11 +269,11 @@ class BulletinPost extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
               <Icon
-                style={{ fontSize: 18, marginRight: -5 }}
+                style={{ fontSize: 22, marginRight: -5 }}
                 active
                 name="comment"
                 type="FontAwesome"

@@ -75,28 +75,20 @@ class AddCommentForm extends React.Component {
               <Textarea
                 style={{ fontFamily: 'poppins' }}
                 bordered
-                placeholder="...."
+                placeholder=""
                 onChangeText={text => this.setState({ text })}
                 value={this.state.text}
               />
 
               <CardItem style={{ justifyContent: 'center' }}>
-                <Button
-                  style={{ backgroundColor: '#242424' }}
-                  rounded
-                  onPress={this.addComment}
-                >
-                  <Icon
-                    style={{ color: 'white', fontSize: 20 }}
-                    active
-                    name="ios-add"
-                    type="Ionicons"
+                  <Button
+                    style={{ backgroundColor: '#242424' }}
+                    rounded
+                    onPress={this.addComment}
                   >
-                    <Text style={{ fontFamily: 'poppins', color: 'white' }}>
-                      {' '}
-                      send{' '}
-                    </Text>
-                  </Icon>
+                  <Text style={{ fontFamily: 'poppins', color: 'white' }}>
+                    Submit Comment
+                  </Text>
                 </Button>
               </CardItem>
             </Card>

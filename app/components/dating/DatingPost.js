@@ -145,30 +145,30 @@ export default class Post extends React.Component {
             </Text>
           </CardItem>
           <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button light onPress={() => this.toggleReaction('fire')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button light onPress={() => this.toggleReaction('fire')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
               <Image
                   style={{ resizeMode:"contain", width: 35, height: 38, marginLeft: 10 }}
                   source={require(FireSrc)}
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.fire} </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
               <Image
                   style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
                   source={require(UwuSrc)}
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.uwu} </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
               <Image
                   style={{ resizeMode:"contain", width: 30, height: 38, marginLeft: 5 }}
                   source={require(KissSrc)}
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}> {this.state.kiss} </Text>
             </Button>
-            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 75}}>
+            <Button light onPress={() => this.toggleReaction('like')} style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
                 <Icon
-                  style={{ fontSize: 18, marginRight: -5 }}
+                  style={{ fontSize: 22, marginRight: -5 }}
                   active={true}
                   name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
                   type="FontAwesome"
