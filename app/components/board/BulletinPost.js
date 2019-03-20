@@ -135,11 +135,18 @@ class BulletinPost extends React.Component {
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>
-              <Avatar
-                size={50}
-                styles={styles.avatar}
-                src={this.state.userAvatar}
-              />
+              <TouchableOpacity
+                onPress={this.props.navigation.navigate('OtherUsersProfile', {
+                  userToDisplay: this.state.userId,
+                  name: this.state.author
+                })}
+              >
+                <Avatar
+                  size={50}
+                  styles={styles.avatar}
+                  src={this.state.userAvatar}
+                />
+              </TouchableOpacity>
               <Body>
                 <Text style={{ fontFamily: 'poppins', fontSize: 12 }}>
                   @{this.state.author}
