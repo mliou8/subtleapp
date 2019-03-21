@@ -100,6 +100,7 @@ class BulletinPost extends React.Component {
       pika: 0,
       uwu: 0
     });
+
     if (!this.state[`user${reaction}`]) {
       if (!this.state[reaction]) {
         this.setState({ [reaction]: 1 });
@@ -187,6 +188,9 @@ class BulletinPost extends React.Component {
                 {this.renderText()}
               </Text>
             </Left>
+          </CardItem>
+          <CardItem style={{justifyContent: 'center'}}>
+            <View style={styles.divider} />
           </CardItem>
           <CardItem
             header
@@ -347,5 +351,12 @@ const styles = StyleSheet.create({
     height: 225,
     borderRadius: 7,
     marginBottom: 10
-  }
+  },
+  divider: {
+    borderBottomColor: 'lightgrey',
+    borderBottomWidth: .25,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width: '95%',
+  },
 });

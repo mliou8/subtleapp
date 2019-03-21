@@ -75,9 +75,11 @@ class SelfiesScreen extends React.Component {
       modalVisible: false,
       uploads: [],
       post: {},
-      caption: ''
+      caption: '',
+      downloadUrl: [],
     };
   }
+
   async uploadPhoto() {
     const uri = this.state.uploads[0];
     if (this.state.caption.length > 50) {
@@ -113,12 +115,10 @@ class SelfiesScreen extends React.Component {
     const snapshot = await ref.put(blob);
     blob.close();
     const downloadURL = await snapshot.ref.getDownloadURL();
-    this.createPost(downloadURL);
-    this.props.navigation.navigate('Home');
-    //once we have the selfies fetching from the database,
-    //we will change the redirect back to the selfies page
-    //it should update and user should see their own photo in the feed
-    // this.props.navigation.navigate('Selfies');
+    const newArr = this.state.downloadURL;
+    newArr.push(downloadURL);
+    this.setState({downloadURL: newArr});
+    this.props.navigation.navigate('Selfies');
   }
 
   toggleModal = visible => {
@@ -128,13 +128,15 @@ class SelfiesScreen extends React.Component {
   updateCaptionInput(caption) {
     this.setState({ caption });
   }
+
   updateSize = height => {
     let newHeight = height < 250 ? 250 : height;
     this.setState({
       height: newHeight
     });
   };
-  async createPost(downloadURL) {
+
+  async submitPost(downloadURL) {
     const expiryDate = new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     );
@@ -150,9 +152,8 @@ class SelfiesScreen extends React.Component {
       expiryDate,
       caption: textToSend,
       author,
-      location: { city: '', country: '' },
       comments: [],
-      reactions: { likes: 0, LOLs: 0 },
+      reactions: {},
       type: 'selfie'
     });
     const newPostID = addPostRef.id;
@@ -202,8 +203,7 @@ class SelfiesScreen extends React.Component {
               height: 150,
               backgroundColor: '#242424',
               display: 'flex'
-            }}
-          >
+            }}>
             <Thumbnail
               style={{ borderWidth: 3, borderColor: 'white' }}
               large

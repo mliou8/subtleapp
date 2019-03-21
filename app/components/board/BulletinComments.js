@@ -137,7 +137,6 @@ class BulletinComments extends React.Component {
             <AddCommentForm
               postId={this.state.id}
               navigation={this.props.navigation}
-              // updateComments={this.props.updateComments}
               addNewComment={this.props.addNewComment}
             />
           ) : null}

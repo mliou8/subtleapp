@@ -139,6 +139,9 @@ export default class OwnProfileScreen extends React.Component {
                       style={styles.profile}
                       imageSrc={this.props.userInfo.photoURL}
                     />
+                    <Text style={styles.cardTextBold}>
+                      {this.props.userInfo.displayName} 
+                    </Text>
                   </Body>
                   <Right>
                     <TouchableOpacity
@@ -163,23 +166,12 @@ export default class OwnProfileScreen extends React.Component {
                     </TouchableOpacity>
                   </Right>
                 </CardItem>
-                <CardItem
-                  style={{
-                    justifyContent: 'center',
-                    backgroundColor: '#242424'
-                  }}
-                >
-                  <Text style={styles.cardTextBold}>
-                    {this.props.userInfo.displayName}
-                  </Text>
-                </CardItem>
               </Card>
             </Content>
             <Card transparent style={styles.socialBadgesContainer}>
               {this.renderSocialBadges()}
             </Card>
             <View />
-            <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
@@ -217,13 +209,13 @@ const styles = StyleSheet.create({
   },
   cardTextBold: {
     fontFamily: 'poppinsBold',
-    color: 'white'
+    color: 'white',
+    marginTop: 10,
   },
   socialBadgesContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignContent: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'flex-start'
   }
 });

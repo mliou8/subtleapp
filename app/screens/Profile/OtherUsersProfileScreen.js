@@ -3,20 +3,14 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  SafeAreaView,
-  Image,
   TouchableOpacity,
-  Picker
 } from 'react-native';
 import ProfilePortrait from 'app/components/profile/ProfilePortrait';
 import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Followers from './subscreens/Followers';
-
 import { fetchUserProfileInfo } from 'actions/profile/index';
-
 import { connect } from 'react-redux';
-import db from 'db/firestore';
 
 import {
   Container,
@@ -180,8 +174,6 @@ class OtherUsersProfileScreen extends React.Component {
             <Card style={styles.socialBadgesContainer} transparent>
               {this.renderSocialBadges()}
             </Card>
-
-            <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (

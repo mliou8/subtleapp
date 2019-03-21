@@ -8,7 +8,6 @@ import {
 import { Icon, Fab } from 'native-base';
 import TabBarIcon from 'app/components/common/TabBarIcon';
 import OwnProfileScreen from 'app/containers/Profile/OwnProfileContainer';
-import GenericProfileScreen from 'app/screens/Profile/GenericProfileScreen';
 import OtherUsersProfileScreen from 'app/screens/Profile/OtherUsersProfileScreen';
 import FollowersListScreen from 'app/screens/Profile/subscreens/FollowersList';
 import PostFullScreen from 'app/screens/Post/PostFullScreen';
@@ -68,7 +67,6 @@ const HomeStack = createStackNavigator({
   Messages: MessageScreen,
   Conversation: Conversation,
   FullPost: FullPost,
-  GenericProfileScreen: GenericProfileScreen,
   OtherUsersProfile: OtherUsersProfileScreen
 });
 
