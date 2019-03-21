@@ -83,13 +83,13 @@ class FollowersListScreen extends React.Component {
   componentDidMount() {
     const listType = this.props.navigation.getParam('type');
     if (listType === 'followers') {
-      const userList = this.props.login.userInfo.followers;
+      const userList = /*this.props.login.userInfo.followers*/ [];
       this.setState({
         userList
       });
     }
     if (listType === 'following') {
-      const userList = this.props.login.userInfo.following;
+      const userList = /*this.props.login.userInfo.following*/ [];
       this.setState({
         userList
       });
