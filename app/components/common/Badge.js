@@ -11,32 +11,32 @@ export default class Badge extends React.Component {
     this.badgeTypePicker = this.badgeTypePicker.bind(this);
     this._handleBadgePress = this._handleBadgePress.bind(this);
   }
-  _handleBadgePress = (source, sourceUrl) => {
-    if (source === 'twitch') {
-      return Linking.openURL(`https://www.twitch.tv/${sourceUrl}/`);
+  _handleBadgePress = (type, handle) => {
+    if (type === 'twitch') {
+      return Linking.openURL(`https://www.twitch.tv/${handle}/`);
     } else {
       return Linking.openURL(
-        `https://www.${source}.com/${sourceUrl}/`
+        `https://www.${type}.com/${handle}/`
       );
     }
   };
 
-  badgeTypePicker = (source, sourceUrl, count) => {
+  badgeTypePicker = (type, handle, count) => {
     return (
       <Button
         iconLeft
         light
         style={styles.badgeButton}
         onPress={() => {
-          this._handleBadgePress(source, sourceUrl);
+          this._handleBadgePress(type, handle);
         }}
       >
         <Icon
           type="FontAwesome"
-          name={source.toLowerCase()}
+          name={type.toLowerCase()}
           style={styles.badgeIcon}
         >
-          <Text style={styles.badgeButtonText}> {sourceUrl}</Text>
+          <Text style={styles.badgeButtonText}> {handle}</Text>
           {/* <Text style={styles.badgeButtonText}>{count}</Text> */}
         </Icon>
       </Button>

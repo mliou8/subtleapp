@@ -46,11 +46,11 @@ export default class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socialNetworks: this.props.userInfo.socialNetworks,
-      instagram: { enabled: false, edit: 'false', sourceUrl: '' },
-      youtube: { enabled: false, edit: 'false', sourceUrl: '' },
-      facebook: { enabled: false, edit: 'false', sourceUrl: '' },
-      twitch: { enabled: false, edit: 'false', sourceUrl: '' },
+      social: this.props.userInfo.social,
+      instagram: { enabled: false, edit: 'false', handle: '' },
+      youtube: { enabled: false, edit: 'false', handle: '' },
+      facebook: { enabled: false, edit: 'false', handle: '' },
+      twitch: { enabled: false, edit: 'false', handle: '' },
       inviteCode: ''
     };
 
@@ -69,10 +69,10 @@ export default class Settings extends React.Component {
 
   // run this function each time social networks update
   updateSocialNetworks = () => {
-    this.state.socialNetworks.forEach(socialNetwork => {
-      const source = socialNetwork.source.toLowerCase();
-      const sourceUrl = socialNetwork.sourceUrl;
-      this.setState({ [source]: { enabled: true, sourceUrl: sourceUrl } });
+    this.state.social.forEach(socialNetwork => {
+      const type = socialNetwork.type.toLowerCase();
+      const handle = socialNetwork.handle;
+      this.setState({ [type]: { enabled: true, handle: handle } });
     });
   };
 
@@ -81,7 +81,7 @@ export default class Settings extends React.Component {
       return (
         <View style={styles.row} key={idx}>
           <ConnectedNetworks
-            text={this.state[socialNetwork.toLowerCase()].sourceUrl}
+            text={this.state[socialNetwork.toLowerCase()].handle}
             iconType={socialNetwork}
             enabled={this.state[socialNetwork.toLowerCase()].enabled}
             onPressToRemove={this.onPressToRemove}
@@ -96,15 +96,15 @@ export default class Settings extends React.Component {
   onPressToRemove = (networkObj, userInfo) => {
     this.props.removeNetwork(networkObj, userInfo);
     this.setState({
-      [networkObj.source]: { enabled: false, edit: false, sourceUrl: undefined }
+      [networkObj.type]: { enabled: false, edit: false, handle: undefined }
     });
   };
 
   onPressToAdd = (networkObj, userInfo) => {
     this.props.addNetwork(networkObj, userInfo);
-    const { source, sourceUrl } = networkObj;
+    const { type, handle } = networkObj;
     this.setState({
-      [source]: { enabled: true, edit: false, sourceUrl: sourceUrl }
+      [type]: { enabled: true, edit: false, handle: handle }
     });
   };
 
