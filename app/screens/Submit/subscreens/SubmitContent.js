@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import {
-  Keyboard,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
-  ScrollView,
   ImageBackground,
-  Alert
 } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';

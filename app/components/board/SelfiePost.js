@@ -29,7 +29,7 @@ export default class SelfiePost extends React.Component {
                 color: 'white'
               }}
             >
-              {this.props.caption}
+              {this.props.caption.slice(1, this.props.caption.length - 1)}
             </Text>
           </CardItem>
         </Card>

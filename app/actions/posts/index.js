@@ -16,18 +16,10 @@ export const newGeneralPost = (postInfo, currUserInfo) => {
   return async dispatch => {
     const user = firebase.auth().currentUser;
     const currUserRef = db.collection('users').doc(user.uid);
-    const currUserPostsUpdated = currUserInfo;
-    const currPosts = [...currUserInfo.posts, postInfo];
-
-    currUserPostsUpdated.posts = currPosts;
-
     currUserRef
       .update({
         posts: firebase.firestore.FieldValue.arrayUnion(postInfo)
       })
-      .then(function() {
-        dispatch(userUpdated(currUserPostsUpdated));
-      });
   };
 };
 
