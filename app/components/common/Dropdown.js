@@ -57,7 +57,6 @@ export default class Dropdown extends Component {
   }
 
   _dropdown_2_renderRow(rowData, rowID, highlighted) {
-    let icon = highlighted ? require('./images/heart.png') : require('./images/flower.png');
     let evenRow = rowID % 2;
     return (
       <TouchableHighlight underlayColor='cornflowerblue'>

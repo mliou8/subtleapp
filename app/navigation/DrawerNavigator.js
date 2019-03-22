@@ -12,7 +12,7 @@ const DatingStack = createStackNavigator({
 });
 
 const SelfieStack = createStackNavigator({
-  SelfiesScreen: SelfiesScreen
+  Selfies: SelfiesScreen
 });
 
 const DrawerNavigator = createDrawerNavigator(

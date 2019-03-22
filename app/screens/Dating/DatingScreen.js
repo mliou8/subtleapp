@@ -72,6 +72,6 @@ const styles = StyleSheet.create({
       flex: 1,
       paddingLeft: 6,
       paddingRight: 6,
-      backgroundColor: '#242424'
+      backgroundColor: '#DCDCDC'
     },
 });

@@ -56,13 +56,12 @@ class BulletinComments extends React.Component {
           <Left>
             <Avatar size={35} styles={styles.avatar} src={item.avatar} />
             <Text style={{ fontFamily: 'poppins', fontSize: 15 }}>
-              @{item.author}
+              {item.author}
             </Text>
           </Left>
-
           <Right style={{ flexWrap: 'wrap' }}>
             <Text style={{ fontFamily: 'poppins', fontSize: 10 }}>
-              {moment(item.date).format('MMMM Do YYYY, h:mm:ss a')}
+              {moment(item.date).format('MMMM Do, h:mm a')}
             </Text>
           </Right>
         </CardItem>
@@ -138,7 +137,6 @@ class BulletinComments extends React.Component {
             <AddCommentForm
               postId={this.state.id}
               navigation={this.props.navigation}
-              // updateComments={this.props.updateComments}
               addNewComment={this.props.addNewComment}
             />
           ) : null}
