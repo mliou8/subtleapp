@@ -59,7 +59,7 @@ class OtherUsersProfileScreen extends React.Component {
     super(props);
     this.state = {
       userToDisplay: {},
-      socialNetworks: this.props.profile.userProfile.socialNetworks,
+      social: this.props.profile.userProfile.social,
       badges: [],
       existingConvoId: null
     };
@@ -73,7 +73,7 @@ class OtherUsersProfileScreen extends React.Component {
     const { userToDisplay } = this.props.navigation.state.params;
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userToDisplay });
-    const amFollowing = this.props.userInfo.following.filter(
+    const amFollowing = /*this.props.userInfo.following*/[].filter(
       item => item.uid === userToDisplay.uid
     );
     const chatting = currUsersConversations.filter(item => {
@@ -97,12 +97,12 @@ class OtherUsersProfileScreen extends React.Component {
   };
 
   renderSocialBadges = () => {
-    return this.props.profile.userProfile.socialNetworks.map((badge, idx) => {
+    return this.props.profile.userProfile.social.map((badge, idx) => {
       return (
         <Badge
           key={idx}
-          badgeType={badge.source}
-          sourceName={badge.sourceUrl}
+          badgeType={badge.type}
+          sourceName={badge.handle}
         />
       );
     });
@@ -129,13 +129,13 @@ class OtherUsersProfileScreen extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'followers',
-                          userList: this.props.profile.userProfile.followers,
+                          userList: /*this.props.profile.userProfile.followers*/ [],
                           userName: this.props.profile.userProfile.displayName
                         })
                       }
                     >
                       <Text style={styles.cardTextBold} center>
-                        {this.props.profile.userProfile.followers.length}
+                        {/*this.props.profile.userProfile.followers.length*/ 0}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
@@ -151,7 +151,7 @@ class OtherUsersProfileScreen extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'following',
-                          userList: this.props.profile.userProfile.following,
+                          userList: /*this.props.profile.userProfile.following*/ [],
                           userName: this.props.profile.userProfile.displayName
                         })
                       }
@@ -163,7 +163,7 @@ class OtherUsersProfileScreen extends React.Component {
                           paddingLeft: 30
                         }}
                       >
-                        {this.props.profile.userProfile.following.length}
+                        {/*this.props.profile.userProfile.following.length*/ 0}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
@@ -224,7 +224,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
     userInfo: state.login.userInfo,
-    userInfo: state.login.userInfo,
     profile: state.profile,
     login: state.login
   };
@@ -232,9 +231,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchUser: uid => {
-      dispatch(fetchUser(uid));
-    },
     fetchUserProfileInfo: uid => {
       dispatch(fetchUserProfileInfo(uid));
     }

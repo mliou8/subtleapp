@@ -95,13 +95,13 @@ export default class OwnProfileScreen extends React.Component {
   }
 
   renderSocialBadges = () => {
-    return this.props.userInfo.socialNetworks.map((badge, idx) => {
+    return this.props.userInfo.social.map((badge, idx) => {
       return (
         <Badge
           key={idx}
           count={idx}
-          badgeType={badge.source}
-          sourceName={badge.sourceUrl}
+          badgeType={badge.type}
+          sourceName={badge.handle}
         />
       );
     });
@@ -123,13 +123,13 @@ export default class OwnProfileScreen extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'followers',
-                          userList: this.props.userInfo.followers,
+                          userList: [],
                           userName: this.props.userInfo.displayName
                         })
                       }
                     >
                       <Text style={styles.cardTextBold}>
-                        {this.props.userInfo.followers.length}
+                        {0}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
@@ -148,7 +148,7 @@ export default class OwnProfileScreen extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'following',
-                          userList: this.props.userInfo.following,
+                          userList: /*this.props.userInfo.following*/ [],
                           userName: this.props.userInfo.displayName
                         })
                       }
@@ -160,7 +160,7 @@ export default class OwnProfileScreen extends React.Component {
                           color: 'white'
                         }}
                       >
-                        {this.props.userInfo.following.length}
+                        {/*this.props.userInfo.following.length*/ 0}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
