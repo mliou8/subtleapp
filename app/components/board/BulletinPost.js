@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, Alert } from 'react-native';
+import { Image, StyleSheet, View, Alert, TouchableOpacity } from 'react-native';
 import {
   Container,
   Header,
@@ -43,12 +43,14 @@ class BulletinPost extends React.Component {
     this.updateComments = this.updateComments.bind(this);
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
+    this.viewProfile = this.viewProfile.bind(this);
   }
 
   componentDidMount() {
     const infoPost = this.props.postInfo;
     this.setState({
       author: infoPost.author,
+      authorId: infoPost.authorId,
       comments: infoPost.comments,
       like: infoPost.reactions.likes,
       title: infoPost.title,
@@ -57,6 +59,7 @@ class BulletinPost extends React.Component {
       topic: infoPost.topic,
       userAvatar: infoPost.avatar,
       photoRef: infoPost.photoRef[0],
+
       id: infoPost.id
     });
   }
@@ -83,6 +86,12 @@ class BulletinPost extends React.Component {
   }
   updateComments(newComments) {
     this.setState({ comments: newComments, showComments: false });
+  }
+  viewProfile() {
+    this.props.navigation.navigate('OtherUsersProfile', {
+      userToDisplay: this.state.authorId,
+      name: this.state.author
+    });
   }
   addNewComment(newComment) {
     const prevComments = this.state.comments;
@@ -135,12 +144,7 @@ class BulletinPost extends React.Component {
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>
-              <TouchableOpacity
-                onPress={this.props.navigation.navigate('OtherUsersProfile', {
-                  userToDisplay: this.state.userId,
-                  name: this.state.author
-                })}
-              >
+              <TouchableOpacity onPress={this.viewProfile}>
                 <Avatar
                   size={50}
                   styles={styles.avatar}
