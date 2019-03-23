@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, View, Alert, TouchableOpacity } from 'react-native';
+import { WebBrowser, MailComposer } from 'expo';
 import {
   Container,
   Header,
@@ -22,6 +23,7 @@ import { sendReaction } from 'db/common/index';
 import { deletePost } from 'db/common/index';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
+import ParsedText from 'react-native-parsed-text';
 const PikaSrc = 'assets/images/reactions/pika.png';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 
@@ -44,6 +46,11 @@ class BulletinPost extends React.Component {
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.viewProfile = this.viewProfile.bind(this);
+    this.handleUrlPress = this.handleUrlPress.bind(this);
+    this.handleEmailPress = this.handleEmailPress.bind(this);
+    this.handleNamePress = this.handleNamePress.bind(this);
+    this.renderText = this.renderText.bind(this);
+    this.sharePost = this.sharePost.bind(this);
   }
 
   componentDidMount() {
@@ -96,14 +103,7 @@ class BulletinPost extends React.Component {
   addNewComment(newComment) {
     const prevComments = this.state.comments;
     const newCommentAdded = [...prevComments, newComment];
-    console.log(
-      'new comment is ...',
-      newComment,
-      'prev comments:',
-      prevComments,
-      'updatedComments is:',
-      newCommentAdded
-    );
+
     this.setState({ comments: newCommentAdded, showComments: false });
   }
 
@@ -137,6 +137,28 @@ class BulletinPost extends React.Component {
     }
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
   };
+  sharePost() {
+    console.log('gotta figure this out later');
+  }
+  handleUrlPress(url, matchIndex /*: number*/) {
+    WebBrowser.openBrowserAsync(url);
+  }
+
+  handleNamePress(name, matchIndex /*: number*/) {
+    //this.props.navigation.navigate({profile})
+    Alert.alert(`Hello ${name}`);
+  }
+
+  handleEmailPress(email, matchIndex /*: number*/) {
+    MailComposer.composeAsync({ recipients: [email] });
+  }
+
+  renderText(matchingString, matches) {
+    // matches => ["[@michel:5455345]", "@michel", "5455345"]
+    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
+    let match = matchingString.match(pattern);
+    return `^^${match[1]}^^`;
+  }
 
   render() {
     return (
@@ -163,6 +185,23 @@ class BulletinPost extends React.Component {
                 <Text style={{ fontFamily: 'poppins' }}>
                   {this.state.topic}
                 </Text>
+              </Button>
+              <Button
+                onPress={this.sharePost}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  width: 75,
+                  backgroundColor: 'white'
+                }}
+              >
+                <Icon
+                  style={{ fontSize: 18, marginRight: -5, color: 'black' }}
+                  active={true}
+                  name={'share'}
+                  type="FontAwesome"
+                />
               </Button>
               <Text
                 note
@@ -208,10 +247,39 @@ class BulletinPost extends React.Component {
               alignContent: 'center'
             }}
           >
-            <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
+            {/* <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
               {this.state.text}
-            </Text>
+            </Text> */}
+            <ParsedText
+              style={styles.text}
+              parse={[
+                {
+                  type: 'url',
+                  style: styles.url,
+                  onPress: this.handleUrlPress
+                },
+
+                {
+                  type: 'email',
+                  style: styles.email,
+                  onPress: this.handleEmailPress
+                },
+
+                {
+                  pattern: /\[(@[^:]+):([^\]]+)\]/i,
+                  style: styles.username,
+                  onPress: this.handleNamePress,
+                  renderText: this.renderText
+                },
+
+                { pattern: /#(\w+)/, style: styles.hashTag }
+              ]}
+              childrenProps={{ allowFontScaling: false }}
+            >
+              {this.state.text}
+            </ParsedText>
           </CardItem>
+
           <CardItem
             header
             style={{
@@ -373,5 +441,50 @@ const styles = StyleSheet.create({
     height: 225,
     borderRadius: 7,
     marginBottom: 10
+  },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
+
+  url: {
+    color: 'red',
+    textDecorationLine: 'underline'
+  },
+
+  email: {
+    textDecorationLine: 'underline'
+  },
+
+  text: {
+    color: 'black',
+    fontSize: 15,
+    fontFamily: 'poppinsLight'
+  },
+
+  phone: {
+    color: 'blue',
+    textDecorationLine: 'underline'
+  },
+
+  name: {
+    color: 'red'
+  },
+
+  username: {
+    color: 'green',
+    fontWeight: 'bold'
+  },
+
+  magicNumber: {
+    fontSize: 42,
+    color: 'pink'
+  },
+
+  hashTag: {
+    fontStyle: 'italic'
   }
 });
