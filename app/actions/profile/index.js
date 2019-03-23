@@ -1,6 +1,6 @@
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import {Client, ClientError} from 'app/client/Client'
+import {usableClient, ClientError} from 'app/client/Client'
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';
@@ -30,7 +30,7 @@ export const profileNotFound = errorMsg => {
 export const fetchUserProfileInfo = userID => {
   return async dispatch => {
     try {
-      dispatch(profileFetched(await Client.current().getUserDetails(userID)));
+      dispatch(profileFetched(await usableClient.current().getUserDetails(userID)));
     } catch (e) {
       const msg2 = 'Error Retrieving User Document';
       dispatch(profileNotFound(msg2));

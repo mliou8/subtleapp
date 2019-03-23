@@ -1,7 +1,7 @@
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import {Client, ClientError} from 'app/client/Client'
+import {usableClient, ClientError} from 'app/client/Client'
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -10,8 +10,6 @@ export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
 export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
-
-const client = new Client("https://www.grden.app/ws");
 
 export const userInfoFetched = userProfile => {
   return {
@@ -63,7 +61,7 @@ export const editUserFail = errorMsg => {
 
 
 export async function doesUserExist() {
-  const exists = await client.doesAccountExist(await firebase.auth().currentUser.getIdToken(false));
+  const exists = await usableClient.doesAccountExist(await firebase.auth().currentUser.getIdToken(false));
   return exists;
 }
 
@@ -72,7 +70,7 @@ export function logUserIn() {
     const exists = await doesUserExist();
 
     if (exists) {
-      const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
+      const user = await usableClient.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
       console.log("Current user is ", user);
       dispatch(userUpdated(user));
       dispatch(authSuccess());
@@ -83,7 +81,7 @@ export function logUserIn() {
 export function createUser(user) {
   return async dispatch => {
     try {
-      const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
+      const user = await usableClient.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
       console.log("Created user ", user);
       dispatch(userUpdated(user));
       dispatch(authSuccess());
@@ -108,7 +106,7 @@ export function userLogout() {
 export const fetchUserInfo = userID => {
   return async dispatch => {
     try {
-      dispatch(userInfoFetched(await client.getUserDetails(userID)));
+      dispatch(userInfoFetched(await usableClient.getUserDetails(userID)));
     } catch {
       const msg2 = 'Error Retrieving User Document';
       dispatch(userInfoNotFound(msg2));
@@ -164,10 +162,10 @@ export const unfollowUser = (userObj, currUserInfo) => {
 export const addNetwork = (networkObj, currentUser) => {
   return async dispatch => {
     try {
-      const user = client.getUserSelfCached();
+      const user = usableClient.getUserSelfCached();
       const socialNew = user.social.slice(0);
       socialNew.push(networkObj);
-      await client.updateUser({social: socialNew});
+      await usableClient.updateUser({social: socialNew});
       dispatch(updateUser(user.uid));
     } catch (e) {
       console.error('Error updating document: ', e);
@@ -178,9 +176,9 @@ export const addNetwork = (networkObj, currentUser) => {
 export const removeNetwork = (networkObj, currentUser) => {
   return async dispatch => {
     try {
-      const user = client.getUserSelfCached();
+      const user = usableClient.getUserSelfCached();
       const socialNew = user.social.slice(0).filter(i=>i.type !== networkObj.type);
-      await client.updateUser({social: socialNew});
+      await usableClient.updateUser({social: socialNew});
       dispatch(updateUser(user.uid));
     } catch (e) {
       console.error('Error updating document: ', e);
@@ -206,7 +204,7 @@ export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
 const updateUser = uid => {
   return async dispatch => {
     try {
-      dispatch(userUpdated(await client.getUserDetails(uid)));
+      dispatch(userUpdated(await usableClient.getUserDetails(uid)));
     } catch (e) {
       const msg = 'Error Retrieving User Document';
       dispatch(userInfoNotFound(msg));

@@ -4,7 +4,7 @@ const { width, height } = Dimensions.get('window');
 
 export default (styles = StyleSheet.create({
     container: {
-        paddingBottom: 20
+        paddingBottom: 10
     },
     overlay: {
         backgroundColor: 'rgba(52, 52, 52, 0.8)',

@@ -12,9 +12,8 @@ import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo';
-import {Client, ClientError} from 'app/client/Client'
+import {usableClient, ClientError} from 'app/client/Client'
 
-const client = new Client("https://www.grden.app/ws");
 
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -238,12 +237,10 @@ export default class SubmitBase extends Component {
         media: this.state.downloadURL,
         topic: this.state.topic,
         location: this.state.location,
-        duration: this.state.duration,
       }
       const expires_in = this.state.duration;
-      const uid = this.props.userInfo.uid
 
-      await client.createPost(post, uid, expires_in);
+      await usableClient.createPost(post, expires_in);
       const resetAction = StackActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'Home' })]
