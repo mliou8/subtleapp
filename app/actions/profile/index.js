@@ -1,6 +1,6 @@
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import {Client, ClientError} from '../../client/Client'
+import {Client, ClientError} from 'app/client/Client'
 
 export const PROFILE_FETCHED = 'PROFILE_FETCHED';
 export const PROFILE_NOT_FOUND = 'PROFILE_NOT_FOUND';

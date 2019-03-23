@@ -12,6 +12,9 @@ import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { ImagePicker, Permissions } from 'expo';
+import {Client, ClientError} from 'app/client/Client'
+
+const client = new Client("https://www.grden.app/ws");
 
 export default class SubmitBase extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,7 +45,7 @@ export default class SubmitBase extends Component {
       location: '',
       postType: 'general',
       topic: 'Off Topic',
-      duration: 3,
+      duration: '',
       modalVisible: false
     };
 
@@ -87,10 +90,9 @@ export default class SubmitBase extends Component {
       location: '',
       height: 250,
       downloadURL: [],
-      duration: 3
     });
     if (value === 'dating') {
-      this.setState({ topic: '' });
+      this.setState({ topic: 'Looking for Friends' });
     } else if (value === 'general') {
       this.setState({topic: "offtopic"})
     }
@@ -228,38 +230,51 @@ export default class SubmitBase extends Component {
       const currentTime = Date.now();
       const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
       const textToSend = JSON.stringify(this.state.text)
-      
-      const addPostRef = await db.collection('posts').add({
-        photoRef: this.state.downloadURL,
-        datePosted,
-        expiryDate,
+
+      const post = {
         title: this.state.title,
-        text: textToSend,
-        author,
-        avatar,
-        location: this.state.location,
-        comments: [],
-        reactions: { likes: 0, LOLs: 0 },
         type: this.state.postType,
+        caption: textToSend,
+        media: this.state.downloadURL,
         topic: this.state.topic,
+        location: this.state.location,
+        duration: this.state.duration,
+      }
+      const expires_in = this.state.duration;
+      const uid = this.props.userInfo.uid
+
+      await client.createPost(post, uid, expires_in);
+      const resetAction = StackActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Home' })]
       });
+  
+      this.props.navigation.dispatch(resetAction);
+
+      // const addPostRef = await db.collection('posts').add({
+      //   photoRef: this.state.downloadURL,
+      //   datePosted,
+      //   expiryDate,
+      //   title: this.state.title,
+      //   text: textToSend,
+      //   author,
+      //   avatar,
+      //   location: this.state.location,
+      //   comments: [],
+      //   reactions: { likes: 0, LOLs: 0 },
+      //   type: this.state.postType,
+      //   topic: this.state.topic,
+      // });
    
-      const newPostID = addPostRef.id;
-      const postData = { id: newPostID, datePosted, type: 'general' };
-      this.addPostToUser(postData);
+      // const newPostID = addPostRef.id;
+      // const postData = { id: newPostID, datePosted, type: 'general' };
+      // this.addPostToUser(postData);
     }
   }
 
   addPostToUser(postData) {
-    const currUserInfo = this.props.userInfo;
-    newGeneralPost(postData, currUserInfo);
-
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Home' })]
-    });
-
-    this.props.navigation.dispatch(resetAction);
+    // const currUserInfo = this.props.userInfo;
+    // newGeneralPost(postData, currUserInfo);
   }
 
   takePicture = async () => {

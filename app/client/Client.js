@@ -259,7 +259,8 @@ class Client {
      * @param {Number=} expires_in amount of days this post expires in, leave undefined if post doesn't expire
      * @returns {Promise<Post>}
      */
-    async createPost(post, expires_in) {
+    async createPost(post, uid, expires_in) {
+        console.log("Is this being used ", uid);
         return await request({
             uri: this.endpoint + "/posts",
             method: "PUT",
@@ -267,7 +268,8 @@ class Client {
                 token: this.token,
                 post: post,
                 expires_in: expires_in
-            }
+            },
+            uid: uid
         });
     }
     /**

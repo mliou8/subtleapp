@@ -1,7 +1,7 @@
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import {Client, ClientError} from '../../client/Client'
+import {Client, ClientError} from 'app/client/Client'
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -73,6 +73,7 @@ export function logUserIn() {
 
     if (exists) {
       const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
+      console.log("Current user is ", user);
       dispatch(userUpdated(user));
       dispatch(authSuccess());
     }
@@ -83,6 +84,7 @@ export function createUser(user) {
   return async dispatch => {
     try {
       const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
+      console.log("Created user ", user);
       dispatch(userUpdated(user));
       dispatch(authSuccess());
     } catch (e) {

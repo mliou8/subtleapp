@@ -1,6 +1,6 @@
 import firebase from "db/firebase";
 import db from "../db";
-import {Client, ClientError} from '../../app/client/Client'
+import {Client, ClientError} from 'app/client/Client'
 import { generateInviteCode } from "util/invite";
 
 export const fetchUser = userID => {

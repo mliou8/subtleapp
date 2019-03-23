@@ -71,7 +71,7 @@ export default class SubmitHeader extends React.Component {
           <Avatar
             size={65}
             styles={styles.avatar}
-            src={this.props.userInfo.photoURL}
+            src={this.props.userInfo.pic_small}
           />
         </View>
       </View>

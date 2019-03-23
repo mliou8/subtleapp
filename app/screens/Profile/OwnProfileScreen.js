@@ -124,7 +124,7 @@ export default class OwnProfileScreen extends React.Component {
                         this.props.navigation.navigate('FollowersList', {
                           type: 'followers',
                           userList: [],
-                          userName: this.props.userInfo.displayName
+                          userName: this.props.userInfo.name
                         })
                       }
                     >
@@ -137,7 +137,7 @@ export default class OwnProfileScreen extends React.Component {
                   <Body>
                     <ProfilePortrait
                       style={styles.profile}
-                      imageSrc={this.props.userInfo.photoURL}
+                      imageSrc={this.props.userInfo.pic_small}
                     />
                     <Text style={styles.cardTextBold}>
                       {this.props.userInfo.displayName} 
