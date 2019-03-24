@@ -32,13 +32,13 @@ class BulletinPost extends React.Component {
     super(props);
     this.state = {
       active: false,
-      showReactions: false,
+
       showComments: false,
-      comments: 10,
-      like: 0,
-      pika: 0,
-      uwu: 0,
+      like: this.props.postInfo.reactions.likes,
+      pika: this.props.postInfo.reactions.pika,
+      uwu: this.props.postInfo.reactions.uwu,
       author: this.props.postInfo.author,
+      authorId: this.props.postInfo.authorId,
       comments: this.props.postInfo.comments,
       like: this.props.postInfo.reactions.likes,
       title: this.props.postInfo.title,
@@ -56,6 +56,7 @@ class BulletinPost extends React.Component {
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.renderText = this.renderText.bind(this);
+    this.viewProfile = this.viewProfile.bind(this);
   }
 
   confirmDelete() {
@@ -82,8 +83,13 @@ class BulletinPost extends React.Component {
     this.setState({ comments: newComments, showComments: false });
   }
   viewProfile() {
+    const userToDisplay = {
+      uid: this.state.authorId,
+      displayName: this.state.author,
+      photoURL: this.state.userAvatar
+    };
     this.props.navigation.navigate('OtherUsersProfile', {
-      userToDisplay: this.state.authorId,
+      userToDisplay,
       name: this.state.author
     });
   }
@@ -99,7 +105,7 @@ class BulletinPost extends React.Component {
   }
 
   toggleReaction = reaction => {
-    const hardCodedPostID = '21432';
+    const postID = this.state.id;
     this.setState({
       userpika: false,
       useruwu: false,
@@ -114,38 +120,16 @@ class BulletinPost extends React.Component {
         this.setState({ [reaction]: 1 });
       } else {
         this.setState({ [reaction]: this.state[reaction] + 1 }, () =>
-          sendReaction(hardCodedPostID, reaction)
+          sendReaction(postID, reaction)
         );
       }
     } else {
       this.setState({ [reaction]: this.state[reaction] - 1 }, () =>
-        sendReaction(hardCodedPostID, reaction)
+        sendReaction(postID, reaction)
       );
     }
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
   };
-  sharePost() {
-    console.log('gotta figure this out later');
-  }
-  handleUrlPress(url, matchIndex /*: number*/) {
-    WebBrowser.openBrowserAsync(url);
-  }
-
-  handleNamePress(name, matchIndex /*: number*/) {
-    //this.props.navigation.navigate({profile})
-    Alert.alert(`Hello ${name}`);
-  }
-
-  handleEmailPress(email, matchIndex /*: number*/) {
-    MailComposer.composeAsync({ recipients: [email] });
-  }
-
-  renderText(matchingString, matches) {
-    // matches => ["[@michel:5455345]", "@michel", "5455345"]
-    let pattern = /\[(@[^:]+):([^\]]+)\]/i;
-    let match = matchingString.match(pattern);
-    return `^^${match[1]}^^`;
-  }
 
   renderText() {
     const formatStr = this.state.text.slice(1, this.state.text.length - 1);
@@ -328,11 +312,7 @@ class BulletinPost extends React.Component {
               </Text>
             </Button>
           </CardItem>
-          {this.state.showReactions ? (
-            <CardItem>
-              <ReactionsBar />
-            </CardItem>
-          ) : null}
+
           {this.state.showComments ? (
             <CardItem>
               <BulletinComments
@@ -355,13 +335,13 @@ class BulletinPost extends React.Component {
                 onPress={this.confirmDelete}
               >
                 <Icon
-                  style={{ color: 'white', fontSize: 15 }}
+                  iconStyle={{ marginLeft: 10 }}
+                  size={15}
                   name="remove"
-                  type="FontAwesome"
+                  color="white"
+                  type="font-awesome"
                 />
-                <Text
-                  style={{ marginLeft: 1, fontSize: 12, fontFamily: 'poppins' }}
-                >
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                   Remove this post
                 </Text>
               </Button>

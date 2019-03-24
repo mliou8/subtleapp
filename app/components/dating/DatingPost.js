@@ -21,7 +21,7 @@ import {
 } from 'native-base';
 import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
 const FireSrc = 'assets/images/reactions/fire.png';
@@ -33,7 +33,10 @@ export default class Post extends React.Component {
       like: 0,
       uwu: 0,
       kiss: 0,
-      fire: 0
+      fire: 0,
+      userAvatar: this.props.data.avatar,
+      author: this.props.data.author,
+      authorId: this.props.data.authorId
     };
     this.renderImage = this.renderImage.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
@@ -69,8 +72,13 @@ export default class Post extends React.Component {
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
   };
   viewProfile() {
+    const userToDisplay = {
+      uid: this.state.authorId,
+      displayName: this.props.data.author,
+      photoURL: this.state.userAvatar
+    };
     this.props.navigation.navigate('OtherUsersProfile', {
-      userToDisplay: this.props.data.authorId,
+      userToDisplay,
       name: this.props.data.author
     });
   }
@@ -113,7 +121,7 @@ export default class Post extends React.Component {
               <Avatar
                 size={50}
                 styles={styles.avatar}
-                src={'https://loremflickr.com/176/230/cat'}
+                src={this.state.userAvatar}
                 onPress={this.viewProfile}
               />
               <Text style={{ fontSize: 24, fontFamily: 'poppins' }}>
@@ -179,7 +187,6 @@ export default class Post extends React.Component {
               {this.renderText()}
             </Text>
           </CardItem>
-<<<<<<< HEAD
           <CardItem
             header
             style={{
@@ -195,13 +202,9 @@ export default class Post extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
-=======
-          <CardItem header style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}}>
-            <Button light onPress={() => this.toggleReaction('fire')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
->>>>>>> master
               <Image
                 style={{
                   resizeMode: 'contain',
@@ -216,7 +219,6 @@ export default class Post extends React.Component {
                 {this.state.fire}{' '}
               </Text>
             </Button>
-<<<<<<< HEAD
             <Button
               light
               onPress={() => this.toggleReaction('uwu')}
@@ -224,12 +226,9 @@ export default class Post extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
-=======
-            <Button light onPress={() => this.toggleReaction('uwu')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
->>>>>>> master
               <Image
                 style={{
                   resizeMode: 'contain',
@@ -244,7 +243,6 @@ export default class Post extends React.Component {
                 {this.state.uwu}{' '}
               </Text>
             </Button>
-<<<<<<< HEAD
             <Button
               light
               onPress={() => this.toggleReaction('kiss')}
@@ -252,12 +250,9 @@ export default class Post extends React.Component {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-                width: 75
+                width: 70
               }}
             >
-=======
-            <Button light onPress={() => this.toggleReaction('kiss')}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', width: 70}}>
->>>>>>> master
               <Image
                 style={{
                   resizeMode: 'contain',
@@ -272,35 +267,21 @@ export default class Post extends React.Component {
                 {this.state.kiss}{' '}
               </Text>
             </Button>
-<<<<<<< HEAD
             <Button
               light
               onPress={() => this.toggleReaction('like')}
-=======
-            <Button light onPress={() => this.toggleReaction('like')}
->>>>>>> master
               style={{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center',
-<<<<<<< HEAD
-                width: 75
+                width: 73
               }}
             >
               <Icon
-                style={{ fontSize: 18, marginRight: -5 }}
-                active={true}
-                name={`${this.state.userlike ? 'heart' : 'heart-o'}`}
-                type="FontAwesome"
-=======
-                width: 73
-              }}>
-               <Icon
                 size={22}
-                name='heart'
-                type='font-awesome'
+                name="heart"
+                type="font-awesome"
                 color={`${this.state.userlike ? '#f50' : '#D3D3D3'}`}
->>>>>>> master
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                 {this.state.like}

@@ -37,3 +37,27 @@ export default class SelfiePost extends React.Component {
     );
   }
 }
+// this.removePost = this.removePost.bind(this);
+// removePost() {
+//   const postId = this.state.id;
+//   deletePost(postId);
+//   this.props.navigation.navigate('Home');
+// }
+// {item.author === this.props.userInfo.displayName ? (
+//   <CardItem style={{ justifyContent: 'flex-end' }}>
+//     <Button
+//       small
+//       rounded
+//       style={{
+//         backgroundColor: '#242424'
+//       }}
+//       onPress={() => this.removeComment(item)}
+//     >
+//       <Icon
+//         style={{ color: 'white', fontSize: 15 }}
+//         name="remove"
+//         type="FontAwesome"
+//       />
+//     </Button>
+//   </CardItem>
+// ) : null}

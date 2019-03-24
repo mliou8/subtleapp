@@ -224,10 +224,21 @@ export default class SubmitBase extends Component {
       );
       const currUserInfo = this.props.userInfo;
       const author = this.props.userInfo.displayName;
+      const authorId = this.props.userInfo.uid;
       const avatar = this.props.userInfo.photoURL;
       const currentTime = Date.now();
       const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
       const textToSend = JSON.stringify(this.state.text);
+      const reactions = {};
+      if (this.state.postType === 'general') {
+        reactions = { likes: 0, pika: 0, uwu: 0 };
+      }
+      if (this.state.postType === 'selfie') {
+        reactions = { likes: 0 };
+      }
+      if (this.state.postType === 'dating') {
+        reactions = { likes: 0, fires: 0, kisses: 0, uwu: 0 };
+      }
 
       const addPostRef = await db.collection('posts').add({
         photoRef: this.state.downloadURL,
@@ -236,10 +247,11 @@ export default class SubmitBase extends Component {
         title: this.state.title,
         text: textToSend,
         author,
+        authorId,
         avatar,
         location: this.state.location,
         comments: [],
-        reactions: { likes: 0, LOLs: 0 },
+        reactions,
         type: this.state.postType,
         topic: this.state.topic
       });
