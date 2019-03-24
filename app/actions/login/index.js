@@ -1,7 +1,7 @@
 import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
-import {Client, ClientError} from '../../client/Client'
+
 
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -10,8 +10,6 @@ export const USER_INFO_FETCHED = 'USER_INFO_FETCHED';
 export const USER_INFO_NOT_FOUND = 'USER_INFO_NOT_FOUND';
 export const USER_UPDATED = 'USER_UPDATED';
 export const EDIT_USER_FAIL = 'EDIT_USER_FAIL';
-
-const client = new Client("https://www.grden.app/ws");
 
 export const userInfoFetched = userProfile => {
   return {
@@ -62,33 +60,67 @@ export const editUserFail = errorMsg => {
 
 
 
-export async function doesUserExist() {
-  const exists = await client.doesAccountExist(await firebase.auth().currentUser.getIdToken(false));
-  return exists;
+export const inviteError = () => {
+  return {
+    type: INVITE_ERROR
+  };
+};
+
+
+
+export function doesUserExist(user) {
+  const userRef = db.collection('users').doc(user.uid);
+  return userRef.get().then(function(dbUser) {
+    if (dbUser.exists) {
+      return true;
+    } else {
+      return false;
+    }
+  });
 }
 
-export function logUserIn() {
+export function logUserIn(user) {
   return async dispatch => {
-    const exists = await doesUserExist();
-
-    if (exists) {
-      const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
-      dispatch(userUpdated(user));
-      dispatch(authSuccess());
-    }
+    const userRef = db.collection('users').doc(user.uid);
+    userRef.get().then(function(dbUser) {
+      if (dbUser.exists) {
+        dispatch(userUpdated(dbUser.data()));
+        dispatch(authSuccess());
+      } else {
+        dispatch(authReady());
+      }
+    });
   };
 }
 
 export function createUser(user) {
   return async dispatch => {
-    try {
-      const user = await client.loginWithFirebase(await firebase.auth().currentUser.getIdToken(false));
-      dispatch(userUpdated(user));
-      dispatch(authSuccess());
-    } catch (e) {
-        console.error('Error creating user: ', e);
-        dispatch(createProfileError(e));
+    const currTime = Date.now();
+    const currentTime = moment(currTime).format('MMMM Do YYYY, h:mm:ss a');
+    const newUser = {
+      uid: user.uid,
+      provider: user.providerData[0].providerId,
+      providerID: user.providerData[0].uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      lastLoginAt: currentTime,
+      followers: [],
+      following: [],
+      conversations: [],
+      socialNetworks: [{ source: 'facebook', sourceUrl: 'facebookprofileurl' }]
     };
+    db.collection('users')
+      .doc(user.uid)
+      .set(newUser)
+      .then(function() {
+        dispatch(userUpdated(newUser));
+        dispatch(authSuccess());
+      })
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+        dispatch(createProfileError(error));
+      });
   };
 }
 
@@ -105,18 +137,28 @@ export function userLogout() {
 
 export const fetchUserInfo = userID => {
   return async dispatch => {
-    try {
-      dispatch(userInfoFetched(await client.getUserDetails(userID)));
-    } catch {
-      const msg2 = 'Error Retrieving User Document';
-      dispatch(userInfoNotFound(msg2));
-    }
+    var docRef = db.collection('users').doc(`${userID}`);
+
+    docRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          const profile = doc.data();
+          dispatch(userInfoFetched(profile));
+        } else {
+          const msg = 'No such user with that uid';
+          dispatch(userInfoNotFound(msg));
+        }
+      })
+      .catch(function(error) {
+        const msg2 = 'Error Retrieving User Document';
+        dispatch(profileNotFound(msg2));
+      });
   };
 };
 
 export const followUser = (userObj, currUserInfo) => {
   return async dispatch => {
-    /*
     const user = firebase.auth().currentUser;
     const currUserRef = db.collection('users').doc(user.uid);
     const currUserInfoUpdated = currUserInfo;
@@ -131,13 +173,11 @@ export const followUser = (userObj, currUserInfo) => {
       .then(function() {
         dispatch(userUpdated(currUserInfoUpdated));
       });
-    */
   };
 };
 
 export const unfollowUser = (userObj, currUserInfo) => {
   return async dispatch => {
-    /*
     const user = firebase.auth().currentUser;
     const currUserInfoUpdated = currUserInfo;
     const currFollowing = currUserInfo.following.filter(item => {
@@ -154,35 +194,60 @@ export const unfollowUser = (userObj, currUserInfo) => {
       .then(function() {
         dispatch(userUpdated(currUserInfoUpdated));
       });
-
-      */
   };
 };
 
 export const addNetwork = (networkObj, currentUser) => {
   return async dispatch => {
-    try {
-      const user = client.getUserSelfCached();
-      const socialNew = user.social.slice(0);
-      socialNew.push(networkObj);
-      await client.updateUser({social: socialNew});
-      dispatch(updateUser(user.uid));
-    } catch (e) {
-      console.error('Error updating document: ', e);
-    }
+    const userRef = db.collection('users').doc(currentUser.uid);
+    return db
+      .runTransaction(transaction => {
+        return transaction.get(userRef).then(function(user) {
+          if (!user.exists) {
+            throw 'Document does not exist!';
+          }
+          const networksUpdate = user.data().socialNetworks;
+          networksUpdate.push(networkObj);
+          transaction.update(userRef, { socialNetworks: networksUpdate });
+          return user.data().uid;
+        });
+      })
+      .then(function(uid) {
+        console.log('Document successfully updated');
+        dispatch(updateUser(uid));
+      })
+      .catch(function(error) {
+        console.error('Error updating document: ', error);
+      });
   };
 };
 
 export const removeNetwork = (networkObj, currentUser) => {
   return async dispatch => {
-    try {
-      const user = client.getUserSelfCached();
-      const socialNew = user.social.slice(0).filter(i=>i.type !== networkObj.type);
-      await client.updateUser({social: socialNew});
-      dispatch(updateUser(user.uid));
-    } catch (e) {
-      console.error('Error updating document: ', e);
-    }
+    const userRef = db.collection('users').doc(currentUser.uid);
+    return db
+      .runTransaction(transaction => {
+        return transaction.get(userRef).then(function(user) {
+          if (!user.exists) {
+            throw 'Document does not exist!';
+          }
+          const currentNetworks = user.data().socialNetworks;
+          const filteredNetworks = currentNetworks.filter(networks => {
+            return networks.source !== networkObj.source;
+          });
+          // currentUser.socialNetworks = filteredNetworks;
+          transaction.update(userRef, { socialNetworks: filteredNetworks });
+          return user.data().uid;
+        });
+      })
+      .then(function(uid) {
+        console.log('Document successfully updated ', uid);
+        dispatch(updateUser(uid));
+        // dispatch(userUpdated(currentUser));
+      })
+      .catch(function(error) {
+        console.error('Error updating document: ', error);
+      });
   };
 };
 export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
@@ -203,11 +268,21 @@ export const addNewChatToCurrentUser = (userToMsgInfo, userInfo) => {
 
 const updateUser = uid => {
   return async dispatch => {
-    try {
-      dispatch(userUpdated(await client.getUserDetails(uid)));
-    } catch (e) {
-      const msg = 'Error Retrieving User Document';
-      dispatch(userInfoNotFound(msg));
-    }
+    const userRef = db.collection('users').doc(uid);
+    userRef
+      .get()
+      .then(function(user) {
+        if (user.exists) {
+          const profile = user.data();
+          dispatch(userUpdated(profile));
+        } else {
+          const msg = 'No such user with that uid';
+          dispatch(profileNotFound(msg));
+        }
+      })
+      .catch(function(error) {
+        const msg = 'Error Retrieving User Document';
+        dispatch(profileNotFound(msg));
+      });
   };
 };

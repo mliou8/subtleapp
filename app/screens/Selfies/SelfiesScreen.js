@@ -1,9 +1,5 @@
 import React from 'react';
 import {
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  Picker,
   Keyboard,
   View,
   TouchableWithoutFeedback,
@@ -12,18 +8,16 @@ import {
   ImageBackground,
   Alert
 } from 'react-native';
-import Modal from 'react-native-modal';
 import { ImagePicker, Permissions } from 'expo';
 import timeout from '../../util/timeout';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 import { newGeneralPost } from 'actions/posts/index';
+import { StackActions, NavigationActions } from 'react-navigation';
 import moment from 'moment';
 import { connect } from 'react-redux';
+
 import {
-  Container,
-  Header,
-  Content,
   Thumbnail,
   Text,
   Button,
@@ -33,7 +27,6 @@ import {
   Input,
   Label
 } from 'native-base';
-import SelfiePost from 'app/components/board/SelfiePost';
 import SelfieFeed from './SelfieFeed';
 
 class SelfiesScreen extends React.Component {
@@ -73,52 +66,64 @@ class SelfiesScreen extends React.Component {
     this.state = {
       height: 250,
       modalVisible: false,
-      uploads: [],
-      post: {},
-      caption: ''
+      uploads: '',
+      caption: '',
+      downloadURL: '',
     };
+    this.uploadImageAsync = this.uploadImageAsync.bind(this);
+    this.removeImage = this.removeImage.bind(this);
+    this.validatePost = this.validatePost.bind(this);
+    this.validPost = this.validPost.bind(this);
   }
-  async uploadPhoto() {
-    const uri = this.state.uploads[0];
+
+  validatePost() {
     if (this.state.caption.length > 50) {
       Alert.alert(`Captions must be 50 characters or less`);
+      return false;
     }
     if (!this.state.uploads.length) {
       Alert.alert(`Oops! Did you forget to select a photo?`);
-    } else {
-      this.uploadImageAsync(uri);
+      return false;
     }
+    return true;
+  }
+
+  validPost() {
+    if (this.state.caption.length < 5) {
+      return false;
+    }
+    if (!this.state.downloadURL) {
+      return false;
+    }
+    return true;
   }
   async uploadImageAsync(uri) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-    const filename = uri.substring(uri.lastIndexOf('/') + 1);
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function(e) {
-        console.log(e);
-        reject(new TypeError('Network request failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-      xhr.send(null);
-    });
-    const ref = firebase
-      .storage()
-      .ref('test/')
-      .child(`${filename}`);
-    const snapshot = await ref.put(blob);
-    blob.close();
-    const downloadURL = await snapshot.ref.getDownloadURL();
-    this.createPost(downloadURL);
-    this.props.navigation.navigate('Home');
-    //once we have the selfies fetching from the database,
-    //we will change the redirect back to the selfies page
-    //it should update and user should see their own photo in the feed
-    // this.props.navigation.navigate('Selfies');
+      const filename = uri.substring(uri.lastIndexOf('/') + 1);
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function() {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function(e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', uri, true);
+        xhr.send(null);
+      });
+      const ref = firebase
+        .storage()
+        .ref('images/')
+        .child(`${filename}`);
+      const snapshot = await ref.put(blob);
+      blob.close();
+      const downloadURL = await snapshot.ref.getDownloadURL();
+      this.setState({downloadURL: downloadURL});
+
+      console.log("this.state ", this.state)
   }
 
   toggleModal = visible => {
@@ -128,40 +133,55 @@ class SelfiesScreen extends React.Component {
   updateCaptionInput(caption) {
     this.setState({ caption });
   }
+
   updateSize = height => {
     let newHeight = height < 250 ? 250 : height;
     this.setState({
       height: newHeight
     });
   };
-  async createPost(downloadURL) {
-    const expiryDate = new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    );
-    const currUserInfo = this.props.userInfo;
-    const author = this.props.userInfo.displayName;
-    const currentTime = Date.now();
-    const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
-    const textToSend = JSON.stringify(this.state.caption);
 
-    const addPostRef = await db.collection('posts').add({
-      photoRef: downloadURL,
-      datePosted,
-      expiryDate,
-      caption: textToSend,
-      author,
-      location: { city: '', country: '' },
-      comments: [],
-      reactions: { likes: 0, LOLs: 0 },
-      type: 'selfie'
-    });
-    const newPostID = addPostRef.id;
-    const postData = { id: newPostID, datePosted, type: 'selfie' };
-    this.addPostToUser(postData, currUserInfo);
+  async submitSelfie() {
+    if (this.validatePost()) {
+      const expiryDate = new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      );
+      const author = this.props.userInfo.displayName;
+      const currentTime = Date.now();
+      const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
+      const textToSend = JSON.stringify(this.state.caption);
+
+      const addPostRef = await db.collection('posts').add({
+        photoRef: this.state.downloadURL,
+        datePosted,
+        expiryDate,
+        caption: textToSend,
+        author,
+        comments: [],
+        reactions: {},
+        type: 'selfie'
+      });
+      const newPostID = addPostRef.id;
+      const postData = { id: newPostID, datePosted, type: 'selfie' };
+      this.addPostToUser(postData);
+      this.props.navigation.navigate('Home');
+    }
   }
 
-  addPostToUser(postData, currUserInfo) {
+  addPostToUser(postData) {
+    
+    const currUserInfo = this.props.userInfo;
+    console.log("postData ", postData);
+    console.log("currUserInfo ", currUserInfo);
     this.props.newGeneralPost(postData, currUserInfo);
+    this.props.navigation.navigate('Selfies');
+
+    // const resetAction = StackActions.reset({
+    //   index: 0,
+    //   actions: [NavigationActions.navigate({ routeName: 'Selfies' })]
+    // });
+
+    // this.props.navigation.dispatch(resetAction);
   }
 
   pickImageFromCameraRoll = async () => {
@@ -177,20 +197,19 @@ class SelfiesScreen extends React.Component {
       if (!cancelled) {
         this.setState(state => {
           return {
-            uploads: [...state.uploads, uri]
+            uploads: uri
           };
         });
+        this.uploadImageAsync(uri);
       }
     } catch (e) {
       console.error('Could not get image from camera roll', e);
     }
+    
   };
+
   removeImage = uri => {
-    this.setState(state => {
-      return {
-        uploads: state.uploads.filter(upload => upload !== uri)
-      };
-    });
+    this.setState({uploads: [], downloadURL: ''})
   };
 
   render() {
@@ -201,9 +220,10 @@ class SelfiesScreen extends React.Component {
             style={{
               height: 150,
               backgroundColor: '#242424',
-              display: 'flex'
-            }}
-          >
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+            }}>
             <Thumbnail
               style={{ borderWidth: 3, borderColor: 'white' }}
               large
@@ -212,18 +232,21 @@ class SelfiesScreen extends React.Component {
             <Form>
               <Item
                 style={{
-                  borderColor: 'transparent'
+                  borderColor: 'transparent',
+                  width: 250,
                 }}
                 floatingLabel
               >
                 <Label style={{ fontFamily: 'poppins', color: 'white' }}>
-                  Appeal yourself
+                  Appeal yourself 
                 </Label>
                 <Input
                   style={{ fontFamily: 'poppins', color: 'white' }}
                   onChangeText={caption => this.updateCaptionInput(caption)}
                   value={this.state.caption}
                 />
+                <View>
+              </View>
               </Item>
             </Form>
           </View>
@@ -236,20 +259,26 @@ class SelfiesScreen extends React.Component {
             justifyContent: 'space-around'
           }}
         >
-          <Button
+        {!this.state.downloadURL 
+        ?  (<Button
             iconLeft
             style={{ backgroundColor: '#242424' }}
-            onPress={this.pickImageFromCameraRoll}
-          >
+            onPress={this.pickImageFromCameraRoll}>
             <Icon name="ios-camera" style={{ color: 'white' }} />
             <Text>Photos</Text>
-          </Button>
-          <Button
-            iconLeft
+          </Button>) 
+          : (<Button
+            iconLeft 
             style={{ backgroundColor: '#242424' }}
-            onPress={() => this.uploadPhoto()}
-          >
-            <Icon name="plus" type="Feather" style={{ color: 'white' }} />
+            onPress={this.removeImage}>
+            <Icon name="md-close-circle-outline" style={{ color: 'red' }} />
+            <Text>Photo Uploaded</Text>
+          </Button>)  
+          }
+          <Button
+            style={{ width: 200, backgroundColor: `${this.validPost() ? '#FF8C00' : '#242424'}` }}
+            block
+            onPress={() => this.submitSelfie()}>
             <Text style={{ fontFamily: 'poppins', color: 'white' }}>
               Submit
             </Text>
@@ -265,7 +294,6 @@ class SelfiesScreen extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    ...state,
     userInfo: state.login.userInfo,
     profile: state.profile,
     login: state.login

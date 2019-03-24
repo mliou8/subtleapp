@@ -95,13 +95,13 @@ export default class OwnProfileScreen extends React.Component {
   }
 
   renderSocialBadges = () => {
-    return this.props.userInfo.social.map((badge, idx) => {
+    return this.props.userInfo.socialNetworks.map((badge, idx) => {
       return (
         <Badge
           key={idx}
           count={idx}
-          badgeType={badge.type}
-          sourceName={badge.handle}
+          badgeType={badge.source}
+          sourceName={badge.sourceUrl}
         />
       );
     });
@@ -123,13 +123,13 @@ export default class OwnProfileScreen extends React.Component {
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'followers',
-                          userList: [],
+                          userList: this.props.userInfo.followers,
                           userName: this.props.userInfo.displayName
                         })
                       }
                     >
                       <Text style={styles.cardTextBold}>
-                        {0}
+                        {this.props.userInfo.followers.length}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWERS</Text>
                     </TouchableOpacity>
@@ -139,13 +139,16 @@ export default class OwnProfileScreen extends React.Component {
                       style={styles.profile}
                       imageSrc={this.props.userInfo.photoURL}
                     />
+                    <Text style={styles.cardTextBold}>
+                      {this.props.userInfo.displayName} 
+                    </Text>
                   </Body>
                   <Right>
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.navigate('FollowersList', {
                           type: 'following',
-                          userList: /*this.props.userInfo.following*/ [],
+                          userList: this.props.userInfo.following,
                           userName: this.props.userInfo.displayName
                         })
                       }
@@ -157,21 +160,11 @@ export default class OwnProfileScreen extends React.Component {
                           color: 'white'
                         }}
                       >
-                        {/*this.props.userInfo.following.length*/ 0}
+                        {this.props.userInfo.following.length}
                       </Text>
                       <Text style={styles.cardTextRegular}>FOLLOWING</Text>
                     </TouchableOpacity>
                   </Right>
-                </CardItem>
-                <CardItem
-                  style={{
-                    justifyContent: 'center',
-                    backgroundColor: '#242424'
-                  }}
-                >
-                  <Text style={styles.cardTextBold}>
-                    {this.props.userInfo.displayName}
-                  </Text>
                 </CardItem>
               </Card>
             </Content>
@@ -179,7 +172,6 @@ export default class OwnProfileScreen extends React.Component {
               {this.renderSocialBadges()}
             </Card>
             <View />
-            <ProfileBottomContainer />
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
@@ -217,13 +209,13 @@ const styles = StyleSheet.create({
   },
   cardTextBold: {
     fontFamily: 'poppinsBold',
-    color: 'white'
+    color: 'white',
+    marginTop: 10,
   },
   socialBadgesContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignContent: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'flex-start'
   }
 });

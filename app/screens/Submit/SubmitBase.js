@@ -224,26 +224,45 @@ export default class SubmitBase extends Component {
       );
       const currUserInfo = this.props.userInfo;
       const author = this.props.userInfo.displayName;
+<<<<<<< HEAD
       const authorId = currUserInfo.uid;
       const currentTime = Date.now();
       const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
       const textToSend = JSON.stringify(this.state.text);
 
       const postToAdd = {
+=======
+      const avatar = this.props.userInfo.photoURL;
+      const currentTime = Date.now();
+      const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
+      const textToSend = JSON.stringify(this.state.text)
+      
+      const addPostRef = await db.collection('posts').add({
+>>>>>>> master
         photoRef: this.state.downloadURL,
         datePosted,
         expiryDate,
         title: this.state.title,
         text: textToSend,
         author,
+<<<<<<< HEAD
         authorId,
+=======
+        avatar,
+>>>>>>> master
         location: this.state.location,
         comments: [],
         reactions: { likes: 0, LOLs: 0 },
         type: this.state.postType,
+<<<<<<< HEAD
         topic: this.state.topic
       };
 
+=======
+        topic: this.state.topic,
+      });
+   
+>>>>>>> master
       const newPostID = addPostRef.id;
       const postData = { id: newPostID, datePosted, type: 'general' };
       this.addPostToUser(postData);
