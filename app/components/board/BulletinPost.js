@@ -379,43 +379,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF'
-  },
-
-  url: {
-    color: 'red',
-    textDecorationLine: 'underline'
-  },
-
-  email: {
-    textDecorationLine: 'underline'
-  },
-
-  text: {
-    color: 'black',
-    fontSize: 15,
-    fontFamily: 'poppinsLight'
-  },
-
-  phone: {
-    color: 'blue',
-    textDecorationLine: 'underline'
-  },
-
-  name: {
-    color: 'red'
-  },
-
-  username: {
-    color: 'green',
-    fontWeight: 'bold'
-  },
-
-  magicNumber: {
-    fontSize: 42,
-    color: 'pink'
-  },
-
-  hashTag: {
-    fontStyle: 'italic'
   }
 });
