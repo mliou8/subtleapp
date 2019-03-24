@@ -36,7 +36,7 @@ class Followers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      followingList: /*this.props.login.userInfo.following*/ [],
+      followingList: this.props.login.userInfo.following,
       following: false,
       userOnDisplay: null,
       existingConvoId: null
@@ -46,7 +46,7 @@ class Followers extends React.Component {
     const currView = this.props.profile.userProfile;
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
-    const amFollowing = /*this.props.userInfo.following*/ [].filter(
+    const amFollowing = this.props.userInfo.following.filter(
       item => item.uid === currView.uid
     );
     const chatting = currUsersConversations.filter(item => {
@@ -243,6 +243,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    fetchUser: uid => {
+      dispatch(fetchUser(uid));
+    },
     followUser: (userObj, currInfo) => {
       dispatch(followUser(userObj, currInfo));
     },
