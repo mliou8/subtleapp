@@ -23,10 +23,14 @@ export default class SelfiePost extends React.Component {
             <Text
               style={{
                 position: 'absolute',
-                bottom: 8,
-                left: 16,
-                fontFamily: 'poppins',
-                color: 'white'
+                bottom: 17,
+                left: 30,
+                paddingLeft: 5,
+                paddingRight: 5,
+                fontFamily: 'poppinsLight',
+                fontSize: 18,
+                color: 'white',
+                backgroundColor: '#505050',
               }}
             >
               {this.props.caption.slice(1, this.props.caption.length - 1)}

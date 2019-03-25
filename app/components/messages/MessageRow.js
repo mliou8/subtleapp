@@ -10,11 +10,7 @@ export default class MessageRow extends React.Component {
     return (
       <View style={styles.container}>
         <ProfilePortrait imageSrc={this.props.userImageUrl} />
-        <View style={styles.message}>
-          <Text style={{fontSize: 17, fontWeight: 'bold', marginBottom: 7.5, marginTop: 2}}>{this.props.userName}</Text>
-          <Text style={{fontSize: 17, color: '#696969'}}>{this.props.userMessagePreview}</Text>
-        </View>
-        <Text>{this.props.lastMessageTime}</Text>
+        <Text style={{fontSize: 17, fontWeight: 'bold', marginBottom: 7.5, marginTop: 2, marginLeft: 10}}>{this.props.userName}</Text>
       </View>
     );
   }
@@ -24,13 +20,12 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     paddingTop: 10,
     paddingBottom: 10,
   },
   message: {
     display: 'flex',
-    flexDirection: 'column',
   },
   divider: {
     borderBottomColor: 'black',

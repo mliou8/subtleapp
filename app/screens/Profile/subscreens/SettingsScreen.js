@@ -191,18 +191,12 @@ export default class Settings extends React.Component {
             <RkText rkType="primary header6">SUPPORT</RkText>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.rowButton}>
-              <RkText rkType="header6">Help</RkText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.rowButton}>
+            <TouchableOpacity style={styles.rowButton}
+              onPress={() => {
+                this.props.logOut();
+                this.props.navigation.navigate('PrivacyPolicy');
+              }}>
               <RkText rkType="header6">Privacy Policy</RkText>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.row}>
-            <TouchableOpacity style={styles.rowButton}>
-              <RkText rkType="header6">Terms & Conditions</RkText>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>

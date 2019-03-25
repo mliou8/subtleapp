@@ -18,6 +18,7 @@ import Conversation from 'app/screens/Messages/FullConversation';
 import AddSocialNetworkTag from 'app/screens/Profile/AddSocialNetwork';
 import FullPost from 'app/components/board/FullPost';
 import SettingsScreen from 'app/containers/Profile/SettingsContainer';
+import PrivacyPolicy from 'app/screens/Profile/subscreens/PrivacyPolicy';
 import DrawerNavigator from './DrawerNavigator';
 
 const HomeStack = createStackNavigator({
@@ -35,7 +36,6 @@ const HomeStack = createStackNavigator({
         color: 'white',
         fontSize: 20
       },
-
       headerRightContainerStyle: {
         marginRight: 10,
         marginTop: 15
@@ -84,6 +84,7 @@ const ProfileStack = createStackNavigator({
   FollowersList: FollowersListScreen,
   AddSocialNetwork: AddSocialNetworkTag,
   Settings: SettingsScreen,
+  PrivacyPolicy: PrivacyPolicy,
   OtherUsersProfile: OtherUsersProfileScreen
 });
 
