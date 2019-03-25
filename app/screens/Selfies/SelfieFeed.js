@@ -38,6 +38,8 @@ export default class SelfieFeed extends React.Component {
     return this.state.posts.map(item => (
       <SelfiePost
         key={counter++}
+        postInfo={item}
+        navigation={this.props.navigation}
         imageSrc={`${item.photoRef}`}
         caption={item.caption}
       />

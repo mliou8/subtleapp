@@ -8,7 +8,9 @@ export async function fetchPosts() {
     const post = await postRef.get().then(function(posts) {
       const postArr = [];
       posts.forEach(post => {
-        postArr.push(post.data());
+        let postInfo = post.data();
+        postInfo.id = post.id;
+        postArr.push(postInfo);
       });
       return postArr;
     });

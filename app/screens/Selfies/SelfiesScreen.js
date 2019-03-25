@@ -44,10 +44,12 @@ class SelfiesScreen extends React.Component {
         fontSize: 20
       },
       headerLeftContainerStyle: {
-        marginLeft: 10, marginTop: 15
+        marginLeft: 10,
+        marginTop: 15
       },
       headerRightContainerStyle: {
-        marginRight: 10, marginTop: 15
+        marginRight: 10,
+        marginTop: 15
       },
       headerRight: (
         <Button transparent onPress={() => navigation.navigate('Messages')}>
@@ -68,7 +70,7 @@ class SelfiesScreen extends React.Component {
       modalVisible: false,
       uploads: '',
       caption: '',
-      downloadURL: '',
+      downloadURL: ''
     };
     this.uploadImageAsync = this.uploadImageAsync.bind(this);
     this.removeImage = this.removeImage.bind(this);
@@ -100,30 +102,30 @@ class SelfiesScreen extends React.Component {
   async uploadImageAsync(uri) {
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
-      const filename = uri.substring(uri.lastIndexOf('/') + 1);
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function() {
-          resolve(xhr.response);
-        };
-        xhr.onerror = function(e) {
-          console.log(e);
-          reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', uri, true);
-        xhr.send(null);
-      });
-      const ref = firebase
-        .storage()
-        .ref('images/')
-        .child(`${filename}`);
-      const snapshot = await ref.put(blob);
-      blob.close();
-      const downloadURL = await snapshot.ref.getDownloadURL();
-      this.setState({downloadURL: downloadURL});
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+    const ref = firebase
+      .storage()
+      .ref('images/')
+      .child(`${filename}`);
+    const snapshot = await ref.put(blob);
+    blob.close();
+    const downloadURL = await snapshot.ref.getDownloadURL();
+    this.setState({ downloadURL: downloadURL });
 
-      console.log("this.state ", this.state)
+    console.log('this.state ', this.state);
   }
 
   toggleModal = visible => {
@@ -169,10 +171,9 @@ class SelfiesScreen extends React.Component {
   }
 
   addPostToUser(postData) {
-    
     const currUserInfo = this.props.userInfo;
-    console.log("postData ", postData);
-    console.log("currUserInfo ", currUserInfo);
+    console.log('postData ', postData);
+    console.log('currUserInfo ', currUserInfo);
     this.props.newGeneralPost(postData, currUserInfo);
     this.props.navigation.navigate('Selfies');
 
@@ -205,11 +206,10 @@ class SelfiesScreen extends React.Component {
     } catch (e) {
       console.error('Could not get image from camera roll', e);
     }
-    
   };
 
   removeImage = uri => {
-    this.setState({uploads: [], downloadURL: ''})
+    this.setState({ uploads: [], downloadURL: '' });
   };
 
   render() {
@@ -222,8 +222,9 @@ class SelfiesScreen extends React.Component {
               backgroundColor: '#242424',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'flex-start',
-            }}>
+              justifyContent: 'flex-start'
+            }}
+          >
             <Thumbnail
               style={{ borderWidth: 3, borderColor: 'white' }}
               large
@@ -233,20 +234,19 @@ class SelfiesScreen extends React.Component {
               <Item
                 style={{
                   borderColor: 'transparent',
-                  width: 250,
+                  width: 250
                 }}
                 floatingLabel
               >
                 <Label style={{ fontFamily: 'poppins', color: 'white' }}>
-                  Appeal yourself 
+                  Appeal yourself
                 </Label>
                 <Input
                   style={{ fontFamily: 'poppins', color: 'white' }}
                   onChangeText={caption => this.updateCaptionInput(caption)}
                   value={this.state.caption}
                 />
-                <View>
-              </View>
+                <View />
               </Item>
             </Form>
           </View>
@@ -259,33 +259,40 @@ class SelfiesScreen extends React.Component {
             justifyContent: 'space-around'
           }}
         >
-        {!this.state.downloadURL 
-        ?  (<Button
-            iconLeft
-            style={{ backgroundColor: '#242424' }}
-            onPress={this.pickImageFromCameraRoll}>
-            <Icon name="ios-camera" style={{ color: 'white' }} />
-            <Text>Photos</Text>
-          </Button>) 
-          : (<Button
-            iconLeft 
-            style={{ backgroundColor: '#242424' }}
-            onPress={this.removeImage}>
-            <Icon name="md-close-circle-outline" style={{ color: 'red' }} />
-            <Text>Photo Uploaded</Text>
-          </Button>)  
-          }
+          {!this.state.downloadURL ? (
+            <Button
+              iconLeft
+              style={{ backgroundColor: '#242424' }}
+              onPress={this.pickImageFromCameraRoll}
+            >
+              <Icon name="ios-camera" style={{ color: 'white' }} />
+              <Text>Photos</Text>
+            </Button>
+          ) : (
+            <Button
+              iconLeft
+              style={{ backgroundColor: '#242424' }}
+              onPress={this.removeImage}
+            >
+              <Icon name="md-close-circle-outline" style={{ color: 'red' }} />
+              <Text>Photo Uploaded</Text>
+            </Button>
+          )}
           <Button
-            style={{ width: 200, backgroundColor: `${this.validPost() ? '#FF8C00' : '#242424'}` }}
+            style={{
+              width: 200,
+              backgroundColor: `${this.validPost() ? '#FF8C00' : '#242424'}`
+            }}
             block
-            onPress={() => this.submitSelfie()}>
+            onPress={() => this.submitSelfie()}
+          >
             <Text style={{ fontFamily: 'poppins', color: 'white' }}>
               Submit
             </Text>
           </Button>
         </View>
         <ScrollView>
-          <SelfieFeed />
+          <SelfieFeed navigation={this.props.navigation} />
         </ScrollView>
       </View>
     );
