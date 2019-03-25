@@ -32,6 +32,7 @@ export default class Post extends React.Component {
     this.renderImage = this.renderImage.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
     this.renderText = this.renderText.bind(this);
+    this.calculateTime = this.calculateTime.bind(this);
   }
 
   renderImage () {
@@ -96,8 +97,17 @@ export default class Post extends React.Component {
   }
 
 
+  calculateTime() {
+    const date = Date.now();
+    console.log("the correct number is ", date - this.props.data.expiryDate.seconds);
+    console.log("Date is ", date);
+    console.log("this.props.data is ", this.props.data.expiryDate.seconds)
+  }
+
+
   render() {
     const { title = '', location = {}, text = ''} = this.props.data
+    this.calculateTime();
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
@@ -126,7 +136,7 @@ export default class Post extends React.Component {
               style={styles.cardImage}
               />
             <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
-              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Seattle, WA</Text>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location.country ? `${location.city} ${location.country}` : 'Some Location'}</Text>
             </Button>
             <Button light rounded style={{position: 'absolute', top: 20, right: 18, height: 28, backgroundColor: '#FFD700'}}>
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>4 days</Text>

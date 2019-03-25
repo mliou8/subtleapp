@@ -62,7 +62,6 @@ export default class SubmitDating extends Component {
                   <Input
                     onChangeText={text => this.props.updateLocationInput(text)}
                     value={this.props.location}
-                    style={{fontSize: 8}}
                   />
                 </Item>
               </Form>

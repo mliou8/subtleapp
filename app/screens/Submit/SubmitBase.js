@@ -219,14 +219,10 @@ export default class SubmitBase extends Component {
 
   async submitPost() {
     if (this.validatePost()) {
-      const expiryDate = new Date(
-        new Date().setFullYear(new Date().getFullYear() + 1)
-      );
-      const currUserInfo = this.props.userInfo;
+      const expiryDate = this.state.duration ? (Date.now() + (86400 * this.state.duration)) : ''
       const author = this.props.userInfo.displayName;
       const avatar = this.props.userInfo.photoURL;
-      const currentTime = Date.now();
-      const datePosted = moment(currentTime).format('MMMM Do YYYY, h:mm:ss a');
+      const datePosted = moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a');
       const textToSend = JSON.stringify(this.state.text)
       
       const addPostRef = await db.collection('posts').add({
