@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, View, Alert } from 'react-native';
+import { Image, StyleSheet, View, Alert, TouchableOpacity } from 'react-native';
+import { WebBrowser, MailComposer } from 'expo';
 import {
   Container,
   Header,
@@ -15,13 +16,14 @@ import {
   Right,
   Fab
 } from 'native-base';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { Avatar } from 'app/components/image';
 import { connect } from 'react-redux';
 import { sendReaction } from 'db/common/index';
 import { deletePost } from 'db/common/index';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
+import ParsedText from 'react-native-parsed-text';
 const PikaSrc = 'assets/images/reactions/pika.png';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 
@@ -30,13 +32,13 @@ class BulletinPost extends React.Component {
     super(props);
     this.state = {
       active: false,
-      showReactions: false,
+
       showComments: false,
-      comments: 10,
-      like: 0,
-      pika: 0,
-      uwu: 0,
+      like: this.props.postInfo.reactions.likes,
+      pika: this.props.postInfo.reactions.pika,
+      uwu: this.props.postInfo.reactions.uwu,
       author: this.props.postInfo.author,
+      authorId: this.props.postInfo.authorId,
       comments: this.props.postInfo.comments,
       like: this.props.postInfo.reactions.likes,
       title: this.props.postInfo.title,
@@ -54,6 +56,7 @@ class BulletinPost extends React.Component {
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
     this.renderText = this.renderText.bind(this);
+    this.viewProfile = this.viewProfile.bind(this);
   }
 
   confirmDelete() {
@@ -79,6 +82,17 @@ class BulletinPost extends React.Component {
   updateComments(newComments) {
     this.setState({ comments: newComments, showComments: false });
   }
+  viewProfile() {
+    const userToDisplay = {
+      uid: this.state.authorId,
+      displayName: this.state.author,
+      photoURL: this.state.userAvatar
+    };
+    this.props.navigation.navigate('OtherUsersProfile', {
+      userToDisplay,
+      name: this.state.author
+    });
+  }
   addNewComment(newComment) {
     const prevComments = this.state.comments;
     const newCommentAdded = [...prevComments, newComment];
@@ -91,7 +105,7 @@ class BulletinPost extends React.Component {
   }
 
   toggleReaction = reaction => {
-    const hardCodedPostID = '21432';
+    const postID = this.state.id;
     this.setState({
       userpika: false,
       useruwu: false,
@@ -106,12 +120,12 @@ class BulletinPost extends React.Component {
         this.setState({ [reaction]: 1 });
       } else {
         this.setState({ [reaction]: this.state[reaction] + 1 }, () =>
-          sendReaction(hardCodedPostID, reaction)
+          sendReaction(postID, reaction)
         );
       }
     } else {
       this.setState({ [reaction]: this.state[reaction] - 1 }, () =>
-        sendReaction(hardCodedPostID, reaction)
+        sendReaction(postID, reaction)
       );
     }
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
@@ -123,10 +137,11 @@ class BulletinPost extends React.Component {
     return splitString.map(function(item, idx) {
       return (
         <Text key={idx}>
-          {item}{"\n"}
+          {item}
+          {'\n'}
         </Text>
-      )
-    })
+      );
+    });
   }
 
   render() {
@@ -135,29 +150,42 @@ class BulletinPost extends React.Component {
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>
-              <Avatar
-                size={50}
-                styles={styles.avatar}
-                src={this.state.userAvatar}
-              />
+              <TouchableOpacity onPress={this.viewProfile}>
+                <Avatar
+                  size={50}
+                  styles={styles.avatar}
+                  src={this.state.userAvatar}
+                />
+              </TouchableOpacity>
               <Body>
-                <Text style={{ fontFamily: 'poppins', fontSize: 14, fontWeight: 'bold' }}>
+                <Text
+                  style={{
+                    fontFamily: 'poppins',
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                  }}
+                >
                   {this.state.author}
                 </Text>
               </Body>
             </Left>
-              <Button small rounded light style={{position: 'absolute', top: 19, right: 14, height: 33}}>
-                <Text style={{ fontFamily: 'poppins', fontSize: 14 }}>
-                  {this.state.topic}
-                </Text>
-              </Button>
+            <Button
+              small
+              rounded
+              light
+              style={{ position: 'absolute', top: 19, right: 14, height: 33 }}
+            >
+              <Text style={{ fontFamily: 'poppins', fontSize: 14 }}>
+                {this.state.topic}
+              </Text>
+            </Button>
           </CardItem>
           <CardItem>
             <Left>
               <Text
                 style={{
                   fontFamily: 'poppins',
-                  fontSize: 24,
+                  fontSize: 24
                 }}
               >
                 {this.state.title}
@@ -182,16 +210,18 @@ class BulletinPost extends React.Component {
               width: null,
               flex: 1,
               alignContent: 'center'
-            }}>
+            }}
+          >
             <Left>
               <Text style={{ fontSize: 15, fontFamily: 'poppinsLight' }}>
                 {this.renderText()}
               </Text>
             </Left>
           </CardItem>
-          <CardItem style={{justifyContent: 'center'}}>
+          <CardItem style={{ justifyContent: 'center' }}>
             <View style={styles.divider} />
           </CardItem>
+
           <CardItem
             header
             style={{
@@ -256,10 +286,10 @@ class BulletinPost extends React.Component {
                 width: 73
               }}
             >
-               <Icon
+              <Icon
                 size={22}
-                name='heart'
-                type='font-awesome'
+                name="heart"
+                type="font-awesome"
                 color={`${this.state.userlike ? '#f50' : '#D3D3D3'}`}
               />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
@@ -276,22 +306,13 @@ class BulletinPost extends React.Component {
                 width: 73
               }}
             >
-              <Icon
-                size={22}
-                active
-                name="comment"
-                type="FontAwesome"
-              />
+              <Icon size={22} active name="comment" type="FontAwesome" />
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                 {this.state.comments.length}
               </Text>
             </Button>
           </CardItem>
-          {this.state.showReactions ? (
-            <CardItem>
-              <ReactionsBar />
-            </CardItem>
-          ) : null}
+
           {this.state.showComments ? (
             <CardItem>
               <BulletinComments
@@ -314,13 +335,13 @@ class BulletinPost extends React.Component {
                 onPress={this.confirmDelete}
               >
                 <Icon
-                  style={{ color: 'white', fontSize: 15 }}
+                  iconStyle={{ marginLeft: 10 }}
+                  size={15}
                   name="remove"
-                  type="FontAwesome"
+                  color="white"
+                  type="font-awesome"
                 />
-                <Text
-                  style={{ marginLeft: 1, fontSize: 12, fontFamily: 'poppins' }}
-                >
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                   Remove this post
                 </Text>
               </Button>
@@ -352,11 +373,11 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginBottom: 10
   },
-  divider: {
-    borderBottomColor: 'lightgrey',
-    borderBottomWidth: .25,
-    paddingLeft: 15,
-    paddingRight: 15,
-    width: '95%',
-  },
+
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  }
 });

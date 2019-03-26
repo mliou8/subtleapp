@@ -32,7 +32,8 @@ export default class BulletinScreen extends React.Component {
 
   renderPosts() {
     let counter = 1;
-    return this.state.posts.map(item => (
+    const postsArr = this.state.posts.reverse();
+    return postsArr.map(item => (
       <BulletinPost
         key={counter++}
         postInfo={item}
