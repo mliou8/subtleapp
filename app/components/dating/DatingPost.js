@@ -71,6 +71,7 @@ export default class Post extends React.Component {
     }
     this.setState({ [`user${reaction}`]: !this.state[`user${reaction}`] });
   };
+
   viewProfile() {
     const userToDisplay = {
       uid: this.state.authorId,
@@ -114,15 +115,22 @@ export default class Post extends React.Component {
 
   calculateTime() {
     const date = Date.now();
-    console.log("the correct number is ", date - this.props.data.expiryDate.seconds);
-    console.log("Date is ", date);
-    console.log("this.props.data is ", this.props.data.expiryDate.seconds)
+    const seconds = (this.props.data.expiryDate - date);
+    console.log("what is props date ", this.props.data.expiryDate);
+    console.log("what is date ", date);
+    console.log("seconds ", seconds);
+    console.log("of this post ", this.props.data.title);
+    if (seconds > 0) {
+      const days = `${Math.ceil(seconds / (86400000))} days`
+      return days;
+    } else {
+      return false;
+    }
   }
-
 
   render() {
     const { title = '', location = {}, text = ''} = this.props.data
-    this.calculateTime();
+    if (this.calculateTime()) {
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
@@ -134,7 +142,7 @@ export default class Post extends React.Component {
                 src={this.state.userAvatar}
                 onPress={this.viewProfile}
               />
-              <Text style={{ fontSize: 24, fontFamily: 'poppins' }}>
+              <Text style={{ fontSize: 20, fontFamily: 'poppins' }}>
                 {title}
               </Text>
             </Left>
@@ -152,7 +160,7 @@ export default class Post extends React.Component {
               style={styles.cardImage}
               />
             <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
-              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location.country ? `${location.city} ${location.country}` : 'Some Location'}</Text>
+              <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location ? location : 'Some Location'}</Text>
             </Button>
             <Button
               light
@@ -166,7 +174,7 @@ export default class Post extends React.Component {
               }}
             >
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                4 days
+                {this.calculateTime()}
               </Text>
             </Button>
           </CardItem>
@@ -289,6 +297,11 @@ export default class Post extends React.Component {
         </Card>
       </View>
     );
+   } else {
+     return (
+        <View></View>
+     )
+   }
   }
 }
 

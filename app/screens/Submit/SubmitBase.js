@@ -219,7 +219,7 @@ export default class SubmitBase extends Component {
 
   async submitPost() {
     if (this.validatePost()) {
-      const expiryDate = this.state.duration ? (Date.now() + (86400 * this.state.duration)) : ''
+      const expiryDate = this.state.duration ? (Date.now() + (86400000 * this.state.duration)) : ''
       const author = this.props.userInfo.displayName;
       const authorId = this.props.userInfo.uid;
       const avatar = this.props.userInfo.photoURL;
@@ -237,7 +237,6 @@ export default class SubmitBase extends Component {
         avatar,
         location: this.state.location,
         comments: [],
-        reactions,
         type: this.state.postType,
         topic: this.state.topic
       });
