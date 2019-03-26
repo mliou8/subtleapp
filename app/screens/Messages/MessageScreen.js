@@ -73,7 +73,6 @@ class MessageScreen extends React.Component {
               style={{ fontFamily: 'poppins' }}
               userImageUrl={message.avatar}
               userName={message.userName}
-              userMessagePreview={`your chat with ${message.userName}`}
               lastMessageTime={message.lastMessageTime}
             />
           </TouchableHighlight>
@@ -84,7 +83,9 @@ class MessageScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: 'white' }}>
+      <ScrollView 
+        style={{ backgroundColor: 'white' }}
+        >
         <View style={styles.container}>{this.renderMessages()}</View>
       </ScrollView>
     );

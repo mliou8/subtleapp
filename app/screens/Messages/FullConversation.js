@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 class Conversation extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'You + ' + navigation.getParam('friend'),
+      title: navigation.getParam('friend'),
       headerStyle: { backgroundColor: '#242424', height: 80 },
       headerTitleStyle: {
         fontFamily: 'poppinsBold',
@@ -112,6 +112,7 @@ class Conversation extends React.Component {
           isLoadingEarlier={true}
           dateFormat={'LL'}
           inverted={false}
+          scrollToBottom={true}
         />
       );
     } else {
