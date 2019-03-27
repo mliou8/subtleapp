@@ -3,25 +3,18 @@ import {
   Image,
   StyleSheet,
   View,
-  ScrollView,
-  TouchableOpacity
 } from 'react-native';
 import {
-  Container,
-  Header,
-  Content,
   Card,
   CardItem,
-  Thumbnail,
   Text,
   Button,
-  Body,
   Left,
-  Right
 } from 'native-base';
 import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
 import { Icon } from 'react-native-elements';
+import Carousel from 'app/components/common/Carousel';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
 const FireSrc = 'assets/images/reactions/fire.png';
@@ -38,7 +31,6 @@ export default class Post extends React.Component {
       author: this.props.data.author,
       authorId: this.props.data.authorId
     };
-    this.renderImage = this.renderImage.bind(this);
     this.toggleReaction = this.toggleReaction.bind(this);
     this.renderText = this.renderText.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
@@ -84,18 +76,6 @@ export default class Post extends React.Component {
     });
   }
 
-  renderImage() {
-    if (this.props.data.photoRef) {
-      return this.props.data.photoRef.map((photo, idx) => {
-        if (idx === 1) {
-          return (
-            <Image key={idx} source={{ uri: photo }} style={styles.cardImage} />
-          );
-        }
-      });
-    }
-  }
-
   renderText() {
     const formatStr = this.props.data.text.slice(
       1,
@@ -116,10 +96,6 @@ export default class Post extends React.Component {
   calculateTime() {
     const date = Date.now();
     const seconds = (this.props.data.expiryDate - date);
-    console.log("what is props date ", this.props.data.expiryDate);
-    console.log("what is date ", date);
-    console.log("seconds ", seconds);
-    console.log("of this post ", this.props.data.title);
     if (seconds > 0) {
       const days = `${Math.ceil(seconds / (86400000))} days`
       return days;
@@ -155,10 +131,11 @@ export default class Post extends React.Component {
               justifyContent: 'center'
             }}
           >
-            <Image
-              source={{ uri: this.props.data.photoRef[0] }}
-              style={styles.cardImage}
-              />
+            <Carousel
+              entries={this.props.data.photoRef}
+              activeSlide={0}
+            />
+
             <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location ? location : 'Some Location'}</Text>
             </Button>
