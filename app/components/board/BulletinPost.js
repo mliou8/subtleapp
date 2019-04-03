@@ -185,7 +185,7 @@ class BulletinPost extends React.Component {
               <Text
                 style={{
                   fontFamily: 'poppins',
-                  fontSize: 24
+                  fontSize: 20
                 }}
               >
                 {this.state.title}
@@ -197,9 +197,9 @@ class BulletinPost extends React.Component {
               <Image
                 source={{ uri: this.props.postInfo.photoRef[0] }}
                 style={{
-                  width: 176,
-                  height: 230,
-                  resizeMode: 'contain'
+                  width: 190,
+                  height: 250,
+                  resizeMode: 'cover'
                 }}
               />
             </CardItem>

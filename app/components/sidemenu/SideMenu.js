@@ -13,15 +13,14 @@ import {
 import { RkStyleSheet, RkText, RkTheme } from 'react-native-ui-kitten';
 import MenuOverlay from 'app/components/sidemenu/MenuOverlay';
 import MenuRow from 'app/components/sidemenu/MenuRow';
-import { Icon } from 'native-base';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const menuChoices = [
-  { icon: 'comment-o', text: 'Home', screen: 'Home' },
-  { icon: 'sort-alpha-desc', text: 'Dating', screen: 'Dating' },
-  { icon: 'photo', text: 'Selfies', screen: 'Selfies' }
+  { icon: 'home', text: 'Home', screen: 'Home' },
+  { icon: 'flask', text: 'Dating', screen: 'Dating' },
+  { icon: 'user-o', text: 'Selfies', screen: 'Selfies' }
 ];
 
 export default class SideMenu extends React.Component {
