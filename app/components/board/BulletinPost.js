@@ -197,9 +197,9 @@ class BulletinPost extends React.Component {
               <Image
                 source={{ uri: this.props.postInfo.photoRef[0] }}
                 style={{
-                  resizeMode: 'cover',
-                  height: 190,
-                  width: 250,
+                  width: 190,
+                  height: 250,
+                  resizeMode: 'cover'
                 }}
               />
             </CardItem>

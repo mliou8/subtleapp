@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.0",
+    "version": "1.0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -25,7 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "subtleasian.app"
+      "bundleIdentifier": "subtleasianios"
     },
     "facebookScheme": "fb2201421416844510",
     "facebookAppId": "2201421416844510",

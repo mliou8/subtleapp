@@ -7,8 +7,7 @@ import {
   View
 } from 'react-native';
 
-import { Icon } from 'native-base';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -23,7 +22,6 @@ export default class MenuRow extends Component {
         <View style={styles.container}>
           <View style={styles.icon}>
             <Icon
-              type="FontAwesome"
               name={this.props.icon}
               style={styles.icon}
             />
@@ -44,7 +42,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20
   },
-  icon: { fontSize: 20, color: 'white' },
+  icon: {
+    fontSize: 20,
+    color: 'white'
+  },
   text: {
     fontSize: 15,
     fontFamily: 'poppins',
