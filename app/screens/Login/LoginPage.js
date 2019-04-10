@@ -86,16 +86,13 @@ export default class LoginPage extends React.Component {
   }
 
   closeModal() {
-    console.log("Modal closed... ");
     this.setState({ ...this.state, modalOpen: false });
   }
 
   render() {
     if (!this.state.initialized) {
-      console.log("state is not ready");
       return <View></View>
     } else {
-      console.log("state is ready; showing login page");
       return (
         <SafeAreaView style={styles.container}>
           <Video
