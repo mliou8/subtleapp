@@ -100,7 +100,6 @@ export const profileRemoveFollower = profileUserInfo => {
 export const addNewChatToOtherUser = (userInfo, profileUserInfo) => {
   return async dispatch => {
     const chatListUpdated = profileUserInfo.conversations.concat(userInfo);
-
     const updatedProfileInfo = profileUserInfo;
     updatedProfileInfo.conversations = chatListUpdated;
     const userOnView = db.collection('users').doc(profileUserInfo.uid);

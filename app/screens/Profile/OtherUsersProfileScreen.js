@@ -59,7 +59,6 @@ class OtherUsersProfileScreen extends React.Component {
       existingConvoId: null
     };
     this._mounted = false;
-
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
