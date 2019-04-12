@@ -106,7 +106,6 @@ export default class OwnProfileScreen extends React.Component {
   };
 
   render() {
-    console.log("this.props.userInfo ", this.props.userInfo);
     return (
       <ScrollView style={styles.container}>
         {this.props.userInfo.uid ? (

@@ -20,7 +20,7 @@ import { Icon } from 'react-native-elements';
 import { Avatar } from 'app/components/image';
 import { connect } from 'react-redux';
 import { sendReaction } from 'db/common/index';
-import { deletePost } from 'db/common/index';
+import { deletePost, reportPost } from 'db/common/index';
 import ReactionsBar from './ReactionsBar';
 import BulletinComments from './BulletinComments';
 import ParsedText from 'react-native-parsed-text';
@@ -32,15 +32,13 @@ class BulletinPost extends React.Component {
     super(props);
     this.state = {
       active: false,
-
       showComments: false,
-      like: this.props.postInfo.reactions.likes,
-      pika: this.props.postInfo.reactions.pika,
-      uwu: this.props.postInfo.reactions.uwu,
+      like: 0,
+      pika: 0,
+      uwu: 0,
       author: this.props.postInfo.author,
       authorId: this.props.postInfo.authorId,
       comments: this.props.postInfo.comments,
-      like: this.props.postInfo.reactions.likes,
       title: this.props.postInfo.title,
       text: this.props.postInfo.text,
       datePosted: this.props.postInfo.datePosted,
@@ -55,13 +53,14 @@ class BulletinPost extends React.Component {
     this.updateComments = this.updateComments.bind(this);
     this.addNewComment = this.addNewComment.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
+    this.confirmReport = this.confirmReport.bind(this);
     this.renderText = this.renderText.bind(this);
     this.viewProfile = this.viewProfile.bind(this);
   }
 
   confirmDelete() {
     Alert.alert(
-      ' ',
+      'Delete Confirmation',
       'are you sure you want to delete this post?',
       [
         {
@@ -74,14 +73,39 @@ class BulletinPost extends React.Component {
       { cancelable: false }
     );
   }
+
+  confirmReport() {
+    Alert.alert(
+      'Report Confirmation',
+      'are you sure you want to report this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.handleReport() }
+      ],
+      { cancelable: false }
+    );
+  }
+
   removePost() {
     const postId = this.state.id;
     deletePost(postId);
     this.props.navigation.navigate('Home');
   }
+
+  handleReport() {
+    const postId = this.state.id;
+    reportPost(postId);
+    this.props.navigation.navigate('Home');
+  }
+
   updateComments(newComments) {
     this.setState({ comments: newComments, showComments: false });
   }
+
   viewProfile() {
     const userToDisplay = {
       uid: this.state.authorId,
@@ -145,6 +169,8 @@ class BulletinPost extends React.Component {
   }
 
   render() {
+    console.log("what is postId ", this.state.id)
+
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>
@@ -340,12 +366,31 @@ class BulletinPost extends React.Component {
                   color="white"
                   type="font-awesome"
                 />
-                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
-                  Remove this post
-                </Text>
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Remove this post</Text>
               </Button>
             </CardItem>
-          ) : null}
+          ) : (
+            <CardItem style={{ justifyContent: 'center' }}>
+              <Button
+                small
+                rounded
+                style={{
+                  backgroundColor: '#242424'
+                }}
+                onPress={this.confirmReport}
+              >
+                <Icon
+                  iconStyle={{ marginLeft: 10 }}
+                  size={15}
+                  name="remove"
+                  color="white"
+                  type="font-awesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Report this post</Text>
+              </Button>
+            </CardItem>
+          )
+        }
         </Card>
       </View>
     );

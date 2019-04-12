@@ -111,7 +111,7 @@ SubmitStack.navigationOptions = ({ navigation }) => ({
         alignContent: 'center',
         position: 'absolute',
         bottom: 0,
-        right: 20
+        right: 15
       }}
       position="bottomRight"
       onPress={() => navigation.navigate('SubmitBase')}

@@ -36,7 +36,6 @@ export default class InviteCodePage extends React.Component {
       } catch (e) {
         console.log("Failure to create user ", e);
       }
-
     }
 
     render() {
