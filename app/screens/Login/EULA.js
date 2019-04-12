@@ -16,6 +16,8 @@ import store from 'app/redux/';
 export default class InviteCodePage extends React.Component {
     constructor(props) {
         super(props);
+        this.signOut = this.signOut.bind(this);
+        this.handleAgree = this.handleAgree.bind(this);
     }
 
     async signOut() {
@@ -27,13 +29,22 @@ export default class InviteCodePage extends React.Component {
         }
     }
 
+    async handleAgree() {
+      try {
+        const user = firebase.auth().currentUser;
+        store.dispatch(createUser(user));
+      } catch (e) {
+        console.log("Failure to create user ", e);
+      }
+
+    }
+
     render() {
         return (
-            <SafeAreaView style={{flex: 1}}>
-            <KeyboardAvoidingView>
-              <ScrollView>
-                <Text>
-                End-User License Agreement ("Agreement")
+            <View>
+              <ScrollView style={{padding: 25, paddingBottom: 35, marginBottom: 40}}>
+                <Text style={{fontSize: 20, marginBottom: 15}}>End-User License Agreement ("Agreement")</Text>
+                <Text style={{fontSize: 18, marginBottom: 45}}>
                 Last updated: 04/07/19
                 Please read this End-User License Agreement ("Agreement") carefully before clicking the "I Agree" button, downloading or using Subtle Asian App ("Application").
                 By clicking the "I Agree" button, downloading or using the Application, you are agreeing to be bound by the terms and conditions of this Agreement.
@@ -71,24 +82,23 @@ export default class InviteCodePage extends React.Component {
                 If you have any questions about this Agreement, please contact us at admin@subtleasian.app
                 </Text>
               </ScrollView>
-              <View style={{ position: 'absolute', bottom: 20, left: 0, right: 0, flex:1, flexDirection: 'row'}}>
+              <View style={{ position: 'absolute', bottom: 10, left: 0, right: 0, flex:1, flexDirection: 'row'}}>
                   <View style={{ flexGrow: 1 }}>
                       <Button
-                          transparent
-                          style={{alignSelf:'center' }}
-                          onPress={() => this.signOut()}
+                          rounded
+                          style={{alignSelf:'center', width:150 }}
+                          onPress={() => this.handleAgree()}
                       ><Text>Agree</Text></Button>
                   </View>
                   <View style={{ flexGrow: 1 }} onPress={Keyboard.dismiss}>
                       <Button
                           rounded
-                          onPress={() => this.submitInput()}
+                          onPress={() => this.signOut()}
                           style={{alignSelf:'center', width:150}}
                       ><Text style={{textAlign: 'center', width:'100%'}}>Disagree</Text></Button>
                   </View>
               </View>
-              </KeyboardAvoidingView>
-            </SafeAreaView>
+              </View>
         );
     }
 }
