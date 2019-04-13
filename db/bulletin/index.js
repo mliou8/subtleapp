@@ -2,7 +2,7 @@ import firebase from 'db/firebase';
 import db from '../db';
 
 export async function fetchPosts() {
-  var postRef = db.collection('posts').where('type', '==', 'general');
+  const postRef = db.collection('posts').where('type', '==', 'general');
 
   try {
     const post = await postRef.get().then(function(posts) {

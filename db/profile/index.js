@@ -47,19 +47,38 @@ export async function createCode(currUser) {
   }
 }
 
-export async function blockUser(blockedUser) {
+export async function blockUser(blockedUserId) {
   try {
     const user = firebase.auth().currentUser;
     const currUserRef = db.collection("blocked").doc(user.uid);
-    const blockedUserRef = db.collection("blocked").doc(blockedUser.uid);
+    const blockedUserRef = db.collection("blocked").doc(blockedUserId);
     currUserRef.set({
-      blockedUsers: firebase.firestore.FieldValue.arrayUnion(blockedUser.uid)
+      blockedUsers: firebase.firestore.FieldValue.arrayUnion(blockedUserId)
     }, {merge: true});
     await blockedUserRef.set({
-      blockedUsers: firebase.firestore.FieldValue.arrayUnion(currrUserRef.uid)
+      blockedUsers: firebase.firestore.FieldValue.arrayUnion(user.uid)
     }, {merge: true});
+  } catch (err) {
+    console.log("Error code ", err);
   }
-  catch (err) {
+}
+
+export async function checkIfBlocked(blockedUserId) {
+  try {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection("blocked").doc(user.uid);
+    await currUserRef.get().then((doc) => {
+      if (doc.exists) {
+        if (doc.data().blockedUsers.indexOf(blockedUserId) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    })
+  } catch (err) {
     console.log("Error code ", err);
   }
 }

@@ -169,8 +169,6 @@ class BulletinPost extends React.Component {
   }
 
   render() {
-    console.log("what is postId ", this.state.id)
-
     return (
       <View>
         <Card fullWidth style={{ marginLeft: 5, marginRight: 5 }}>

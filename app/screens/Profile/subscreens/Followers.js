@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -12,6 +12,10 @@ import {
   profileRemoveFollower,
   addNewChatToOtherUser
 } from 'actions/profile/index';
+import {
+  blockUser,
+} from 'db/profile/index';
+
 import {
   Container,
   Header,
@@ -42,6 +46,7 @@ class Followers extends React.Component {
       existingConvoId: null
     };
   }
+
   componentDidMount() {
     const currView = this.props.profile.userProfile;
     const currUsersConversations = this.props.userInfo.conversations;
@@ -64,7 +69,7 @@ class Followers extends React.Component {
     }
   }
 
-  async alreadyChatting() {
+  async startChat() {
     const { navigate } = this.props.navigation;
     const self = this;
     const currUsersConversations = this.props.userInfo.conversations;
@@ -105,6 +110,11 @@ class Followers extends React.Component {
     }
   }
 
+  handleBlockUser(userId) {
+    blockUser(userId);
+    Alert.alert("User Succesfully Blocked");
+  }
+
   followCurrentUser() {
     const currUserInfo = this.props.userInfo;
     const userOnDisplayProfile = this.props.profile.userProfile;
@@ -128,7 +138,6 @@ class Followers extends React.Component {
     this.setState({ following: false });
   }
   render() {
-    const currUserInfo = this.props.userInfo;
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
@@ -156,21 +165,13 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              Following
+              Unfollow User
             </Text>
-            <Icon
-              type="FontAwesome"
-              name={'check-circle'}
-              title="messages"
-              style={{ color: 'dodgerblue', fontSize: 18 }}
-            />
           </Button>
         ) : (
           <Button
             iconRight
-            style={{
-              backgroundColor: '#242424'
-            }}
+            style={{ backgroundColor: '#242424' }}
             onPress={() => this.followCurrentUser()}
           >
             <Text
@@ -180,39 +181,36 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              Following
+              Follow User
             </Text>
-            <Icon
-              type="MaterialIcons"
-              name={'check-box-outline-blank'}
-              title="messages"
-              style={{ color: 'white', fontSize: 18 }}
-            />
           </Button>
         )}
-
-        <Right>
           <Button
-            small
-            iconRight
-            style={{
-              backgroundColor: '#242424'
-            }}
-            onPress={() => this.alreadyChatting()}
+            onPress={() => this.startChat()}
+            style={{ backgroundColor: '#242424' }}
           >
             <Text
-              style={{ fontFamily: 'poppins', color: 'white', fontSize: 12 }}
-            >
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
               Message User
             </Text>
-            <Icon
-              type="Ionicons"
-              name={'ios-send'}
-              title="messages"
-              style={{ color: 'white', fontSize: 18 }}
-            />
           </Button>
-        </Right>
+          <Button
+            onPress={() => this.handleBlockUser(userOnDisplayProfile.uid)}
+            style={{ backgroundColor: '#242424' }}
+          >
+            <Text
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
+              Block User
+            </Text>
+          </Button>
       </View>
     );
   }
@@ -231,6 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 12
   }
 });
+
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,
