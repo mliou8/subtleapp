@@ -67,7 +67,7 @@ export async function checkIfBlocked(blockedUserId) {
   try {
     const user = firebase.auth().currentUser;
     const currUserRef = db.collection("blocked").doc(user.uid);
-    await currUserRef.get().then((doc) => {
+    return currUserRef.get().then((doc) => {
       if (doc.exists) {
         if (doc.data().blockedUsers.indexOf(blockedUserId) !== -1) {
           return true;

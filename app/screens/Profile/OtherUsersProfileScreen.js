@@ -84,7 +84,8 @@ class OtherUsersProfileScreen extends React.Component {
     if (chatting.length) {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
-    const bool = checkIfBlocked(userToDisplay.uid);
+    const bool = await checkIfBlocked(userToDisplay.uid);
+    console.log("BOOL IS ", bool)
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
   }
 
