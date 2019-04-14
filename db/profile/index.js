@@ -58,6 +58,12 @@ export async function blockUser(blockedUserId) {
     await blockedUserRef.set({
       blockedUsers: firebase.firestore.FieldValue.arrayUnion(user.uid)
     }, {merge: true});
+    //Remove any existing conversations
+    const userRef = db.collection("users").doc(user.uid);
+    const blockedUser = db.collection("users").doc(blockedUserId);
+    // userRef.set({
+    //   conversations: firebase.firestore.FieldValue.arrayRemove()
+    // })
   } catch (err) {
     console.log("Error code ", err);
   }
