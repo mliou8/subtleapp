@@ -57,7 +57,8 @@ class OtherUsersProfileScreen extends React.Component {
       userToDisplay: {},
       socialNetworks: this.props.profile.userProfile.socialNetworks,
       badges: [],
-      existingConvoId: null
+      existingConvoId: null,
+      isBlocked: false,
     };
     this._mounted = false;
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
@@ -84,8 +85,8 @@ class OtherUsersProfileScreen extends React.Component {
     if (chatting.length) {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
-    const bool = await checkIfBlocked(userToDisplay.uid);
-    console.log("BOOL IS ", bool)
+    const isBlocked = await checkIfBlocked(userToDisplay.uid);
+    this.setState({isBlocked: isBlocked});
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
   }
 
@@ -170,6 +171,7 @@ class OtherUsersProfileScreen extends React.Component {
               <Followers
                 navigation={this.props.navigation}
                 userOnDisplay={this.props.profile.userProfile}
+                isBlocked={this.state.isBlocked}
               />
             </View>
             <View style={{ height: 40, width: '100%' }} />

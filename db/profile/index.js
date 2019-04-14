@@ -63,6 +63,22 @@ export async function blockUser(blockedUserId) {
   }
 }
 
+export async function unblockUser(blockedUserId) {
+  try {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection("blocked").doc(user.uid);
+    const blockedUserRef = db.collection("blocked").doc(blockedUserId);
+    currUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayRemove(blockedUserId)
+    }, {merge: true});
+    await blockedUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayRemove(user.uid)
+    }, {merge: true});
+  } catch (err) {
+    console.log("Error code ", err);
+  }
+}
+
 export async function checkIfBlocked(blockedUserId) {
   try {
     const user = firebase.auth().currentUser;

@@ -14,6 +14,7 @@ import {
 } from 'actions/profile/index';
 import {
   blockUser,
+  unblockUser,
 } from 'db/profile/index';
 
 import {
@@ -112,7 +113,16 @@ class Followers extends React.Component {
 
   handleBlockUser(userId) {
     blockUser(userId);
+    this.props.unfollowUser(userOnDisplay, currUserInfo);
+    this.props.unfollowUser(currUserInfo, userOnDisplay);
+    this.props.profileRemoveFollower(userOnDisplayProfile);
+    this.setState({ following: false});
     Alert.alert("User Succesfully Blocked");
+  }
+
+  handleUnblockUser(userId) {
+    unblockUser(userId);
+    Alert.alert("User Successfully Unblocked");
   }
 
   followCurrentUser() {
@@ -137,11 +147,12 @@ class Followers extends React.Component {
 
     this.setState({ following: false });
   }
+
   render() {
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-
+    const blocked = this.state.isBlocked;
     return (
       <View
         style={{
@@ -173,6 +184,7 @@ class Followers extends React.Component {
             iconRight
             style={{ backgroundColor: '#242424' }}
             onPress={() => this.followCurrentUser()}
+            disabled={blocked}
           >
             <Text
               style={{
@@ -181,12 +193,28 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              Follow User
+              { this.state.isBlocked ? 'Blocked' : 'Follow User' }
             </Text>
           </Button>
         )}
           <Button
             onPress={() => this.startChat()}
+            style={{ backgroundColor: '#242424' }}
+            disabled={blocked}
+          >
+            <Text
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
+              { blocked ?  'Blocked': 'Message User' }
+            </Text>
+          </Button>
+          {
+            blocked ?
+          <Button
+            onPress={() => this.handleUnblockUser(userOnDisplayProfile.uid)}
             style={{ backgroundColor: '#242424' }}
           >
             <Text
@@ -195,9 +223,9 @@ class Followers extends React.Component {
                 color: 'white',
                 fontSize: 15 }}
               >
-              Message User
+              Unblock User
             </Text>
-          </Button>
+          </Button> :
           <Button
             onPress={() => this.handleBlockUser(userOnDisplayProfile.uid)}
             style={{ backgroundColor: '#242424' }}
@@ -211,6 +239,7 @@ class Followers extends React.Component {
               Block User
             </Text>
           </Button>
+          }
       </View>
     );
   }
