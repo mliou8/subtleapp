@@ -19,11 +19,11 @@ export const fetchUser = userID => {
 
 export function fetchNetworks(user) {
   const userRef = db.collection("users").doc(user.uid);
-  
+
   userRef.get()
     .then(function(user) {
       if (user.exists) {
-        return user.socialNetworks; 
+        return user.socialNetworks;
       } else {
         console.log("No such document!");
       }
@@ -46,4 +46,61 @@ export async function createCode(currUser) {
     console.log("Error code ", err);
   }
 }
- 
+
+export async function blockUser(blockedUserId) {
+  try {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection("blocked").doc(user.uid);
+    const blockedUserRef = db.collection("blocked").doc(blockedUserId);
+    currUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayUnion(blockedUserId)
+    }, {merge: true});
+    await blockedUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayUnion(user.uid)
+    }, {merge: true});
+    //Remove any existing conversations
+    const userRef = db.collection("users").doc(user.uid);
+    const blockedUser = db.collection("users").doc(blockedUserId);
+    // userRef.set({
+    //   conversations: firebase.firestore.FieldValue.arrayRemove()
+    // })
+  } catch (err) {
+    console.log("Error code ", err);
+  }
+}
+
+export async function unblockUser(blockedUserId) {
+  try {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection("blocked").doc(user.uid);
+    const blockedUserRef = db.collection("blocked").doc(blockedUserId);
+    currUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayRemove(blockedUserId)
+    }, {merge: true});
+    await blockedUserRef.set({
+      blockedUsers: firebase.firestore.FieldValue.arrayRemove(user.uid)
+    }, {merge: true});
+  } catch (err) {
+    console.log("Error code ", err);
+  }
+}
+
+export async function checkIfBlocked(blockedUserId) {
+  try {
+    const user = firebase.auth().currentUser;
+    const currUserRef = db.collection("blocked").doc(user.uid);
+    return currUserRef.get().then((doc) => {
+      if (doc.exists) {
+        if (doc.data().blockedUsers.indexOf(blockedUserId) !== -1) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    })
+  } catch (err) {
+    console.log("Error code ", err);
+  }
+}

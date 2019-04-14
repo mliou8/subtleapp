@@ -31,8 +31,6 @@ import {
   Spinner
 } from 'native-base';
 
-const profileImgSrc = 'https://loremflickr.com/225/225/dog';
-
 export default class OwnProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -140,7 +138,7 @@ export default class OwnProfileScreen extends React.Component {
                       imageSrc={this.props.userInfo.photoURL}
                     />
                     <Text style={styles.cardTextBold}>
-                      {this.props.userInfo.displayName} 
+                      {this.props.userInfo.displayName}
                     </Text>
                   </Body>
                   <Right>

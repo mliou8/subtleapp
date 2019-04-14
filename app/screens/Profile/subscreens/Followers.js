@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity, Alert } from 'react-native';
 
 import { connect } from 'react-redux';
 import {
@@ -12,6 +12,11 @@ import {
   profileRemoveFollower,
   addNewChatToOtherUser
 } from 'actions/profile/index';
+import {
+  blockUser,
+  unblockUser,
+} from 'db/profile/index';
+
 import {
   Container,
   Header,
@@ -39,11 +44,14 @@ class Followers extends React.Component {
       followingList: this.props.login.userInfo.following,
       following: false,
       userOnDisplay: null,
-      existingConvoId: null
+      existingConvoId: null,
+      isBlocked: this.props.isBlocked,
     };
   }
+
   componentDidMount() {
     const currView = this.props.profile.userProfile;
+    console.log("Is it blocked ", this.props.isBlocked)
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
     const amFollowing = this.props.userInfo.following.filter(
@@ -64,7 +72,7 @@ class Followers extends React.Component {
     }
   }
 
-  async alreadyChatting() {
+  async startChat() {
     const { navigate } = this.props.navigation;
     const self = this;
     const currUsersConversations = this.props.userInfo.conversations;
@@ -90,6 +98,7 @@ class Followers extends React.Component {
       };
 
       this.props.addNewChatToOtherUser(userData, userToMsg);
+
       const userToMsgData = {
         uid: userToMsg.uid,
         userName: userToMsg.displayName,
@@ -103,6 +112,19 @@ class Followers extends React.Component {
         convoID: this.state.existingConvoId
       });
     }
+  }
+
+  handleBlockUser(userId) {
+    blockUser(userId);
+    this.unfollowCurrentUser();
+    this.setState({ isBlocked: true });
+    Alert.alert("User Succesfully Blocked");
+  }
+
+  handleUnblockUser(userId) {
+    unblockUser(userId);
+    this.setState({ isBlocked: false });
+    Alert.alert("User Successfully Unblocked");
   }
 
   followCurrentUser() {
@@ -127,12 +149,12 @@ class Followers extends React.Component {
 
     this.setState({ following: false });
   }
+
   render() {
-    const currUserInfo = this.props.userInfo;
     const userOnDisplayProfile = this.props.profile.userProfile;
     const { displayName, uid, photoURL } = this.props.profile.userProfile;
     const userOnDisplay = { displayName, uid, photoURL };
-
+    const blocked = this.state.isBlocked;
     return (
       <View
         style={{
@@ -156,22 +178,15 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              Following
+              Unfollow User
             </Text>
-            <Icon
-              type="FontAwesome"
-              name={'check-circle'}
-              title="messages"
-              style={{ color: 'dodgerblue', fontSize: 18 }}
-            />
           </Button>
         ) : (
           <Button
             iconRight
-            style={{
-              backgroundColor: '#242424'
-            }}
+            style={{ backgroundColor: '#242424' }}
             onPress={() => this.followCurrentUser()}
+            disabled={blocked}
           >
             <Text
               style={{
@@ -180,39 +195,53 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              Following
+              { blocked ? 'Blocked' : 'Follow User' }
             </Text>
-            <Icon
-              type="MaterialIcons"
-              name={'check-box-outline-blank'}
-              title="messages"
-              style={{ color: 'white', fontSize: 18 }}
-            />
           </Button>
         )}
-
-        <Right>
           <Button
-            small
-            iconRight
-            style={{
-              backgroundColor: '#242424'
-            }}
-            onPress={() => this.alreadyChatting()}
+            onPress={() => this.startChat()}
+            style={{ backgroundColor: '#242424' }}
+            disabled={blocked}
           >
             <Text
-              style={{ fontFamily: 'poppins', color: 'white', fontSize: 12 }}
-            >
-              Message User
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
+              { blocked ?  'Blocked': 'Message User' }
             </Text>
-            <Icon
-              type="Ionicons"
-              name={'ios-send'}
-              title="messages"
-              style={{ color: 'white', fontSize: 18 }}
-            />
           </Button>
-        </Right>
+          {
+            blocked ?
+          <Button
+            onPress={() => this.handleUnblockUser(userOnDisplayProfile.uid)}
+            style={{ backgroundColor: '#242424' }}
+          >
+            <Text
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
+              Unblock User
+            </Text>
+          </Button> :
+          <Button
+            onPress={() => this.handleBlockUser(userOnDisplayProfile.uid)}
+            style={{ backgroundColor: '#242424' }}
+          >
+            <Text
+              style={{
+                fontFamily: 'poppins',
+                color: 'white',
+                fontSize: 15 }}
+              >
+              Block User
+            </Text>
+          </Button>
+          }
       </View>
     );
   }
@@ -231,6 +260,7 @@ const styles = StyleSheet.create({
     fontSize: 12
   }
 });
+
 const mapStateToProps = (state, ownProps) => {
   return {
     ...state,

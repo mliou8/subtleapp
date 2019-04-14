@@ -1,12 +1,11 @@
 
 import React from 'react';
-import Video from 'app/components/common/media/Video';
 import {
   StyleSheet,
   View,
-  SafeAreaView
+  SafeAreaView,
+  Image,
 } from 'react-native';
-import VideoUrl from 'assets/videos/video.mp4';
 import Dialog from "react-native-dialog";
 import firebase from 'db/firebase';
 import { Button, Icon, Text } from 'native-base';
@@ -86,37 +85,19 @@ export default class LoginPage extends React.Component {
   }
 
   closeModal() {
-    console.log("Modal closed... ");
     this.setState({ ...this.state, modalOpen: false });
   }
 
   render() {
     if (!this.state.initialized) {
-      console.log("state is not ready");
       return <View></View>
     } else {
-      console.log("state is ready; showing login page");
       return (
         <SafeAreaView style={styles.container}>
-          <Video
-            videoSrc={VideoUrl}
-            loop={true}
-            videoStyle={styles.backgroundVideo}
-            muted={true}
-          />
-          {/*
-          <KeyboardAvoidingView behavior="padding">
-            <Dialog.Container visible={this.state.modalOpen}>
-              <Dialog.Title>Please Enter Invite Code</Dialog.Title>
-              <Dialog.Description>
-                {this.state.errorMessage ? this.state.errorMessage : "Subtle app is an invite only community. Enter your invite code to continue."}
-              </Dialog.Description>
-              <Dialog.Input placeholder="Invite code" onChangeText={(text => this.setState({ ...this.state, inviteCode: text }))}></Dialog.Input>
-              <Dialog.Button label="Cancel" onPress={() => { this.closeModal() }} />
-              <Dialog.Button label="OK" onPress={() => { this.submitInput() }} />
-            </Dialog.Container>
-          </KeyboardAvoidingView>
-          */}
+        <Image
+          source={{uri: 'assets/videos/stevenyuen.gif'}}
+          style={styles.backgroundVideo}
+        />
           <View style={{flex:1, flexDirection:'column'}}>
             <View style={{flexGrow: 1}}></View>
             <Button
@@ -178,6 +159,6 @@ const styles = StyleSheet.create({
     right: 0
   },
   loginButton: {
-    marginBottom: 10
+    marginBottom: 30
   }
 });

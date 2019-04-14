@@ -28,7 +28,7 @@ export default class FullPost extends React.Component {
     this.setState({
       author: infoPost.author,
       comments: infoPost.comments.length,
-      like: infoPost.reactions.likes,
+      like: infoPost.reactions.likes || 0,
       title: infoPost.title,
       text: infoPost.text,
       datePosted: infoPost.datePosted,

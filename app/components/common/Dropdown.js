@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
   TouchableHighlight,
-  ScrollView,
 } from 'react-native';
 
 import ModalDropdown from 'react-native-modal-dropdown';

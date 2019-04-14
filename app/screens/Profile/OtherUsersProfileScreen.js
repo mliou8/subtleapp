@@ -5,6 +5,7 @@ import ProfileBottomContainer from './subscreens/ProfileBottomContainer';
 import Badge from 'app/components/common/Badge';
 import Followers from './subscreens/Followers';
 import { fetchUserProfileInfo } from 'actions/profile/index';
+import { checkIfBlocked } from 'db/profile/index';
 import { connect } from 'react-redux';
 
 import {
@@ -56,10 +57,10 @@ class OtherUsersProfileScreen extends React.Component {
       userToDisplay: {},
       socialNetworks: this.props.profile.userProfile.socialNetworks,
       badges: [],
-      existingConvoId: null
+      existingConvoId: null,
+      isBlocked: false,
     };
     this._mounted = false;
-
     this.renderSocialMenu = this.renderSocialMenu.bind(this);
     this.renderSocialBadges = this.renderSocialBadges.bind(this);
   }
@@ -84,6 +85,8 @@ class OtherUsersProfileScreen extends React.Component {
     if (chatting.length) {
       this.setState({ existingConvoId: chatting[0].convoID });
     }
+    const isBlocked = await checkIfBlocked(userToDisplay.uid);
+    this.setState({isBlocked: isBlocked});
     await this.props.fetchUserProfileInfo(userToDisplay.uid);
   }
 
@@ -109,11 +112,6 @@ class OtherUsersProfileScreen extends React.Component {
         {this.props.profile.userProfile.uid ? (
           <View style={{ backgroundColor: '#242424' }}>
             <Content>
-              <Followers
-                navigation={this.props.navigation}
-                userOnDisplay={this.props.profile.userProfile}
-              />
-
               <Card
                 style={{ height: '45 %', backgroundColor: '#242424' }}
                 transparent
@@ -169,6 +167,13 @@ class OtherUsersProfileScreen extends React.Component {
             <Card style={styles.socialBadgesContainer} transparent>
               {this.renderSocialBadges()}
             </Card>
+            <View style={{marginTop: 20}}>
+              <Followers
+                navigation={this.props.navigation}
+                userOnDisplay={this.props.profile.userProfile}
+                isBlocked={this.state.isBlocked}
+              />
+            </View>
             <View style={{ height: 40, width: '100%' }} />
           </View>
         ) : (
@@ -210,8 +215,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignContent: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'flex-start',
+    padding: 10,
   }
 });
 

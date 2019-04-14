@@ -34,6 +34,7 @@ export async function deleteComment(postId, commentInfo) {
     console.log('Error in sending reaction: ', err);
   }
 }
+
 export async function deletePost(postId) {
   db.collection('posts')
     .doc(`${postId}`)
@@ -44,4 +45,16 @@ export async function deletePost(postId) {
     .catch(function(error) {
       console.error('Error removing document: ', error);
     });
+}
+
+export async function reportPost(postId) {
+  const reportRef = db.collection('reported').doc('posts');
+  try {
+    reportRef
+      .update({
+        posts: firebase.firestore.FieldValue.arrayUnion(postId)
+      })
+  } catch (err) {
+    console.log("Error in reporting post")
+  }
 }

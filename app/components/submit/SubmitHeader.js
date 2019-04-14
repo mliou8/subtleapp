@@ -10,11 +10,10 @@ const dropdownOptions = [
 
 const submenuOptions = [
   'Off Topic',
-  'Food',
+  'Subtle Plug',
   'Dating',
   'Looking for Friends',
-  'Music',
-  'Post Fit',
+  'Post Your Fit',
   'Raves',
 ];
 
