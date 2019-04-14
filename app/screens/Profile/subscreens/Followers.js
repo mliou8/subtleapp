@@ -44,12 +44,14 @@ class Followers extends React.Component {
       followingList: this.props.login.userInfo.following,
       following: false,
       userOnDisplay: null,
-      existingConvoId: null
+      existingConvoId: null,
+      isBlocked: this.props.isBlocked,
     };
   }
 
   componentDidMount() {
     const currView = this.props.profile.userProfile;
+    console.log("Is it blocked ", this.props.isBlocked)
     const currUsersConversations = this.props.userInfo.conversations;
     this.setState({ userOnDisplay: currView });
     const amFollowing = this.props.userInfo.following.filter(
@@ -96,6 +98,7 @@ class Followers extends React.Component {
       };
 
       this.props.addNewChatToOtherUser(userData, userToMsg);
+
       const userToMsgData = {
         uid: userToMsg.uid,
         userName: userToMsg.displayName,
@@ -113,15 +116,14 @@ class Followers extends React.Component {
 
   handleBlockUser(userId) {
     blockUser(userId);
-    this.props.unfollowUser(userOnDisplay, currUserInfo);
-    this.props.unfollowUser(currUserInfo, userOnDisplay);
-    this.props.profileRemoveFollower(userOnDisplayProfile);
-    this.setState({ following: false});
+    this.unfollowCurrentUser();
+    this.setState({ isBlocked: true });
     Alert.alert("User Succesfully Blocked");
   }
 
   handleUnblockUser(userId) {
     unblockUser(userId);
+    this.setState({ isBlocked: false });
     Alert.alert("User Successfully Unblocked");
   }
 
@@ -193,7 +195,7 @@ class Followers extends React.Component {
                 fontSize: 15
               }}
             >
-              { this.state.isBlocked ? 'Blocked' : 'Follow User' }
+              { blocked ? 'Blocked' : 'Follow User' }
             </Text>
           </Button>
         )}

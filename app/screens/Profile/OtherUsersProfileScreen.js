@@ -215,8 +215,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignContent: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'flex-start',
+    padding: 10,
   }
 });
 
