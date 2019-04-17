@@ -135,7 +135,6 @@ export default class Post extends React.Component {
               entries={this.props.data.photoRef}
               activeSlide={0}
             />
-
             <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location ? location : 'Some Location'}</Text>
             </Button>

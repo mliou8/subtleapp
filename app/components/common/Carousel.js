@@ -1,7 +1,7 @@
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import React, {Component} from 'react';
-import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-  
+import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+
 const slideHeight = viewportHeight * 0.36;
 const slideWidth = wp(75);
 const itemHorizontalMargin = wp(2);
@@ -13,32 +13,25 @@ const itemHeight = Dimensions.get('window').height;
 export default class MyCarousel extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             entries: this.props.entries,
             activeSlide: this.props.activeSlide
         }
     }
-    _renderItem ({item}) {
-      return (
-        <TouchableOpacity
-        activeOpacity={1}
-        style={styles.slideInnerContainer}
-        >
-        <View style={styles.shadow} />
-        <View style={styles.imageContainer}>
-            <ParallaxImage
-                source={{ uri: item }}
-                containerStyle={styles.imageContainer}
-                style={styles.image}
-                parallaxFactor={0.35}
-                showSpinner={true}
-            />
-        <View style={styles.radiusMask} />
-        </View>
-        </TouchableOpacity>
-      )
-    }
+    _renderItem ({item, index}, parallaxProps) {
+       return (
+           <View style={{width: 300, height: 300}}>
+               <ParallaxImage
+                   source={{ uri: item }}
+                   containerStyle={styles.imageContainer}
+                   style={{width: 300, height: 300}}
+                   parallaxFactor={0.4}
+                   {...parallaxProps}
+               />
+           </View>
+       );
+   }
+
 
     get pagination () {
         const { entries, activeSlide } = this.state;
@@ -65,18 +58,17 @@ export default class MyCarousel extends Component {
 
     render () {
         return (
-            <View>
-                <Carousel
-                  data={this.props.entries}
-                  renderItem={this._renderItem}
-                  onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-                  windowSize={1}
-                  sliderWidth={sliderWidth}
-                  itemWidth={sliderWidth}
-                  itemHeight={itemHeight}
-                />
-                { this.pagination }
-            </View>
+          <Carousel
+            data={this.props.entries}
+            hasParallaxImages={true}
+            renderItem={this._renderItem}
+            onSnapToItem={(index) => this.setState({ activeSlide: index }) }
+            windowSize={1}
+            sliderWidth={sliderWidth}
+            itemWidth={sliderWidth}
+            itemHeight={itemHeight}
+            layout={'default'}
+          />
         );
     }
 }
@@ -112,7 +104,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: 1,
-        marginBottom: 0, 
+        marginBottom: 0,
         backgroundColor: 'white',
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius

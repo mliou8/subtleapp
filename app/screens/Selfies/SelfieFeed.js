@@ -33,6 +33,7 @@ export default class SelfieFeed extends React.Component {
       this.setState({ posts: posts });
     });
   }
+
   renderPosts() {
     let counter = 1;
     return this.state.posts.map(item => (
