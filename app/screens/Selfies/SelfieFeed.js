@@ -33,6 +33,7 @@ export default class SelfieFeed extends React.Component {
       this.setState({ posts: posts });
     });
   }
+
   renderPosts() {
     let counter = 1;
     return this.state.posts.map(item => (
@@ -49,13 +50,11 @@ export default class SelfieFeed extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
           {this.state.posts.length >= 1 ? (
             this.renderPosts()
           ) : (
             <Spinner color="white" />
           )}
-        </ScrollView>
       </View>
     );
   }

@@ -1,7 +1,7 @@
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import React, {Component} from 'react';
-import { View, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
-  
+import { View, Text, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
+
 const slideHeight = viewportHeight * 0.36;
 const slideWidth = wp(75);
 const itemHorizontalMargin = wp(2);
@@ -13,32 +13,25 @@ const itemHeight = Dimensions.get('window').height;
 export default class MyCarousel extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             entries: this.props.entries,
             activeSlide: this.props.activeSlide
         }
     }
-    _renderItem ({item}) {
-      return (
-        <TouchableOpacity
-        activeOpacity={1}
-        style={styles.slideInnerContainer}
-        >
-        <View style={styles.shadow} />
-        <View style={styles.imageContainer}>
-            <ParallaxImage
-                source={{ uri: item }}
-                containerStyle={styles.imageContainer}
-                style={styles.image}
-                parallaxFactor={0.35}
-                showSpinner={true}
-            />
-        <View style={styles.radiusMask} />
-        </View>
-        </TouchableOpacity>
-      )
-    }
+    _renderItem ({item, index}, parallaxProps) {
+       return (
+           <View style={{width: 340, height: 250}}>
+               <ParallaxImage
+                   source={{ uri: item }}
+                   containerStyle={styles.imageContainer}
+                   style={{width: 300, height: 300}}
+                   parallaxFactor={0.4}
+                   {...parallaxProps}
+               />
+           </View>
+       );
+   }
+
 
     get pagination () {
         const { entries, activeSlide } = this.state;
@@ -46,13 +39,13 @@ export default class MyCarousel extends Component {
             <Pagination
               dotsLength={entries.length}
               activeDotIndex={activeSlide}
-              containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+              containerStyle={{ backgroundColor: 'white' }}
               dotStyle={{
                   width: 10,
                   height: 10,
                   borderRadius: 5,
                   marginHorizontal: 8,
-                  backgroundColor: 'rgba(255, 255, 255, 0.92)'
+                  backgroundColor: 'grey'
               }}
               inactiveDotStyle={{
                   // Define styles for inactive dots here
@@ -64,19 +57,21 @@ export default class MyCarousel extends Component {
     }
 
     render () {
-        return (
-            <View>
-                <Carousel
-                  data={this.props.entries}
-                  renderItem={this._renderItem}
-                  onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-                  windowSize={1}
-                  sliderWidth={sliderWidth}
-                  itemWidth={sliderWidth}
-                  itemHeight={itemHeight}
-                />
-                { this.pagination }
-            </View>
+      return (
+        <View style={{display: 'flex', width: 340, height: 350, marginLeft: 5}}>
+          <Carousel
+            data={this.props.entries}
+            hasParallaxImages={true}
+            renderItem={this._renderItem}
+            onSnapToItem={(index) => this.setState({ activeSlide: index }) }
+            windowSize={1}
+            sliderWidth={sliderWidth}
+            itemWidth={sliderWidth}
+            itemHeight={itemHeight}
+            layout={'default'}
+          />
+          { this.pagination }
+        </View>
         );
     }
 }
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     },
     imageContainer: {
         flex: 1,
-        marginBottom: 0, 
+        marginBottom: 0,
         backgroundColor: 'white',
         borderTopLeftRadius: entryBorderRadius,
         borderTopRightRadius: entryBorderRadius

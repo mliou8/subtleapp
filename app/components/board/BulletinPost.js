@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, View, Alert, TouchableOpacity } from 'react-native';
 import { WebBrowser, MailComposer } from 'expo';
+import Carousel from 'app/components/common/Carousel';
 import {
   Container,
   Header,
@@ -217,14 +218,10 @@ class BulletinPost extends React.Component {
             </Left>
           </CardItem>
           {this.state.photoRef ? (
-            <CardItem cardBody style={{ justifyContent: 'center' }}>
-              <Image
-                source={{ uri: this.props.postInfo.photoRef[0] }}
-                style={{
-                  width: 190,
-                  height: 250,
-                  resizeMode: 'cover'
-                }}
+            <CardItem cardBody>
+              <Carousel
+                entries={this.props.postInfo.photoRef}
+                activeSlide={0}
               />
             </CardItem>
           ) : null}

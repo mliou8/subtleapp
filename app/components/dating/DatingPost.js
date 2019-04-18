@@ -15,6 +15,7 @@ import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
 import { Icon } from 'react-native-elements';
 import Carousel from 'app/components/common/Carousel';
+import { deletePost, reportPost } from 'db/common/index';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
 const FireSrc = 'assets/images/reactions/fire.png';
@@ -34,6 +35,52 @@ export default class Post extends React.Component {
     this.toggleReaction = this.toggleReaction.bind(this);
     this.renderText = this.renderText.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
+    this.removePost = this.removePost.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
+    this.confirmReport = this.confirmReport.bind(this);
+  }
+
+  confirmDelete() {
+    Alert.alert(
+      ' ',
+      'are you sure you want to delete this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.removePost() }
+      ],
+      { cancelable: false }
+    );
+  }
+  removePost() {
+    const postId = this.state.id;
+    deletePost(postId);
+    this.props.navigation.navigate('Home');
+  }
+
+  confirmReport() {
+    Alert.alert(
+      'Report Confirmation',
+      'are you sure you want to report this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.handleReport() }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  handleReport() {
+    const postId = this.state.id;
+    reportPost(postId);
+    this.props.navigation.navigate('Home');
   }
 
   toggleReaction = reaction => {
@@ -135,7 +182,6 @@ export default class Post extends React.Component {
               entries={this.props.data.photoRef}
               activeSlide={0}
             />
-
             <Button light rounded style={{position: 'absolute', top: 20, left: 18, height: 28, backgroundColor: '#D3D3D3'}}>
               <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>{location ? location : 'Some Location'}</Text>
             </Button>
