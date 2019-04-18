@@ -9,8 +9,9 @@ import {
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
-import { deletePost } from 'db/common/index';
-import { Card, CardItem, Text, Button, Icon } from 'native-base';
+import { deletePost, reportPost } from 'db/common/index';
+import { Card, CardItem, Text, Button } from 'native-base';
+import { Icon } from 'react-native-elements';
 
 class SelfiePost extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class SelfiePost extends React.Component {
 
     this.removePost = this.removePost.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
+    this.confirmReport = this.confirmReport.bind(this);
   }
   confirmDelete() {
     Alert.alert(
@@ -49,6 +51,29 @@ class SelfiePost extends React.Component {
     deletePost(postId);
     this.props.navigation.navigate('Home');
   }
+
+  confirmReport() {
+    Alert.alert(
+      'Report Confirmation',
+      'are you sure you want to report this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.handleReport() }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  handleReport() {
+    const postId = this.state.id;
+    reportPost(postId);
+    this.props.navigation.navigate('Home');
+  }
+
   render() {
     return (
       <View>
@@ -88,14 +113,34 @@ class SelfiePost extends React.Component {
                 <Icon
                   style={{ color: 'white', fontSize: 15 }}
                   name="remove"
-                  type="FontAwesome"
+                  type="font-awesome"
                 />
                 <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>
                   delete this post
                 </Text>
               </Button>
             </CardItem>
-          ) : null}
+          ) : (
+            <CardItem style={{ justifyContent: 'center' }}>
+              <Button
+                small
+                rounded
+                style={{
+                  backgroundColor: '#242424'
+                }}
+                onPress={this.confirmReport}
+              >
+                <Icon
+                  iconStyle={{ marginLeft: 10 }}
+                  size={15}
+                  name="remove"
+                  color="white"
+                  type="font-awesome"
+                />
+                <Text style={{ fontSize: 12, fontFamily: 'poppins' }}>Report this post</Text>
+              </Button>
+            </CardItem>
+          )}
         </Card>
       </View>
     );

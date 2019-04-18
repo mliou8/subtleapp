@@ -215,6 +215,7 @@ class SelfiesScreen extends React.Component {
   render() {
     return (
       <View style={{ backgroundColor: '#242424', flex: 1 }}>
+        <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View
             style={{
@@ -291,7 +292,6 @@ class SelfiesScreen extends React.Component {
             </Text>
           </Button>
         </View>
-        <ScrollView>
           <SelfieFeed navigation={this.props.navigation} />
         </ScrollView>
       </View>

@@ -15,6 +15,7 @@ import { Avatar } from 'app/components/image';
 import { sendReaction } from 'db/common/index';
 import { Icon } from 'react-native-elements';
 import Carousel from 'app/components/common/Carousel';
+import { deletePost, reportPost } from 'db/common/index';
 const UwuSrc = 'assets/images/reactions/uwu.png';
 const KissSrc = 'assets/images/reactions/kissface.png';
 const FireSrc = 'assets/images/reactions/fire.png';
@@ -34,6 +35,9 @@ export default class Post extends React.Component {
     this.toggleReaction = this.toggleReaction.bind(this);
     this.renderText = this.renderText.bind(this);
     this.calculateTime = this.calculateTime.bind(this);
+    this.removePost = this.removePost.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
+    this.confirmReport = this.confirmReport.bind(this);
   }
 
   toggleReaction = reaction => {
