@@ -58,7 +58,7 @@ export default class MyCarousel extends Component {
 
     render () {
       return (
-        <View style={{display: 'flex', width: 340, height: 300, marginLeft: 5}}>
+        <View style={{display: 'flex', width: 340, height: 350, marginLeft: 5}}>
           <Carousel
             data={this.props.entries}
             hasParallaxImages={true}

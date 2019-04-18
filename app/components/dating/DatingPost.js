@@ -40,6 +40,49 @@ export default class Post extends React.Component {
     this.confirmReport = this.confirmReport.bind(this);
   }
 
+  confirmDelete() {
+    Alert.alert(
+      ' ',
+      'are you sure you want to delete this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.removePost() }
+      ],
+      { cancelable: false }
+    );
+  }
+  removePost() {
+    const postId = this.state.id;
+    deletePost(postId);
+    this.props.navigation.navigate('Home');
+  }
+
+  confirmReport() {
+    Alert.alert(
+      'Report Confirmation',
+      'are you sure you want to report this post?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => this.handleReport() }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  handleReport() {
+    const postId = this.state.id;
+    reportPost(postId);
+    this.props.navigation.navigate('Home');
+  }
+
   toggleReaction = reaction => {
     const hardCodedPostID = 'ee';
     this.setState({
