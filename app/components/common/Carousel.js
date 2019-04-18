@@ -20,7 +20,7 @@ export default class MyCarousel extends Component {
     }
     _renderItem ({item, index}, parallaxProps) {
        return (
-           <View style={{width: 300, height: 300}}>
+           <View style={{width: 340, height: 250}}>
                <ParallaxImage
                    source={{ uri: item }}
                    containerStyle={styles.imageContainer}
@@ -39,13 +39,13 @@ export default class MyCarousel extends Component {
             <Pagination
               dotsLength={entries.length}
               activeDotIndex={activeSlide}
-              containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)' }}
+              containerStyle={{ backgroundColor: 'white' }}
               dotStyle={{
                   width: 10,
                   height: 10,
                   borderRadius: 5,
                   marginHorizontal: 8,
-                  backgroundColor: 'rgba(255, 255, 255, 0.92)'
+                  backgroundColor: 'grey'
               }}
               inactiveDotStyle={{
                   // Define styles for inactive dots here
@@ -57,7 +57,8 @@ export default class MyCarousel extends Component {
     }
 
     render () {
-        return (
+      return (
+        <View style={{display: 'flex', width: 340, height: 300, marginLeft: 5}}>
           <Carousel
             data={this.props.entries}
             hasParallaxImages={true}
@@ -69,6 +70,8 @@ export default class MyCarousel extends Component {
             itemHeight={itemHeight}
             layout={'default'}
           />
+          { this.pagination }
+        </View>
         );
     }
 }
