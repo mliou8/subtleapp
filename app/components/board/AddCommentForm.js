@@ -72,20 +72,25 @@ class AddCommentForm extends React.Component {
         <ScrollView>
           <View>
             <Card transparent>
-              <Textarea
-                style={{ fontFamily: 'poppins' }}
-                bordered
-                placeholder=""
-                onChangeText={text => this.setState({ text })}
-                value={this.state.text}
-              />
+              <CardItem style={{ flexDirection: 'row' }}>
+                <Left>
+                  <Avatar small src={this.props.userInfo.photoURL} />
+                </Left>
 
+                <Textarea
+                  style={{ fontFamily: 'poppins', width: '80%' }}
+                  bordered
+                  placeholder=""
+                  onChangeText={text => this.setState({ text })}
+                  value={this.state.text}
+                />
+              </CardItem>
               <CardItem style={{ justifyContent: 'center' }}>
-                  <Button
-                    style={{ backgroundColor: '#242424' }}
-                    rounded
-                    onPress={this.addComment}
-                  >
+                <Button
+                  style={{ backgroundColor: '#242424' }}
+                  rounded
+                  onPress={this.addComment}
+                >
                   <Text style={{ fontFamily: 'poppins', color: 'white' }}>
                     Submit Comment
                   </Text>
