@@ -1,5 +1,6 @@
 import firebase from 'db/firebase';
 import db from '../db';
+import moment from 'moment';
 
 export async function fetchPosts() {
   const postRef = db.collection('posts').where('type', '==', 'general');
