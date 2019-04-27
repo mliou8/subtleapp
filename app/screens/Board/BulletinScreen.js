@@ -38,7 +38,7 @@ export default class BulletinScreen extends React.Component {
       let numDateTotal = '';
       const monthsObj = {
         January: { value: '01' },
-        Feburary: { value: '02' },
+        February: { value: '02' },
         March: { value: '03' },
         April: { value: '04' },
         May: { value: '05' },

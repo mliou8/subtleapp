@@ -20,6 +20,7 @@ import FullPost from 'app/components/board/FullPost';
 import SettingsScreen from 'app/containers/Profile/SettingsContainer';
 import PrivacyPolicy from 'app/screens/Profile/subscreens/PrivacyPolicy';
 import DrawerNavigator from './DrawerNavigator';
+import { LinearGradient } from 'expo';
 
 const HomeStack = createStackNavigator({
   Home: {
