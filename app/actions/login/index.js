@@ -2,7 +2,6 @@ import moment from 'moment';
 import firebase from 'db/firebase';
 import db from 'db/firestore';
 
-
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const CREATE_PROFILE_ERROR = 'CREATE_PROFILE_ERROR';
@@ -58,15 +57,11 @@ export const editUserFail = errorMsg => {
   };
 };
 
-
-
 export const inviteError = () => {
   return {
     type: INVITE_ERROR
   };
 };
-
-
 
 export function doesUserExist(user) {
   const userRef = db.collection('users').doc(user.uid);
@@ -103,7 +98,7 @@ export function createUser(user) {
       providerID: user.providerData[0].uid,
       displayName: user.displayName,
       email: user.email,
-      photoURL: user.photoURL,
+      photoURL: user.photoURL + '?height=500',
       lastLoginAt: currentTime,
       followers: [],
       following: [],

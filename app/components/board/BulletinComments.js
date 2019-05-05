@@ -97,49 +97,12 @@ class BulletinComments extends React.Component {
       <ScrollView>
         <View>
           {this.state.comments ? this.renderComments() : null}
-          <Card transparent>
-            <CardItem>
-              <Left>
-                <Avatar small src={this.props.userInfo.photoURL} />
-              </Left>
-              {this.state.openForm ? (
-                <Button
-                  style={{ backgroundColor: '#242424' }}
-                  rounded
-                  onPress={() =>
-                    this.setState({ openForm: false, showForm: false })
-                  }
-                >
-                  <Icon
-                    style={{ color: 'white', fontSize: 20 }}
-                    name="ios-remove"
-                    type="Ionicons"
-                  />
-                </Button>
-              ) : (
-                <Button
-                  style={{ backgroundColor: '#242424' }}
-                  onPress={() =>
-                    this.setState({ openForm: true, showForm: true })
-                  }
-                  rounded
-                >
-                  <Icon
-                    style={{ color: 'white', fontSize: 20 }}
-                    name="ios-add"
-                    type="Ionicons"
-                  />
-                </Button>
-              )}
-            </CardItem>
-          </Card>
-          {this.state.showForm ? (
-            <AddCommentForm
-              postId={this.state.id}
-              navigation={this.props.navigation}
-              addNewComment={this.props.addNewComment}
-            />
-          ) : null}
+
+          <AddCommentForm
+            postId={this.state.id}
+            navigation={this.props.navigation}
+            addNewComment={this.props.addNewComment}
+          />
         </View>
       </ScrollView>
     );
